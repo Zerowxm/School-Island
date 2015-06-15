@@ -1,6 +1,8 @@
 package wxm.com.androiddesign;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
@@ -34,9 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-         final ActionBar actionBar=getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_view_headline_white_18dp);
+        final ActionBar actionBar=getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     private void setupFab(){
@@ -54,15 +57,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.addTab(tabLayout.newTab().setText("Tab 4"));
     }
 
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        drawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
     private void setupNavigationView(){
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
+        if(navigationView==null){
+            setupDrawerContent(navigationView);
+        }
     }
 
     private void setupTextInputLayout(){
         TextInputLayout usernameTextInputLayout=(TextInputLayout)findViewById(R.id.text_input);
         usernameTextInputLayout.setErrorEnabled(true);
-        usernameTextInputLayout.setError("error");
+        //usernameTextInputLayout.setError("error");
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -86,7 +104,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.fb){
-            Snackbar.make(v,"Hello",Snackbar.LENGTH_SHORT).setAction("Action",this).show();
+            Intent intent=new Intent(MainActivity.this,Main2Activity.class);
+            startActivity(intent);
+            finish();
+            //Snackbar.make(v,"Hello",Snackbar.LENGTH_SHORT).setAction("Action",this).show();
         }
 
     }

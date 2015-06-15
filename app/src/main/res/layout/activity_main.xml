@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"/>
+            android:background="@color/primary"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
@@ -23,7 +23,9 @@
             android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/primary"
+            app:tabIndicatorColor="@color/accent"
+
             app:layout_scrollFlags="scroll|enterAlways" />
 
         <android.support.design.widget.TextInputLayout
@@ -46,11 +48,14 @@
             android:layout_height="wrap_content"
             app:borderWidth="0dp"
             app:elevation="4dp"
+            app:backgroundTint="@color/accent"
             android:src="@drawable/ic_search_white_36dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|end"
+            app:pressedTranslationZ="12dp"
             />
 
     </RelativeLayout>
@@ -59,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-
+        android:id="@+id/navigation_view"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer"/>
 </android.support.v4.widget.DrawerLayout>

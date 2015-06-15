@@ -8,4 +8,10 @@
     <string name="navigation_subheader">sub_item</string>
     <string name="navigation_sub_item_1">sub_item1</string>
     <string name="navigation_sub_item_2">sub_item2</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="hello_world">Hello world!</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
