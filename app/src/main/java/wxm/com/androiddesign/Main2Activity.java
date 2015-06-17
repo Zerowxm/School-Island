@@ -40,7 +40,7 @@ public class Main2Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -86,9 +86,9 @@ public class Main2Activity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        //adapter.addFragment(new CheeseListFragment(), "Category 1");
-        //adapter.addFragment(new CheeseListFragment(), "Category 2");
-        //adapter.addFragment(new CheeseListFragment(), "Category 3");
+        adapter.addFragment(new CheeseListFragment(), "Category 1");
+        adapter.addFragment(new CheeseListFragment(), "Category 2");
+        adapter.addFragment(new CheeseListFragment(), "Category 3");
         viewPager.setAdapter(adapter);
     }
 

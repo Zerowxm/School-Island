@@ -20,6 +20,7 @@
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2" >
         </activity>
+        <activity android:name=".CheeseDetailActivity" />
     </application>
 
 </manifest>
