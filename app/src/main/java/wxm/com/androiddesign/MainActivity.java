@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(savedInstanceState==null){
-            getSupportFragmentManager().beginTransaction().add(R.id.content, new UiFgParentFg()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.content, new FragmentParent()).commit();
 
         }
        // setupToolbar();
@@ -65,18 +61,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        //if(menuItem.getItemId()!=1){
-                        //Snackbar.make(drawerLayout, "Hello", Snackbar.LENGTH_SHORT).show();
 
-                       // }
-                       // else {
-                          //  getSupportFragmentManager().beginTransaction().replace(R.id.content, new UiTestFg1()).commit();
-                      //  }
-                       // menuItem.setChecked(true);
                         drawerLayout.closeDrawers();
                         switch (menuItem.getItemId()) {
                             case R.id.navigation_item_1:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new UiFgParentFg()).commit();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new FragmentParent()).commit();
                                 Snackbar.make( drawerLayout, "Item One",
                                         Snackbar.LENGTH_SHORT).show();
                                 //mCurrentSelectedPosition = 0;
@@ -90,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             default:
                                 return true;
                         }
-
-
-                        //return true;
                     }
                 });
     }
@@ -105,11 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//    private void setupTextInputLayout(){
-//        TextInputLayout usernameTextInputLayout=(TextInputLayout)findViewById(R.id.text_input);
-//        usernameTextInputLayout.setErrorEnabled(true);
-//        //usernameTextInputLayout.setError("error");
-//    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -131,20 +112,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 int i=1;
     @Override
     public void onClick(View v) {
-//        if(v.getId()==R.id.fb){
-//            if(i==1) {
-//
-//i--;
-//                getSupportFragmentManager().beginTransaction().replace(R.id.content, new CheeseListFragment()).commit();
-//            }
-//            else {
-//                i++;
-//                getSupportFragmentManager().beginTransaction().replace(R.id.content, new UiTestFg1()).commit();
-//            }
-            Intent intent=new Intent(MainActivity.this,CheeseDetailActivity.class);
+
+            Intent intent=new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);
-            //finish();
-            //Snackbar.make(v,"Hello",Snackbar.LENGTH_SHORT).setAction("Action",this).show();
+
         }
 
 

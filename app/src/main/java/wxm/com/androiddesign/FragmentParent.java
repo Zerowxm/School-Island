@@ -24,10 +24,7 @@ import java.util.List;
 /**
  * Created by Wu on 2015/4/16.
  */
-public class UiFgParentFg extends Fragment {
-
-    private final Handler handler = new Handler();
-
+public class FragmentParent extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +40,7 @@ public class UiFgParentFg extends Fragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         final ActionBar actionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         return rootView;
@@ -52,7 +49,7 @@ public class UiFgParentFg extends Fragment {
         Adapter adapter = new Adapter(getChildFragmentManager());
         adapter.addFragment(new CheeseListFragment(), "Category 1");
         adapter.addFragment(new CheeseListFragment(), "Category 2");
-        adapter.addFragment(new CheeseListFragment(), "Category 3");
+        adapter.addFragment(new ActivityFragment(), "Category 3");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {
