@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         Snackbar.LENGTH_SHORT).show();
                                 //mCurrentSelectedPosition = 1;
                                 return true;
+                            case R.id.navigation_sub_item_1:
+                                Intent intent=new Intent(MainActivity.this,UserAcitivity.class);
+                                startActivity(intent);
+                                return true;
+                            case R.id.navigation_sub_item_2:
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
                             default:
                                 return true;
                         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="192dp"
     android:background="@color/primary_dark"
@@ -7,9 +7,28 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:gravity="bottom"
     >
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/user_photo"
+        android:src="@drawable/miao"
+        android:padding="10dp"
+
+        android:layout_margin="10dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/username"
         android:text="Username"
+        android:layout_toRightOf="@id/user_photo"
+        android:layout_alignBottom="@id/user_photo"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:layout_toRightOf="@id/user_photo"
+        android:layout_below="@id/username"
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+</RelativeLayout>

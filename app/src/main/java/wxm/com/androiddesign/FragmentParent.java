@@ -43,6 +43,7 @@ public class FragmentParent extends Fragment {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
         return rootView;
     }
     private void setupViewPager(ViewPager viewPager) {
