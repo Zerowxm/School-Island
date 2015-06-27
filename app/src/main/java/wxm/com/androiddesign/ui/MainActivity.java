@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 //mCurrentSelectedPosition = 0;
                                 return true;
                             case R.id.navigation_item_2:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new UiTestFg1()).commit();
+                                //getSupportFragmentManager().beginTransaction().replace(R.id.content, new UiTestFg1()).commit();
+                                Intent intent1=new Intent(MainActivity.this,DetailActivity.class);
+                                startActivity(intent1);
                                 Snackbar.make(drawerLayout, "Item Two",
                                         Snackbar.LENGTH_SHORT).show();
                                 //mCurrentSelectedPosition = 1;

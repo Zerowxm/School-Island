@@ -2,12 +2,15 @@ package wxm.com.androiddesign.adapter;
 
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -42,7 +45,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.activityItem.total_plus.setText(item.plus);
         holder.activityItem.publish_time.setText(item.time);
         holder.activityItem.activity_tag.setText(item.tag);
-        holder.activityItem.plus_fab.setBackgroundColor(Color.GRAY);
+        //holder.activityItem.plus_fab.
+        //holder.cardView.setClipToOutline(true);
+        //holder.cardView.setElevation(holder.cardView.getContext().getResources().getDimension(R.dimen.cardview_elevation));
     }
 
     @Override
@@ -53,9 +58,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ActivityItem activityItem;
         MyViewHolderClicks mListener;
+        CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            cardView=(CardView)itemView.findViewById(R.id.card_view);
             activityItem=new ActivityItem();
             activityItem.activity_tag=(TextView)itemView.findViewById(R.id.tag);
             activityItem.comment_fab=(FloatingActionButton)itemView.findViewById(R.id.fab_comment);
@@ -66,12 +73,16 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             activityItem.total_comment=(TextView)itemView.findViewById(R.id.total_comment);
             activityItem.user_name=(TextView)itemView.findViewById(R.id.user_name);
             activityItem.user_photo=(CircleImageView)itemView.findViewById(R.id.user_photo);
+            activityItem.user_photo.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             if(v instanceof CircleImageView){
-                mListener.onPhoto((CircleImageView)v);
+                //mListener.onPhoto((CircleImageView)v);
+                Toast.makeText(v.getContext(),"yo",Toast.LENGTH_LONG).show();
+                Snackbar.make(v,"yo",Snackbar.LENGTH_SHORT).show();
             }
         }
 
