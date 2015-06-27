@@ -1,4 +1,4 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-class PagerAdapter extends FragmentPagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragments;
 
     public PagerAdapter(FragmentManager fm, @NonNull List<Fragment> fragments) {

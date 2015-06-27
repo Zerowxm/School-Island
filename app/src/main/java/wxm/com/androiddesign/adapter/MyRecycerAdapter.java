@@ -1,5 +1,6 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.adapter;
 
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import wxm.com.androiddesign.module.ActivityItem;
+import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.R;
 
 /**
  * Created by zero on 2015/6/25.
@@ -38,6 +42,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.activityItem.total_plus.setText(item.plus);
         holder.activityItem.publish_time.setText(item.time);
         holder.activityItem.activity_tag.setText(item.tag);
+        holder.activityItem.plus_fab.setBackgroundColor(Color.GRAY);
     }
 
     @Override
@@ -45,8 +50,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         return activityItems.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ActivityItem activityItem;
+        MyViewHolderClicks mListener;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -60,6 +66,17 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             activityItem.total_comment=(TextView)itemView.findViewById(R.id.total_comment);
             activityItem.user_name=(TextView)itemView.findViewById(R.id.user_name);
             activityItem.user_photo=(CircleImageView)itemView.findViewById(R.id.user_photo);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(v instanceof CircleImageView){
+                mListener.onPhoto((CircleImageView)v);
+            }
+        }
+
+        public static interface MyViewHolderClicks{
+            public void onPhoto(CircleImageView imageView);
         }
     }
 }

@@ -1,9 +1,9 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.adapter;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-class FadePageTransformer implements ViewPager.PageTransformer {
+public class FadePageTransformer implements ViewPager.PageTransformer {
     @Override
     public void transformPage(View view, float position) {
         view.setTranslationX(view.getWidth() * -position);

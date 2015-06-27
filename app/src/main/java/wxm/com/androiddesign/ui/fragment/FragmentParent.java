@@ -1,7 +1,6 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,16 +8,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import wxm.com.androiddesign.CheeseListFragment;
+import wxm.com.androiddesign.R;
 
 
 /**
@@ -48,8 +47,8 @@ public class FragmentParent extends Fragment {
     }
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new CheeseListFragment(), "Category 1");
-        adapter.addFragment(new CheeseListFragment(), "Category 2");
+        adapter.addFragment(new ActivityFragment(), "Category 1");
+        adapter.addFragment(new ActivityFragment(), "Category 2");
         adapter.addFragment(new ActivityFragment(), "Category 3");
         viewPager.setAdapter(adapter);
     }

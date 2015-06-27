@@ -1,4 +1,4 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.ui;
 
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import wxm.com.androiddesign.R;
 
 public class LoginActivity extends AppCompatActivity {
 

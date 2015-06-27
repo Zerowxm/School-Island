@@ -1,4 +1,4 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -20,6 +20,10 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
+import wxm.com.androiddesign.adapter.FadePageTransformer;
+import wxm.com.androiddesign.adapter.PagerAdapter;
+import wxm.com.androiddesign.R;
 
 public abstract class AppIntro extends FragmentActivity {
     private PagerAdapter mPagerAdapter;

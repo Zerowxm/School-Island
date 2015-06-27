@@ -25,7 +25,8 @@
             android:id="@+id/user_photo"
             android:src="@drawable/cheese_1"
             android:padding="10dp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:clickable="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tag"
                 android:text="tag"
+                android:clickable="true"
                 android:textColor="@color/secondary_text_default_material_light"
                 />
         </LinearLayout>
@@ -76,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:src="@drawable/miao"
+            android:clickable="true"
             android:scaleType="centerCrop"/>
         <RelativeLayout
             android:layout_width="match_parent"

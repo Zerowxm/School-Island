@@ -1,6 +1,4 @@
-package wxm.com.androiddesign;
-
-import java.security.PublicKey;
+package wxm.com.androiddesign.module;
 
 /**
  * Created by zero on 2015/6/25.

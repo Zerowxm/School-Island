@@ -1,4 +1,4 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+
+import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.adapter.MyRecycerAdapter;
+import wxm.com.androiddesign.R;
 
 /**
  * Created by zero on 2015/6/25.

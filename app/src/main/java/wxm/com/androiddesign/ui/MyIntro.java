@@ -1,13 +1,11 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import wxm.com.androiddesign.AppIntro;
-import wxm.com.androiddesign.MainActivity;
-import wxm.com.androiddesign.UiTestFg1;
+import wxm.com.androiddesign.ui.guide.Guide1;
 
 /**
  * Created by zero on 2015/6/26.

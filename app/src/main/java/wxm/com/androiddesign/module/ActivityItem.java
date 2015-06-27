@@ -1,4 +1,4 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.module;
 
 import android.support.design.widget.FloatingActionButton;
 import android.widget.ImageView;
