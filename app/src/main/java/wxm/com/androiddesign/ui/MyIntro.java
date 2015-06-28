@@ -22,6 +22,7 @@ public class MyIntro extends AppIntro{
     private void loadMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

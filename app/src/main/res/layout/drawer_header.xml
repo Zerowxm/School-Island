@@ -10,16 +10,18 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/user_photo"
+        android:id="@id/user_photo"
         android:src="@drawable/miao"
         android:padding="10dp"
-
+        android:clickable="true"
         android:layout_margin="10dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/username"
+
         android:text="Username"
+        android:clickable="true"
         android:layout_toRightOf="@id/user_photo"
         android:layout_alignBottom="@id/user_photo"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>

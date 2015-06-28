@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import wxm.com.androiddesign.CheeseListFragment;
 import wxm.com.androiddesign.R;
 
 
@@ -35,6 +34,8 @@ public class FragmentParent extends Fragment {
         }
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+
         Toolbar toolbar=(Toolbar)rootView.findViewById(R.id.toolbar);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -47,9 +48,9 @@ public class FragmentParent extends Fragment {
     }
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new ActivityFragment(), "Category 1");
-        adapter.addFragment(new ActivityFragment(), "Category 2");
-        adapter.addFragment(new ActivityFragment(), "Category 3");
+        adapter.addFragment(new ActivityFragment(), "热门活动");
+        adapter.addFragment(new ActivityFragment(), "评价最高");
+        adapter.addFragment(new ActivityFragment(), "热门收藏");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {

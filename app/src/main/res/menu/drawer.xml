@@ -1,34 +1,69 @@
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/navigation_item_1"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/ic_visibility_black_18dp"-->
+            <!--android:title="@string/navigation_item_1"/>-->
+        <!--<item-->
+            <!--android:id="@+id/navigation_item_2"-->
+            <!--android:checkable="true"-->
+            <!--android:checked="false"-->
+            <!--android:icon="@drawable/ic_search_white_18dp"-->
+            <!--android:title="@string/navigation_item_2"/>-->
+    <!--</group>-->
+
+    <!--<item-->
+        <!--android:id="@+id/navigation_subheader"-->
+        <!--android:title="@string/navigation_subheader">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/navigation_sub_item_1"-->
+                <!--android:checkable="true"-->
+                <!--android:checked="false"-->
+                <!--android:icon="@drawable/ic_search_black_18dp"-->
+                <!--android:title="@string/navigation_sub_item_1"/>-->
+            <!--<item-->
+                <!--android:id="@+id/navigation_sub_item_2"-->
+                <!--android:checkable="true"-->
+                <!--android:checked="false"-->
+                <!--android:icon="@drawable/ic_visibility_black_18dp"-->
+                <!--android:title="@string/navigation_sub_item_2"/>-->
+        <!--</menu>-->
+    <!--</item>-->
+<!--</menu>-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_item_1"
-            android:checked="false"
-            android:icon="@drawable/ic_visibility_black_18dp"
-            android:title="@string/navigation_item_1"/>
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_dashboard"
+            android:title="首页" />
         <item
-            android:id="@+id/navigation_item_2"
-            android:checkable="true"
-            android:checked="false"
-            android:icon="@drawable/ic_search_white_18dp"
-            android:title="@string/navigation_item_2"/>
+            android:id="@+id/nav_explore"
+            android:icon="@drawable/ic_event"
+            android:title="发现" />
+        <item
+            android:id="@+id/nav_attention"
+            android:icon="@drawable/ic_headset"
+            android:title="关注" />
+        <item
+            android:id="@+id/nav_messages"
+            android:icon="@drawable/ic_forum"
+            android:title="消息" />
     </group>
 
-    <item
-        android:id="@+id/navigation_subheader"
-        android:title="@string/navigation_subheader">
+    <group android:checkableBehavior="single">
         <menu>
             <item
-                android:id="@+id/navigation_sub_item_1"
-                android:checkable="true"
-                android:checked="false"
-                android:icon="@drawable/ic_search_black_18dp"
-                android:title="@string/navigation_sub_item_1"/>
+                android:id="@+id/nav_user_setting"
+                android:icon="@drawable/ic_dashboard"
+                android:title="个人设置" />
             <item
-                android:id="@+id/navigation_sub_item_2"
-                android:checkable="true"
-                android:checked="false"
-                android:icon="@drawable/ic_visibility_black_18dp"
-                android:title="@string/navigation_sub_item_2"/>
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_forum"
+                android:title="设置" />
         </menu>
-    </item>
+    </group>
+
 </menu>

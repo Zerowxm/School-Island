@@ -14,7 +14,7 @@ import wxm.com.androiddesign.R;
 public class Guide1 extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.comment_layout, container, false);
+        View v = inflater.inflate(R.layout.activity_item, container, false);
         return v;
     }
 }
