@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true">
 
     <!-- your content layout -->
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -38,7 +38,7 @@
             />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fb"
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:borderWidth="0dp"
@@ -53,7 +53,23 @@
             app:pressedTranslationZ="12dp"
             />
 
-    </RelativeLayout>
+        <!--<com.melnykov.fab.FloatingActionButton-->
+            <!--android:id="@+id/fab"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|right"-->
+            <!--android:layout_margin="16dp"-->
+            <!--android:src="@drawable/ic_action_mode_edit"-->
+            <!--app:fab_colorNormal="@color/primary"-->
+            <!--app:fab_colorPressed="@color/primary_pressed"-->
+            <!--app:fab_colorRipple="?attr/colorControlHighlight"-->
+            <!--/>-->
+        <!--<ImageButton-->
+            <!--style="@style/FabStyle"-->
+            <!--android:id="@+id/fab"-->
+            <!--android:layout_gravity="bottom|end"/>-->
+    </FrameLayout>
+
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"

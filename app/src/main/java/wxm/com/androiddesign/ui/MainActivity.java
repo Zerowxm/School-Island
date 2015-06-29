@@ -1,32 +1,27 @@
 package wxm.com.androiddesign.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+//import com.melnykov.fab.FloatingActionButton;
+
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.UiTestFg1;
+import wxm.com.androiddesign.ui.fragment.LoginFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     DrawerLayout drawerLayout;
@@ -46,7 +41,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupFab(){
-        fab=(FloatingActionButton)findViewById(R.id.fb);
+        fab=(FloatingActionButton)findViewById(R.id.fab);
+
+//        fab.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                ScrollManager manager=new ScrollManager();
+//                View content=getLayoutInflater().inflate(R.layout.activity_fragment,null);
+//                RecyclerView recyclerView=(RecyclerView)content.findViewById(R.id.recyclerview_activity);
+//                manager.attach(recyclerView);
+//                manager.addView(fab, ScrollManager.Direction.DOWN);
+//                manager.setInitialOffset(46);
+//            }
+//        });
+
+
         fab.setOnClickListener(this);
     }
 
@@ -83,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.nav_user_setting:
                                 Snackbar.make( drawerLayout, "个人设置",
                                         Snackbar.LENGTH_SHORT).show();
-                                hideView();
+                                //hideView();
                                 return true;
                             case R.id.nav_setting:
                                 //getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
@@ -107,6 +116,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(navigationView!=null){
             setupDrawerContent(navigationView);
         }
+        RelativeLayout header=(RelativeLayout)findViewById(R.id.header);
+        header.setClickable(true);
+        //header.setElevation(0.1);
 
         CircleImageView userPhoto=(CircleImageView)findViewById(R.id.user_photo);
 
@@ -127,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-                showView();
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -145,64 +157,72 @@ int i=1;
     @Override
     public void onClick(View v) {
 
-            Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+            //Intent intent=new Intent(MainActivity.this,SignUpActivity.class);
         if(Build.VERSION.SDK_INT>= 21){
-            startActivity(intent);
+            //startActivity(intent);
+        }
+        showDialog();
+
         }
 
-
-        }
-    private void hideView(){
-        // previously visible view
-        final FloatingActionButton myView = (FloatingActionButton)findViewById(R.id.fab);
-
-// get the center for the clipping circle
-        int cx = (myView.getLeft() + myView.getRight()) / 2;
-        int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-// get the initial radius for the clipping circle
-        int initialRadius = myView.getWidth();
-        if(Build.VERSION.SDK_INT>= 21) {
-// create the animation (the final radius is zero)
-            Animator anim =
-                    ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
-
-// make the view invisible when the animation is done
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    myView.setVisibility(View.INVISIBLE);
-                }
-
-            });
-
-// start the animation
-            anim.start();
-        }
+    private void showDialog(){
+        FragmentManager fm=getSupportFragmentManager();
+        LoginFragment loginFragment=new LoginFragment();
+        loginFragment.show(fm,"login");
     }
-private void showView(){
-    // previously invisible view
-    FloatingActionButton myView = (FloatingActionButton)findViewById(R.id.fab);
-
-// get the center for the clipping circle
-    int cx = (myView.getLeft() + myView.getRight()) / 2;
-    int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-// get the final radius for the clipping circle
-    int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-
-    if(Build.VERSION.SDK_INT>= 21){
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-        myView.setVisibility(View.VISIBLE);
-        anim.start();
-    }
-// create the animator for this view (the start radius is zero)
 
 
-// make the view visible and start the animation
-
-}
+//    private void hideView(){
+//        // previously visible view
+//        final FloatingActionButton myView = (FloatingActionButton)findViewById(R.id.fab);
+//
+//// get the center for the clipping circle
+//        int cx = (myView.getLeft() + myView.getRight()) / 2;
+//        int cy = (myView.getTop() + myView.getBottom()) / 2;
+//
+//// get the initial radius for the clipping circle
+//        int initialRadius = myView.getWidth();
+//        if(Build.VERSION.SDK_INT>= 21) {
+//// create the animation (the final radius is zero)
+//            Animator anim =
+//                    ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
+//
+//// make the view invisible when the animation is done
+//            anim.addListener(new AnimatorListenerAdapter() {
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    super.onAnimationEnd(animation);
+//                    myView.setVisibility(View.INVISIBLE);
+//                }
+//
+//            });
+//
+//// start the animation
+//            anim.start();
+//        }
+//    }
+//private void showView(){
+//    // previously invisible view
+//    FloatingActionButton myView = (FloatingActionButton)findViewById(R.id.fab);
+//
+//// get the center for the clipping circle
+//    int cx = (myView.getLeft() + myView.getRight()) / 2;
+//    int cy = (myView.getTop() + myView.getBottom()) / 2;
+//
+//// get the final radius for the clipping circle
+//    int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
+//
+//    if(Build.VERSION.SDK_INT>= 21){
+//        Animator anim =
+//                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+//        myView.setVisibility(View.VISIBLE);
+//        anim.start();
+//    }
+//// create the animator for this view (the start radius is zero)
+//
+//
+//// make the view visible and start the animation
+//
+//}
 
 }

@@ -13,7 +13,7 @@ import android.view.Window;
 
 import wxm.com.androiddesign.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
         private void setupToolbar(){
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
       //
-        setContentView(R.layout.test);
+        setContentView(R.layout.activity_signup);
         setupTextInputLayout();
         setupToolbar();
     }

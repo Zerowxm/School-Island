@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.adapter;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.module.ActivityItemData;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.ui.DetailActivity;
 
 /**
  * Created by zero on 2015/6/25.
@@ -83,6 +85,10 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 //mListener.onPhoto((CircleImageView)v);
                 Toast.makeText(v.getContext(),"yo",Toast.LENGTH_LONG).show();
                 Snackbar.make(v,"yo",Snackbar.LENGTH_SHORT).show();
+            }
+            if(v instanceof CardView){
+                Intent intent =new Intent(v.getContext(), DetailActivity.class);
+                v.getContext().startActivity(intent);
             }
         }
 
