@@ -1,12 +1,15 @@
 package wxm.com.androiddesign.ui;
 
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import wxm.com.androiddesign.R;
 
@@ -34,7 +37,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if(Build.VERSION.SDK_INT>= 21){
+            getWindow().setExitTransition(new Explode());
+        }
         super.onCreate(savedInstanceState);
+
+      //
         setContentView(R.layout.test);
         setupTextInputLayout();
         setupToolbar();

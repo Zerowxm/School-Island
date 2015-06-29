@@ -17,6 +17,17 @@
         <!--<item name="android:textColorPrimary">@color/primary_text</item>-->
         <!--<item name="android:textColorSecondary">@color/secondary_text</item>-->
         <item name="android:windowActionBarOverlay">false</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform</item>
     </style>
     <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
