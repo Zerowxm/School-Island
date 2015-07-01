@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup viewGroup,Bundle savedInstanceState){
         View v =inflater.inflate(R.layout.home_layout,viewGroup,false);
-        recyclerView=(RecyclerView)v.findViewById(R.id.recyclerview);
+        recyclerView=(RecyclerView)v.findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
         Toolbar toolbar=(Toolbar)v.findViewById(R.id.toolbar);
 

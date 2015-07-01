@@ -1,6 +1,9 @@
 package wxm.com.androiddesign.adapter;
 
+
 import android.content.Context;
+
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -132,6 +135,10 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 dialog.show(myFragment.getFragmentManager(), "123");
             } else if (v instanceof CardView) {
                 context.startActivity(new Intent(context, DetailActivity.class));
+            }
+            if(v instanceof CardView){
+                Intent intent =new Intent(v.getContext(), DetailActivity.class);
+                v.getContext().startActivity(intent);
             }
         }
 

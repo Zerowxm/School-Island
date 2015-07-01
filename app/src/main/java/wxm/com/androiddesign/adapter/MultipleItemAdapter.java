@@ -8,10 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.R;
@@ -78,15 +82,13 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return position == 0 ? ITEM_TYPE.ATY_TYPE.ordinal() : ITEM_TYPE.COMMENT_TYPE.ordinal();
     }
 
-    public class CommentViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.user_photo)
-        CircleImageView user_photo;
-        @Bind(R.id.user_name)
-        TextView user_name;
-        @Bind(R.id.user_comment)
-        TextView user_comment;
-        @Bind(R.id.time)
-        TextView time;
+
+
+    public class CommentViewHolder extends RecyclerView.ViewHolder{
+        @Bind(R.id.user_photo) CircleImageView user_photo;
+        @Bind(R.id.user_name) TextView user_name;
+        @Bind(R.id.user_comment) TextView user_comment;
+        @Bind(R.id.time) TextView time;
 
         public CommentViewHolder(View itemView) {
             super(itemView);

@@ -10,16 +10,6 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name=".ui.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
-        <activity
-            android:name=".ui.UserAcitivity"
-            android:label="@string/title_activity_user_acitivity" >
-        </activity>
-        <activity android:name=".ui.MyIntro" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,10 +18,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.SignUpActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".ui.UserAcitivity"
+            android:label="@string/title_activity_user_acitivity" >
+        </activity>
+        <activity android:name=".ui.MyIntro" >
+        </activity>
+        <activity
             android:name=".ui.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
         <activity
+
             android:name=".LinkWebActivity"
             android:label="@string/title_activity_link_web" >
             <intent-filter>
@@ -39,12 +40,21 @@
                  <category android:name="android.intent.category.DEFAULT" />-->
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
+
                 <data
                     android:scheme="https"
                     android:host="app"/>
             </intent-filter>
+</activity>
+        <activity
+            android:name=".ui.ReleaseActivity"
+            android:label="@string/title_activity_release" >
+        </activity>
+        <activity
+            android:name=".ui.CmtDatailActivity"
+            android:label="@string/title_activity_cmt_datail" >
+
         </activity>
     </application>
 

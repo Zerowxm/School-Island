@@ -34,7 +34,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail2);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView=(RecyclerView)findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
 

@@ -26,5 +26,10 @@
 
     <string name="skip_button">Skip</string>
     <string name="title_activity_detail">DetailActivity</string>
+
     <string name="title_activity_link_web">LinkWebActivity</string>
+
+    <string name="title_activity_release">ReleaseActivity</string>
+    <string name="title_activity_cmt_datail">CmtDatailActivity</string>
+
 </resources>

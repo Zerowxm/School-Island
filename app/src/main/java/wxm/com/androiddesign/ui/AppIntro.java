@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import wxm.com.androiddesign.adapter.FadePageTransformer;
+import wxm.com.androiddesign.anim.FadePageTransformer;
 import wxm.com.androiddesign.adapter.PagerAdapter;
 import wxm.com.androiddesign.R;
 

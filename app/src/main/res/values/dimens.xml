@@ -9,4 +9,6 @@
     <dimen name="list_item_avatar_size">40dp</dimen>
 
     <dimen name="cardview_elevation">5dp</dimen>
+    <dimen name="elevation_low">7dp</dimen>
+    <dimen name="elevation_high">12dp</dimen>
 </resources>
