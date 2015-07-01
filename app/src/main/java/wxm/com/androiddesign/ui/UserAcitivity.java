@@ -1,6 +1,8 @@
 package wxm.com.androiddesign.ui;
 
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,21 +10,46 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.adapter.TabPagerAdapter;
+import wxm.com.androiddesign.ui.fragment.ActivityFragment;
+import wxm.com.androiddesign.ui.fragment.ProfileFragment;
+
 
 public class UserAcitivity extends AppCompatActivity {
 
+    ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_acitivity);
+        setupToolBar();
+        setupViewPager();
+        setupTabLayout();
+    }
 
+    private void setupToolBar(){
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("username");
+        collapsingToolbar.setTitle("Username");
+    }
+    private void setupViewPager() {
+        viewPager=(ViewPager)findViewById(R.id.viewpager);
+        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ProfileFragment(), "个人信息");
+        adapter.addFragment(new ActivityFragment(), "已发布活动");
+        adapter.addFragment(new ActivityFragment(), "参与活动");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupTabLayout(){
+        TabLayout tab=(TabLayout)findViewById(R.id.tabs);
+        tab.setTabGravity(TabLayout.GRAVITY_FILL);
+        tab.setupWithViewPager(viewPager);
+        tab.setBackgroundColor(getResources().getColor(R.color.tab_color));
+        //tab.setTabTextColors(R.color.color_state_list);
 
     }
 

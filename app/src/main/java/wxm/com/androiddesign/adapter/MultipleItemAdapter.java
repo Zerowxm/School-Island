@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.R;
@@ -63,13 +64,13 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder{
-        @InjectView(R.id.user_photo) CircleImageView user_photo;
-        @InjectView(R.id.user_name) TextView user_name;
-        @InjectView(R.id.user_comment) TextView user_comment;
-        @InjectView(R.id.time) TextView time;
+        @Bind(R.id.user_photo) CircleImageView user_photo;
+        @Bind(R.id.user_name) TextView user_name;
+        @Bind(R.id.user_comment) TextView user_comment;
+        @Bind(R.id.time) TextView time;
         public CommentViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.inject(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

@@ -1,4 +1,4 @@
-package wxm.com.androiddesign.adapter;
+package wxm.com.androiddesign.anim;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
