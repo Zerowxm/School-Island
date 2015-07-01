@@ -26,4 +26,5 @@
 
     <string name="skip_button">Skip</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_link_web">LinkWebActivity</string>
 </resources>
