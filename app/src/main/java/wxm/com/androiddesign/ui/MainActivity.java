@@ -22,6 +22,7 @@ import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
+import wxm.com.androiddesign.ui.fragment.ReleaseFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     DrawerLayout drawerLayout;
@@ -161,14 +162,16 @@ int i=1;
         if(Build.VERSION.SDK_INT>= 21){
             //startActivity(intent);
         }
-        showDialog();
+        Intent intent =new Intent(MainActivity.this,ReleaseActivity.class);
+        startActivity(intent);
 
         }
 
     private void showDialog(){
-        FragmentManager fm=getSupportFragmentManager();
-        LoginFragment loginFragment=new LoginFragment();
-        loginFragment.show(fm,"login");
+        //getSupportFragmentManager().beginTransaction().replace(R.id.content, new ReleaseFragment()).commit();
+//        FragmentManager fm=getSupportFragmentManager();
+//        ReleaseFragment releaseFragment=new ReleaseFragment();
+//        releaseFragment.show(fm, "release");
     }
 
 
