@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -26,7 +28,9 @@ import wxm.com.androiddesign.ui.fragment.ReleaseFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     DrawerLayout drawerLayout;
-    FloatingActionButton fab;
+    //FloatingActionButton fab;
+    ImageButton fab;
+    //com.melnykov.fab.FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupNavigationView();
     }
 
+    public ImageButton getFAB(){
+        return fab;
+    }
+
     private void setupFab(){
-        fab=(FloatingActionButton)findViewById(R.id.fab);
+        fab=(ImageButton)findViewById(R.id.fab);
+        //fab=(com.melnykov.fab.FloatingActionButton)findViewById(R.id.fab);
 
 //        fab.post(new Runnable() {
 //            @Override
@@ -96,11 +105,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 //hideView();
                                 return true;
                             case R.id.nav_setting:
+                                Intent intent=new Intent(MainActivity.this,CmtDatailActivity.class);
+                                startActivity(intent);
                                 //getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
                                 Snackbar.make(drawerLayout, "设置",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.user_photo:
+
                                 Snackbar.make(drawerLayout, "个人信息",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;

@@ -17,7 +17,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_done"
+        android:src="@drawable/send"
         android:id="@+id/imageView2"
         android:layout_alignBottom="@+id/add_comment"
         android:layout_alignParentRight="true"

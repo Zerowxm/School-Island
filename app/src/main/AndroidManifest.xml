@@ -35,6 +35,10 @@
             android:name=".ui.ReleaseActivity"
             android:label="@string/title_activity_release" >
         </activity>
+        <activity
+            android:name=".ui.CmtDatailActivity"
+            android:label="@string/title_activity_cmt_datail" >
+        </activity>
     </application>
 
 </manifest>
