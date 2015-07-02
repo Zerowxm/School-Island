@@ -51,6 +51,6 @@ public class HomeFragment extends Fragment{
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new MyRecycerAdapter(datas));
+        recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
     }
 }

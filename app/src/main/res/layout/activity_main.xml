@@ -67,7 +67,6 @@
         <ImageButton
             style="@style/FabStyle"
             android:id="@+id/fab"
-
             android:src="@drawable/ic_action_mode_edit"
             android:layout_gravity="bottom|end"/>
     </FrameLayout>

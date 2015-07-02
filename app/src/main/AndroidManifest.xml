@@ -32,12 +32,29 @@
             android:label="@string/title_activity_detail" >
         </activity>
         <activity
+
+            android:name=".LinkWebActivity"
+            android:label="@string/title_activity_link_web" >
+            <intent-filter>
+                <!-- <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.DEFAULT" />-->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+
+                <data
+                    android:scheme="https"
+                    android:host="app"/>
+            </intent-filter>
+</activity>
+        <activity
             android:name=".ui.ReleaseActivity"
             android:label="@string/title_activity_release" >
         </activity>
         <activity
             android:name=".ui.CmtDatailActivity"
             android:label="@string/title_activity_cmt_datail" >
+
         </activity>
     </application>
 
