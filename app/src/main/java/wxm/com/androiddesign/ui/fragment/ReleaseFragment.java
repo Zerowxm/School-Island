@@ -26,7 +26,7 @@ public class ReleaseFragment extends Fragment{
                              Bundle savedInstanceState)
     {
 
-        View view = inflater.inflate(R.layout.release_activity_layout, container,false);
+        View view = inflater.inflate(R.layout.time_picker, container,false);
 
         return view;
     }

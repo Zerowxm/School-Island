@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.user_photo:
+                                //getSupportFragmentManager().beginTransaction().replace(R.id.content, new ReleaseFragment()).commit();
 
                                 Snackbar.make(drawerLayout, "个人信息",
                                         Snackbar.LENGTH_SHORT).show();
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,UserAcitivity.class);
                 startActivity(intent);
+
             }
         });
         userPhoto.setClickable(true);
@@ -176,7 +179,8 @@ int i=1;
         }
         Intent intent =new Intent(MainActivity.this,ReleaseActivity.class);
         startActivity(intent);
-
+//        DatePickerFragment datePicker=new DatePickerFragment();
+//        datePicker.show(getSupportFragmentManager(),"datapicker");
         }
 
     private void showDialog(){

@@ -14,7 +14,6 @@
             android:orientation="vertical"
             android:padding="16dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,9 +40,40 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"/>
             </RelativeLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="#cccccc"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
             <LinearLayout
+                android:paddingLeft="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
 
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_access_time"/>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="set your time"/>
+
+            </LinearLayout>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_above="@id/imageView"
+                android:id="@+id/input_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -54,6 +84,7 @@
                     android:layout_height="wrap_content"
                     app:hintTextAppearance="@style/TextAppearance.AppCompat">
                     <EditText
+                        android:id="@+id/aty_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="活动名称"
@@ -67,6 +98,9 @@
 
                     app:hintTextAppearance="@style/TextAppearance.AppCompat">
                     <EditText
+                        android:maxLines="5"
+
+                        android:id="@+id/aty_content"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="活动内容"
@@ -77,6 +111,18 @@
                         />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
+            <LinearLayout
+
+                android:layout_alignParentBottom="true"
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+            </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
         <LinearLayout
@@ -92,7 +138,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+
             >
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,7 +157,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
-                android:background="#cccccc"/>
+                android:background="#cccccc"
+                android:layout_marginBottom="10dp"/>
         <RelativeLayout
             android:paddingBottom="16dp"
             android:layout_alignParentBottom="true"
@@ -121,6 +170,7 @@
                 android:layout_height="wrap_content"
                 >
                 <ImageView
+                    android:id="@+id/add_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_action_image"/>
