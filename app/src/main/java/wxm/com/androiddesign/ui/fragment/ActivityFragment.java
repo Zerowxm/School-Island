@@ -41,9 +41,9 @@ public class ActivityFragment extends Fragment{
         recyclerView=(RecyclerView)v;
         setupRecyclerView(recyclerView);
 
-        ScrollManager manager=new ScrollManager();
-        manager.attach(recyclerView);
-        manager.addView((ImageButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
+//        ScrollManager manager=new ScrollManager();
+//        manager.attach(recyclerView);
+//        manager.addView((ImageButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
 
         return v;
     }

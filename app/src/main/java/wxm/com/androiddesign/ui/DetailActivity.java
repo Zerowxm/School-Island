@@ -22,6 +22,7 @@ import wxm.com.androiddesign.module.CommentData;
 public class DetailActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
+    MultipleItemAdapter multipleItemAdapter = new MultipleItemAdapter(activityItemData,commentDatas);
     static ActivityItemData activityItemData;
     static ArrayList<CommentData>commentDatas=new ArrayList<CommentData>();
     static {
@@ -49,11 +50,16 @@ public class DetailActivity extends AppCompatActivity {
     public void addComment()
     {
         ImageView cmt_comment=(ImageView)findViewById(R.id.cmt_comment);
-        EditText cmt_text = (EditText) findViewById(R.id.add_comment);
+        final EditText cmt_text = (EditText) findViewById(R.id.add_comment);
         cmt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(cmt_text.getText()!=null) {
+                    commentDatas.add(new CommentData(R.drawable.miao, 5, cmt_text.getText().toString()));
+                    cmt_text.setText(null);
+                    multipleItemAdapter.notifyDataSetChanged();
+                   // recyclerView.set
+                }
             }
         });
     }
@@ -61,7 +67,7 @@ public class DetailActivity extends AppCompatActivity {
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new MultipleItemAdapter(activityItemData,commentDatas));
+        recyclerView.setAdapter(multipleItemAdapter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

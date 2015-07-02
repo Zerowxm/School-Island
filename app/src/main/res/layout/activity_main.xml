@@ -64,11 +64,11 @@
             <!--app:fab_colorPressed="@color/primary_pressed"-->
             <!--app:fab_colorRipple="?attr/colorControlHighlight"-->
             <!--/>-->
-        <ImageButton
-            style="@style/FabStyle"
-            android:id="@+id/fab"
-            android:src="@drawable/ic_action_mode_edit"
-            android:layout_gravity="bottom|end"/>
+        <!--<ImageButton-->
+            <!--style="@style/FabStyle"-->
+            <!--android:id="@+id/fab"-->
+            <!--android:src="@drawable/ic_action_mode_edit"-->
+            <!--android:layout_gravity="bottom|end"/>-->
     </FrameLayout>
 
 
