@@ -46,17 +46,24 @@ public class ActivityFragment extends Fragment{
         View v =inflater.inflate(R.layout.activity_fragment,viewGroup,false);
         recyclerView=(RecyclerView)v.findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
+
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
         ScrollManager manager=new ScrollManager();
         manager.attach(recyclerView);
         //manager.addView((ImageButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         manager.addView((FloatingActionButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
+
+//        ScrollManager manager=new ScrollManager();
+//        manager.attach(recyclerView);
+//        manager.addView((ImageButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
+
+
         return v;
     }
 
     private void setupSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout){
-        swipeRefreshLayout.setColorSchemeColors(R.color.blue,R.color.green,R.color.material_blue_500);
+        swipeRefreshLayout.setColorSchemeColors(R.color.blue,R.color.green);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 
             @Override

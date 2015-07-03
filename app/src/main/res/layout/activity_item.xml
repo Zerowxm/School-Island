@@ -176,7 +176,7 @@
                 android:src="@drawable/ic_action_comment"
                 app:elevation="0dp"
                 app:borderWidth="0dp"
-                android:layout_toLeftOf="@id/total_comment"
+
                 app:fabSize="mini"
                 app:backgroundTint="@color/fab_gray"
                 />
@@ -198,7 +198,7 @@
                 android:src="@drawable/ic_action_share"
                 app:elevation="0dp"
                 app:borderWidth="0dp"
-                android:layout_toLeftOf="@id/total_share"
+
                 app:fabSize="mini"
                 app:backgroundTint="@color/fab_gray"
                 />

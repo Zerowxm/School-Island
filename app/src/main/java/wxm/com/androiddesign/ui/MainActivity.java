@@ -29,9 +29,13 @@ import wxm.com.androiddesign.ui.fragment.ReleaseFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     DrawerLayout drawerLayout;
+
     FloatingActionButton fab;
+
+    //FloatingActionButton fab;
+
     //ImageButton fab;
-    //com.melnykov.fab.FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        setupFab();
+        //setupFab();
         setupNavigationView();
     }
 
@@ -51,8 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    }
 
     private void setupFab(){
+
        // fab=(ImageButton)findViewById(R.id.fab);
         fab=(FloatingActionButton)findViewById(R.id.fab);
+
+      //  fab=(ImageButton)findViewById(R.id.fab);
+        //fab=(com.melnykov.fab.FloatingActionButton)findViewById(R.id.fab);
+
 
 //        fab.post(new Runnable() {
 //            @Override
@@ -67,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
 
 
+
        fab.setOnClickListener(this);
+
+      //  fab.setOnClickListener(this);
+
     }
 
 

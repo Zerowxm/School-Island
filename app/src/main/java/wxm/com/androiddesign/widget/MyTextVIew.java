@@ -25,7 +25,7 @@ public class MyTextView extends TextView {
 
 
 
-//        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-BoldItalic.ttf");
+
 //        setTypeface(typeface);
         if (fontName != null) {
             Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/"+fontName);
