@@ -12,17 +12,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import android.support.design.widget.FloatingActionButton;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import wxm.com.androiddesign.module.ActivityItemData;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
+
 import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
+
 
 /**
  * Created by zero on 2015/6/25.
@@ -30,13 +31,16 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
 public class ActivityFragment extends Fragment{
 
     RecyclerView recyclerView;
+
+
     MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     static ArrayList<ActivityItemData> datas=new ArrayList<ActivityItemData>();
+
     static {
-        for (int i=0;i<17;i++){
-            datas.add(new ActivityItemData(R.drawable.miao));
+        for (int i=0;i<5;i++){
+            datas.add(new ActivityItemData("name","tag","time","0","0",R.drawable.miao));
         }
     }
 
@@ -91,5 +95,10 @@ public class ActivityFragment extends Fragment{
         recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
+    }
+
+    public static void addActivity(String mname,String mtag,String mtime,String mplus,String mcommet,int mimageId)
+    {
+        datas.add(new ActivityItemData(mname,mtag,mtime,mplus,mcommet,mimageId));
     }
 }

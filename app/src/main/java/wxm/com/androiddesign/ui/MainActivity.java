@@ -30,17 +30,17 @@ import wxm.com.androiddesign.ui.fragment.ReleaseFragment;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     DrawerLayout drawerLayout;
 
+    public static MainActivity instance = null;
+
     FloatingActionButton fab;
 
-    //FloatingActionButton fab;
-
-    //ImageButton fab;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.content, new FragmentParent()).commit();
 
@@ -114,8 +114,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.nav_user_setting:
-                                Snackbar.make( drawerLayout, "个人设置",
-                                        Snackbar.LENGTH_SHORT).show();
+//                                Snackbar.make( drawerLayout, "个人设置",
+//                                        Snackbar.LENGTH_SHORT).show();
+
+                                startActivity(new Intent(MainActivity.this,ReleaseActivity.class));
+                              //  getSupportFragmentManager().beginTransaction().add(R.id.content, new ReleaseFragment()).commit();
+
                                 //hideView();
                                 return true;
                             case R.id.nav_setting:
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 //getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
                                 Snackbar.make(drawerLayout, "设置",
                                         Snackbar.LENGTH_SHORT).show();
+
                                 return true;
                             case R.id.user_photo:
                                 //getSupportFragmentManager().beginTransaction().replace(R.id.content, new ReleaseFragment()).commit();
@@ -131,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 startActivity(intent2);
                                 Snackbar.make(drawerLayout, "个人信息",
                                         Snackbar.LENGTH_SHORT).show();
+
+
                                 return true;
                             default:
                                 return true;

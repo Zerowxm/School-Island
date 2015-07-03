@@ -15,36 +15,35 @@
             android:layout_height="match_parent">
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp"
-                xmlns:app="http://schemas.android.com/apk/res-auto">
+                >
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:id="@id/user_photo"
+                    android:src="@drawable/miao"/>
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@id/user_name"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/user_photo"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/send"
+                    android:id="@+id/sendButton"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"/>
+            </RelativeLayout>
 
-                    >
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:id="@id/user_photo"
-                        android:src="@drawable/miao"/>
-                    <TextView
-                        android:layout_marginLeft="16dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@id/user_name"
-                        android:text="Username"
-                        android:layout_centerInParent="true"
-                        android:layout_toRightOf="@id/user_photo"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/send"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginRight="16dp"/>
-                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.3dp"
@@ -75,11 +74,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <android.support.design.widget.TextInputLayout
-                        android:paddingTop="10dp"
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                <android.support.design.widget.TextInputLayout
+                    android:paddingTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
                         app:hintTextAppearance="@style/TextAppearance.AppCompat">
                         <EditText
                             android:id="@+id/aty_name"
@@ -109,6 +109,7 @@
 
                 </LinearLayout>
 
+
                 <LinearLayout
 
                     android:layout_alignParentBottom="true"
@@ -118,9 +119,9 @@
                     android:orientation="vertical"
                     android:padding="10dp">
                     <HorizontalScrollView
-                        android:id="@id/image_show"
+                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        >
 
                         <LinearLayout
                             android:showDividers="middle"

@@ -11,12 +11,12 @@ public class ActivityItemData {
     public String commet;
     public int imageId;
 
-    public ActivityItemData(int imageId){
-        name="zero";
-        tag="anime";
-        time="7h";
-        plus="6";
-        commet="7";
-        this.imageId=imageId;
+    public ActivityItemData(String mname,String mtag,String mtime,String mplus,String mcommet,int mimageId){
+        name=mname;
+        tag=mtag;
+        time=mtime;
+        plus=mplus;
+        commet=mcommet;
+        imageId=mimageId;
     }
 }
