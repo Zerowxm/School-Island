@@ -50,13 +50,9 @@ public class ActivityFragment extends Fragment{
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
         ScrollManager manager=new ScrollManager();
         manager.attach(recyclerView);
-        //manager.addView((ImageButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         manager.addView((FloatingActionButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
 
-//        ScrollManager manager=new ScrollManager();
-//        manager.attach(recyclerView);
-//        manager.addView((ImageButton)getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
 
 
         return v;
