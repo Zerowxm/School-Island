@@ -7,7 +7,5 @@
         android:calendarViewShown="false"
 
         android:layout_height="wrap_content"></DatePicker>
-    <TimePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></TimePicker>
+
 </LinearLayout>

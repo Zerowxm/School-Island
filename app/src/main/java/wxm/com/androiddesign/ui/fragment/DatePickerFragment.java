@@ -1,15 +1,12 @@
 package wxm.com.androiddesign.ui.fragment;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-
-import java.util.Calendar;
 
 import wxm.com.androiddesign.R;
 
@@ -22,7 +19,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
                              Bundle savedInstanceState)
     {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        View view = inflater.inflate(R.layout.time_picker, container);
+        View view = inflater.inflate(R.layout.date_picker, container);
 
         return view;
     }

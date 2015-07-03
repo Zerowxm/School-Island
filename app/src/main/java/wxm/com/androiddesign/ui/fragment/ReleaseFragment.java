@@ -1,12 +1,10 @@
 package wxm.com.androiddesign.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import wxm.com.androiddesign.R;
 
@@ -26,7 +24,7 @@ public class ReleaseFragment extends Fragment{
                              Bundle savedInstanceState)
     {
 
-        View view = inflater.inflate(R.layout.time_picker, container,false);
+        View view = inflater.inflate(R.layout.date_picker, container,false);
 
         return view;
     }

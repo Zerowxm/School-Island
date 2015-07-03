@@ -1,6 +1,8 @@
 package wxm.com.androiddesign.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 //import com.melnykov.fab.FloatingActionButton;
@@ -18,7 +20,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
@@ -27,13 +32,14 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.ReleaseFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,LoginFragment.LoginCallBack{
     DrawerLayout drawerLayout;
 
     public static MainActivity instance = null;
 
     FloatingActionButton fab;
-
+   // @Bind(R.id.user_name)TextView user_name;
+   // @Bind(R.id.user_email)TextView user_email;
 
 
     @Override
@@ -45,44 +51,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportFragmentManager().beginTransaction().add(R.id.content, new FragmentParent()).commit();
 
         }
-
-        //setupFab();
+        ButterKnife.bind(this);
+        setupFab();
         setupNavigationView();
+        setupInfo();
     }
-
-//    public ImageButton getFAB(){
-//        return fab;
-//    }
 
     private void setupFab(){
 
-       // fab=(ImageButton)findViewById(R.id.fab);
         fab=(FloatingActionButton)findViewById(R.id.fab);
-
-      //  fab=(ImageButton)findViewById(R.id.fab);
-        //fab=(com.melnykov.fab.FloatingActionButton)findViewById(R.id.fab);
-
-
-//        fab.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                ScrollManager manager=new ScrollManager();
-//                View content=getLayoutInflater().inflate(R.layout.activity_fragment,null);
-//                RecyclerView recyclerView=(RecyclerView)content.findViewById(R.id.recyclerview_activity);
-//                manager.attach(recyclerView);
-//                manager.addView(fab, ScrollManager.Direction.DOWN);
-//                manager.setInitialOffset(46);
-//            }
-//        });
-
-
-
        fab.setOnClickListener(this);
-
-      //  fab.setOnClickListener(this);
-
     }
 
+    private void setupInfo(){
+        SharedPreferences prefs=getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+        String name=prefs.getString("Username",null);
+        String email=prefs.getString("Useremail",null);
+        if(name!=null&&email!=null){
+            ((TextView) findViewById(R.id.username)).setText(name);
+            ( (TextView) findViewById(R.id.user_email)).setText(email);
+        }
+    }
+
+    @Override
+    public void onLongin(String name,String email) {
+        SharedPreferences prefs=getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=prefs.edit();
+        editor.putString("Username",name);
+        editor.putString("Useremail",email);
+        editor.apply();
+        ((TextView) findViewById(R.id.username)).setText(name);
+        ( (TextView) findViewById(R.id.user_email)).setText(email);
+    }
 
     private void setupDrawerContent(final NavigationView navigationView) {
 
@@ -99,14 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.nav_home:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
 
-                                //mCurrentSelectedPosition = 0;
                                 return true;
                             case R.id.nav_explore:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, new FragmentParent()).commit();
-//                                Intent intent1=new Intent(MainActivity.this,FragmentParent.class);
-//                                startActivity(intent1);
 
-                                //mCurrentSelectedPosition = 1;
                                 return true;
                             case R.id.nav_attention:
 //
@@ -114,30 +110,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.nav_user_setting:
-//                                Snackbar.make( drawerLayout, "个人设置",
-//                                        Snackbar.LENGTH_SHORT).show();
-
                                 startActivity(new Intent(MainActivity.this,ReleaseActivity.class));
-                              //  getSupportFragmentManager().beginTransaction().add(R.id.content, new ReleaseFragment()).commit();
-
-                                //hideView();
                                 return true;
                             case R.id.nav_setting:
                                 Intent intent=new Intent(MainActivity.this,CmtDatailActivity.class);
                                 startActivity(intent);
-                                //getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
                                 Snackbar.make(drawerLayout, "设置",
                                         Snackbar.LENGTH_SHORT).show();
 
                                 return true;
                             case R.id.user_photo:
-                                //getSupportFragmentManager().beginTransaction().replace(R.id.content, new ReleaseFragment()).commit();
                                 Intent intent2=new Intent(MainActivity.this,SignUpActivity.class);
                                 startActivity(intent2);
                                 Snackbar.make(drawerLayout, "个人信息",
                                         Snackbar.LENGTH_SHORT).show();
-
-
                                 return true;
                             default:
                                 return true;
@@ -145,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
     }
+
+
     private void setupNavigationView(){
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -152,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(navigationView!=null){
             setupDrawerContent(navigationView);
         }
-        RelativeLayout header=(RelativeLayout)findViewById(R.id.header);
+        View header=findViewById(R.id.header);
         header.setClickable(true);
         //header.setElevation(0.1);
 
@@ -163,9 +151,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,UserAcitivity.class);
-                startActivity(intent);
-
+                drawerLayout.closeDrawers();
+                showLoginDialog();
+               if(((TextView)findViewById(R.id.username)).getText().equals("未登录")){
+                    drawerLayout.closeDrawers();
+                    showLoginDialog();
+                }
+                else {
+                   // Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
+                   // startActivity(intent);
+                }
             }
         });
         userPhoto.setClickable(true);
@@ -200,69 +195,14 @@ int i=1;
         }
         Intent intent =new Intent(MainActivity.this,ReleaseActivity.class);
         startActivity(intent);
-//        DatePickerFragment datePicker=new DatePickerFragment();
-//        datePicker.show(getSupportFragmentManager(),"datapicker");
         }
 
-    private void showDialog(){
+    private void showLoginDialog(){
         //getSupportFragmentManager().beginTransaction().replace(R.id.content, new ReleaseFragment()).commit();
-//        FragmentManager fm=getSupportFragmentManager();
-//        ReleaseFragment releaseFragment=new ReleaseFragment();
-//        releaseFragment.show(fm, "release");
+        FragmentManager fm=getSupportFragmentManager();
+        LoginFragment releaseFragment=new LoginFragment();
+        releaseFragment.show(fm, "login");
     }
 
-
-//    private void hideView(){
-//        // previously visible view
-//        final FloatingActionButton myView = (FloatingActionButton)findViewById(R.id.fab);
-//
-//// get the center for the clipping circle
-//        int cx = (myView.getLeft() + myView.getRight()) / 2;
-//        int cy = (myView.getTop() + myView.getBottom()) / 2;
-//
-//// get the initial radius for the clipping circle
-//        int initialRadius = myView.getWidth();
-//        if(Build.VERSION.SDK_INT>= 21) {
-//// create the animation (the final radius is zero)
-//            Animator anim =
-//                    ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
-//
-//// make the view invisible when the animation is done
-//            anim.addListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    super.onAnimationEnd(animation);
-//                    myView.setVisibility(View.INVISIBLE);
-//                }
-//
-//            });
-//
-//// start the animation
-//            anim.start();
-//        }
-//    }
-//private void showView(){
-//    // previously invisible view
-//    FloatingActionButton myView = (FloatingActionButton)findViewById(R.id.fab);
-//
-//// get the center for the clipping circle
-//    int cx = (myView.getLeft() + myView.getRight()) / 2;
-//    int cy = (myView.getTop() + myView.getBottom()) / 2;
-//
-//// get the final radius for the clipping circle
-//    int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-//
-//    if(Build.VERSION.SDK_INT>= 21){
-//        Animator anim =
-//                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-//        myView.setVisibility(View.VISIBLE);
-//        anim.start();
-//    }
-//// create the animator for this view (the start radius is zero)
-//
-//
-//// make the view visible and start the animation
-//
-//}
 
 }

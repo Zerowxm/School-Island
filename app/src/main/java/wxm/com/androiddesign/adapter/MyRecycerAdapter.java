@@ -139,10 +139,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             } else if (v instanceof CardView) {
                 context.startActivity(new Intent(context, DetailActivity.class));
             }
-            if(v instanceof CardView){
-                Intent intent =new Intent(v.getContext(), DetailActivity.class);
-                v.getContext().startActivity(intent);
-            }
         }
 
         public static interface MyViewHolderClicks{

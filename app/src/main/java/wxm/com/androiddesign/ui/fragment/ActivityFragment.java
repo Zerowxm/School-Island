@@ -63,7 +63,10 @@ public class ActivityFragment extends Fragment{
     }
 
     private void setupSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout){
-        swipeRefreshLayout.setColorSchemeColors(R.color.blue,R.color.green);
+        swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 
             @Override
@@ -80,10 +83,11 @@ public class ActivityFragment extends Fragment{
             @Override
             public void run() {
                 Snackbar.make(mSwipeRefreshLayout, "refresh", Snackbar.LENGTH_SHORT).show();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
-        },2000);
+        },5000);
         //load complete
-        onContentLoadComplete();
+        //onContentLoadComplete();
     }
 
     private void onContentLoadComplete(){
