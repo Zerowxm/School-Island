@@ -26,7 +26,7 @@ public class DetailActivity extends AppCompatActivity {
     static ActivityItemData activityItemData;
     static ArrayList<CommentData>commentDatas=new ArrayList<CommentData>();
     static {
-        activityItemData = new ActivityItemData(R.drawable.miao);
+        activityItemData = new ActivityItemData("name","tag","time","0","0",R.drawable.miao);
         for (int i = 0; i < 5; i++) {
             commentDatas.add(new CommentData(R.drawable.miao,5,"I'm comment"));
         }

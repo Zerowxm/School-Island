@@ -2,23 +2,16 @@ package wxm.com.androiddesign.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-
-import com.melnykov.fab.FloatingActionButton;
-
 import java.util.ArrayList;
-
 import wxm.com.androiddesign.module.ActivityItemData;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.utils.ScrollManager;
 
 /**
  * Created by zero on 2015/6/25.
@@ -26,11 +19,10 @@ import wxm.com.androiddesign.utils.ScrollManager;
 public class ActivityFragment extends Fragment{
 
     RecyclerView recyclerView;
-    MyRecycerAdapter myRecycerAdapter;
-    static ArrayList<ActivityItemData> datas=new ArrayList<ActivityItemData>();
+    static ArrayList<ActivityItemData> datas=new ArrayList<>();
     static {
-        for (int i=0;i<17;i++){
-            datas.add(new ActivityItemData(R.drawable.miao));
+        for (int i=0;i<5;i++){
+            datas.add(new ActivityItemData("name","tag","time","0","0",R.drawable.miao));
         }
     }
 
@@ -52,5 +44,10 @@ public class ActivityFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
         recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
+    }
+
+    public static void addActivity(String mname,String mtag,String mtime,String mplus,String mcommet,int mimageId)
+    {
+        datas.add(new ActivityItemData(mname,mtag,mtime,mplus,mcommet,mimageId));
     }
 }
