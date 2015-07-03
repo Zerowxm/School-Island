@@ -9,7 +9,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+import android.widget.ViewFlipper;
+import android.view.ViewGroup.LayoutParams;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -21,6 +22,7 @@ public class ReleaseActivity extends AppCompatActivity {
     @Bind(R.id.imageView)LinearLayout imageContains;
     @Bind(R.id.aty_content)
     EditText aty_content;
+   // @Bind(R.id.image_show)ViewFlipper viewFlipper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -29,6 +31,11 @@ public class ReleaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         aty_content.setSelection(aty_content.getText().length());
         aty_content.getSelectionStart();
+//        viewFlipper.setAutoStart(true);
+//        viewFlipper.setFlipInterval(2000);
+//        if(viewFlipper.isAutoStart() && !viewFlipper.isFlipping()){
+//            viewFlipper.startFlipping();
+//        }
     }
 
     @OnClick(R.id.add_image)
@@ -37,6 +44,7 @@ public class ReleaseActivity extends AppCompatActivity {
         //imageView.setImageResource(R.drawable.miao);
         imageView.setBackgroundResource(R.drawable.miao);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        //viewFlipper.addView(imageView, new LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
        // imageView.setLayoutParams(layoutParams);
 

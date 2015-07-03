@@ -42,7 +42,7 @@
                         android:layout_height="77dp"
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/cheese_1"
+                        android:src="@drawable/miao"
                         android:id="@+id/user_photo"/>
                     <TextView
                         android:layout_width="wrap_content"

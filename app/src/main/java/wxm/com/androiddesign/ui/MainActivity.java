@@ -29,8 +29,8 @@ import wxm.com.androiddesign.ui.fragment.ReleaseFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     DrawerLayout drawerLayout;
-    //FloatingActionButton fab;
-    ImageButton fab;
+    FloatingActionButton fab;
+    //ImageButton fab;
     //com.melnykov.fab.FloatingActionButton fab;
 
     @Override
@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupNavigationView();
     }
 
-    public ImageButton getFAB(){
-        return fab;
-    }
+//    public ImageButton getFAB(){
+//        return fab;
+//    }
 
     private void setupFab(){
-        fab=(ImageButton)findViewById(R.id.fab);
-        //fab=(com.melnykov.fab.FloatingActionButton)findViewById(R.id.fab);
+       // fab=(ImageButton)findViewById(R.id.fab);
+        fab=(FloatingActionButton)findViewById(R.id.fab);
 
 //        fab.post(new Runnable() {
 //            @Override
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
 
 
-        fab.setOnClickListener(this);
+       fab.setOnClickListener(this);
     }
 
 
@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 return true;
                             case R.id.user_photo:
                                 //getSupportFragmentManager().beginTransaction().replace(R.id.content, new ReleaseFragment()).commit();
-
+                                Intent intent2=new Intent(MainActivity.this,SignUpActivity.class);
+                                startActivity(intent2);
                                 Snackbar.make(drawerLayout, "个人信息",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
