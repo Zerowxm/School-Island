@@ -3,6 +3,7 @@ package wxm.com.androiddesign.ui;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     static ActivityItemData activityItemData;
     static ArrayList<CommentData>commentDatas=new ArrayList<CommentData>();
     static {
-        activityItemData = new ActivityItemData(R.drawable.miao);
+        activityItemData = new ActivityItemData("name","tag","time","0","0",R.drawable.miao);
         for (int i = 0; i < 5; i++) {
             commentDatas.add(new CommentData(R.drawable.miao,5,"I'm comment"));
         }
@@ -34,7 +35,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail2);
+        setContentView(R.layout.activity_detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
@@ -67,7 +68,14 @@ public class DetailActivity extends AppCompatActivity {
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
+        recyclerView.setHasFixedSize(true);
+        //recyclerView.addItemDecoration(new SpacesItemDecoration(5));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(new MultipleItemAdapter(activityItemData,commentDatas));
+
+
         recyclerView.setAdapter(multipleItemAdapter);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
