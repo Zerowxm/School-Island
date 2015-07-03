@@ -5,6 +5,8 @@ import android.content.Context;
 
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
@@ -85,6 +87,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             activityItem=new ActivityItem();
             activityItem.activity_tag=(TextView)itemView.findViewById(R.id.tag);
             activityItem.comment_fab=(FloatingActionButton)itemView.findViewById(R.id.fab_comment);
+            //activityItem.comment_fab.setBackgroundTintList(itemView.getResources().getColorStateList(R.color.color_state_list));
             activityItem.plus_fab=(FloatingActionButton)itemView.findViewById(R.id.fab_plus);
             activityItem.publish_image=(ImageView)itemView.findViewById(R.id.acitivity_iamge);
             activityItem.total_plus=(TextView)itemView.findViewById(R.id.total_plus);
@@ -107,7 +110,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain"); // ´¿ÎÄ±¾
+                    intent.setType("text/plain");
                     if (imgPath != null && !imgPath.equals("")) {
                         File f = new File(imgPath);
                         if (f != null && f.exists() && f.isFile()) {

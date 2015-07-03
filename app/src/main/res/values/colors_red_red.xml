@@ -9,4 +9,12 @@
   <color name="icons">#FFFFFF</color>
   <color name="divider">#B6B6B6</color>
   <color name="primary_pressed">#D32F2F</color>
+  
+  <color name="background">#FAFAFAFA</color>
+  <color name="fab_gray">#EEEEEE</color>
+  <color name="tab_gray">#E9E9E9</color>
+  
+  <!--refresh-->
+  <color name="blue">#000099</color>
+  <color name="green">#009900</color>
 </resources>

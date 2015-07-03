@@ -1,156 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@android:color/white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
 
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
+            android:layout_above="@+id/locationcontains"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            >
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@id/user_photo"
-                android:src="@drawable/miao"/>
-            <TextView
-                android:layout_marginLeft="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@id/user_name"
-                android:text="Username"
-                android:layout_centerInParent="true"
-                android:layout_toRightOf="@id/user_photo"/>
-            <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/send"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginTop="16dp"-->
-            <!--android:layout_marginRight="16dp"/>-->
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/viewB"
+            android:layout_height="match_parent">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:orientation="vertical"
+            android:padding="16dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
+                >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:id="@id/user_photo"
+                    android:src="@drawable/miao"/>
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@id/user_name"
+                    android:text="Username"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/user_photo"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/send"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="#cccccc"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+            <LinearLayout
+                android:paddingLeft="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
 
-                <LinearLayout
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_access_time"/>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="set your time"/>
+
+            </LinearLayout>
+             <LinearLayout
+                    android:layout_above="@id/imageView"
+                    android:id="@+id/input_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/border"/>
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="70dp"
-                    android:paddingRight="70dp"
                     android:orientation="vertical">
-
                     <android.support.design.widget.TextInputLayout
                         android:paddingTop="10dp"
-                        android:id="@+id/username_text_input_layout"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:hintTextAppearance="@style/TextAppearance.AppCompat">
                         <EditText
-                            android:id="@+id/username_edit_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-
-                            android:ems="10"
-                            android:hint="用户名"/>
-                        <TextView
+                            android:id="@+id/aty_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="活动名称"
                             android:inputType="text"
-                            android:ems="10"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:paddingTop="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        app:hintTextAppearance="@style/TextAppearance.AppCompat">
+                        <EditText
+                            android:id="@+id/aty_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="活动内容"
+                            android:inputType="textMultiLine"
+                            android:gravity="top"
+                            android:background="@null"
+
                             />
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/email_text_input_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/username_text_input_layout"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat">
-
-                        <EditText
-                            android:id="@+id/emial_edit_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress"
-                            android:ems="10"
-                            android:hint="邮箱"/>
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/password_text_input_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/email_text_input_layout"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat">
-
-                        <EditText
-                            android:id="@+id/password_edit_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPassword"
-                            android:ems="10"
-                            android:hint="密码"/>
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/phone_text_input_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/password_text_input_layout"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat">
-
-                        <EditText
-                            android:id="@+id/phone_edit_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="电话号码"/>
-                    </android.support.design.widget.TextInputLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal">
-                        <android.support.v7.widget.AppCompatCheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="女"
-                            android:paddingRight="10dp"
-                            />
-                        <android.support.v7.widget.AppCompatCheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="10dp"
-                            android:text="男"
-                            />
-
-                    </LinearLayout>
                 </LinearLayout>
 
-        </RelativeLayout>
+            <LinearLayout
 
-    </LinearLayout>
+                android:layout_alignParentBottom="true"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+                <HorizontalScrollView
+                    android:id="@id/image_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                    <LinearLayout
+                        android:showDividers="middle"
+                        android:divider="@drawable/divider"
+                        android:layout_alignParentBottom="true"
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
 
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+        </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:id="@+id/locationcontains"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+            <LinearLayout
+                android:paddingLeft="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_location_on"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="10dp"/>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="add your location"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="#cccccc"
+                android:layout_marginBottom="10dp"/>
+            <RelativeLayout
+                android:paddingBottom="16dp"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <ImageView
+                        android:id="@+id/add_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_image"/>
+                    <ImageView
+                        android:paddingLeft="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_camera"/>
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_gravity="left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_action_more_vert"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

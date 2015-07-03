@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -28,10 +29,12 @@ import wxm.com.androiddesign.ui.fragment.ReleaseFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     DrawerLayout drawerLayout;
+
     public static MainActivity instance = null;
-    //FloatingActionButton fab;
-    //ImageButton fab;
-    //com.melnykov.fab.FloatingActionButton fab;
+
+    FloatingActionButton fab;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    }
 
     private void setupFab(){
+
+       // fab=(ImageButton)findViewById(R.id.fab);
+        fab=(FloatingActionButton)findViewById(R.id.fab);
+
       //  fab=(ImageButton)findViewById(R.id.fab);
         //fab=(com.melnykov.fab.FloatingActionButton)findViewById(R.id.fab);
+
 
 //        fab.post(new Runnable() {
 //            @Override
@@ -68,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
 
 
+
+       fab.setOnClickListener(this);
+
       //  fab.setOnClickListener(this);
+
     }
 
 
@@ -119,7 +131,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 return true;
                             case R.id.user_photo:
-
+                                //getSupportFragmentManager().beginTransaction().replace(R.id.content, new ReleaseFragment()).commit();
+                                Intent intent2=new Intent(MainActivity.this,SignUpActivity.class);
+                                startActivity(intent2);
                                 Snackbar.make(drawerLayout, "个人信息",
                                         Snackbar.LENGTH_SHORT).show();
 
@@ -151,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,UserAcitivity.class);
                 startActivity(intent);
+
             }
         });
         userPhoto.setClickable(true);
@@ -185,7 +200,8 @@ int i=1;
         }
         Intent intent =new Intent(MainActivity.this,ReleaseActivity.class);
         startActivity(intent);
-
+//        DatePickerFragment datePicker=new DatePickerFragment();
+//        datePicker.show(getSupportFragmentManager(),"datapicker");
         }
 
     private void showDialog(){

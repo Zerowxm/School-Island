@@ -26,6 +26,7 @@
             android:label="@string/title_activity_user_acitivity" >
         </activity>
         <activity android:name=".ui.MyIntro" >
+
         </activity>
         <activity
             android:name=".ui.DetailActivity"
