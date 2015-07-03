@@ -11,6 +11,8 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.*;
 import wxm.com.androiddesign.R;
 
 /**
@@ -19,6 +21,8 @@ import wxm.com.androiddesign.R;
 public class LocationActivity extends Activity{
     public static String Latitude = "Latitude";
     public static String Longtitude = "Longtitude";
+    public static String Address= "Address";
+    private String maddress;
     /**
      * Called when the activity is first created.
      */
@@ -34,6 +38,7 @@ public class LocationActivity extends Activity{
     Marker mMarkerA;
     boolean isFirstLoc = true;// 是否首次定位
     TextView hintText;
+    GeoCoder mSearch = null; // 反地址搜索模块
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +50,31 @@ public class LocationActivity extends Activity{
         mMapView = (MapView) findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();
 
-        // 开启定位图层
-        //  mBaiduMap.setMyLocationEnabled(true);
-
         //GPS定位初始化
         InitGPS();
+
+        // 初始化搜索模块，注册事件监听
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+            }
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Toast.makeText(LocationActivity.this, "抱歉，未能找到对应地址", Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
+                maddress = result.getAddress();
+                hintText.setText(hintText.getText() + " " + result.getAddress());
+            }
+        });
+
+
     }
 
     private void InitGPS()
@@ -63,6 +88,12 @@ public class LocationActivity extends Activity{
         option.setScanSpan(1000);    //设置定位间隔
         mLocClient.setLocOption(option);
         mLocClient.start();
+    }
+
+    private void setLocationText(LatLng loc)
+    {
+        hintText.setText("Current Location: [" + loc.latitude + ", "
+                + loc.longitude + "]");
     }
 
     @Override
@@ -95,17 +126,23 @@ public class LocationActivity extends Activity{
 
         mBaiduMap.setOnMarkerDragListener(new BaiduMap.OnMarkerDragListener() {
             public void onMarkerDrag(Marker marker) {
-                hintText.setText("Choose Location: [" + marker.getPosition().latitude + ", "
-                        + marker.getPosition().longitude + "]");
+
+                LatLng loc = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+                setLocationText(loc);
             }
 
             public void onMarkerDragEnd(Marker marker) {
+                LatLng loc = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+
+                setLocationText(loc);
+                mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(loc));
+                setLocationResult(loc);
+
                 Toast.makeText(
                         LocationActivity.this,
-                        "Location: [" + marker.getPosition().latitude + ", "
-                                + marker.getPosition().longitude + "]",
+                        "You Choose Location: [" + loc.latitude + ", "
+                                + loc.longitude + "]",
                         Toast.LENGTH_LONG).show();
-                setLocationResult(new LatLng(marker.getPosition().latitude,marker.getPosition().longitude));
             }
 
             public void onMarkerDragStart(Marker marker) {
@@ -120,6 +157,7 @@ public class LocationActivity extends Activity{
         //the type of latitude and longitude is double
         i.putExtra(LocationActivity.Latitude, local.latitude);
         i.putExtra(LocationActivity.Longtitude, local.longitude);
+        i.putExtra(LocationActivity.Address, maddress);
         setResult(RESULT_OK, i);
     }
 
@@ -140,14 +178,14 @@ public class LocationActivity extends Activity{
 
             if (isFirstLoc) {
                 isFirstLoc = false;
-                LatLng ll = new LatLng(location.getLatitude(),
+                LatLng loc = new LatLng(location.getLatitude(),
                         location.getLongitude());
-                MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(loc);
                 mBaiduMap.animateMapStatus(u);
-                setLocationResult(ll);
-                initOverlay(ll);
-                hintText.setText("Curent Location: [" + ll.latitude + ", "
-                        + ll.longitude + "]");
+                setLocationResult(loc);
+                initOverlay(loc);
+                setLocationText(loc);
+                mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(loc));
             }
         }
     }

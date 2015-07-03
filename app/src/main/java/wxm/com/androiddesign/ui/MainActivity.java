@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //setupFab();
         setupNavigationView();
     }
-
 //    public ImageButton getFAB(){
 //        return fab;
 //    }
