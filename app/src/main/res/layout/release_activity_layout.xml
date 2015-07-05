@@ -3,106 +3,137 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
 
-            android:layout_above="@+id/locationcontains"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/locationcontains">
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                >
+                android:padding="16dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:id="@id/user_photo"
-                    android:src="@drawable/miao"/>
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@id/user_name"
-                    android:layout_centerInParent="true"
-                    android:layout_toRightOf="@id/user_photo"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/send"
-                    android:id="@+id/sendButton"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp"/>
-            </RelativeLayout>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@id/user_photo"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/miao" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_toRightOf="@id/user_photo"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="16dp">
+
+                        <TextView
+                            android:id="@id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_toRightOf="@id/user_photo"
+                            android:text="Username" />
+
+                        <TextView
+                            android:id="@+id/community_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@id/user_name"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignStart="@id/user_name"
+                            android:text="community" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/sendButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/send" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.3dp"
-                    android:background="#cccccc"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:background="#cccccc" />
+
                 <LinearLayout
-                    android:paddingLeft="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:paddingLeft="16dp"
 
                     >
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_action_access_time"/>
+                        android:src="@drawable/ic_action_access_time" />
+
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="set your time"/>
+                        android:layout_marginLeft="10dp"
+                        android:text="set your time" />
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_above="@id/imageView"
                     android:id="@+id/input_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_above="@id/imageView"
                     android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:paddingTop="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="16dp"
 
                         app:hintTextAppearance="@style/TextAppearance.AppCompat">
+
                         <EditText
                             android:id="@+id/aty_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="活动名称"
-                            android:inputType="text"
-                            />
+                            android:inputType="text" />
                     </android.support.design.widget.TextInputLayout>
+
                     <android.support.design.widget.TextInputLayout
-                        android:paddingTop="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="16dp"
 
                         app:hintTextAppearance="@style/TextAppearance.AppCompat">
+
                         <EditText
                             android:id="@+id/aty_content"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@null"
+                            android:gravity="top"
                             android:hint="活动内容"
                             android:inputType="textMultiLine"
-                            android:gravity="top"
-                            android:background="@null"
+                            android:minLines="3"
 
                             />
                     </android.support.design.widget.TextInputLayout>
@@ -112,92 +143,95 @@
 
                 <LinearLayout
 
-                    android:layout_alignParentBottom="true"
-
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:orientation="vertical"
                     android:padding="10dp">
+
                     <HorizontalScrollView
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        >
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:showDividers="middle"
-                            android:divider="@drawable/divider"
-                            android:layout_alignParentBottom="true"
-                            android:id="@+id/imageView"
+                            android:id="@+id/imageViewContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:divider="@drawable/divider"
                             android:orientation="horizontal"
-                            >
-
-                        </LinearLayout>
+                            android:showDividers="middle"></LinearLayout>
                     </HorizontalScrollView>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
+
         <LinearLayout
             android:id="@+id/locationcontains"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:paddingLeft="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:paddingLeft="16dp">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_location_on"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_action_location_on" />
+
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="add your location"
-                    />
+                    android:layout_marginLeft="10dp"
+                    android:text="add your location" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
-                android:background="#cccccc"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:background="#cccccc" />
+
             <RelativeLayout
-                android:paddingBottom="16dp"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="16dp"
                 android:paddingLeft="16dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
+
                     <ImageView
                         android:id="@+id/add_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_action_image"/>
+                        android:src="@drawable/ic_action_image" />
+
                     <ImageView
-                        android:paddingLeft="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_action_camera"/>
+                        android:paddingLeft="16dp"
+                        android:src="@drawable/ic_action_camera" />
 
                 </LinearLayout>
+
                 <ImageView
-                    android:layout_gravity="left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_action_more_vert"
-                    />
+                    android:layout_gravity="left"
+                    android:src="@drawable/ic_action_more_vert" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

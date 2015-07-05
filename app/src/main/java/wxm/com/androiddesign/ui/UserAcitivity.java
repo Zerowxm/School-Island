@@ -39,8 +39,8 @@ public class UserAcitivity extends AppCompatActivity {
         viewPager=(ViewPager)findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ProfileFragment(), "个人信息");
-        adapter.addFragment(new ActivityFragment(), "已发布活动");
-        adapter.addFragment(new ActivityFragment(), "参与活动");
+        adapter.addFragment(new ProfileFragment(), "已发布活动");
+        adapter.addFragment(new ProfileFragment(), "参与活动");
         viewPager.setAdapter(adapter);
     }
 
