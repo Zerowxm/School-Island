@@ -127,7 +127,7 @@
                             android:showDividers="middle"
                             android:divider="@drawable/divider"
                             android:layout_alignParentBottom="true"
-                            android:id="@+id/imageView"
+                            android:id="@+id/imageViewContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -139,6 +139,7 @@
             </LinearLayout>
         </ScrollView>
         <LinearLayout
+            android:paddingLeft="16dp"
             android:id="@+id/locationcontains"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
@@ -150,14 +151,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/add_location"
+                android:clickable="true"
                 >
                 <ImageView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_action_location_on"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="10dp"/>
                 <TextView
+                    android:id="@+id/location"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -176,6 +181,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp">
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
