@@ -26,15 +26,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/username"
 
-        android:text="Username"
+        android:text="未登录"
         android:clickable="true"
         android:layout_toRightOf="@id/user_photo"
         android:layout_alignBottom="@id/user_photo"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     <TextView
+        android:id="@+id/user_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="请登录"
         android:layout_toRightOf="@id/user_photo"
         android:layout_below="@id/username"
 

@@ -24,11 +24,10 @@ import wxm.com.androiddesign.R;
 public class HomeFragment extends Fragment{
 
     RecyclerView recyclerView;
-    MyRecycerAdapter myRecycerAdapter;
-    static ArrayList<ActivityItemData> datas=new ArrayList<ActivityItemData>();
+    static ArrayList<ActivityItemData> datas=new ArrayList<>();
     static {
-        for (int i=0;i<17;i++){
-            datas.add(new ActivityItemData(R.drawable.miao));
+        for (int i=0;i<5;i++){
+            datas.add(new ActivityItemData("name","tag","time","0","0",R.drawable.miao));
         }
     }
 
@@ -51,6 +50,6 @@ public class HomeFragment extends Fragment{
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new MyRecycerAdapter(datas));
+        recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
     }
 }

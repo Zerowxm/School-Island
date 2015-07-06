@@ -1,73 +1,168 @@
 package wxm.com.androiddesign.ui;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.User;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
-        private void setupToolbar(){
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+    @Bind(R.id.user_photo)CircleImageView user_photo;
+    @Bind(R.id.username_edit_text)EditText user_name;
+    @Bind(R.id.password_edit_text)EditText password;
+    @Bind(R.id.emial_edit_text)EditText emial;
+    @Bind(R.id.phone_edit_text)EditText phone;
+    @Bind(R.id.checkbox_man)CheckBox checkBox_man;
+    @Bind(R.id.checkbox_woman)CheckBox checkBox_woman;
+    private String selectedImgPath;
+    private Uri selectedImgUri;
+    String grant;
+
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("SignUp");
         setSupportActionBar(toolbar);
-        final ActionBar actionBar=getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setElevation(10);
-        //actionBar.setHomeAsUpIndicator(R.drawable.ic);
-        //actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setHomeButtonEnabled(true);
     }
-    private void setupTextInputLayout(){
-        TextInputLayout usernameLayout=(TextInputLayout)findViewById(R.id.username_text_input_layout);
+
+    private void setupTextInputLayout() {
+        TextInputLayout usernameLayout = (TextInputLayout) findViewById(R.id.username_text_input_layout);
         usernameLayout.setErrorEnabled(true);
 
         //usernameLayout.setError("请输入用户名");
 
-        TextInputLayout passwordLayout=(TextInputLayout)findViewById(R.id.password_text_input_layout);
-        passwordLayout.setErrorEnabled(false);
-        passwordLayout.setError("请输入密码");
+        TextInputLayout passwordLayout = (TextInputLayout) findViewById(R.id.password_text_input_layout);
+        passwordLayout.setErrorEnabled(true);
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        if(Build.VERSION.SDK_INT>= 21){
+        if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setExitTransition(new Explode());
         }
         super.onCreate(savedInstanceState);
-
-      //
         setContentView(R.layout.activity_signup);
         setupTextInputLayout();
+        ButterKnife.bind(this);
+        setup();
         setupToolbar();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
+    @OnClick(R.id.user_photo)
+    public void chooseImg(CircleImageView v){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(photoPickerIntent, 1);
+        user_photo.setImageURI(selectedImgUri);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onClick(View v) {
+        if(v instanceof CircleImageView){
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    @OnClick(R.id.fab)
+    public void signup(){
+        User user=new User(
+                user_name.getText().toString(),
+                password.getText().toString(),
+                emial.getText().toString(),
+                phone.getText().toString(),
+                grant
+        );
+        Log.d("WWW",user.getName());
+        finish();
+    }
+    private void setup(){
+        checkBox_man.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    checkBox_woman.setChecked(false);
+                    grant=checkBox_man.getText().toString();
+                }
+            }
+        });
+        checkBox_woman.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    checkBox_man.setChecked(false);
+                    grant=checkBox_woman.getText().toString();
+                }
+            }
+        });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK)
+        {
+            Uri chosenImageUri = data.getData();
+            selectedImgUri=chosenImageUri;
+            selectedImgPath=getPath(chosenImageUri);
+            Bitmap mBitmap = null;
+            try {
+                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), chosenImageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if( uri == null ) {
+            // TODO perform some logging or show user feedback
+            return null;
+        }
+        // try to retrieve the image from the media store first
+        // this will only work for images selected from gallery
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // this is our fallback here
+        return uri.getPath();
     }
 }
