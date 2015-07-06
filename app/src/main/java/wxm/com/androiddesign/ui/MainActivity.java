@@ -38,10 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static MainActivity instance = null;
 
-    FloatingActionButton fab;
-   // @Bind(R.id.user_name)TextView user_name;
-   // @Bind(R.id.user_email)TextView user_email;
-
+    @Bind(R.id.fab)FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupFab(){
 
-        fab=(FloatingActionButton)findViewById(R.id.fab);
        fab.setOnClickListener(this);
     }
 
@@ -189,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-int i=1;
     @Override
     public void onClick(View v) {
 

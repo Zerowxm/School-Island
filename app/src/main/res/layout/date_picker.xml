@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <DatePicker
+    <LinearLayout
+        android:id="@+id/picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <!--<DatePicker-->
+        <!--android:id="@+id/date_picker"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:calendarViewShown="false"-->
+
+        <!--android:layout_height="wrap_content"/>-->
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@id/picker"
         android:layout_width="match_parent"
-        android:calendarViewShown="false"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_alignRight="@id/picker"
+        android:layout_alignEnd="@id/picker">
+        <Button
+            android:layout_weight="1"
+            android:alpha="0.5"
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"/>
+        <Button
+            android:layout_weight="1"
+            android:alpha="0.5"
+            android:id="@+id/ok_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"/>
+    </LinearLayout>
 
-        android:layout_height="wrap_content"></DatePicker>
-
-</LinearLayout>
+</RelativeLayout>

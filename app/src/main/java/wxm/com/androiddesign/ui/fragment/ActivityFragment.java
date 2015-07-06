@@ -96,8 +96,8 @@ public class ActivityFragment extends Fragment{
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        //recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
+        //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
     }
 

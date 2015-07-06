@@ -18,6 +18,7 @@ import wxm.com.androiddesign.ui.fragment.ProfileFragment;
 public class UserAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class UserAcitivity extends AppCompatActivity {
         setupTabLayout();
     }
 
-    private void setupToolBar(){
+    private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -35,8 +36,9 @@ public class UserAcitivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("Username");
     }
+
     private void setupViewPager() {
-        viewPager=(ViewPager)findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ProfileFragment(), "个人信息");
         adapter.addFragment(new ProfileFragment(), "已发布活动");
@@ -44,8 +46,8 @@ public class UserAcitivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    private void setupTabLayout(){
-        TabLayout tab=(TabLayout)findViewById(R.id.tabs);
+    private void setupTabLayout() {
+        TabLayout tab = (TabLayout) findViewById(R.id.tabs);
         tab.setTabGravity(TabLayout.GRAVITY_FILL);
         tab.setupWithViewPager(viewPager);
         tab.setBackgroundColor(getResources().getColor(R.color.tab_color));

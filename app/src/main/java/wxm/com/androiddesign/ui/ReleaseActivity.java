@@ -1,8 +1,13 @@
 package wxm.com.androiddesign.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +27,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 import android.view.ViewGroup.LayoutParams;
+
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.IOException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,14 +41,24 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 
-public class ReleaseActivity extends AppCompatActivity implements View.OnClickListener {
+public class ReleaseActivity extends AppCompatActivity implements View.OnClickListener,
+        DatePickerFragment.DatePickCallBack {
 
-
-   @Bind(R.id.location)TextView locaton;
-    @Bind(R.id.add_image)ImageView add_image;
-    @Bind(R.id.imageViewContainer)LinearLayout imageContains;
-    @Bind(R.id.aty_content) EditText aty_content;
-   // @Bind(R.id.image_show)ViewFlipper viewFlipper;
+    public static final int TAKE_PHOTO=1;
+    public static final int CHOOSE_PHOTO=2;
+    public static final int GET_LOCATION=3;
+    private Uri selectedImgUri;
+    @Bind(R.id.time)
+    TextView timeText;
+    @Bind(R.id.location)
+    TextView locaton;
+    @Bind(R.id.add_image)
+    ImageView add_image;
+    @Bind(R.id.imageViewContainer)
+    LinearLayout imageContains;
+    @Bind(R.id.aty_content)
+    EditText aty_content;
+    // @Bind(R.id.image_show)ViewFlipper viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,72 +67,89 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
 
         setContentView(R.layout.release_activity_layout);
         ButterKnife.bind(this);
-
-//        viewFlipper.setAutoStart(true);
-//        viewFlipper.setFlipInterval(2000);
-//        if(viewFlipper.isAutoStart() && !viewFlipper.isFlipping()){
-//            viewFlipper.startFlipping();
-//        }
-
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null){
+        if (data == null) {
             return;
         }
-        String address=data.getStringExtra(LocationActivity.Address);
-        Double lattitute =data.getDoubleExtra(LocationActivity.Latitude,0);
-        Double Longtitute=data.getDoubleExtra(LocationActivity.Longtitude,0);
-        locaton.setText(address+lattitute+Longtitute);
+        if(requestCode == GET_LOCATION){
+            String address = data.getStringExtra(LocationActivity.Address);
+            Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
+            Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
+            locaton.setText(address + lattitute + Longtitute);
+        }
+
+        if (requestCode == CHOOSE_PHOTO) {
+            Uri chosenImageUri = data.getData();
+            selectedImgUri = chosenImageUri;
+            Bitmap mBitmap = null;
+            try {
+                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), chosenImageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(requestCode==TAKE_PHOTO){
+
+        }
     }
 
     @OnClick(R.id.add_time)
-    public void addTime(){
-        DatePickerFragment datePickerFragment=new DatePickerFragment();
-        datePickerFragment.show(getSupportFragmentManager(),"date");
+    public void addTime() {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "date");
     }
+
     @OnClick(R.id.add_location)
-    public void addLoc(){
-        Intent intent=new Intent(ReleaseActivity.this,LocationActivity.class);
-        startActivityForResult(intent, 0);
+    public void addLoc() {
+        Intent intent = new Intent(ReleaseActivity.this, LocationActivity.class);
+        startActivityForResult(intent, GET_LOCATION);
 
 
     }
-    @OnClick(R.id.add_image)
-    public void addImg(){
-        ImageView imageView=new ImageView(this);
-        //imageView.setImageResource(R.drawable.miao);
-        imageView.setBackgroundResource(R.drawable.miao);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        //viewFlipper.addView(imageView, new LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
-       // imageView.setLayoutParams(layoutParams);
 
+    @OnClick(R.id.add_image)
+    public void addImg() {
+
+
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(photoPickerIntent, CHOOSE_PHOTO);
+        ImageView imageView = new ImageView(this);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(this).load(selectedImgUri).into(imageView);
         imageContains.addView(imageView);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_release, menu);
-        return true;
+
+    @OnClick(R.id.take_photo)
+    public void takeImg(){
+        Intent cameraIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File img=getOutPhotoFile();
+        selectedImgUri=Uri.fromFile(getOutPhotoFile());
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,selectedImgUri);
+        startActivityForResult(cameraIntent, TAKE_PHOTO);
+        ImageView imageView = new ImageView(this);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(this).load(selectedImgUri).into(imageView);
+        imageContains.addView(imageView);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private File getOutPhotoFile(){
+        File directory=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                getPackageName());
+        if(!directory.exists()){
+            if(!directory.mkdirs()) {
+                Log.e("www", "eroo");
+                return null;
+            }
         }
 
-        return super.onOptionsItemSelected(item);
+        return new File(directory.getPath()+File.separator+"test");
     }
 
     @Override
@@ -120,5 +158,10 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
         MainActivity.instance.finish();
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public void addTime(String time) {
+        timeText.setText(time);
     }
 }

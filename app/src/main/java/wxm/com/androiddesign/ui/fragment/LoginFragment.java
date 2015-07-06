@@ -65,12 +65,6 @@ public class LoginFragment extends DialogFragment{
     public void onDetach() {
         super.onDetach();
     }
-        //@OnClick(R.id.fab_login)
-
-
-       // ((TextView)((MainActivity)getActivity()).findViewById(R.id.user_name)).setText(user_name.getText().toString());
-       // ((TextView)((MainActivity)getActivity()).findViewById(R.id.user_email)).setText("zerowxm@gmail.com");
-
 
     public interface LoginCallBack{
         public void onLongin(String name,String email);

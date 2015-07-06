@@ -22,9 +22,12 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="5dp"
-            android:elevation="5dp"
+            app:cardElevation="7dp"
+            android:elevation="7dp"
             android:divider="@color/divider"
+
+            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorHeight="3dp"
             />
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.view.ViewPager
