@@ -24,8 +24,6 @@ public class MyTextView extends TextView {
         styledAttrs.recycle();
 
 
-
-
 //        setTypeface(typeface);
         if (fontName != null) {
             Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/"+fontName);

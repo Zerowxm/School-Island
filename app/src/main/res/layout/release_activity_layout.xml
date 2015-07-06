@@ -76,11 +76,13 @@
                     android:background="#cccccc" />
 
                 <LinearLayout
+                    android:id="@+id/add_time"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="17dp"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
-
+                    android:clickable="true"
+                    android:background="@drawable/selectable_item_background"
                     >
 
                     <ImageView
@@ -155,19 +157,22 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
+
+                            android:showDividers="middle"
                             android:id="@+id/imageViewContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:divider="@drawable/divider"
                             android:orientation="horizontal"
-                            android:showDividers="middle"></LinearLayout>
+                            />
                     </HorizontalScrollView>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
         <LinearLayout
+            android:paddingLeft="16dp"
             android:id="@+id/locationcontains"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,9 +184,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp">
+                android:paddingLeft="16dp"
+                android:id="@+id/add_location"
+                android:clickable="true"
+                >
 
                 <ImageView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -189,9 +198,10 @@
                     android:src="@drawable/ic_action_location_on" />
 
                 <TextView
+                    android:id="@+id/location"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:text="add your location" />
             </LinearLayout>
 
@@ -209,6 +219,7 @@
                 android:paddingLeft="16dp">
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

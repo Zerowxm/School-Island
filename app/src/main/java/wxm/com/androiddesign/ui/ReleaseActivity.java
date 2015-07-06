@@ -28,33 +28,24 @@ import butterknife.OnClick;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
+import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 
 public class ReleaseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CircleImageView circleImageView;
-    private TextView textView;
-    private ImageView imageView;
-    private EditText editText1;
-    private EditText editText2;
 
-
+   @Bind(R.id.location)TextView locaton;
     @Bind(R.id.add_image)ImageView add_image;
-    @Bind(R.id.imageView)LinearLayout imageContains;
-    @Bind(R.id.aty_content)
-    EditText aty_content;
+    @Bind(R.id.imageViewContainer)LinearLayout imageContains;
+    @Bind(R.id.aty_content) EditText aty_content;
    // @Bind(R.id.image_show)ViewFlipper viewFlipper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.release_activity_layout);
-        circleImageView = (CircleImageView)findViewById(R.id.user_photo);
-        textView = (TextView)findViewById(R.id.user_name);
-        imageView = (ImageView)findViewById(R.id.sendButton);
-        editText1 = (EditText)findViewById(R.id.aty_name);
-        editText2 = (EditText)findViewById(R.id.aty_content);
-        imageView.setOnClickListener(this);
+        ButterKnife.bind(this);
 
 //        viewFlipper.setAutoStart(true);
 //        viewFlipper.setFlipInterval(2000);
@@ -64,6 +55,31 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        String address=data.getStringExtra(LocationActivity.Address);
+        Double lattitute =data.getDoubleExtra(LocationActivity.Latitude,0);
+        Double Longtitute=data.getDoubleExtra(LocationActivity.Longtitude,0);
+        locaton.setText(address+lattitute+Longtitute);
+    }
+
+    @OnClick(R.id.add_time)
+    public void addTime(){
+        DatePickerFragment datePickerFragment=new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(),"date");
+    }
+    @OnClick(R.id.add_location)
+    public void addLoc(){
+        Intent intent=new Intent(ReleaseActivity.this,LocationActivity.class);
+        startActivityForResult(intent, 0);
+
+
+    }
     @OnClick(R.id.add_image)
     public void addImg(){
         ImageView imageView=new ImageView(this);
@@ -100,7 +116,7 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        ActivityFragment.addActivity(textView.getText().toString(),"tag","time","0","0",R.drawable.miao);
+        //ActivityFragment.addActivity(textView.getText().toString(),"tag","time","0","0",R.drawable.miao);
         MainActivity.instance.finish();
         startActivity(new Intent(this, MainActivity.class));
         finish();

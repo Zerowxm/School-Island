@@ -13,8 +13,6 @@
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>
 
-
-        
 </style>
 
     <style name="FabStyle">

@@ -36,7 +36,16 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 //        // Create a new instance of DatePickerDialog and return it
 //        return new DatePickerDialog(getActivity(), this, year, month, day);
 //    }
+static DatePickerFragment newInstance(int num) {
+    DatePickerFragment f = new DatePickerFragment();
 
+    // Supply num input as an argument.
+    Bundle args = new Bundle();
+    args.putInt("num", num);
+    f.setArguments(args);
+
+    return f;
+}
 
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
