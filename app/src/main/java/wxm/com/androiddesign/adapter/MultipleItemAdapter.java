@@ -1,6 +1,7 @@
 package wxm.com.androiddesign.adapter;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof AtyViewHolder) {
+          //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
             ((AtyViewHolder) holder).activityItem.user_name.setText(activityItemData.name);
             ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(activityItemData.imageId);
             ((AtyViewHolder) holder).activityItem.total_comment.setText(activityItemData.commet);

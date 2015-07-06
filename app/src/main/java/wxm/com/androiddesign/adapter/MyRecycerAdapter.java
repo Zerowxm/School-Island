@@ -11,12 +11,16 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,38 +38,55 @@ import wxm.com.androiddesign.ui.DetailActivity;
 /**
  * Created by zero on 2015/6/25.
  */
-public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyViewHolder>{
-        private ArrayList<ActivityItemData> activityItems;
-
+public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyViewHolder> {
+    private ArrayList<ActivityItemData> activityItems;
+    private int lastPosition = -1;
     private static Fragment myFragment;
-    public MyRecycerAdapter(ArrayList<ActivityItemData> activityItemArrayList){
-        activityItems=activityItemArrayList;
+    private Context context;
+    public MyRecycerAdapter(ArrayList<ActivityItemData> activityItemArrayList,Context context) {
+        activityItems = activityItemArrayList;
+        this.context=context;
     }
+    public MyRecycerAdapter(ArrayList<ActivityItemData> activityItemArrayList) {
+        activityItems = activityItemArrayList;
+
+    }
+
 
     public MyRecycerAdapter(ArrayList<ActivityItemData> activityItemArrayList, Fragment fragment) {
         activityItems = activityItemArrayList;
         myFragment = fragment;
+        context=fragment.getActivity();
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        ActivityItemData item=activityItems.get(position);
+        ActivityItemData item = activityItems.get(position);
         holder.activityItem.user_name.setText(item.name);
         holder.activityItem.user_photo.setImageResource(item.imageId);
         holder.activityItem.total_comment.setText(item.commet);
         holder.activityItem.total_plus.setText(item.plus);
         holder.activityItem.publish_time.setText(item.time);
         holder.activityItem.activity_tag.setText(item.tag);
+        setAnimation(holder.cardView,position);
         //holder.activityItem.plus_fab.
         //holder.cardView.setClipToOutline(true);
         //holder.cardView.setElevation(holder.cardView.getContext().getResources().getDimension(R.dimen.cardview_elevation));
+    }
+
+    public void setAnimation(View viewtoAnimate, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewtoAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     @Override
@@ -73,28 +94,29 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         return activityItems.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ActivityItem activityItem;
         MyViewHolderClicks mListener;
         CardView cardView;
         Context context;
 
+
         public MyViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
             final String imgPath = null;
-            cardView=(CardView)itemView.findViewById(R.id.card_view);
-            activityItem=new ActivityItem();
-            activityItem.activity_tag=(TextView)itemView.findViewById(R.id.tag);
-            activityItem.comment_fab=(FloatingActionButton)itemView.findViewById(R.id.fab_comment);
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
+            activityItem = new ActivityItem();
+            activityItem.activity_tag = (TextView) itemView.findViewById(R.id.tag);
+            activityItem.comment_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_comment);
             //activityItem.comment_fab.setBackgroundTintList(itemView.getResources().getColorStateList(R.color.color_state_list));
-            activityItem.plus_fab=(FloatingActionButton)itemView.findViewById(R.id.fab_plus);
-            activityItem.publish_image=(ImageView)itemView.findViewById(R.id.acitivity_iamge);
-            activityItem.total_plus=(TextView)itemView.findViewById(R.id.total_plus);
-            activityItem.publish_time=(TextView)itemView.findViewById(R.id.publish_time);
-            activityItem.total_comment=(TextView)itemView.findViewById(R.id.total_comment);
-            activityItem.user_name=(TextView)itemView.findViewById(R.id.user_name);
-            activityItem.user_photo=(CircleImageView)itemView.findViewById(R.id.user_photo);
+            activityItem.plus_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_plus);
+            activityItem.publish_image = (ImageView) itemView.findViewById(R.id.acitivity_iamge);
+            activityItem.total_plus = (TextView) itemView.findViewById(R.id.total_plus);
+            activityItem.publish_time = (TextView) itemView.findViewById(R.id.publish_time);
+            activityItem.total_comment = (TextView) itemView.findViewById(R.id.total_comment);
+            activityItem.user_name = (TextView) itemView.findViewById(R.id.user_name);
+            activityItem.user_photo = (CircleImageView) itemView.findViewById(R.id.user_photo);
             activityItem.user_photo.setOnClickListener(this);
             itemView.setOnClickListener(this);
 
@@ -137,11 +159,18 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 MyDialog dialog = new MyDialog();
                 dialog.show(myFragment.getFragmentManager(), "123");
             } else if (v instanceof CardView) {
-                context.startActivity(new Intent(context, DetailActivity.class));
+                Intent detailIntent = new Intent(context, DetailActivity.class);
+                // detailIntent.putExtra(DetailActivity.)
+//                String tile="1";
+//                Pair<View,String>title=Pair.create(v,tile);
+//                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(context,
+//                        )
+                context.startActivity(detailIntent);
             }
         }
 
-        public static interface MyViewHolderClicks{
+
+        public static interface MyViewHolderClicks {
             public void onPhoto(CircleImageView imageView);
         }
     }

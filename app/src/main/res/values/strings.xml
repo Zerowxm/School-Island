@@ -32,4 +32,9 @@
     <string name="title_activity_release">ReleaseActivity</string>
     <string name="title_activity_cmt_datail">CmtDatailActivity</string>
 
+
+    <!--transition_list-->
+    <string name="transition_title">1</string>
+    <string name="transition_date">2</string>
+    <string name="transition_body">3</string>
 </resources>

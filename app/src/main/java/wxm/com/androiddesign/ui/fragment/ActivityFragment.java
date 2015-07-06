@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -98,7 +99,7 @@ public class ActivityFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         //recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
+        recyclerView.setAdapter(new MyRecycerAdapter(datas,(Context)getActivity()));
     }
 
     public static void addActivity(String mname,String mtag,String mtime,String mplus,String mcommet,int mimageId)
