@@ -14,6 +14,9 @@ public class ActivityItem {
     public TextView user_name;
     public TextView activity_tag;
     public TextView publish_time;
+    public TextView aty_name;
+    public TextView aty_content;
+    public TextView location;
     public ImageView publish_image;
     public FloatingActionButton plus_fab;
     public TextView total_plus;

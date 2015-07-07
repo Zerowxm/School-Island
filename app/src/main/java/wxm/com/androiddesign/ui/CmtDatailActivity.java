@@ -23,7 +23,7 @@ public class CmtDatailActivity extends AppCompatActivity {
     static ActivityItemData activityItemData;
     static ArrayList<CommentData> commentDatas=new ArrayList<CommentData>();
     static {
-        activityItemData = new ActivityItemData("name","tag","time","0","0",R.drawable.miao);
+        activityItemData = new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0");
         for (int i = 0; i < 5; i++) {
             commentDatas.add(new CommentData(R.drawable.miao,5,"I'm comment"));
         }

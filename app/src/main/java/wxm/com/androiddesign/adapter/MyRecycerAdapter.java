@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -39,7 +40,7 @@ import wxm.com.androiddesign.ui.DetailActivity;
  * Created by zero on 2015/6/25.
  */
 public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyViewHolder> {
-    private ArrayList<ActivityItemData> activityItems;
+    protected static ArrayList<ActivityItemData> activityItems;
     private int lastPosition = -1;
     private static Fragment myFragment;
     private Context context;
@@ -70,12 +71,16 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         ActivityItemData item = activityItems.get(position);
         holder.activityItem.user_name.setText(item.name);
-        holder.activityItem.user_photo.setImageResource(item.imageId);
-        holder.activityItem.total_comment.setText(item.commet);
+        holder.activityItem.user_photo.setImageResource(item.photoId);
+        holder.activityItem.total_comment.setText(item.comment);
+        holder.activityItem.aty_name.setText(item.atyName);
+        holder.activityItem.aty_content.setText(item.atyContent);
+        //holder.activityItem.location.setText(item.location);
         holder.activityItem.total_plus.setText(item.plus);
         holder.activityItem.publish_time.setText(item.time);
         holder.activityItem.activity_tag.setText(item.tag);
-        setAnimation(holder.cardView,position);
+        holder.activityItem.publish_image.setImageResource(item.atyImageId);
+        setAnimation(holder.cardView, position);
         //holder.activityItem.plus_fab.
         //holder.cardView.setClipToOutline(true);
         //holder.cardView.setElevation(holder.cardView.getContext().getResources().getDimension(R.dimen.cardview_elevation));
@@ -117,6 +122,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             activityItem.total_comment = (TextView) itemView.findViewById(R.id.total_comment);
             activityItem.user_name = (TextView) itemView.findViewById(R.id.user_name);
             activityItem.user_photo = (CircleImageView) itemView.findViewById(R.id.user_photo);
+            activityItem.aty_name = (TextView)itemView.findViewById(R.id.aty_name);
+            activityItem.aty_content = (TextView)itemView.findViewById(R.id.aty_content);
+           // activityItem.location = (TextView)itemView.findViewById(R.id.location);
             activityItem.user_photo.setOnClickListener(this);
             itemView.setOnClickListener(this);
 
@@ -159,11 +167,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 MyDialog dialog = new MyDialog();
                 dialog.show(myFragment.getFragmentManager(), "123");
             } else if (v instanceof CardView) {
-                String transitionName = context.getString(R.string.transition_body);
-//                ActivityOptionsCompat options=ActivityOptionsCompat.makeCustomAnimation(
-//
-//                )
+
                 Intent detailIntent = new Intent(context, DetailActivity.class);
+
+                detailIntent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData",activityItems.get(getAdapterPosition()));
+
+
                 context.startActivity(detailIntent);
             }
         }
