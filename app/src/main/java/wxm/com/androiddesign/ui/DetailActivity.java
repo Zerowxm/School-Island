@@ -22,6 +22,12 @@ import wxm.com.androiddesign.module.CommentData;
 
 public class DetailActivity extends AppCompatActivity {
 
+    public final static String ID = "ID";
+
+    public ActivityItemData mContact;
+
+// In the onCreate, after the setContentView method
+
     RecyclerView recyclerView;
     MultipleItemAdapter multipleItemAdapter = new MultipleItemAdapter(activityItemData,commentDatas);
     static ActivityItemData activityItemData;
@@ -35,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);

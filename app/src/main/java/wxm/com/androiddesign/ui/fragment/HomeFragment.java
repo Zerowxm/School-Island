@@ -51,5 +51,8 @@ public class HomeFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
         recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
+        RecyclerView.ItemAnimator animator =recyclerView.getItemAnimator();
+        animator.setAddDuration(2000);
+        animator.setRemoveDuration(1000);
     }
 }

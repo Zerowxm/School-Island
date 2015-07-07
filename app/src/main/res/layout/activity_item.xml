@@ -11,8 +11,9 @@
     card_view:contentPaddingBottom="10dp"
     android:id="@+id/card_view"
     card_view:cardUseCompatPadding="true"
-
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:transitionName="@string/transition_body"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"

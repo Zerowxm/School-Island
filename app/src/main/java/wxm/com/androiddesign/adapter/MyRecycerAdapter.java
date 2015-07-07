@@ -83,7 +83,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
     public void setAnimation(View viewtoAnimate, int position) {
         if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.item_anim);
             viewtoAnimate.startAnimation(animation);
             lastPosition = position;
         }
@@ -159,12 +159,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 MyDialog dialog = new MyDialog();
                 dialog.show(myFragment.getFragmentManager(), "123");
             } else if (v instanceof CardView) {
+                String transitionName = context.getString(R.string.transition_body);
+//                ActivityOptionsCompat options=ActivityOptionsCompat.makeCustomAnimation(
+//
+//                )
                 Intent detailIntent = new Intent(context, DetailActivity.class);
-                // detailIntent.putExtra(DetailActivity.)
-//                String tile="1";
-//                Pair<View,String>title=Pair.create(v,tile);
-//                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(context,
-//                        )
                 context.startActivity(detailIntent);
             }
         }
