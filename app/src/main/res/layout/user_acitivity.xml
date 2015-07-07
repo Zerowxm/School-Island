@@ -34,9 +34,9 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="30dp"
-
                     android:scaleType="centerCrop"
-                    android:src="@drawable/miao" />
+                    android:src="@drawable/miao"
+                    android:transitionName="@string/transition_user_photo"/>
 
                 <TextView
                     android:id="@id/user_name"

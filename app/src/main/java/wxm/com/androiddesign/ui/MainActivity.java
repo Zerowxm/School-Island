@@ -9,7 +9,10 @@ import android.support.design.widget.FloatingActionButton;
 
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -144,22 +147,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         header.setClickable(true);
         //header.setElevation(0.1);
 
-        CircleImageView userPhoto=(CircleImageView)findViewById(R.id.user_photo);
+        final CircleImageView userPhoto=(CircleImageView)findViewById(R.id.user_photo);
 
 
         userPhoto.setClickable(true);
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.closeDrawers();
-                showLoginDialog();
                if(((TextView)findViewById(R.id.username)).getText().equals("未登录")){
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 }
                 else {
-                   // Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
-                   // startActivity(intent);
+                   Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
+                   ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(
+                           MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
+                   );
+                   ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
                 }
             }
         });

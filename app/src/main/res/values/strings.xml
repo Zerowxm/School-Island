@@ -37,4 +37,5 @@
     <string name="transition_title">1</string>
     <string name="transition_date">2</string>
     <string name="transition_body">3</string>
+    <string name="transition_user_photo">tansition_user_photo</string>
 </resources>
