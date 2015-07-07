@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment{
     static ArrayList<ActivityItemData> datas=new ArrayList<>();
     static {
         for (int i=0;i<5;i++){
-            datas.add(new ActivityItemData("name","tag","time","0","0",R.drawable.miao));
+            datas.add(new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0"));
         }
     }
 

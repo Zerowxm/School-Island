@@ -60,8 +60,10 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof AtyViewHolder) {
           //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
             ((AtyViewHolder) holder).activityItem.user_name.setText(activityItemData.name);
-            ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(activityItemData.imageId);
-            ((AtyViewHolder) holder).activityItem.total_comment.setText(activityItemData.commet);
+            ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(activityItemData.photoId);
+            ((AtyViewHolder) holder).activityItem.aty_name.setText(activityItemData.atyName);
+            ((AtyViewHolder) holder).activityItem.aty_content.setText(activityItemData.atyContent);
+            ((AtyViewHolder) holder).activityItem.total_comment.setText(activityItemData.comment);
             ((AtyViewHolder) holder).activityItem.total_plus.setText(activityItemData.plus);
             ((AtyViewHolder) holder).activityItem.publish_time.setText(activityItemData.time);
             ((AtyViewHolder) holder).activityItem.activity_tag.setText(activityItemData.tag);
@@ -113,6 +115,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             activityItem.total_comment = (TextView) itemView.findViewById(R.id.total_comment);
             activityItem.user_name = (TextView) itemView.findViewById(R.id.user_name);
             activityItem.user_photo = (CircleImageView) itemView.findViewById(R.id.user_photo);
+            activityItem.aty_name = (TextView)itemView.findViewById(R.id.aty_name);
+            activityItem.aty_content = (TextView)itemView.findViewById(R.id.aty_content);
 
 
         }

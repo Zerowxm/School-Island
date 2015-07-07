@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,29 +24,42 @@ import wxm.com.androiddesign.module.CommentData;
 public class DetailActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    MultipleItemAdapter multipleItemAdapter = new MultipleItemAdapter(activityItemData,commentDatas);
-    static ActivityItemData activityItemData;
-    static ArrayList<CommentData>commentDatas=new ArrayList<CommentData>();
-    static {
-        activityItemData = new ActivityItemData("name","tag","time","0","0",R.drawable.miao);
-        for (int i = 0; i < 5; i++) {
-            commentDatas.add(new CommentData(R.drawable.miao,5,"I'm comment"));
-        }
-    }
+    MultipleItemAdapter multipleItemAdapter;// = new MultipleItemAdapter(activityItemData,commentDatas);
+   ActivityItemData activityItemData;
+  //  static ActivityItemData activityItemData = new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0");
+  ArrayList<CommentData>commentDatas=new ArrayList<CommentData>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+
+       // activityItemData = new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0");
+//       activityItemData = getIntent().getBundleExtra("atyData").getParcelable("Data");
+        //activityItemData = getIntent().getParcelableExtra("atyData");
+        Bundle bundle=getIntent().getExtras();
+        activityItemData=(ActivityItemData)(bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
+
+//        if(activityItemData==null) {
+//            Toast.makeText(this,"null!!!!!",Toast.LENGTH_LONG).show();
+//        }
+        for (int i = 0; i < 5; i++) {
+            commentDatas.add(new CommentData(R.drawable.miao,5,"I'm comment"));
+        }
+        multipleItemAdapter =  new MultipleItemAdapter(activityItemData,commentDatas);
+
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         final ActionBar actionBar=getSupportActionBar();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         addComment();
+
+
     }
 
     public void addComment()

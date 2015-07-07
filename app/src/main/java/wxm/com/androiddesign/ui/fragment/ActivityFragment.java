@@ -41,7 +41,7 @@ public class ActivityFragment extends Fragment{
 
     static {
         for (int i=0;i<5;i++){
-            datas.add(new ActivityItemData("name","tag","time","0","0",R.drawable.miao));
+            datas.add(new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0"));
         }
     }
 
@@ -102,8 +102,14 @@ public class ActivityFragment extends Fragment{
         recyclerView.setAdapter(new MyRecycerAdapter(datas,(Context)getActivity()));
     }
 
-    public static void addActivity(String mname,String mtag,String mtime,String mplus,String mcommet,int mimageId)
+//    public static void addActivity(int mphotoId,String mname,String mtag,String mtime,String matyName,String matyContent
+//            ,int matyImageId,String mlocation,String mplus,String mcommet)
+//    {
+//        datas.add(new ActivityItemData(mphotoId,mname,mtag,mtime,matyName,matyContent,matyImageId,mlocation,mplus,mcommet));
+//    }
+
+    public static void addActivity(ActivityItemData activityItemData)
     {
-        datas.add(new ActivityItemData(mname,mtag,mtime,mplus,mcommet,mimageId));
+        datas.add(activityItemData);
     }
 }
