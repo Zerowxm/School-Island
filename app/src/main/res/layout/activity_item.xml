@@ -12,7 +12,7 @@
     android:id="@+id/card_view"
     card_view:cardUseCompatPadding="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:transitionName="@string/transition_body"
+    android:transitionName="@string/transition_card"
     >
 
     <LinearLayout
@@ -113,24 +113,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <ImageView
-                    android:id="@+id/acitivity_iamge"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:src="@drawable/miao"
-                    android:clickable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"/>
-                <ImageView
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="270dp"-->
+                    <!--android:src="@drawable/www"-->
+                    <!--android:clickable="true"-->
+                    <!--android:background="?android:attr/selectableItemBackground"-->
+                    <!--android:foreground="?android:attr/selectableItemBackground"-->
+                    <!--android:scaleType="centerCrop"/>-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/acitivity_iamge"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="270dp"-->
+                    <!--android:src="@drawable/miao"-->
+                    <!--android:clickable="true"-->
+                    <!--android:background="?android:attr/selectableItemBackground"-->
+                    <!--android:foreground="?android:attr/selectableItemBackground"-->
+                    <!--android:scaleType="centerCrop"/>-->
 
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:src="@drawable/www"
-                    android:clickable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"/>
             </LinearLayout>
 
         </HorizontalScrollView>
