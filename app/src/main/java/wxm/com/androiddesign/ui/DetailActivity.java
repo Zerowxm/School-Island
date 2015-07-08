@@ -12,20 +12,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
-import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 
 public class DetailActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     MultipleItemAdapter multipleItemAdapter;// = new MultipleItemAdapter(activityItemData,commentDatas);
-    ActivityItemData activityItemData;
+    AtyItem atyItem;
     ArrayList<CommentData> commentDatas = new ArrayList<CommentData>();
 
     @Override
@@ -39,7 +38,7 @@ public class DetailActivity extends AppCompatActivity {
 //       activityItemData = getIntent().getBundleExtra("atyData").getParcelable("Data");
         //activityItemData = getIntent().getParcelableExtra("atyData");
         Bundle bundle = getIntent().getExtras();
-        activityItemData = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
+        atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
 
 //        if(activityItemData==null) {
 //            Toast.makeText(this,"null!!!!!",Toast.LENGTH_LONG).show();
@@ -47,7 +46,7 @@ public class DetailActivity extends AppCompatActivity {
         for (int i = 0; i < 5; i++) {
             commentDatas.add(new CommentData(R.drawable.miao, 5, "I'm comment"));
         }
-        multipleItemAdapter = new MultipleItemAdapter(activityItemData, commentDatas);
+        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
@@ -83,7 +82,7 @@ public class DetailActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new MultipleItemAdapter(activityItemData, commentDatas));
+        recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas));
         recyclerView.setAdapter(multipleItemAdapter);
     }
 

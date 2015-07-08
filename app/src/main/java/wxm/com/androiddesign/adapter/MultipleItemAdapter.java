@@ -1,7 +1,6 @@
 package wxm.com.androiddesign.adapter;
 
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 
 /**
@@ -28,7 +27,7 @@ import wxm.com.androiddesign.module.CommentData;
  */
 public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ActivityItemData activityItemData;
+    private AtyItem atyItem;
     private ArrayList<CommentData> commentDatas;
 
     public static enum ITEM_TYPE {
@@ -36,8 +35,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         COMMENT_TYPE
     }
 
-    public MultipleItemAdapter(ActivityItemData ActData, ArrayList<CommentData> commentDatas1) {
-        activityItemData = ActData;
+    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1) {
+        atyItem = ActData;
         commentDatas = commentDatas1;
     }
 
@@ -59,14 +58,14 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof AtyViewHolder) {
           //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
-            ((AtyViewHolder) holder).activityItem.user_name.setText(activityItemData.name);
-            ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(activityItemData.photoId);
-            ((AtyViewHolder) holder).activityItem.aty_name.setText(activityItemData.atyName);
-            ((AtyViewHolder) holder).activityItem.aty_content.setText(activityItemData.atyContent);
-            ((AtyViewHolder) holder).activityItem.total_comment.setText(activityItemData.comment);
-            ((AtyViewHolder) holder).activityItem.total_plus.setText(activityItemData.plus);
-            ((AtyViewHolder) holder).activityItem.publish_time.setText(activityItemData.time);
-            ((AtyViewHolder) holder).activityItem.activity_tag.setText(activityItemData.tag);
+            ((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.name);
+            ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.photoId);
+            ((AtyViewHolder) holder).activityItem.aty_name.setText(atyItem.atyName);
+            ((AtyViewHolder) holder).activityItem.aty_content.setText(atyItem.atyContent);
+            ((AtyViewHolder) holder).activityItem.total_comment.setText(atyItem.comment);
+            ((AtyViewHolder) holder).activityItem.total_plus.setText(atyItem.plus);
+            ((AtyViewHolder) holder).activityItem.publish_time.setText(atyItem.time);
+            ((AtyViewHolder) holder).activityItem.activity_tag.setText(atyItem.tag);
         } else if (holder instanceof CommentViewHolder) {
             CommentData item = commentDatas.get(position);
             ((CommentViewHolder) holder).user_name.setText(item.name);

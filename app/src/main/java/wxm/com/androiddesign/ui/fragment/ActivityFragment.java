@@ -1,44 +1,29 @@
 package wxm.com.androiddesign.ui.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.support.design.widget.FloatingActionButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.anim.MyItemAnimator;
-import wxm.com.androiddesign.listener.RecyclerItemClickListener;
-import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 
-import wxm.com.androiddesign.ui.DetailActivity;
 import wxm.com.androiddesign.utils.ScrollManager;
-import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 
 /**
@@ -52,13 +37,13 @@ public class ActivityFragment extends Fragment {
     MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    static ArrayList<ActivityItemData> activityItems = new ArrayList<ActivityItemData>();
+    static ArrayList<AtyItem> activityItems = new ArrayList<AtyItem>();
 
-    static {
-        for (int i = 0; i < 5; i++) {
-            activityItems.add(new ActivityItemData(R.drawable.miao, "name", "tag", "time", "atyname", "atycontent", R.drawable.miao, "location", "0", "0"));
-        }
-    }
+//    static {
+//        for (int i = 0; i < 5; i++) {
+//            activityItems.add(new AtyItem(R.drawable.miao, "name", "tag", "time", "atyname", "atycontent", R.drawable.miao, "location", "0", "0"));
+//        }
+//    }
 
     @Nullable
     @Override
@@ -96,7 +81,7 @@ public class ActivityFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Snackbar.make(mSwipeRefreshLayout, "refresh", Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(mSwipeRefreshLayout, "refresh", Snackbar.LENGTH_SHORT).show();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         }, 5000);
@@ -113,30 +98,10 @@ public class ActivityFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new MyItemAnimator());
         recyclerView.setAdapter(new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity()));
-//        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        if (view instanceof CircleImageView) {
-//                            Toast.makeText(view.getContext(), "photo", Toast.LENGTH_SHORT).show();
-//                        } else if (view instanceof ImageView) {
-//                            MyDialog dialog = new MyDialog();
-//                            dialog.show(getActivity().getSupportFragmentManager(), "123");
-//                        }
-//                        else if (view instanceof CardView) {
-//                        Intent intent = new Intent(getActivity(), DetailActivity.class);
-//                        intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
-//                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                                getActivity(), new Pair<View, String>(view.findViewById(R.id.card_view), getResources().getString(R.string.transition_card))
-//                        );
-                        //ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
-                        //}
-//                    }
-//                })
-//        );
-
     }
 
-    public static void addActivity(ActivityItemData activityItemData) {
-        activityItems.add(activityItemData);
+    public static void addActivity(AtyItem atyItem) {
+        activityItems.add(atyItem);
+        //activityItems.notify();
     }
 }

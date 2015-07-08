@@ -1,14 +1,18 @@
 package wxm.com.androiddesign.module;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zero on 2015/6/25.
  */
-public class ActivityItemData implements Parcelable {
-    public int photoId;
-    public String name;
+public class AtyItem extends User implements Parcelable {
+    //public int photoId;
+    //public String name;
     public String tag;
     public String time;
     public String atyName;
@@ -17,16 +21,17 @@ public class ActivityItemData implements Parcelable {
     public String location;
     public String plus;
     public String comment;
+    public List<Uri> imageUri;
 
-    public ActivityItemData(Parcel in)
+    public AtyItem(Parcel in)
     {
         readFromParcel(in);
     }
 
-    public ActivityItemData(int mphotoId,String mname,String mtag,String mtime,String matyName,String matyContent
-            ,int matyImageId,String mlocation,String mplus,String mcommet){
-        photoId=mphotoId;
-        name=mname;
+    public AtyItem(){;}
+
+    public AtyItem(String mtag, String mtime, String matyName, String matyContent
+            , int matyImageId, String mlocation, String mplus, String mcommet, List<Uri> uris){
         tag=mtag;
         time=mtime;
         atyName = matyName;
@@ -35,7 +40,7 @@ public class ActivityItemData implements Parcelable {
         location = mlocation;
         plus=mplus;
         comment=mcommet;
-        photoId=mphotoId;
+        imageUri=uris;
     }
 
     @Override
@@ -57,7 +62,11 @@ public class ActivityItemData implements Parcelable {
         dest.writeString(location);
         dest.writeString(plus);
         dest.writeString(comment);
+        dest.writeList(imageUri);
+    }
 
+    public void setImageUri(List<Uri> imageUri) {
+        this.imageUri = imageUri;
     }
 
     public void readFromParcel(Parcel in){
@@ -70,17 +79,59 @@ public class ActivityItemData implements Parcelable {
         atyImageId = in.readInt();
         location = in.readString();
         plus = in.readString();
+
         comment = in.readString();
+        in.readList(imageUri,List.class.getClassLoader());
     }
 
     public static final Parcelable.Creator CREATOR =
             new Parcelable.Creator() {
-                public ActivityItemData createFromParcel(Parcel in) {
-                    return new ActivityItemData(in);
+                public AtyItem createFromParcel(Parcel in) {
+                    return new AtyItem(in);
                 }
 
-                public ActivityItemData[] newArray(int size) {
-                    return new ActivityItemData[size];
+                public AtyItem[] newArray(int size) {
+                    return new AtyItem[size];
                 }
             };
+
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setAtyName(String atyName) {
+        this.atyName = atyName;
+    }
+
+    public void setAtyContent(String atyContent) {
+        this.atyContent = atyContent;
+    }
+
+    public void setAtyImageId(int atyImageId) {
+        this.atyImageId = atyImageId;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setPlus(String plus) {
+        this.plus = plus;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

@@ -8,37 +8,26 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ViewFlipper;
-import android.view.ViewGroup.LayoutParams;
 
 import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 
@@ -47,7 +36,10 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     public static final int TAKE_PHOTO=1;
     public static final int CHOOSE_PHOTO=2;
     public static final int GET_LOCATION=3;
+
+    private List<Uri> uriList=new ArrayList<Uri>();
     private Uri selectedImgUri;
+    AtyItem atyItem=new AtyItem();
     @Bind(R.id.sendButton)
     ImageView send;
     @Bind(R.id.user_photo)
@@ -110,9 +102,10 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @OnClick(R.id.sendButton)
     public void send() {
-        ActivityItemData activityItemData = new ActivityItemData(R.drawable.miao,userName.getText().toString(),"tag",timeText.getText().toString()
-                ,atyName.getText().toString(),atyContent.getText().toString(),R.drawable.miao,locaton.getText().toString(),"0","0");
-        ActivityFragment.addActivity(activityItemData);
+        AtyItem atyItem = new AtyItem("tag",timeText.getText().toString()
+                ,atyName.getText().toString(),atyContent.getText().toString(),
+                R.drawable.miao,locaton.getText().toString(),"0","0",uriList);
+        ActivityFragment.addActivity(atyItem);
         MainActivity.instance.finish();
         startActivity(new Intent(ReleaseActivity.this, MainActivity.class));
         finish();
@@ -142,6 +135,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Glide.with(this).load(selectedImgUri).into(imageView);
         imageContains.addView(imageView);
+        uriList.add(selectedImgUri);
     }
 
     @OnClick(R.id.take_photo)

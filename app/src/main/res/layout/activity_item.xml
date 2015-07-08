@@ -26,8 +26,8 @@
         android:padding="10dp"
         >
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="27dp"
-            android:layout_height="27dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:id="@+id/user_photo"
             android:src="@drawable/miao"
             android:padding="10dp"
@@ -63,6 +63,7 @@
                 />
         </LinearLayout>
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -89,11 +90,12 @@
         <wxm.com.androiddesign.widget.MyTextView
             android:id="@+id/aty_name"
             android:layout_below="@id/user_photo"
-            android:paddingLeft="10dp"
+            android:paddingLeft="22dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="活动主题"
-            fonts:typeface="Roboto-BoldItalic.ttf"
+            fonts:typeface="Roboto-Bold.ttf"
+
             />
     <TextView
         android:layout_width="match_parent"
@@ -101,7 +103,7 @@
         android:id="@+id/aty_content"
         android:text="活动内容"
         android:layout_below="@id/user_photo"
-        android:padding="10dp"/>
+        android:padding="22dp"/>
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -112,27 +114,7 @@
                 android:id="@+id/imageViewContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="270dp"-->
-                    <!--android:src="@drawable/www"-->
-                    <!--android:clickable="true"-->
-                    <!--android:background="?android:attr/selectableItemBackground"-->
-                    <!--android:foreground="?android:attr/selectableItemBackground"-->
-                    <!--android:scaleType="centerCrop"/>-->
-                <!--<ImageView-->
-                    <!--android:id="@+id/acitivity_iamge"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="270dp"-->
-                    <!--android:src="@drawable/miao"-->
-                    <!--android:clickable="true"-->
-                    <!--android:background="?android:attr/selectableItemBackground"-->
-                    <!--android:foreground="?android:attr/selectableItemBackground"-->
-                    <!--android:scaleType="centerCrop"/>-->
-
-            </LinearLayout>
-
+                android:orientation="horizontal"/>
         </HorizontalScrollView>
 
         <RelativeLayout
