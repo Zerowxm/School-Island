@@ -35,6 +35,7 @@ import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.module.ActivityItemData;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.DetailActivity;
+import wxm.com.androiddesign.ui.MainActivity;
 
 /**
  * Created by zero on 2015/6/25.
@@ -168,16 +169,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 dialog.show(myFragment.getFragmentManager(), "123");
             } else if (v instanceof CardView) {
                 Intent detailIntent = new Intent(context, DetailActivity.class);
-               // Bundle atyBundle = new Bundle();
-                //atyBundle.putParcelable("Data",activityItems.get(getAdapterPosition()));
-               // detailIntent.putExtra("atyData", atyBundle);
                 detailIntent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData",activityItems.get(getAdapterPosition()));
-
-                // detailIntent.putExtra(DetailActivity.)
-//                String tile="1";
-//                Pair<View,String>title=Pair.create(v,tile);
-//                ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(context,
-//                        )
                 context.startActivity(detailIntent);
             }
         }

@@ -99,7 +99,10 @@ public class ActivityFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         //recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new MyRecycerAdapter(datas,(Context)getActivity()));
+       // recyclerView.setAdapter(new MyRecycerAdapter(datas,(Context)getActivity()));
+        recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
+
+
     }
 
 //    public static void addActivity(int mphotoId,String mname,String mtag,String mtime,String matyName,String matyContent
