@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
+import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 
@@ -20,19 +22,17 @@ public class CmtDatailActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    static AtyItem atyItem;
-    static ArrayList<CommentData> commentDatas=new ArrayList<CommentData>();
-//    static {
-//        activityItemData = new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0");
-//        for (int i = 0; i < 5; i++) {
-//            commentDatas.add(new CommentData("12:00","I'm comment"));
-//        }
-//    }
+
+    List<AtyItem> atyItemList=new ArrayList<AtyItem>();
+
+
 
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new MultipleItemAdapter(atyItem,commentDatas,this));
+
+        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList,this));
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,6 @@ public class CmtDatailActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         final ActionBar actionBar=getSupportActionBar();
-
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         setupRecyclerView(recyclerView);

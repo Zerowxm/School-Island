@@ -112,19 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.nav_user_setting:
-                                startActivity(new Intent(MainActivity.this,ReleaseActivity.class));
-                                return true;
-                            case R.id.nav_setting:
-                                Intent intent=new Intent(MainActivity.this,CmtDatailActivity.class);
-                                startActivity(intent);
-                                Snackbar.make(drawerLayout, "设置",
-                                        Snackbar.LENGTH_SHORT).show();
 
                                 return true;
-                            case R.id.user_photo:
-                                Intent intent2=new Intent(MainActivity.this,SignUpActivity.class);
-                                startActivity(intent2);
-                                Snackbar.make(drawerLayout, "个人信息",
+                            case R.id.nav_setting:
+
+                                Snackbar.make(drawerLayout, "设置",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             default:

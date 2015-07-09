@@ -84,6 +84,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof AtyViewHolder) {
 
+
           //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
             ((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.name);
             ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.photoId);
@@ -93,7 +94,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AtyViewHolder) holder).activityItem.total_plus.setText(atyItem.plus);
             ((AtyViewHolder) holder).activityItem.publish_time.setText(atyItem.time);
             ((AtyViewHolder) holder).activityItem.activity_tag.setText(atyItem.tag);
-
+            ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
             for (int i=0;i<atyItem.imageUri.size();i++){
                 ImageView imageView=(ImageView)activity.getLayoutInflater().inflate(R.layout.image_item,null);
                 WindowManager windowManager=activity.getWindowManager();

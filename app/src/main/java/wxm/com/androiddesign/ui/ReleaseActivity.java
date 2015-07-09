@@ -38,15 +38,17 @@ import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
-public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack {
+public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack{
+
 
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
     public static final int GET_LOCATION = 3;
     private LinearLayout.LayoutParams layoutParams;
-    private ArrayList<Uri> uriList = new ArrayList<Uri>();
+    private List<Uri> uriList = new ArrayList<Uri>();
     private Uri selectedImgUri;
     AtyItem atyItem = new AtyItem();
+
     @Bind(R.id.sendButton)
     ImageView send;
     @Bind(R.id.user_photo)
@@ -163,7 +165,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{chooseImage});
         photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(chooserIntent, CHOOSE_PHOTO);
-
     }
 
     @OnClick(R.id.take_photo)
@@ -190,4 +191,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     public void addTime(String time) {
         timeText.setText(time);
     }
+
+
 }

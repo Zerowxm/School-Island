@@ -21,7 +21,7 @@ public class AtyItem extends User implements Parcelable {
     public String location;
     public String plus;
     public String comment;
-    public ArrayList<Uri> imageUri;
+    public List<Uri> imageUri;
 
     public AtyItem(Parcel in) {
         imageUri = new ArrayList<>();
@@ -31,7 +31,7 @@ public class AtyItem extends User implements Parcelable {
     public AtyItem(){;}
 
     public AtyItem(String mtag, String mtime, String matyName, String matyContent
-            , int matyImageId, String mlocation, String mplus, String mcommet, ArrayList<Uri> uris){
+            , int matyImageId, String mlocation, String mplus, String mcommet, List<Uri> uris){
         tag=mtag;
         time=mtime;
         atyName = matyName;
@@ -94,13 +94,6 @@ public class AtyItem extends User implements Parcelable {
                 }
             };
 
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setTag(String tag) {
         this.tag = tag;
