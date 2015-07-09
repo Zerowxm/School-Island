@@ -13,26 +13,26 @@ import java.util.ArrayList;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
-import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 
 public class CmtDatailActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    static ActivityItemData activityItemData;
+    static AtyItem atyItem;
     static ArrayList<CommentData> commentDatas=new ArrayList<CommentData>();
-    static {
-        activityItemData = new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0");
-        for (int i = 0; i < 5; i++) {
-            commentDatas.add(new CommentData(R.drawable.miao,5,"I'm comment"));
-        }
-    }
+//    static {
+//        activityItemData = new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0");
+//        for (int i = 0; i < 5; i++) {
+//            commentDatas.add(new CommentData("12:00","I'm comment"));
+//        }
+//    }
 
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new MultipleItemAdapter(activityItemData,commentDatas));
+        recyclerView.setAdapter(new MultipleItemAdapter(atyItem,commentDatas,this));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,88 +3,74 @@
     package="wxm.com.androiddesign">
 
     <application
-            android:name=".ui.MyApplication"
+        android:name=".ui.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-
-            android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
-                android:name="com.baidu.lbsapi.API_KEY"
-                android:value="YAGdsDL1e8ZUdVazpPPFhCpG" />
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="YAGdsDL1e8ZUdVazpPPFhCpG" />
 
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.SignUpActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login"/>
         <activity
-            android:name=".ui.UserAcitivity"
+            android:name=".ui.UserAcitivity" />
 
-            android:label="@string/title_activity_user_acitivity" >
-        </activity>
         <activity android:name=".ui.MyIntro">
 
         </activity>
         <activity
-            android:name=".ui.DetailActivity"
-            android:label="@string/title_activity_detail"></activity>
-        <activity
+            android:name=".ui.DetailActivity"/>
 
+        <activity
             android:name=".LinkWebActivity"
             android:label="@string/title_activity_link_web">
             <intent-filter>
-                <!-- <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.DEFAULT" />-->
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="app"
                     android:scheme="https" />
             </intent-filter>
-
-    </activity>
-
+        </activity>
 
         <activity
             android:name=".ui.ReleaseActivity"
-            android:label="@string/title_activity_release"></activity>
+            android:label="@string/title_activity_release"/>
         <activity
-            android:name=".ui.CmtDatailActivity"
-            android:label="@string/title_activity_cmt_datail">
+            android:name=".ui.CmtDatailActivity"/>
 
-        </activity>
 
-        <activity android:name=".ui.LocationActivity"/>
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
-        </service>
+        <activity android:name=".ui.LocationActivity" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"></service>
     </application>
 
 
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <!-- SDK1.5需要android.permission.GET_TASKS权限判断本程序是否为当前运行的应用? -->
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>

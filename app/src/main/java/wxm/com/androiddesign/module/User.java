@@ -2,15 +2,22 @@ package wxm.com.androiddesign.module;
 
 import android.util.Log;
 
+import wxm.com.androiddesign.R;
+
 /**
  * Created by zero on 2015/7/3.
  */
 public class User {
-    String name;
-    String password;
-    String email;
-    String number;
-    String grant;
+    public static String name="wu";
+    public String password;
+    public String email;
+    public String number;
+    public String grant;
+    public static int photoId= R.drawable.miao;
+
+    public User(){
+
+    }
 
 
     public User(String name,String password,String email,String number,String grant){

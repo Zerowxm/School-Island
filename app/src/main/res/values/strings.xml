@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android Design</string>
+    <string name="app_name">来嗨</string>
 
     <string name="action_settings">Settings</string>
 
@@ -10,16 +10,8 @@
     <string name="navigation_sub_item_2">sub_item2</string>
     <string name="title_activity_main2">Main2Activity</string>
 
-    <string name="hello_world">Hello world!</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="cheese_ipsum">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-    the big cheese.</string>
     <string name="checkin">Checkin</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_user_acitivity">UserAcitivity</string>
@@ -36,5 +28,6 @@
     <!--transition_list-->
     <string name="transition_title">1</string>
     <string name="transition_date">2</string>
-    <string name="transition_body">3</string>
+    <string name="transition_card">transition_card</string>
+    <string name="transition_user_photo">tansition_user_photo</string>
 </resources>

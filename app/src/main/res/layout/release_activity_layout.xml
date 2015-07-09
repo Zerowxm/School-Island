@@ -25,7 +25,9 @@
                 <RelativeLayout
                     android:background="@drawable/selectable_item_background"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    >
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@id/user_photo"
@@ -60,6 +62,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:clickable="true"
                         android:id="@+id/sendButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

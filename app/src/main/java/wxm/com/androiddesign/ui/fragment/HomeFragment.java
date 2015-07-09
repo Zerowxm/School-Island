@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import wxm.com.androiddesign.module.ActivityItemData;
+import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 
@@ -24,12 +24,12 @@ import wxm.com.androiddesign.R;
 public class HomeFragment extends Fragment{
 
     RecyclerView recyclerView;
-    static ArrayList<ActivityItemData> datas=new ArrayList<>();
-    static {
-        for (int i=0;i<5;i++){
-            datas.add(new ActivityItemData(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0"));
-        }
-    }
+    static ArrayList<AtyItem> activityItems=new ArrayList<>();
+//    static {
+//        for (int i=0;i<5;i++){
+//            activityItems.add(new AtyItem(R.drawable.miao,"name","tag","time","atyname","atycontent",R.drawable.miao,"location","0","0"));
+//        }
+//    }
 
     @Nullable
     @Override
@@ -50,6 +50,14 @@ public class HomeFragment extends Fragment{
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new MyRecycerAdapter(datas,this));
+        recyclerView.setAdapter(new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity()));
+        RecyclerView.ItemAnimator animator =recyclerView.getItemAnimator();
+        animator.setAddDuration(2000);
+        animator.setRemoveDuration(1000);
+    }
+
+    public static void addActivity(AtyItem atyItem) {
+        activityItems.add(atyItem);
+        //activityItems.notify();
     }
 }
