@@ -95,13 +95,6 @@ public class AtyItem extends User implements Parcelable {
                 }
             };
 
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setTag(String tag) {
         this.tag = tag;

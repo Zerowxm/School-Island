@@ -193,5 +193,19 @@
     <!--android:src="@drawable/ic_action_mode_edit"-->
     <!--android:layout_margin="@dimen/fab_margin"-->
     <!--android:clickable="true"/>-->
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:borderWidth="0dp"
+        app:elevation="4dp"
+        app:backgroundTint="@color/accent"
+        android:src="@drawable/ic_action_mode_edit"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        app:pressedTranslationZ="12dp"
+        />
 </android.support.design.widget.CoordinatorLayout>

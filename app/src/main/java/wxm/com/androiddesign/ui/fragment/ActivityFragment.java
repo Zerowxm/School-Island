@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.ui.fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.support.design.widget.FloatingActionButton;
 
 
 import java.util.ArrayList;
+import java.util.logging.SocketHandler;
 
 import wxm.com.androiddesign.anim.MyItemAnimator;
 import wxm.com.androiddesign.module.AtyItem;
@@ -30,6 +32,12 @@ import wxm.com.androiddesign.utils.ScrollManager;
  * Created by zero on 2015/6/25.
  */
 public class ActivityFragment extends Fragment {
+    public static final int Home=0;
+    public static final int Hot=1;
+    public static final int Join=2;
+    public static final int Release=3;
+
+    private int type;
 
     RecyclerView recyclerView;
 
@@ -37,13 +45,25 @@ public class ActivityFragment extends Fragment {
     MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+    public ActivityFragment(){
+
+    }
+
+    public static ActivityFragment newInstance(int type){
+        ActivityFragment fragment=new ActivityFragment();
+        Bundle args=new Bundle();
+        args.putInt("Type",type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     static ArrayList<AtyItem> activityItems = new ArrayList<AtyItem>();
 
-//    static {
-//        for (int i = 0; i < 5; i++) {
-//            activityItems.add(new AtyItem(R.drawable.miao, "name", "tag", "time", "atyname", "atycontent", R.drawable.miao, "location", "0", "0"));
-//        }
-//    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        type=getArguments().getInt("Type",Home);
+    }
 
     @Nullable
     @Override
@@ -55,7 +75,7 @@ public class ActivityFragment extends Fragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ScrollManager manager = new ScrollManager();
         manager.attach(recyclerView);
-        manager.addView((FloatingActionButton) getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
+       // manager.addView((FloatingActionButton) getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
 
         return v;
@@ -81,6 +101,20 @@ public class ActivityFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+//                activityItems.add(new AtyItem("tag",""
+//                        ,"","",
+//                switch (type){
+//                    case Home:
+//                        Snackbar.make(getView(),"Home", Snackbar.LENGTH_SHORT).show();
+//                        break;
+//                    case Hot:
+//                        Snackbar.make(getView(),"Hot", Snackbar.LENGTH_SHORT).show();
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                        R.drawable.miao,"","0","0",new ArrayList<Uri>()));
+                myRecycerAdapter.notifyDataSetChanged();
                 //Snackbar.make(mSwipeRefreshLayout, "refresh", Snackbar.LENGTH_SHORT).show();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -97,7 +131,8 @@ public class ActivityFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new MyItemAnimator());
-        recyclerView.setAdapter(new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity()));
+        myRecycerAdapter=new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity());
+        recyclerView.setAdapter(myRecycerAdapter);
     }
 
     public static void addActivity(AtyItem atyItem) {

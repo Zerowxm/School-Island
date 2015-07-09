@@ -1,11 +1,13 @@
 package wxm.com.androiddesign.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
@@ -14,17 +16,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
+
+import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,6 +45,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private String selectedImgPath;
     private Uri selectedImgUri;
     String grant;
+    User user;
 
 
     private void setupToolbar() {
@@ -80,6 +81,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setupToolbar();
     }
 
+
+
     @OnClick(R.id.user_photo)
     public void chooseImg(CircleImageView v){
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -95,18 +98,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         }
     }
-
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
     @OnClick(R.id.fab)
     public void signup(){
-        User user=new User(
+        user=new User(
                 user_name.getText().toString(),
                 password.getText().toString(),
                 emial.getText().toString(),
                 phone.getText().toString(),
                 grant
         );
-        Log.d("WWW",user.getName());
-        finish();
+        //GetJsonFromServer.getJsonObject();
+        String json=user.createJson().toString();
+        String data=
+                "{\"number\":\"1111\",\"photo\":2130837598,\"email\":\"3232\",\"password\":\"3232\",\"name\":\"3232\"}";
+        User user2=new Gson().fromJson(data,User.class);
+        String json2=new Gson().toJson(user2);
+        Log.d("json",json2);
+
+        //finish();
     }
     private void setup(){
         checkBox_man.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

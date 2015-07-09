@@ -12,7 +12,10 @@ import android.view.MenuItem;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
+import wxm.com.androiddesign.ui.fragment.CmtListFragment;
+import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
+import wxm.com.androiddesign.ui.fragment.UserListFragment;
 
 
 public class UserAcitivity extends AppCompatActivity {
@@ -34,21 +37,23 @@ public class UserAcitivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Username");
+        collapsingToolbar.setTitle("");
     }
 
     private void setupViewPager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ProfileFragment(), "个人信息");
-        adapter.addFragment(new ProfileFragment(), "已发布活动");
-        adapter.addFragment(new ProfileFragment(), "参与活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot), "已发布活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot), "参与活动");
+        adapter.addFragment(new CmtListFragment(),"社区");
+        adapter.addFragment(new UserListFragment(),"关注用户");
         viewPager.setAdapter(adapter);
     }
 
     private void setupTabLayout() {
         TabLayout tab = (TabLayout) findViewById(R.id.tabs);
-        tab.setTabGravity(TabLayout.GRAVITY_FILL);
+        //tab.setTabGravity(TabLayout.MODE_FIXED|TabLayout.MODE_SCROLLABLE);
         tab.setupWithViewPager(viewPager);
         tab.setBackgroundColor(getResources().getColor(R.color.tab_color));
         //tab.setTabTextColors(R.color.color_state_list);

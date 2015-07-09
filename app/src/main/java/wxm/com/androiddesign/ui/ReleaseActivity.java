@@ -38,7 +38,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     public static final int GET_LOCATION=3;
 
     private List<Uri> uriList=new ArrayList<Uri>();
-    private Uri selectedImgUri;
+    private Uri selectedImgUri=Uri.EMPTY;
     AtyItem atyItem=new AtyItem();
     @Bind(R.id.sendButton)
     ImageView send;
@@ -133,9 +133,16 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         startActivityForResult(photoPickerIntent, CHOOSE_PHOTO);
         ImageView imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Glide.with(this).load(selectedImgUri).into(imageView);
-        imageContains.addView(imageView);
-        uriList.add(selectedImgUri);
+        if(!Uri.EMPTY.equals(selectedImgUri)){
+            selectedImgUri=Uri.parse("content://com.android.providers.media.documents/document/image%3A44996");
+            Glide.with(this).load(selectedImgUri).into(imageView);
+            imageContains.addView(imageView);
+            Log.d("URi",selectedImgUri.toString());
+            uriList.add(selectedImgUri);
+        }
+
+
+        //uriList.add(Uri.parse("http://blogs-images.forbes.com/thomasbrewster/files/2014/09/Android1.png"));
     }
 
     @OnClick(R.id.take_photo)

@@ -1,23 +1,9 @@
-/*
- * Copyright (C) ${YEAR} Antonio Leiva
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package wxm.com.androiddesign.utils;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +13,10 @@ import android.view.animation.Interpolator;
 
 import java.util.HashMap;
 
+
+/**
+ * Created by zero on 2015/7/8.
+ */
 public class ScrollManager extends RecyclerView.OnScrollListener {
 
     private static final int MIN_SCROLL_TO_HIDE = 10;
@@ -53,7 +43,8 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
         this.initialOffset = initialOffset;
     }
 
-    @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+    @Override
+    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         totalDy += dy;
 
         if (totalDy < initialOffset) {
@@ -99,6 +90,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
 
     /**
      * Takes height + margins
+     *
      * @param view View to translate
      * @return translation in pixels
      */
@@ -120,5 +112,6 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
         slideInAnimation.setDuration(view.getContext().getResources().getInteger(android.R.integer.config_mediumAnimTime));
         slideInAnimation.setInterpolator(interpolator);
         slideInAnimation.start();
+
     }
 }

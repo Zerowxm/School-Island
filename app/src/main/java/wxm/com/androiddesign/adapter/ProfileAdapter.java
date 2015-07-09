@@ -29,7 +29,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position){
-        return position == 0? INFO.ordinal(): CMT.ordinal();
+        //return position == 0? INFO.ordinal(): CMT.ordinal();
+        return INFO.ordinal();
     }
 
     @Override
@@ -39,11 +40,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     R.layout.user_base_info,parent,false
             ));
         }
-        if (viewType==ITEM_TYPE.CMT.ordinal()){
-            return new CmtsViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.communities,parent,false
-            ));
-        }
+//        if (viewType==ITEM_TYPE.CMT.ordinal()){
+//            return new CmtsViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+//                    R.layout.communities,parent,false
+//            ));
+//        }
         return null;
     }
 
