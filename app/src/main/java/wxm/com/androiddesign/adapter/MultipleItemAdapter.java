@@ -67,7 +67,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AtyViewHolder) holder).activityItem.publish_time.setText(atyItem.time);
             ((AtyViewHolder) holder).activityItem.activity_tag.setText(atyItem.tag);
         } else if (holder instanceof CommentViewHolder) {
-            CommentData item = commentDatas.get(position);
+            CommentData item = commentDatas.get(position-1);
             ((CommentViewHolder) holder).user_name.setText(item.name);
             ((CommentViewHolder) holder).time.setText(item.time);
             ((CommentViewHolder) holder).user_photo.setImageResource(item.imageId);
@@ -77,7 +77,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return commentDatas.size();
+        return commentDatas.size()+1;
     }
 
     @Override

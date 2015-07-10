@@ -34,6 +34,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -131,6 +132,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             holder.imageViewContainer.addView(imageView);
         }
+//        TextView joinText=new TextView(activity);
+//        joinText.setText("joined");
+//        holder.joinContainer.addView(joinText);
         setAnimation(holder.cardView, position);
     }
 
@@ -152,7 +156,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         MyViewHolderClicks mListener;
         CardView cardView;
         LinearLayout imageViewContainer;
-
 
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
