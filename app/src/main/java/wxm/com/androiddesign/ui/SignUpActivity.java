@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
-    @OnClick(R.id.fab)
+    @OnClick(R.id.signup_btn)
     public void signup(){
         user=new User(
                 user_name.getText().toString(),

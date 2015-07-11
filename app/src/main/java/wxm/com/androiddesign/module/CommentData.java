@@ -3,20 +3,20 @@ package wxm.com.androiddesign.module;
 /**
  * Created by hdchen on 2015/7/1.
  */
-public class CommentData{
-    public String name;
-    public String tag;
+public class CommentData extends User{
     public String time;
-    public int imageId;
     public String comment;
-    int number;
 
-    public CommentData(int imageId,int number,String comment) {
-        name="zero";
-        tag="anime";
-        time="7h";
-        this.imageId=imageId;
-        this.number = number;
+    public CommentData(String time,String comment) {
+        this.time=time;
         this.comment = comment;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

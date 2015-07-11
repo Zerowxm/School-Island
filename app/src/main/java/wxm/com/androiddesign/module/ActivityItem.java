@@ -22,4 +22,5 @@ public class ActivityItem {
     public TextView total_plus;
     public FloatingActionButton comment_fab;
     public TextView total_comment;
+    public FloatingActionButton share_fab;
 }

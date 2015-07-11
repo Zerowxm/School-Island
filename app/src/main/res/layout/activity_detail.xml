@@ -42,7 +42,6 @@
             android:layout_gravity="bottom|end"
             android:layout_weight="0.1"
             android:gravity="bottom"
-
             android:orientation="vertical">
 
             <include layout="@layout/comment_layout" />

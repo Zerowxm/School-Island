@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -15,6 +18,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +26,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -43,7 +49,10 @@ import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.DetailActivity;
+
+import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
+
 
 /**
  * Created by zero on 2015/6/25.
@@ -74,8 +83,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onPicture(ImageView picture) {
-                MyDialog dialog = new MyDialog();
-                dialog.show(activity.getSupportFragmentManager(), "showPicture");
             }
 
             @Override
@@ -93,17 +100,24 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                 activity.startActivity(intent);
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
-//                );
-//                ActivityCompat.startActivity(activity, intent, options.toBundle());
+            }
+
+            @Override
+            public void onJoinBtn(Button button) {
+                if("加入".equals(button.getText().toString())){
+                    button.setText("已加入");
+                    button.setTextColor(activity.getResources().getColor(R.color.primary));
+                }else {
+                    button.setText("加入");
+                    button.setTextColor(activity.getResources().getColor(R.color.black));
+                }
             }
         });
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        AtyItem item = activityItems.get(position);
+        final AtyItem item = activityItems.get(position);
         holder.activityItem.user_name.setText(item.name);
         holder.activityItem.user_photo.setImageResource(item.photoId);
         holder.activityItem.total_comment.setText(item.comment);
@@ -112,6 +126,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.activityItem.total_plus.setText(item.plus);
         holder.activityItem.publish_time.setText(item.time);
         holder.activityItem.activity_tag.setText(item.tag);
+
         for (int i = 0; i < item.imageUri.size(); i++) {
             ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image_item, null);
             WindowManager windowManager = activity.getWindowManager();
@@ -122,19 +137,26 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
             Glide.with(activity).load(item.imageUri.get(i)).into(imageView);
             imageView.setLayoutParams(layoutParams);
+            imageView.setTag(i);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Uri uri = item.imageUri.get((Integer)v.getTag());
                     MyDialog dialog = new MyDialog();
+                    dialog.setUri(uri);
                     dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                    MyDialog dialog = new MyDialog();
+//                    v.setDrawingCacheEnabled(true);
+//                    Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
+//                    dialog.setBitmap(bitmap);
+//                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                    v.setDrawingCacheEnabled(false);
                 }
             });
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             holder.imageViewContainer.addView(imageView);
         }
-//        TextView joinText=new TextView(activity);
-//        joinText.setText("joined");
-//        holder.joinContainer.addView(joinText);
+
         setAnimation(holder.cardView, position);
     }
 
@@ -156,6 +178,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         MyViewHolderClicks mListener;
         CardView cardView;
         LinearLayout imageViewContainer;
+        @Bind(R.id.join)Button mjoinBtn;
 
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
@@ -178,6 +201,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             cardView.setOnClickListener(this);
             activityItem.comment_fab.setOnClickListener(this);
             activityItem.user_photo.setOnClickListener(this);
+            mjoinBtn.setOnClickListener(this);
             setTextView(activityItem.aty_content);
         }
 
@@ -191,6 +215,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         @Override
         public void onClick(View v) {
             if (v instanceof CircleImageView) {
+
                 mListener.onUserPhoto((CircleImageView) v);
             } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_comment)) {
                 mListener.onComment((FloatingActionButton) v, getAdapterPosition());
@@ -198,14 +223,16 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 mListener.onPicture((ImageView) v);
             } else if (v instanceof CardView) {
                 mListener.onCard((CardView) v, getLayoutPosition());
+            }else if(v instanceof Button){
+                mListener.onJoinBtn((Button)v);
             }
         }
 
         @OnClick(R.id.fab_plus)
+
         public void onPlus() {
             SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
             Boolean isPlus = prefs.getBoolean("isPlus", false);
-
             if (isPlus) {
                 activityItem.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
                 SharedPreferences.Editor editor = prefs.edit();
@@ -248,6 +275,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             //            public void onPlus(FloatingActionButton fab);
             public void onComment(FloatingActionButton fab, int adapterPosition);
+
+            public void onJoinBtn(Button button);
         }
     }
 }

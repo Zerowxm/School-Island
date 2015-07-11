@@ -13,18 +13,48 @@ import java.util.List;
 public class AtyItem extends User implements Parcelable {
     //public int photoId;
     //public String name;
-    public String tag;
-    public String time;
-    public String atyName;
-    public String atyContent;
+    public String tag="1";
+    public String time="1";
+    public String atyName="1";
+    public String atyContent="1";
     public int atyImageId;
-    public String location;
-    public String plus;
-    public String comment;
-    public List<Uri> imageUri;
+    public String location="1";
+    public String plus="1";
+    public String comment="1";
+    public List<Uri> imageUri=new ArrayList<Uri>(){{
+        add(Uri.parse("http://www.baidu.com"));
+    }};
+    public List<String> image=new ArrayList<String>(){{
+        add("aa");
+        add("bb");
+    }};
 
-    public AtyItem(Parcel in)
-    {
+    public void setImageUri(List<Uri> imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public void setImage(List<String> image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "AtyItem{" +
+                "tag='" + tag + '\'' +
+                ", time='" + time + '\'' +
+                ", atyName='" + atyName + '\'' +
+                ", atyContent='" + atyContent + '\'' +
+                ", atyImageId=" + atyImageId +
+                ", location='" + location + '\'' +
+                ", plus='" + plus + '\'' +
+                ", comment='" + comment + '\'' +
+                ", imageUri=" + imageUri +
+                ", image=" + image +
+                '}';
+    }
+
+    public AtyItem(Parcel in) {
+        imageUri = new ArrayList<>();
         readFromParcel(in);
     }
 
@@ -65,7 +95,7 @@ public class AtyItem extends User implements Parcelable {
         dest.writeList(imageUri);
     }
 
-    public void setImageUri(List<Uri> imageUri) {
+    public void setImageUri(ArrayList<Uri> imageUri) {
         this.imageUri = imageUri;
     }
 
@@ -79,13 +109,12 @@ public class AtyItem extends User implements Parcelable {
         atyImageId = in.readInt();
         location = in.readString();
         plus = in.readString();
-
         comment = in.readString();
         in.readList(imageUri,List.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator CREATOR =
-            new Parcelable.Creator() {
+    public static final Parcelable.Creator<AtyItem> CREATOR =
+            new Parcelable.Creator<AtyItem>() {
                 public AtyItem createFromParcel(Parcel in) {
                     return new AtyItem(in);
                 }
@@ -126,5 +155,45 @@ public class AtyItem extends User implements Parcelable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getAtyName() {
+        return atyName;
+    }
+
+    public String getAtyContent() {
+        return atyContent;
+    }
+
+    public int getAtyImageId() {
+        return atyImageId;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getPlus() {
+        return plus;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public List<Uri> getImageUri() {
+        return imageUri;
+    }
+
+    public List<String> getImage() {
+        return image;
     }
 }

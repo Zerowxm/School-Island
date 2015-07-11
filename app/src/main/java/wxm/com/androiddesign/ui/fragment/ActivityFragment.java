@@ -10,12 +10,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.support.design.widget.FloatingActionButton;
 
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.logging.SocketHandler;
@@ -71,7 +74,6 @@ public class ActivityFragment extends Fragment {
         View v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
-
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ScrollManager manager = new ScrollManager();
         manager.attach(recyclerView);
@@ -101,26 +103,15 @@ public class ActivityFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                activityItems.add(new AtyItem("tag",""
-//                        ,"","",
-//                switch (type){
-//                    case Home:
-//                        Snackbar.make(getView(),"Home", Snackbar.LENGTH_SHORT).show();
-//                        break;
-//                    case Hot:
-//                        Snackbar.make(getView(),"Hot", Snackbar.LENGTH_SHORT).show();
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                        R.drawable.miao,"","0","0",new ArrayList<Uri>()));
+
                 myRecycerAdapter.notifyDataSetChanged();
-                //Snackbar.make(mSwipeRefreshLayout, "refresh", Snackbar.LENGTH_SHORT).show();
+
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         }, 5000);
         //load complete
-        //onContentLoadComplete();
+
+        onContentLoadComplete();
     }
 
     private void onContentLoadComplete() {
@@ -131,12 +122,8 @@ public class ActivityFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new MyItemAnimator());
+
         myRecycerAdapter=new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity());
         recyclerView.setAdapter(myRecycerAdapter);
-    }
-
-    public static void addActivity(AtyItem atyItem) {
-        activityItems.add(atyItem);
-        //activityItems.notify();
     }
 }

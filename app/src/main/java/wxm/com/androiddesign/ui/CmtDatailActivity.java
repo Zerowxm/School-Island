@@ -22,13 +22,17 @@ public class CmtDatailActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
+
     List<AtyItem> atyItemList=new ArrayList<AtyItem>();
+
 
 
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
+
         recyclerView.setAdapter(new MyRecycerAdapter(atyItemList,this));
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

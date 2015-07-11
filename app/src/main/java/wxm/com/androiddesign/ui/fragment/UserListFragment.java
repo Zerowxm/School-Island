@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.CmyAdapter;
 import wxm.com.androiddesign.adapter.UserAdapter;
+import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
@@ -30,6 +31,12 @@ public class UserListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+        }));
         recyclerView.setAdapter(new UserAdapter());
     }
 }

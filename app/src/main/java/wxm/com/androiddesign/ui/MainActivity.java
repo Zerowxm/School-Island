@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         instance = this;
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, new FragmentParent()).commit();
-
+            getSupportFragmentManager().beginTransaction().add(R.id.content, new HomeFragment()).commit();
         }
 
         ButterKnife.bind(this);
