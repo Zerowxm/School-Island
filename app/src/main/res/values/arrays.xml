@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="action_bar_spinner">
+        <item>厦门</item>
+        <item>遵义</item>
+        <item>北京</item>
+        <item>东京</item>
+    </string-array>
+</resources>

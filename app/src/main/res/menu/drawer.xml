@@ -1,44 +1,13 @@
-<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
-    <!--<group android:checkableBehavior="single">-->
-        <!--<item-->
-            <!--android:id="@+id/navigation_item_1"-->
-            <!--android:checked="false"-->
-            <!--android:icon="@drawable/ic_visibility_black_18dp"-->
-            <!--android:title="@string/navigation_item_1"/>-->
-        <!--<item-->
-            <!--android:id="@+id/navigation_item_2"-->
-            <!--android:checkable="true"-->
-            <!--android:checked="false"-->
-            <!--android:icon="@drawable/ic_search_white_18dp"-->
-            <!--android:title="@string/navigation_item_2"/>-->
-    <!--</group>-->
 
-    <!--<item-->
-        <!--android:id="@+id/navigation_subheader"-->
-        <!--android:title="@string/navigation_subheader">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/navigation_sub_item_1"-->
-                <!--android:checkable="true"-->
-                <!--android:checked="false"-->
-                <!--android:icon="@drawable/ic_search_black_18dp"-->
-                <!--android:title="@string/navigation_sub_item_1"/>-->
-            <!--<item-->
-                <!--android:id="@+id/navigation_sub_item_2"-->
-                <!--android:checkable="true"-->
-                <!--android:checked="false"-->
-                <!--android:icon="@drawable/ic_visibility_black_18dp"-->
-                <!--android:title="@string/navigation_sub_item_2"/>-->
-        <!--</menu>-->
-    <!--</item>-->
-<!--</menu>-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_dashboard"
             android:title="首页" />
+
         <item
             android:id="@+id/nav_explore"
             android:icon="@drawable/ic_event"

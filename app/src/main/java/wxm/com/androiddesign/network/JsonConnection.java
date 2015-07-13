@@ -35,7 +35,7 @@ public class JsonConnection {
                     HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
-                    connection.setRequestMethod("POST");
+                    connection.setRequestMethod("GET");
                     connection.setUseCaches(false);
                     connection.connect();
                     connection.setConnectTimeout(5000);

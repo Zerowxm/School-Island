@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,20 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,6 +42,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.SignUpActivity;
 
@@ -67,7 +76,7 @@ public class LoginFragment extends DialogFragment {
 
         loginCallBack.onLongin(user_name.getText().toString(), "zerowxm@gmail.com");
         //dismiss();
-        //myClickHandler();
+        myClickHandler();
     }
 
     public void myClickHandler() {
@@ -85,20 +94,20 @@ public class LoginFragment extends DialogFragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            if (params[0].equals("123")) {
-                return true;
-            }
-            else{
-
-                return false;
-            }
+            User user=new User();
+            user.setAction("login");
+            user.setUserName(params[0]);
+            user.setUserPassword(params[1]);
+            Log.d("gson",new Gson().toJson(user));
+            getJSON(new Gson().toJson(user));
+            return true;
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result==true){
-                dismiss();
+                //dismiss();
                 //username_layout.setError("用户名错误");
             }
             else {
@@ -107,49 +116,66 @@ public class LoginFragment extends DialogFragment {
         }
     }
 
-    public String getJSON(String url, int timeout) {
-        HttpURLConnection c = null;
-        try {
-            URL u = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
-            c = (HttpURLConnection) u.openConnection();
+    public void getJSON(String json) {
 
+            BufferedWriter bufferedWriter;
+            BufferedReader bufferedReader;
+            StringBuffer result = new StringBuffer();
+            try {
+                URL murl = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
+                //URL murl = new URL("http://101.200.191.149:8080/FirstWeb/HttpTestServlet");
+                HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
+                connection.setRequestProperty("Content-type", "application/json");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+                connection.setUseCaches(false);
+                connection.setReadTimeout(5000);
+                connection.setConnectTimeout(5000);
 
-            c.setRequestMethod("GET");
-            c.setRequestProperty("Content-length", "0");
-            c.setUseCaches(false);
-            c.setAllowUserInteraction(false);
-            c.setConnectTimeout(timeout);
-            c.setReadTimeout(timeout);
-            c.connect();
-            int status = c.getResponseCode();
+                Log.d("connection", "no");
+                connection.connect();
+                Log.d("connection", "yes1");
+                bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+                bufferedWriter.write(json);
+                //bufferedWriter
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                Log.d("connection", "yes2");
+                InputStream ins ;
+                Log.d("connection", "yes2.5");
+                int status = connection.getResponseCode();
 
-            switch (status) {
-                case 200:
-                case 201:
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line + "\n");
-                    }
-                    br.close();
-                    return sb.toString();
-            }
-
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (c != null) {
-                try {
-                    c.disconnect();
-                } catch (Exception ex) {
-                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+                if(status >= HttpStatus.SC_BAD_REQUEST) {
+                    ins = connection.getErrorStream();
+                    Log.d("connection", "yes2.6");
                 }
+                else {
+                    ins = connection.getInputStream();
+                    Log.d("connection", "yes2.7");
+                }
+               bufferedReader = new BufferedReader(new InputStreamReader(ins));
+                Log.d("connection", "yes3");
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result.append(line);
+                }
+                Log.d("connection", result.toString());
+                ObjectInputStream objinput = new ObjectInputStream(connection.getInputStream());
+                Log.d("connection", "yes3");
+                String result2 = (String)objinput.readObject();
+                Log.d("connection", "yes4");
+                Log.d("connection", result.toString());
+
+
+            } catch (IOException e) {
+                Log.d("Exception", e.toString());
+                Log.d("connection", "Excption");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                Log.d("connection", "con");
             }
-        }
-        return null;
     }
 
     @OnClick(R.id.signup_btn)

@@ -33,6 +33,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.network.JsonConnection;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -64,7 +65,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setupTextInputLayout() {
         emailInput.setErrorEnabled(true);
-        emailInput.setError("邮箱格式错误");
     }
 
     @Override
@@ -75,8 +75,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        setupTextInputLayout();
+
         ButterKnife.bind(this);
+        setupTextInputLayout();
         setup();
         setupToolbar();
     }
@@ -122,12 +123,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if(phone.getText().toString().length()!=11){
             photoInput.setErrorEnabled(true);
             photoInput.setError("电话号码错误");
+        }else {
+            photoInput.setErrorEnabled(false);
         }
         user=new User("signup",user_name.getText().toString(),password.getText().toString(),
                 emial.getText().toString(),phone.getText().toString(),
                 grant,R.drawable.miao);
         Gson gson=new Gson();
         Log.d("gson",gson.toJson(user));
+        JsonConnection.getJsonObject(gson.toJson(user));
+        JsonConnection.submitJson(gson.toJson(user));
     }
     private void setup(){
         checkBox_man.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -169,6 +169,61 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         return activityItems.size();
     }
 
+    public void setModels(List<AtyItem> models){
+        activityItems=models;
+    }
+
+    public AtyItem removeItem(int position){
+        final AtyItem atyItem=activityItems.remove(position);
+        notifyItemRemoved(position);
+        return atyItem;
+    }
+
+    public void addItem(int position,AtyItem atyItem){
+        activityItems.add(position,atyItem);
+        notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition,int toPosition){
+        final AtyItem atyItem=activityItems.remove(fromPosition);
+        activityItems.add(toPosition,atyItem);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public void animateTo(List<AtyItem> models){
+        applyAndAnimateRemovals(models);
+        applyAndAnimateAdditions(models);
+        applyAndAnimateMovedItems(models);
+    }
+
+    private void applyAndAnimateRemovals(List<AtyItem> newModels) {
+        for (int i = activityItems.size() - 1; i >= 0; i--) {
+            final AtyItem model = activityItems.get(i);
+            if (!newModels.contains(model)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<AtyItem> newModels) {
+        for (int i = 0, count = newModels.size(); i < count; i++) {
+            final AtyItem model = newModels.get(i);
+            if (!activityItems.contains(model)) {
+                addItem(i, model);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<AtyItem> newModels) {
+        for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+            final AtyItem model = newModels.get(toPosition);
+            final int fromPosition = activityItems.indexOf(model);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ActivityItem activityItem;
         MyViewHolderClicks mListener;
@@ -178,6 +233,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         Button mjoinBtn;
         @Bind(R.id.total_comment)TextView total_comment;
         @Bind(R.id.total_share)TextView total_share;
+
+
 
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
@@ -266,6 +323,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(Intent.createChooser(intent, "Share"));
         }
+
+
 
         public interface MyViewHolderClicks {
             public void onUserPhoto(CircleImageView user_photo);
