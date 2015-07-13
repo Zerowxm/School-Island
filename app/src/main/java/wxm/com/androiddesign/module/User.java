@@ -2,6 +2,8 @@ package wxm.com.androiddesign.module;
 
 import android.util.Log;
 
+import com.google.gson.annotations.Expose;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,16 +13,24 @@ import wxm.com.androiddesign.R;
  * Created by zero on 2015/7/3.
  */
 public class User {
+    @Expose
     public String action;
+    @Expose
     public String userName;
+    @Expose
     public String userPassword;
+    @Expose
     public String userEmail;
+    @Expose
     public String userPhone;
+    @Expose
     public String userGender;
+    @Expose
     public int userIcon;
-    public boolean userIsBaned;
 
-    public User(String action, String userName, String userPassword, String userEmail, String userPhone, String userGender, int userIcon, boolean userIsBaned) {
+    public User(String action, String userName, String userPassword,
+                String userEmail, String userPhone,
+                String userGender, int userIcon) {
         this.action = action;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -28,7 +38,6 @@ public class User {
         this.userPhone = userPhone;
         this.userGender = userGender;
         this.userIcon = userIcon;
-        this.userIsBaned = userIsBaned;
     }
 
     public String getAction() {
@@ -85,14 +94,6 @@ public class User {
 
     public void setUserIcon(int userIcon) {
         this.userIcon = userIcon;
-    }
-
-    public boolean isUserIsBaned() {
-        return userIsBaned;
-    }
-
-    public void setUserIsBaned(boolean userIsBaned) {
-        this.userIsBaned = userIsBaned;
     }
 
     public User() {

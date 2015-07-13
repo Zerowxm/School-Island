@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -35,6 +36,8 @@ import wxm.com.androiddesign.module.User;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
+    public static final int CHOOSE_PHOTO=0x1;
+
     @Bind(R.id.user_photo)CircleImageView user_photo;
     @Bind(R.id.username_edit_text)EditText user_name;
     @Bind(R.id.password_edit_text)EditText password;
@@ -42,7 +45,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Bind(R.id.phone_edit_text)EditText phone;
     @Bind(R.id.checkbox_man)CheckBox checkBox_man;
     @Bind(R.id.checkbox_woman)CheckBox checkBox_woman;
-    private String selectedImgPath;
+    @Bind(R.id.password_edit_text_again)EditText password_again;
+    @Bind(R.id.password_text_input_layout)TextInputLayout passwordInput;
+    @Bind(R.id.phone_text_input_layout)TextInputLayout photoInput;
+    @Bind(R.id.email_text_input_layout)TextInputLayout emailInput;
     private Uri selectedImgUri;
     String grant;
     User user;
@@ -57,14 +63,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setupTextInputLayout() {
-        TextInputLayout usernameLayout = (TextInputLayout) findViewById(R.id.username_text_input_layout);
-        usernameLayout.setErrorEnabled(true);
-
-        //usernameLayout.setError("请输入用户名");
-
-        TextInputLayout passwordLayout = (TextInputLayout) findViewById(R.id.password_text_input_layout);
-        passwordLayout.setErrorEnabled(true);
-
+        emailInput.setErrorEnabled(true);
+        emailInput.setError("邮箱格式错误");
     }
 
     @Override
@@ -87,9 +87,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void chooseImg(CircleImageView v){
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         photoPickerIntent.setType("image/*");
+        Intent chooseImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        chooseImage.setType("image/*");
+        Intent chooserIntent = Intent.createChooser(photoPickerIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{chooseImage});
         photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(photoPickerIntent, 1);
-        user_photo.setImageURI(selectedImgUri);
+        startActivityForResult(chooserIntent, CHOOSE_PHOTO);
     }
 
     @Override
@@ -104,13 +107,27 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
+
+//    String action, String userName, String userPassword,
+//    String userEmail, String userPhone,
+//    String userGender, int userIcon
     @OnClick(R.id.signup_btn)
     public void signup(){
-        user=new User();
-        //GetJsonFromServer.getJsonObject();
-
-
-        //finish();
+        if(!password.getText().toString().equals(password_again.getText().toString())){
+            passwordInput.setErrorEnabled(true);
+            passwordInput.setError("密码输入不一致");
+        }else {
+            passwordInput.setErrorEnabled(false);
+        }
+        if(phone.getText().toString().length()!=11){
+            photoInput.setErrorEnabled(true);
+            photoInput.setError("电话号码错误");
+        }
+        user=new User("signup",user_name.getText().toString(),password.getText().toString(),
+                emial.getText().toString(),phone.getText().toString(),
+                grant,R.drawable.miao);
+        Gson gson=new Gson();
+        Log.d("gson",gson.toJson(user));
     }
     private void setup(){
         checkBox_man.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -125,9 +142,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         checkBox_woman.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     checkBox_man.setChecked(false);
-                    grant=checkBox_woman.getText().toString();
+                    grant = checkBox_woman.getText().toString();
                 }
             }
         });
@@ -140,33 +157,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         {
             Uri chosenImageUri = data.getData();
             selectedImgUri=chosenImageUri;
-            selectedImgPath=getPath(chosenImageUri);
-            Bitmap mBitmap = null;
-            try {
-                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), chosenImageUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Glide.with(this).load(selectedImgUri).into(user_photo);
         }
     }
 
-    public String getPath(Uri uri) {
-        // just some safety built in
-        if( uri == null ) {
-            // TODO perform some logging or show user feedback
-            return null;
-        }
-        // try to retrieve the image from the media store first
-        // this will only work for images selected from gallery
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // this is our fallback here
-        return uri.getPath();
-    }
 }

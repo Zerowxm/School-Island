@@ -65,9 +65,9 @@ public class LoginFragment extends DialogFragment {
     @OnClick(R.id.login_btn)
     public void Login() {
 
-        //loginCallBack.onLongin(user_name.getText().toString(), "zerowxm@gmail.com");
+        loginCallBack.onLongin(user_name.getText().toString(), "zerowxm@gmail.com");
         //dismiss();
-        myClickHandler();
+        //myClickHandler();
     }
 
     public void myClickHandler() {
@@ -98,8 +98,8 @@ public class LoginFragment extends DialogFragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result==true){
-                //dismiss();
-                username_layout.setError("用户名错误");
+                dismiss();
+                //username_layout.setError("用户名错误");
             }
             else {
                 username_layout.setError("用户名错误");

@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                if(((TextView)findViewById(R.id.username)).getText().equals("未登录")){
                     drawerLayout.closeDrawers();
                     showLoginDialog();

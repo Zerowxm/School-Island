@@ -50,14 +50,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof CmtsViewHolder){
 
-        }
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 1;
     }
 
     class BaseInfoViewHolder extends RecyclerView.ViewHolder{
@@ -73,15 +71,4 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    class CmtsViewHolder extends RecyclerView.ViewHolder{
-
-
-
-        public CmtsViewHolder(View itemView) {
-            super(itemView);
-           // ButterKnife.bind(this,itemView);
-
-
-        }
-    }
 }

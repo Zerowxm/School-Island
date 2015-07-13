@@ -22,7 +22,7 @@ import java.net.URL;
  * Created by zero on 2015/7/9.
  */
 public class JsonConnection {
-    public static void getJsonObject(final String uri) {
+    public static void getJsonObject(String json) {
         StringBuffer stringBuffer=null;
         new Thread(new Runnable() {
             @Override
@@ -31,7 +31,7 @@ public class JsonConnection {
                 StringBuffer stringBuffer;
                 String line;
                 try {
-                    URL murl = new URL(uri);
+                    URL murl = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
                     HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
@@ -41,18 +41,18 @@ public class JsonConnection {
                     connection.setConnectTimeout(5000);
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
-
+                        bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        stringBuffer = new StringBuffer();
+                        while ((line = bufferedReader.readLine()) != null) {
+                            stringBuffer.append(line + "\n");
+                        }
+                        bufferedReader.close();
+                        Log.d("json","http"+stringBuffer.toString());
 
                     } else {
                         Log.i("json", "访问失败" + responseCode);
                     }
-                    bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    stringBuffer = new StringBuffer();
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuffer.append(line + "\n");
-                    }
-                    bufferedReader.close();
-                    Log.d("json","http"+stringBuffer.toString());
+
 
                 } catch (IOException e) {
                     Log.d("Exception",e.toString());
@@ -64,13 +64,16 @@ public class JsonConnection {
 
     }
 
-    public static void submitJson(final String json, final String uri){
+    public static void submitJson(final String json){
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 BufferedWriter bufferedWriter;
+                BufferedReader bufferedReader;
+                StringBuffer result=new StringBuffer();
                 try {
-                    URL murl = new URL(uri);
+                    URL murl = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
                     HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
@@ -83,6 +86,12 @@ public class JsonConnection {
                     bufferedWriter.flush();
                     bufferedWriter.close();
 
+                    bufferedReader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    while ((line=bufferedReader.readLine())!=null){
+                        result.append(line);
+                    }
+
 
                 } catch (IOException e) {
                     Log.d("Exception",e.toString());
@@ -91,6 +100,7 @@ public class JsonConnection {
             }
 
         }).start();
+        //return result.toString();
     }
 
 }

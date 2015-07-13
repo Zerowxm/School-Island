@@ -90,7 +90,6 @@ public class HomeFragment extends Fragment{
         RecyclerView.ItemAnimator animator =recyclerView.getItemAnimator();
         animator.setAddDuration(2000);
         animator.setRemoveDuration(1000);
-        JsonConnection.getJsonObject("C:\\Users\\zero\\Desktop\\wxm.json");
     }
 
 

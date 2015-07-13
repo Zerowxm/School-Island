@@ -4,6 +4,7 @@ package wxm.com.androiddesign.module;
  * Created by hdchen on 2015/7/1.
  */
 public class CommentData extends User{
+    User user;
     public String time;
     public String comment;
 
