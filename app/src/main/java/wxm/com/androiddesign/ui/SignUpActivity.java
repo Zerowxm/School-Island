@@ -106,20 +106,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
     @OnClick(R.id.signup_btn)
     public void signup(){
-        user=new User(
-                user_name.getText().toString(),
-                password.getText().toString(),
-                emial.getText().toString(),
-                phone.getText().toString(),
-                grant
-        );
+        user=new User();
         //GetJsonFromServer.getJsonObject();
-        String json=user.createJson().toString();
-        String data=
-                "{\"number\":\"1111\",\"photo\":2130837598,\"email\":\"3232\",\"password\":\"3232\",\"name\":\"3232\"}";
-        User user2=new Gson().fromJson(data,User.class);
-        String json2=new Gson().toJson(user2);
-        Log.d("json",json2);
+
 
         //finish();
     }

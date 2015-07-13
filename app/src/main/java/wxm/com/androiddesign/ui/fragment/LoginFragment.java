@@ -110,7 +110,7 @@ public class LoginFragment extends DialogFragment {
     public String getJSON(String url, int timeout) {
         HttpURLConnection c = null;
         try {
-            URL u = new URL(url);
+            URL u = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
             c = (HttpURLConnection) u.openConnection();
 
 

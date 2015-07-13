@@ -86,16 +86,16 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
           //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
-            ((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.name);
-            ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.photoId);
-            ((AtyViewHolder) holder).activityItem.aty_name.setText(atyItem.atyName);
-            ((AtyViewHolder) holder).activityItem.aty_content.setText(atyItem.atyContent);
-            ((AtyViewHolder) holder).activityItem.total_comment.setText(atyItem.comment);
-            ((AtyViewHolder) holder).activityItem.total_plus.setText(atyItem.plus);
-            ((AtyViewHolder) holder).activityItem.publish_time.setText(atyItem.time);
-            ((AtyViewHolder) holder).activityItem.activity_tag.setText(atyItem.tag);
+            ((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.getUserName());
+            ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.getUserIcon());
+            ((AtyViewHolder) holder).activityItem.aty_name.setText(atyItem.getAtyName());
+            ((AtyViewHolder) holder).activityItem.aty_content.setText(atyItem.getAtyContent());
+            ((AtyViewHolder) holder).activityItem.total_comment.setText(atyItem.getAtyComment());
+            ((AtyViewHolder) holder).activityItem.total_plus.setText(atyItem.getAtyPlus());
+            ((AtyViewHolder) holder).activityItem.publish_time.setText(atyItem.getAtyStartTime());
+            ((AtyViewHolder) holder).activityItem.activity_tag.setText(atyItem.getAtyType());
             ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
-            for (int i=0;i<atyItem.imageUri.size();i++){
+            for (int i=0;i<atyItem.getAtyAlbum().size();i++){
                 ImageView imageView=(ImageView)activity.getLayoutInflater().inflate(R.layout.image_item,null);
                 WindowManager windowManager=activity.getWindowManager();
                 DisplayMetrics dm=new DisplayMetrics();
@@ -103,13 +103,13 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 int width=display.getWidth()-7;
                 int height=display.getHeight();
                 LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(width,height*2/5);
-                Glide.with(activity).load(atyItem.imageUri.get(i)).into(imageView);
+                Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
                 imageView.setLayoutParams(layoutParams);
                 imageView.setTag(i);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri = atyItem.imageUri.get((Integer)v.getTag());
+                        Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
                         MyDialog dialog = new MyDialog();
                         dialog.setUri(uri);
                         dialog.show(activity.getSupportFragmentManager(), "showPicture");
@@ -122,10 +122,10 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof CommentViewHolder) {
             CommentData item = commentDatas.get(position-1);
-            ((CommentViewHolder) holder).user_name.setText(item.name);
-            ((CommentViewHolder) holder).time.setText(item.time);
-            ((CommentViewHolder) holder).user_photo.setImageResource(item.photoId);
-            ((CommentViewHolder) holder).user_comment.setText(item.comment);
+            ((CommentViewHolder) holder).user_name.setText(item.getUserName());
+            ((CommentViewHolder) holder).time.setText(item.getTime());
+            ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
+            ((CommentViewHolder) holder).user_comment.setText(item.getComment());
         }
     }
 
