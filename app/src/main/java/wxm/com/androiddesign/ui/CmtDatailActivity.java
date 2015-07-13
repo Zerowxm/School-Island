@@ -23,26 +23,26 @@ public class CmtDatailActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
-    List<AtyItem> atyItemList=new ArrayList<AtyItem>();
+    List<AtyItem> atyItemList = new ArrayList<AtyItem>();
 
 
-
-    private void setupRecyclerView(RecyclerView recyclerView){
+    private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
 
-        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList,this));
+        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList, this));
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_detail);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerview_activity);
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        final ActionBar actionBar=getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         setupRecyclerView(recyclerView);

@@ -40,6 +40,9 @@ import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
 public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack{
 
+    private int timeType;
+    public static final int STARTTIME=0x1;
+    public static final int ENDTIME=0x2;
 
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
@@ -55,10 +58,10 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     ImageView userPhoto;
     @Bind(R.id.user_name)
     TextView userName;
-    //    @Bind(R.id.tag)
-//    TextView tag;
-    @Bind(R.id.time)
-    TextView timeText;
+
+    @Bind(R.id.start_time)
+    TextView startTime;
+    @Bind(R.id.end_time)TextView endTime;
     @Bind(R.id.aty_name)
     TextView atyName;
     @Bind(R.id.aty_content)
@@ -129,20 +132,25 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @OnClick(R.id.sendButton)
     public void send() {
-        AtyItem atyItem = new AtyItem("tag", timeText.getText().toString()
-                , atyName.getText().toString(), atyContent.getText().toString(),
-                R.drawable.miao, locaton.getText().toString(), "", "", uriList);
+        AtyItem atyItem = new AtyItem();
         HomeFragment.addActivity(atyItem);
         MainActivity.instance.finish();
         Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
-        intent.putExtra("aa", true);
+        intent.putExtra("send", true);
         finish();
         startActivity(intent);
 
     }
 
-    @OnClick(R.id.add_time)
-    public void addTime() {
+    @OnClick(R.id.add_start_time)
+     public void addStartTime() {
+        timeType=STARTTIME;
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "date");
+    }
+    @OnClick(R.id.add_end_time)
+    public void addEndTime() {
+        timeType=ENDTIME;
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "date");
     }
@@ -189,7 +197,11 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @Override
     public void addTime(String time) {
-        timeText.setText(time);
+        if(timeType==STARTTIME){
+            startTime.setText(time);
+        }   else {
+            endTime.setText(time);
+        }
     }
 
 

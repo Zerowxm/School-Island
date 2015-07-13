@@ -19,4 +19,12 @@ public class CommentData extends User{
     public void setTime(String time) {
         this.time = time;
     }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
