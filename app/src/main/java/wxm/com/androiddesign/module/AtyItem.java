@@ -11,8 +11,10 @@ import java.util.List;
 /**
  * Created by zero on 2015/6/25.
  */
-public class AtyItem extends User implements Parcelable {
-    String atyId,
+public class AtyItem {
+    String action,
+            userId,
+            atyId,
             atyName,
             atyType,
             atyStartTime,
@@ -22,59 +24,50 @@ public class AtyItem extends User implements Parcelable {
             atyContent,
             atyPlus,
             atyComment,
+            atyJoined,
             atyShare;
-    List<Uri> atyAlbum=new ArrayList<Uri>();
+    List<String> atyAlbum=new ArrayList<String>();
 
-    public AtyItem(Parcel in) {
-        atyAlbum = new ArrayList<>();
-        readFromParcel(in);
+    public AtyItem(String action, String userId,
+                   String atyId, String atyName,
+                   String atyType, String atyStartTime,
+                   String atyEndTime, String atyPlace,
+                   String atyMembers, String atyContent,
+                   String atyPlus, String atyComment,
+                   String atyJoined, String atyShare,
+                   List<String> atyAlbum) {
+        this.action = action;
+        this.userId = userId;
+        this.atyId = atyId;
+        this.atyName = atyName;
+        this.atyType = atyType;
+        this.atyStartTime = atyStartTime;
+        this.atyEndTime = atyEndTime;
+        this.atyPlace = atyPlace;
+        this.atyMembers = atyMembers;
+        this.atyContent = atyContent;
+        this.atyPlus = atyPlus;
+        this.atyComment = atyComment;
+        this.atyJoined = atyJoined;
+        this.atyShare = atyShare;
+        this.atyAlbum = atyAlbum;
     }
 
-    public AtyItem(){}
-
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getAction() {
+        return action;
     }
 
-
-   @Override
-   public void writeToParcel(Parcel dest, int flags) {
-       dest.writeInt(userIcon);
-       dest.writeString(userName);
-       dest.writeString(atyType);
-       dest.writeString(atyStartTime);
-       dest.writeString(atyName);
-       dest.writeString(atyContent);
-       dest.writeString(atyPlace);
-       dest.writeString(atyPlus);
-       dest.writeString(atyComment);
-       dest.writeList(atyAlbum);
-   }
-    public void readFromParcel(Parcel in){
-        userIcon = in.readInt();
-        userName = in.readString();
-        atyType = in.readString();
-        atyStartTime = in.readString();
-        atyName = in.readString();
-        atyContent = in.readString();
-        atyPlace = in.readString();
-        atyPlus = in.readString();
-        atyComment = in.readString();
-        in.readList(atyAlbum,List.class.getClassLoader());
+    public void setAction(String action) {
+        this.action = action;
     }
 
-    public static final Parcelable.Creator<AtyItem> CREATOR =
-            new Parcelable.Creator<AtyItem>() {
-                public AtyItem createFromParcel(Parcel in) {
-                    return new AtyItem(in);
-                }
+    public String getUserId() {
+        return userId;
+    }
 
-                public AtyItem[] newArray(int size) {
-                    return new AtyItem[size];
-                }
-            };
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getAtyId() {
         return atyId;
@@ -156,6 +149,14 @@ public class AtyItem extends User implements Parcelable {
         this.atyComment = atyComment;
     }
 
+    public String getAtyJoined() {
+        return atyJoined;
+    }
+
+    public void setAtyJoined(String atyJoined) {
+        this.atyJoined = atyJoined;
+    }
+
     public String getAtyShare() {
         return atyShare;
     }
@@ -164,11 +165,59 @@ public class AtyItem extends User implements Parcelable {
         this.atyShare = atyShare;
     }
 
-    public List<Uri> getAtyAlbum() {
+    public List<String> getAtyAlbum() {
         return atyAlbum;
     }
 
-    public void setAtyAlbum(List<Uri> atyAlbum) {
+    public void setAtyAlbum(List<String> atyAlbum) {
         this.atyAlbum = atyAlbum;
     }
+    //    public AtyItem(Parcel in) {
+//        atyAlbum = new ArrayList<>();
+//        readFromParcel(in);
+//    }
+
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//
+//   @Override
+//   public void writeToParcel(Parcel dest, int flags) {
+//       dest.writeInt(userIcon);
+//       dest.writeString(userName);
+//       dest.writeString(atyType);
+//       dest.writeString(atyStartTime);
+//       dest.writeString(atyName);
+//       dest.writeString(atyContent);
+//       dest.writeString(atyPlace);
+//       dest.writeString(atyPlus);
+//       dest.writeString(atyComment);
+//       dest.writeList(atyAlbum);
+//   }
+//    public void readFromParcel(Parcel in){
+//        userIcon = in.readInt();
+//        userName = in.readString();
+//        atyType = in.readString();
+//        atyStartTime = in.readString();
+//        atyName = in.readString();
+//        atyContent = in.readString();
+//        atyPlace = in.readString();
+//        atyPlus = in.readString();
+//        atyComment = in.readString();
+//        in.readList(atyAlbum,List.class.getClassLoader());
+//    }
+//
+//    public static final Parcelable.Creator<AtyItem> CREATOR =
+//            new Parcelable.Creator<AtyItem>() {
+//                public AtyItem createFromParcel(Parcel in) {
+//                    return new AtyItem(in);
+//                }
+//
+//                public AtyItem[] newArray(int size) {
+//                    return new AtyItem[size];
+//                }
+//            };
+
 }

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpStatus;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -94,12 +96,11 @@ public class LoginFragment extends DialogFragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            User user=new User();
-            user.setAction("login");
-            user.setUserName(params[0]);
-            user.setUserPassword(params[1]);
-            Log.d("gson",new Gson().toJson(user));
-            getJSON(new Gson().toJson(user));
+//            user.setAction("login");
+//            user.setUserName(params[0]);
+//            user.setUserPassword(params[1]);
+//            Log.d("gson",new Gson().toJson(user));
+//            getJSON(new Gson().toJson(user));
             return true;
         }
 
@@ -133,22 +134,36 @@ public class LoginFragment extends DialogFragment {
                 connection.setReadTimeout(5000);
                 connection.setConnectTimeout(5000);
 
-                Log.d("connection", "no");
+                OutputStream outStrm = connection.getOutputStream();
+
+                JSONObject jo = new JSONObject();
+                jo.put("userName", "003");
+                jo.put("userPassword", "123456");
+                jo.put("action", "login");
+
+                jo.get("a");
+                //HttpURLconnection写数据与发送数据
+                ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
+                objOutputStrm.writeObject(jo.toString());
+                objOutputStrm.flush();                              //数据输出
+                objOutputStrm.close();
+                Log.d("connection",json+"|"+jo.toString());
                 connection.connect();
                 Log.d("connection", "yes1");
-                bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-                bufferedWriter.write(json);
-                //bufferedWriter
-                bufferedWriter.flush();
-                bufferedWriter.close();
+//                bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+//                bufferedWriter.write(jo.toString());
+//                //bufferedWriter
+//                bufferedWriter.flush();
+//                bufferedWriter.close();
                 Log.d("connection", "yes2");
                 InputStream ins ;
                 Log.d("connection", "yes2.5");
+                ObjectInputStream objinput = new ObjectInputStream(connection.getInputStream());
                 int status = connection.getResponseCode();
 
                 if(status >= HttpStatus.SC_BAD_REQUEST) {
                     ins = connection.getErrorStream();
-                    Log.d("connection", "yes2.6");
+                    Log.d("connection", ""+status);
                 }
                 else {
                     ins = connection.getInputStream();
@@ -161,9 +176,10 @@ public class LoginFragment extends DialogFragment {
                     result.append(line);
                 }
                 Log.d("connection", result.toString());
-                ObjectInputStream objinput = new ObjectInputStream(connection.getInputStream());
-                Log.d("connection", "yes3");
+//                ObjectInputStream objinput = new ObjectInputStream(connection.getInputStream());
+                Log.d("connection", "yes3.5");
                 String result2 = (String)objinput.readObject();
+
                 Log.d("connection", "yes4");
                 Log.d("connection", result.toString());
 
@@ -172,6 +188,8 @@ public class LoginFragment extends DialogFragment {
                 Log.d("Exception", e.toString());
                 Log.d("connection", "Excption");
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             } finally {
                 Log.d("connection", "con");

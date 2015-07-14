@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -34,6 +35,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
@@ -44,7 +46,7 @@ import wxm.com.androiddesign.utils.TransparentToolBar;
 /**
  * Created by zero on 2015/6/26.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     RecyclerView recyclerView;
     Toolbar toolbar;
@@ -87,10 +89,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupSpinner(Spinner spinner){
-        ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getActivity(),R.array.action_bar_spinner,
-                android.R.layout.simple_spinner_item);
+        List<String> spinnerarry=new ArrayList<String>();
+        spinnerarry.add("厦门");
+
+        ArrayAdapter<String>adapter=new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,spinnerarry);
+       // ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getActivity(),R.array.action_bar_spinner,
+       //         R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
@@ -176,7 +183,7 @@ public class HomeFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeRefreshLayout.setProgressViewOffset(false,0,100);
+        swipeRefreshLayout.setProgressViewOffset(false, 0, 100);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -210,5 +217,15 @@ public class HomeFragment extends Fragment {
     public static void addActivity(AtyItem atyItem) {
         activityItems.add(atyItem);
         //activityItems.notify();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("spinner",view.toString()+position+"|"+id);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        Log.d("spinner","nothing"+parent.getId());
     }
 }

@@ -36,9 +36,9 @@ import wxm.com.androiddesign.utils.ScrollManager;
  */
 public class ActivityFragment extends Fragment {
     public static final int Home=0;
-    public static final int Hot=1;
-    public static final int Join=2;
-    public static final int Release=3;
+    public static final int Hot=0x1;
+    public static final int Join=0x2;
+    public static final int Release=0x3;
 
     private int type;
 

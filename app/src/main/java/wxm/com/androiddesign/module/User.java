@@ -1,13 +1,6 @@
 package wxm.com.androiddesign.module;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import wxm.com.androiddesign.R;
 
 /**
  * Created by zero on 2015/7/3.
@@ -15,6 +8,8 @@ import wxm.com.androiddesign.R;
 public class User {
     @Expose
     public String action;
+    @Expose
+    String userId;
     @Expose
     public String userName;
     @Expose
@@ -26,12 +21,14 @@ public class User {
     @Expose
     public String userGender;
     @Expose
-    public int userIcon;
+    public String userIcon;
 
-    public User(String action, String userName, String userPassword,
+    public User(String action, String userId,
+                String userName, String userPassword,
                 String userEmail, String userPhone,
-                String userGender, int userIcon) {
+                String userGender, String userIcon) {
         this.action = action;
+        this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
@@ -46,6 +43,14 @@ public class User {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -88,18 +93,11 @@ public class User {
         this.userGender = userGender;
     }
 
-    public int getUserIcon() {
+    public String getUserIcon() {
         return userIcon;
     }
 
-    public void setUserIcon(int userIcon) {
+    public void setUserIcon(String userIcon) {
         this.userIcon = userIcon;
     }
-
-    public User() {
-
-    }
-
-
-
 }

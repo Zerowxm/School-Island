@@ -50,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Bind(R.id.password_text_input_layout)TextInputLayout passwordInput;
     @Bind(R.id.phone_text_input_layout)TextInputLayout photoInput;
     @Bind(R.id.email_text_input_layout)TextInputLayout emailInput;
+    @Bind(R.id.userid_edit_text)EditText user_id;
     private Uri selectedImgUri;
     String grant;
     User user;
@@ -79,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         ButterKnife.bind(this);
         setupTextInputLayout();
         setup();
-        setupToolbar();
+        //setupToolbar();
     }
 
 
@@ -114,19 +115,34 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //    String userGender, int userIcon
     @OnClick(R.id.signup_btn)
     public void signup(){
-        if(!password.getText().toString().equals(password_again.getText().toString())){
+        String checkEmail = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        String checkPhoto="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+        if(password.getText().toString().length()<6){
             passwordInput.setErrorEnabled(true);
-            passwordInput.setError("密码输入不一致");
+            passwordInput.setError("密码不得少于六位");
+
         }else {
             passwordInput.setErrorEnabled(false);
+            if(!password.getText().toString().equals(password_again.getText().toString())){
+                passwordInput.setErrorEnabled(true);
+                passwordInput.setError("密码输入不一致");
+            }else {
+                passwordInput.setErrorEnabled(false);
+            }
         }
-        if(phone.getText().toString().length()!=11){
+        if(!phone.getText().toString().matches(checkPhoto)){
             photoInput.setErrorEnabled(true);
             photoInput.setError("电话号码错误");
         }else {
             photoInput.setErrorEnabled(false);
+        }if(!emial.getText().toString().matches(checkEmail)){
+            emailInput.setErrorEnabled(true);
+            emailInput.setError("邮箱格式错误");
+        }else {
+            emailInput.setErrorEnabled(false);
         }
-        user=new User("signup",user_name.getText().toString(),password.getText().toString(),
+        user=new User("signup",user_id.getText().toString(),user_name.getText().toString(),
+                password.getText().toString(),
                 emial.getText().toString(),phone.getText().toString(),
                 grant,R.drawable.miao);
         Gson gson=new Gson();
