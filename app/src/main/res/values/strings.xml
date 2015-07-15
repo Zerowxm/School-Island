@@ -24,6 +24,9 @@
     <string name="title_activity_release">ReleaseActivity</string>
     <string name="title_activity_cmt_datail">CmtDatailActivity</string>
 
+    <!--prograss-->
+    <string name="signup_title">Sign Up</string>
+    <string name="please_wait">Please wait...</string>
 
     <!--transition_list-->
     <string name="transition_title">1</string>
@@ -32,5 +35,6 @@
     <string name="transition_user_photo">tansition_user_photo</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+
+
 </resources>

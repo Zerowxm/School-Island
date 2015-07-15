@@ -88,7 +88,7 @@ public class LoginFragment extends DialogFragment {
             //do some thing
             User user =new User();
             user.setAction("login");
-            user.setUserName(user_name.getText().toString());
+            user.setUserId(user_name.getText().toString());
             user.setUserPassword( password.getText().toString());
 
             new LoginTask().execute(new Gson().toJson(user));
@@ -101,7 +101,7 @@ public class LoginFragment extends DialogFragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
-
+            getJSON(params[0]);
             return true;
         }
 
@@ -121,7 +121,7 @@ public class LoginFragment extends DialogFragment {
     public void getJSON(String json) {
 
             BufferedWriter bufferedWriter;
-            BufferedReader bufferedReader;
+            //BufferedReader bufferedReader;
             StringBuffer result = new StringBuffer();
             try {
                 URL murl = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
@@ -134,7 +134,7 @@ public class LoginFragment extends DialogFragment {
                 connection.setUseCaches(false);
                 connection.setReadTimeout(5000);
                 connection.setConnectTimeout(5000);
-
+                connection.connect();
                 OutputStream outStrm = connection.getOutputStream();
 
                 JSONObject jo = new JSONObject();
@@ -142,14 +142,14 @@ public class LoginFragment extends DialogFragment {
                 jo.put("userPassword", "123456");
                 jo.put("action", "login");
 
-                jo.get("a");
+              //  jo.get("a");
                 //HttpURLconnection写数据与发送数据
                 ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
-                objOutputStrm.writeObject(jo.toString());
+                objOutputStrm.writeObject(json);
                 objOutputStrm.flush();                              //数据输出
                 objOutputStrm.close();
-                Log.d("connection",json+"|"+jo.toString());
-                connection.connect();
+                Log.d("connection", json+"|"+jo.toString());
+
                 Log.d("connection", "yes1");
 //                bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 //                bufferedWriter.write(jo.toString());
@@ -170,27 +170,32 @@ public class LoginFragment extends DialogFragment {
                     ins = connection.getInputStream();
                     Log.d("connection", "yes2.7");
                 }
-               bufferedReader = new BufferedReader(new InputStreamReader(ins));
-                Log.d("connection", "yes3");
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    result.append(line);
-                }
-                Log.d("connection", result.toString());
+//               bufferedReader = new BufferedReader(new InputStreamReader(ins));
+//                Log.d("connection", "yes3");
+//                String line;
+//                while ((line = bufferedReader.readLine()) != null) {
+//                    result.append(line);
+//                }
+                String result2;
+                result2 = (String)objinput.readObject();
+
+                Log.d("connection", result2);
+                User user=new Gson().fromJson(result2, User.class);
+                Log.d("user",user.toString());
 //                ObjectInputStream objinput = new ObjectInputStream(connection.getInputStream());
                 Log.d("connection", "yes3.5");
-                String result2 = (String)objinput.readObject();
+
 
                 Log.d("connection", "yes4");
-                Log.d("connection", result.toString());
+
 
 
             } catch (IOException e) {
                 Log.d("Exception", e.toString());
                 Log.d("connection", "Excption");
-            } catch (ClassNotFoundException e) {
+            }  catch (JSONException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {
                 Log.d("connection", "con");

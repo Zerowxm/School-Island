@@ -12,6 +12,8 @@ import android.util.Log;
 
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,7 +51,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
     public static final int GET_LOCATION = 3;
-    private LinearLayout.LayoutParams layoutParams;
+
     private List<Uri> uriList = new ArrayList<Uri>();
     private Uri selectedImgUri;
     // atyItem = new AtyItem();
@@ -74,6 +76,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     ImageView add_image;
     @Bind(R.id.imageViewContainer)
     LinearLayout imageContains;
+    private RelativeLayout.LayoutParams layoutParams;
     // @Bind(R.id.image_show)ViewFlipper viewFlipper;
 
     @Override
@@ -88,8 +91,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         Display display = windowManager.getDefaultDisplay();
         int width = display.getWidth() - 7;
         int height = display.getHeight();
-        layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
-
+        layoutParams = new RelativeLayout.LayoutParams(width, height * 2 / 5);
+        //layoutParams = new RelativeLayout.LayoutParams(width, height * 2 / 5);
     }
 
 
@@ -113,16 +116,23 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Uri chosenImageUri = data.getData();
                 selectedImgUri = chosenImageUri;
                 //ImageView imageView = new ImageView(this);
-                RelativeLayout imageItem= (RelativeLayout)getLayoutInflater().inflate(R.layout.image_item,null);
-                ImageView imageView=(ImageView)imageItem.findViewById(R.id.acitivity_iamge);
-
+                RelativeLayout imageItem= (RelativeLayout)LayoutInflater.from(this).inflate(R.layout.image_item, null);
+                ImageView imageView=(ImageView)imageItem.getChildAt(0);
+                ImageView removeImage=(ImageView)imageItem.getChildAt(1);
+                removeImage.setTag(imageContains.getChildCount());
+                Log.d("image", "" + imageView.toString());
                 imageView.setLayoutParams(layoutParams);
+                Log.d("image", "" + imageView.toString());
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Log.d("image", "" + imageView.toString());
                 Glide.with(this).load(selectedImgUri).into(imageView);
+                Log.d("image", "" + imageView.toString());
                 if (selectedImgUri != null) {
                     imageContains.addView(imageItem);
                     uriList.add(selectedImgUri);
+
                 }
+
             }
             if (requestCode == TAKE_PHOTO) {
                 ImageView imageView = new ImageView(this);
@@ -135,10 +145,20 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         }
     }
 
+    public void removePicture(View view){
+        Log.d("image", "" + view.getTag());
+        int position=(int)view.getTag();
+        imageContains.removeViewAt(position);
+        uriList.remove(position);
+        for(int i=0;i<imageContains.getChildCount();i++){
+            imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
+        }
+    }
+
     @OnClick(R.id.sendButton)
     public void send() {
         //AtyItem atyItem = new AtyItem();
-        //HomeFragment.addActivity(atyItem);
+       // HomeFragment.addActivity(atyItem);
         MainActivity.instance.finish();
         Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
         intent.putExtra("send", true);

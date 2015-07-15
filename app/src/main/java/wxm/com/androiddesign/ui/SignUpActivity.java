@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
@@ -55,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Uri selectedImgUri;
     String grant;
     User user;
+    Bitmap bitmap=null;
 
 
     private void setupToolbar() {
@@ -118,43 +122,86 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void signup(){
         String checkEmail = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
         String checkPhoto="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-        if(password.getText().toString().length()<6){
-            passwordInput.setErrorEnabled(true);
-            passwordInput.setError("密码不得少于六位");
+//        if(password.getText().toString().length()<6){
+//            passwordInput.setErrorEnabled(true);
+//            passwordInput.setError("密码不得少于六位");
+//            return;
+//        }else {
+//            passwordInput.setErrorEnabled(false);
+//            if(!password.getText().toString().equals(password_again.getText().toString())){
+//                passwordInput.setErrorEnabled(true);
+//                passwordInput.setError("密码输入不一致");
+//                return;
+//            }else {
+//                passwordInput.setErrorEnabled(false);
+//            }
+//        }
+//        if(!phone.getText().toString().matches(checkPhoto)){
+//            photoInput.setErrorEnabled(true);
+//            photoInput.setError("电话号码错误");
+//            return;
+//        }else {
+//            photoInput.setErrorEnabled(false);
+//        }if(!emial.getText().toString().matches(checkEmail)){
+//            emailInput.setErrorEnabled(true);
+//            emailInput.setError("邮箱格式错误");
+//            return;
+//        }else {
+//            emailInput.setErrorEnabled(false);
+//        }
+//        if(bitmap==null){
+//            Snackbar.make(user_photo,"photo",Snackbar.LENGTH_SHORT).show();
+//            return;
+//        }
+        //String icon= MyBitmapFactory.BitmapToString(bitmap);
+//        user=new User("signup",get(user_id),get(user_name),get(password),get(emial),get(phone),
+//                grant,icon,"0");
 
-        }else {
-            passwordInput.setErrorEnabled(false);
-            if(!password.getText().toString().equals(password_again.getText().toString())){
-                passwordInput.setErrorEnabled(true);
-                passwordInput.setError("密码输入不一致");
-            }else {
-                passwordInput.setErrorEnabled(false);
-            }
-        }
-        if(!phone.getText().toString().matches(checkPhoto)){
-            photoInput.setErrorEnabled(true);
-            photoInput.setError("电话号码错误");
-        }else {
-            photoInput.setErrorEnabled(false);
-        }if(!emial.getText().toString().matches(checkEmail)){
-            emailInput.setErrorEnabled(true);
-            emailInput.setError("邮箱格式错误");
-        }else {
-            emailInput.setErrorEnabled(false);
-        }
-//        String action, String userId,
-//                String userName, String userPassword,
-//                String userEmail, String userPhone,
-//                String userGender, String userIcon,
-//                String userScore
-        String icon= MyBitmapFactory.BitmapToString(user_photo.getDrawingCache(true));
-        user=new User("signup",get(user_id),get(user_name),get(password),get(emial),get(phone),
-                grant,icon,"0");
-        Gson gson=new Gson();
-        Log.d("gson",gson.toJson(user));
-        JsonConnection.getJsonObject(gson.toJson(user));
-        JsonConnection.submitJson(gson.toJson(user));
+//        if(!isOnline()){
+//            return;
+//        }
+
+        BackgroundTask task=new BackgroundTask(this);
+        task.execute(user);
     }
+
+    private class BackgroundTask extends AsyncTask<User,Void,Boolean>{
+        MaterialDialog materialDialog;
+        AppCompatActivity activity;
+
+        public BackgroundTask(AppCompatActivity activity){
+            this.activity=activity;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            materialDialog=new MaterialDialog.Builder(activity)
+                    .title(R.string.signup_title)
+                    .content(R.string.please_wait)
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(false)
+                    .show();
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            //super.onPostExecute(aBoolean);
+            if (aBoolean)
+                Log.d("dialog","123");
+
+        }
+
+        @Override
+        protected Boolean doInBackground(User... params) {
+            Gson gson=new Gson();
+            Log.d("gson", gson.toJson(user));
+
+            return true;
+
+        }
+    }
+
     public static String get(EditText editText){
         return editText.getText().toString();
     }
@@ -186,6 +233,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         {
             Uri chosenImageUri = data.getData();
             selectedImgUri=chosenImageUri;
+            try {
+                bitmap =MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImgUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Glide.with(this).load(selectedImgUri).into(user_photo);
         }
     }

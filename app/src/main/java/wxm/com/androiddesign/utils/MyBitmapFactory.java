@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by zero on 2015/7/13.
@@ -13,7 +14,13 @@ public class MyBitmapFactory {
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
         byte[] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b,Base64.DEFAULT);
+       // String temp= Base64.encodeToString(b,Base64.DEFAULT);
+        String temp= null;
+        try {
+            temp = new String(b, "ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return temp;
     }
 

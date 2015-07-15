@@ -2,6 +2,9 @@ package wxm.com.androiddesign.module;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by zero on 2015/7/3.
  */
@@ -24,6 +27,24 @@ public class User {
     public String userIcon;
     @Expose
     public String userScore;
+    @Expose
+    List<String> userAlbum=new ArrayList<String>();
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "action='" + action + '\'' +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", userGender='" + userGender + '\'' +
+                ", userIcon='" + userIcon + '\'' +
+                ", userScore='" + userScore + '\'' +
+                ", userAlbum=" + userAlbum +
+                '}';
+    }
 
     public User() {
     }

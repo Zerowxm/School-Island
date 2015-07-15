@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
                         "\"comment\":\"1\",\n" +
                         "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\"a\":\"1\",\n" +
                         "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n" +
                         "]";
         String json = "{\"atyContent\":\"1\",\"time\":\"2\",\"atyName\":\"3\",\n" +
@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("spinner",view.toString()+position+"|"+id);
+//        Log.d("spinner",view.toString()+position+"|"+id);
     }
 
     @Override

@@ -174,7 +174,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             activityItem.activity_tag = (TextView) itemView.findViewById(R.id.tag);
             activityItem.comment_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_comment);
             activityItem.plus_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_plus);
-            activityItem.publish_image = (ImageView) itemView.findViewById(R.id.acitivity_iamge);
+            activityItem.publish_image = (ImageView) itemView.findViewById(R.id.acitivity_image);
             activityItem.total_plus = (TextView) itemView.findViewById(R.id.total_plus);
             activityItem.publish_time = (TextView) itemView.findViewById(R.id.publish_time);
             activityItem.total_comment = (TextView) itemView.findViewById(R.id.total_comment);
