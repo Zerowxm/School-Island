@@ -34,6 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.utils.MyBitmapFactory;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -141,14 +142,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }else {
             emailInput.setErrorEnabled(false);
         }
-        user=new User("signup",user_id.getText().toString(),user_name.getText().toString(),
-                password.getText().toString(),
-                emial.getText().toString(),phone.getText().toString(),
-                grant,R.drawable.miao);
+//        String action, String userId,
+//                String userName, String userPassword,
+//                String userEmail, String userPhone,
+//                String userGender, String userIcon,
+//                String userScore
+        String icon= MyBitmapFactory.BitmapToString(user_photo.getDrawingCache(true));
+        user=new User("signup",get(user_id),get(user_name),get(password),get(emial),get(phone),
+                grant,icon,"0");
         Gson gson=new Gson();
         Log.d("gson",gson.toJson(user));
         JsonConnection.getJsonObject(gson.toJson(user));
         JsonConnection.submitJson(gson.toJson(user));
+    }
+    public static String get(EditText editText){
+        return editText.getText().toString();
     }
     private void setup(){
         checkBox_man.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

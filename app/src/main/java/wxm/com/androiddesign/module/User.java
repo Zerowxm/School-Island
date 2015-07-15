@@ -22,11 +22,17 @@ public class User {
     public String userGender;
     @Expose
     public String userIcon;
+    @Expose
+    public String userScore;
+
+    public User() {
+    }
 
     public User(String action, String userId,
                 String userName, String userPassword,
                 String userEmail, String userPhone,
-                String userGender, String userIcon) {
+                String userGender, String userIcon,
+                String userScore) {
         this.action = action;
         this.userId = userId;
         this.userName = userName;
@@ -35,6 +41,7 @@ public class User {
         this.userPhone = userPhone;
         this.userGender = userGender;
         this.userIcon = userIcon;
+        this.userScore = userScore;
     }
 
     public String getAction() {
@@ -99,5 +106,13 @@ public class User {
 
     public void setUserIcon(String userIcon) {
         this.userIcon = userIcon;
+    }
+
+    public String getUserScore() {
+        return userScore;
+    }
+
+    public void setUserScore(String userScore) {
+        this.userScore = userScore;
     }
 }

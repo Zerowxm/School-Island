@@ -4,7 +4,9 @@ package wxm.com.androiddesign.utils;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.graphics.drawable.Drawable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -25,6 +27,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
     private int totalDy;
     private int initialOffset;
     private HashMap<View, Direction> viewsToHide = new HashMap<>();
+    SwipeRefreshLayout mRefreshLayout;
 
     public static enum Direction {UP, DOWN}
 
@@ -43,9 +46,22 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
         this.initialOffset = initialOffset;
     }
 
+    public void setSwipeRefreshLayout(SwipeRefreshLayout refreshLayout){
+        mRefreshLayout=refreshLayout;
+    }
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         totalDy += dy;
+        //mRefreshLayout.setEnabled(false);
+        if(totalDy!=0){
+            mRefreshLayout.setEnabled(false);
+        }else {
+            Log.d("list",""+totalDy);
+            mRefreshLayout.setEnabled(true);
+        }
+
+
 
         if (totalDy < initialOffset) {
             return;

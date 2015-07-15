@@ -82,8 +82,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-        setupRecyclerView(recyclerView);
+
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
+        setupRecyclerView(recyclerView);
         setupSpinner(mSpinner);
         return v;
     }
@@ -102,6 +103,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+
         //String test="{\"atyContent\":\"1\",\"time\":\"1\",\"atyName\":\"1\",\"comment\":\"1\",\"image\":[\"aa\",\"bb\"],\"imageUri\":[{\"uriString\":\"http://www.baidu.com\",\"scheme\":\"NOT CACHED\",\"cachedSsi\":-2,\"cachedFsi\":-2,\"host\":\"NOT CACHED\",\"port\":-2}],\"location\":\"1\",\"plus\":\"1\",\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n";
         String jsonarrys =
                 "[{\"atyContent\":\"5\",\"time\":\"1\",\"atyName\":\"1\",\n" +
@@ -161,19 +163,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }.getType());
         Log.d("Gson", gson.fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
         }.getType()).toString());
-        AtyItem atyItem = new AtyItem();
-        atyItem = gson.fromJson(json2, AtyItem.class);
+        //AtyItem atyItem = new AtyItem();
+        //atyItem = gson.fromJson(json2, AtyItem.class);
         Log.d("Gson", gson.fromJson(json, AtyItem.class).toString());
         //Log.d("Gson",gson.fromJson(test,AtyItem.class).toString());
-        Log.d("Gson", atyItem.toString());
+        //Log.d("Gson", atyItem.toString());
         Log.d("Gson", "" + gson.toJson(activityItems));
-        Log.d("Gson", "" + gson.toJson(new AtyItem()));
+        //Log.d("Gson", "" + gson.toJson(new AtyItem()));
         myRecycerAdapter = new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity());
         recyclerView.setAdapter(myRecycerAdapter);
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         ScrollManager manager = new ScrollManager();
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
+        manager.setSwipeRefreshLayout(mSwipeRefreshLayout);
         animator.setAddDuration(2000);
         animator.setRemoveDuration(1000);
     }

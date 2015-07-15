@@ -88,7 +88,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onCard(CardView cardView, int position) {
                 Intent intent = new Intent(activity, DetailActivity.class);
-                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
+                //intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
                 );
@@ -100,7 +100,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Intent intent = new Intent(activity, DetailActivity.class);
                 comment.setText("22");
                 share.setText("22");
-                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
+                //intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                 activity.startActivity(intent);
             }
 
@@ -120,8 +120,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final AtyItem item = activityItems.get(position);
-        holder.activityItem.user_name.setText(item.getUserName());
-        holder.activityItem.user_photo.setImageResource(item.getUserIcon());
+        //holder.activityItem.user_name.setText(item.getUserName());
+       // holder.activityItem.user_photo.setImageResource(item.getUserIcon());
         holder.activityItem.total_comment.setText(item.getAtyComment());
         holder.activityItem.aty_name.setText(item.getAtyName());
         holder.activityItem.aty_content.setText(item.getAtyContent());
@@ -129,29 +129,29 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.activityItem.publish_time.setText(item.getAtyStartTime());
         holder.activityItem.activity_tag.setText(item.getAtyType());
 
-        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-            ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image_item, null);
-            WindowManager windowManager = activity.getWindowManager();
-            DisplayMetrics dm = new DisplayMetrics();
-            Display display = windowManager.getDefaultDisplay();
-            int width = display.getWidth() - 7;
-            int height = display.getHeight();
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
-            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-            imageView.setLayoutParams(layoutParams);
-            imageView.setTag(i);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Uri uri = item.getAtyAlbum().get((Integer) v.getTag());
-                    MyDialog dialog = new MyDialog();
-                    dialog.setUri(uri);
-                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
-                }
-            });
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            holder.imageViewContainer.addView(imageView);
-        }
+//        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+//            ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image_item, null);
+//            WindowManager windowManager = activity.getWindowManager();
+//            DisplayMetrics dm = new DisplayMetrics();
+//            Display display = windowManager.getDefaultDisplay();
+//            int width = display.getWidth() - 7;
+//            int height = display.getHeight();
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
+//            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+//            imageView.setLayoutParams(layoutParams);
+//            imageView.setTag(i);
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //Uri uri = item.getAtyAlbum().get((Integer) v.getTag());
+//                    MyDialog dialog = new MyDialog();
+//                    //dialog.setUri(uri);
+//                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                }
+//            });
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            holder.imageViewContainer.addView(imageView);
+//        }
 
         setAnimation(holder.cardView, position);
     }

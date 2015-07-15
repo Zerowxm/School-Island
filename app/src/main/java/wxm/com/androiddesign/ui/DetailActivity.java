@@ -69,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
                         Date nowDate=new Date(System.currentTimeMillis());
                         long time = nowDate.getTime()-oldDate.getTime();
                         String str = getSubTime(time);
-                        commentDatas.add(new CommentData(str,cmt_text.getText().toString()));
+                        //commentDatas.add(new CommentData(str,cmt_text.getText().toString()));
                         cmt_text.setText(null);
                         multipleItemAdapter.notifyDataSetChanged();
 

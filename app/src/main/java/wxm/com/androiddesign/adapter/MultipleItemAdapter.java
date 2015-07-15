@@ -86,8 +86,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
           //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
-            ((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.getUserName());
-            ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.getUserIcon());
+            //((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.getUserName());
+            //((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.getUserIcon());
             ((AtyViewHolder) holder).activityItem.aty_name.setText(atyItem.getAtyName());
             ((AtyViewHolder) holder).activityItem.aty_content.setText(atyItem.getAtyContent());
             ((AtyViewHolder) holder).activityItem.total_comment.setText(atyItem.getAtyComment());
@@ -109,9 +109,9 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
+                        //Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
                         MyDialog dialog = new MyDialog();
-                        dialog.setUri(uri);
+                        //dialog.setUri(uri);
                         dialog.show(activity.getSupportFragmentManager(), "showPicture");
                     }
                 });
@@ -122,9 +122,9 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof CommentViewHolder) {
             CommentData item = commentDatas.get(position-1);
-            ((CommentViewHolder) holder).user_name.setText(item.getUserName());
+          //  ((CommentViewHolder) holder).user_name.setText(item.getUserName());
             ((CommentViewHolder) holder).time.setText(item.getTime());
-            ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
+           // ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
             ((CommentViewHolder) holder).user_comment.setText(item.getComment());
         }
     }

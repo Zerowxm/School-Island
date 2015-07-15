@@ -76,7 +76,7 @@ public class LoginFragment extends DialogFragment {
     @OnClick(R.id.login_btn)
     public void Login() {
 
-        loginCallBack.onLongin(user_name.getText().toString(), "zerowxm@gmail.com");
+        //loginCallBack.onLongin(user_name.getText().toString(), "zerowxm@gmail.com");
         //dismiss();
         myClickHandler();
     }
@@ -86,7 +86,12 @@ public class LoginFragment extends DialogFragment {
         NetworkInfo networkInfo = check.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             //do some thing
-            new LoginTask().execute(user_name.getText().toString(), password.getText().toString());
+            User user =new User();
+            user.setAction("login");
+            user.setUserName(user_name.getText().toString());
+            user.setUserPassword( password.getText().toString());
+
+            new LoginTask().execute(new Gson().toJson(user));
         } else {
             username_layout.setError("网络连接错误");
         }
@@ -96,11 +101,7 @@ public class LoginFragment extends DialogFragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
-//            user.setAction("login");
-//            user.setUserName(params[0]);
-//            user.setUserPassword(params[1]);
-//            Log.d("gson",new Gson().toJson(user));
-//            getJSON(new Gson().toJson(user));
+
             return true;
         }
 

@@ -19,8 +19,10 @@ import android.support.design.widget.FloatingActionButton;
 
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.SocketHandler;
 
 import wxm.com.androiddesign.anim.MyItemAnimator;
@@ -73,13 +75,13 @@ public class ActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-        setupRecyclerView(recyclerView);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ScrollManager manager = new ScrollManager();
         manager.attach(recyclerView);
-        manager.addView( getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
+        manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
-
+        setupRecyclerView(recyclerView);
         return v;
     }
 
@@ -122,7 +124,60 @@ public class ActivityFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new MyItemAnimator());
+        ScrollManager manager = new ScrollManager();
+        manager.attach(recyclerView);
+        manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
+        manager.setSwipeRefreshLayout(mSwipeRefreshLayout);
 
+        String jsonarrys =
+                "[{\"atyContent\":\"5\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"cc\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
+                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
+                        "\"comment\":\"1\",\n" +
+                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"location\":\"1\",\"plus\":\"1\",\n" +
+                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n" +
+                        "]";
+        activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+        }.getType());
         myRecycerAdapter=new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity());
         recyclerView.setAdapter(myRecycerAdapter);
     }

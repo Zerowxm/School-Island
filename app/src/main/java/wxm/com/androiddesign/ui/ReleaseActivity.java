@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import android.view.WindowManager;
@@ -50,7 +52,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     private LinearLayout.LayoutParams layoutParams;
     private List<Uri> uriList = new ArrayList<Uri>();
     private Uri selectedImgUri;
-    AtyItem atyItem = new AtyItem();
+    // atyItem = new AtyItem();
 
     @Bind(R.id.sendButton)
     ImageView send;
@@ -110,12 +112,15 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
             if (requestCode == CHOOSE_PHOTO) {
                 Uri chosenImageUri = data.getData();
                 selectedImgUri = chosenImageUri;
-                ImageView imageView = new ImageView(this);
+                //ImageView imageView = new ImageView(this);
+                RelativeLayout imageItem= (RelativeLayout)getLayoutInflater().inflate(R.layout.image_item,null);
+                ImageView imageView=(ImageView)imageItem.findViewById(R.id.acitivity_iamge);
+
                 imageView.setLayoutParams(layoutParams);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(this).load(selectedImgUri).into(imageView);
                 if (selectedImgUri != null) {
-                    imageContains.addView(imageView);
+                    imageContains.addView(imageItem);
                     uriList.add(selectedImgUri);
                 }
             }
@@ -132,8 +137,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @OnClick(R.id.sendButton)
     public void send() {
-        AtyItem atyItem = new AtyItem();
-        HomeFragment.addActivity(atyItem);
+        //AtyItem atyItem = new AtyItem();
+        //HomeFragment.addActivity(atyItem);
         MainActivity.instance.finish();
         Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
         intent.putExtra("send", true);
