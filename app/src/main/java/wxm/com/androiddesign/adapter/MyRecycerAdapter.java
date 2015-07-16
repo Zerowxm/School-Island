@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -53,6 +54,7 @@ import wxm.com.androiddesign.ui.DetailActivity;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
+import wxm.com.androiddesign.utils.MyBitmapFactory;
 
 
 /**
@@ -63,10 +65,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     private int lastPosition = -1;
     private static AppCompatActivity activity;
     AtyItem item;
+    String fragment;
 
-    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, AppCompatActivity activity) {
+
+    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, AppCompatActivity activity,String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
+        this.fragment = fragment;
     }
 
     @Override
@@ -92,6 +97,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onCard(CardView cardView, int position) {
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
+                intent.putExtra("position", position);
+                intent.putExtra("fragment",fragment);
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
                 );
@@ -102,6 +109,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onComment(FloatingActionButton fab, int adapterPosition) {
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
+                intent.putExtra("position", adapterPosition);
+                intent.putExtra("fragment",fragment);
                 activity.startActivity(intent);
             }
 
@@ -125,31 +134,19 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus) {
-                SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-                Boolean isPlus = false;
                 AtyItem atyItem = activityItems.get(adapterPosition);
-                if (atyItem.getAtyPlused().equals("true"))
-                    isPlus = prefs.getBoolean("isPlus", true);
-                else if (atyItem.getAtyPlused().equals("false"))
-                    isPlus = prefs.getBoolean("isPlus", false);
-                if (isPlus) {
+
+                if (atyItem.getAtyPlused().equals("true")) {
                     fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-                    SharedPreferences.Editor editor = prefs.edit();
-                    //activityItem.plus_fab.setBackgroundDrawable();
                     fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
                     atyItem.setAtyPlused("false");
                     atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
-                    editor.putBoolean("isPlus", false);
-                    editor.apply();
                     notifyDataSetChanged();
                 } else {
                     fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
                     fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
-                    SharedPreferences.Editor editor = prefs.edit();
                     atyItem.setAtyPlused("true");
                     atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
-                    editor.putBoolean("isPlus", true);
-                    editor.apply();
                     notifyDataSetChanged();
                 }
             }
@@ -159,45 +156,53 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         item = activityItems.get(position);
-
+        Log.d("image", "onBindViewHolder");
         holder.total_comment.setText(item.getAtyComment());
         holder.aty_name.setText(item.getAtyName());
         holder.aty_content.setText(item.getAtyContent());
         holder.totle_plus.setText(item.getAtyPlus());
-        holder.publish_time.setText(item.getAtyStartTime()+"-"+item.getAtyEndTime());
+        holder.publish_time.setText(item.getAtyStartTime() + "-\n" + item.getAtyEndTime());
         holder.activity_tag.setText(item.getAtyType());
         holder.atyPlace.setText(item.getAtyPlace());
         holder.total_member.setText(item.getAtyMembers());
         holder.totle_plus.setText(item.getAtyPlus());
         holder.total_comment.setText(item.getAtyComment());
-//        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+
+        holder.imageViewContainer.removeAllViews();
+        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+            ImageView imageView=(ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+            //imageView.setTransitionName(activity.getResources().getString(R.string.transition_photo));
+            Log.d("image",""+ item.getAtyAlbum().size());
 //            ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image_item, null);
-//            WindowManager windowManager = activity.getWindowManager();
-//            DisplayMetrics dm = new DisplayMetrics();
-//            Display display = windowManager.getDefaultDisplay();
-//            int width = display.getWidth() - 7;
-//            int height = display.getHeight();
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
-//            Glide.with(activity).load(Uri.parse(item.getAtyAlbum().get(i))).into(imageView);
-//            imageView.setLayoutParams(layoutParams);
-//            imageView.setTag(i);
-//            imageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Uri uri =Uri.parse(item.getAtyAlbum().get((Integer) v.getTag()));
-//                    MyDialog dialog = new MyDialog();
-//                    dialog.setUri(uri);
-//                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
-//                }
-//            });
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            holder.imageViewContainer.addView(imageView);
-        // }
+            WindowManager windowManager = activity.getWindowManager();
+            DisplayMetrics dm = new DisplayMetrics();
+            Display display = windowManager.getDefaultDisplay();
+            int width = display.getWidth() - 7;
+            int height = display.getHeight();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
+            //imageView.setImageBitmap(MyBitmapFactory.StringToBitmap(item.getAtyAlbum().get(i)));
+            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+            imageView.setLayoutParams(layoutParams);
+            imageView.setTag(i);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Uri uri =Uri.parse(item.getAtyAlbum().get((Integer) v.getTag()));
+                    MyDialog dialog = new MyDialog();
+                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
+                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+                }
+            });
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            holder.imageViewContainer.addView(imageView);
+         }
 
         if (item.getAtyPlused().equals("false")) {
             holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
         } else if (item.getAtyPlused().equals("true")) {
             holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
         }
 
         if (item.getAtyJoined().equals("true")) {
@@ -350,7 +355,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             } else if (v instanceof CardView) {
                 mListener.onCard((CardView) v, getLayoutPosition());
             } else if (v instanceof Button) {
-                mListener.onJoinBtn((Button) v,getAdapterPosition());
+                mListener.onJoinBtn((Button) v, getAdapterPosition());
             }
         }
 
@@ -386,7 +391,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             //            public void onPlus(FloatingActionButton fab);
             public void onComment(FloatingActionButton fab, int adapterPosition);
 
-            public void onJoinBtn(Button button,int adpterPosition);
+            public void onJoinBtn(Button button, int adpterPosition);
 
             public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus);
         }

@@ -34,7 +34,7 @@ public class MyDialog extends DialogFragment{
     private ImageView imageView;
     private Button savebutton;
     private Bitmap bitmap;
-    private Uri uri;
+    private String uri;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,7 +137,7 @@ public class MyDialog extends DialogFragment{
        this.bitmap = bitmap;
     }
 
-    public void setUri(Uri uri){
+    public void setUri(String uri){
         this.uri = uri;
     }
 

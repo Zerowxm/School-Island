@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     RecyclerView recyclerView;
     Toolbar toolbar;
-    MyRecycerAdapter myRecycerAdapter;
+    static MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
     Spinner mSpinner;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
@@ -128,13 +128,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         String jsonarrys =
                 "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
                         "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n"+
-                        "\"image\":[\"cc\",\"dd\"],\n" +
+                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
                         "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
                         "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
 
                         "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
                         "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
+                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
 
                         "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
                         "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}"+
@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 "\"tag\":\"7\",\"atyImageId\":8,\"photoId\":9}";
         String json2 = "{\"atyContent\":\"2\",\"time\":\"3\",\"atyName\":\"4\",\"comment\":\"5\",\"location\":\"6\",\"plus\":\"7\",\"tag\":\"8\",\"atyImageId\":9,\"photoId\":10}";
         Gson gson = new Gson();
-        activityItems = gson.fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+        activityItems = gson.fromJson(jsonarrys, new TypeToken<ArrayList<AtyItem>>() {
         }.getType());
         Log.d("Gson", gson.fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
         }.getType()).toString());
@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         //Log.d("Gson", atyItem.toString());
         Log.d("Gson", "" + gson.toJson(activityItems));
         //Log.d("Gson", "" + gson.toJson(new AtyItem()));
-        myRecycerAdapter = new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity());
+        myRecycerAdapter = new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity(),"HomeFragment");
         recyclerView.setAdapter(myRecycerAdapter);
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         ScrollManager manager = new ScrollManager();
@@ -205,8 +205,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public static void addActivity(AtyItem atyItem) {
-        activityItems.add(atyItem);
-        //activityItems.notify();
+        activityItems.add(0,atyItem);
+        myRecycerAdapter.notifyDataSetChanged();
+    }
+
+    public static void refresh(AtyItem atyItem,int position){
+        activityItems.remove(position);
+        activityItems.add(position,atyItem);
+        myRecycerAdapter.notifyDataSetChanged();
     }
 
     @Override

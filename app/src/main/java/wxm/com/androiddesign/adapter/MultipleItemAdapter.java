@@ -44,6 +44,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
 /**
  * Created by zero on 2015/6/26.
@@ -51,6 +52,7 @@ import wxm.com.androiddesign.ui.UserAcitivity;
 public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private AtyItem atyItem;
+    private int position;
     private ArrayList<CommentData> commentDatas;
     public static AppCompatActivity activity;
     private int lastPosition = -1;
@@ -60,7 +62,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         COMMENT_TYPE
     }
 
-    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1, AppCompatActivity activity) {
+    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1, AppCompatActivity activity,int position) {
         atyItem = ActData;
         commentDatas = commentDatas1;
         this.activity = activity;
@@ -90,22 +92,22 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AtyViewHolder) holder).aty_content.setText(atyItem.getAtyContent());
             ((AtyViewHolder) holder).total_comment.setText(atyItem.getAtyComment());
             ((AtyViewHolder) holder).totle_plus.setText(atyItem.getAtyPlus());
-            ((AtyViewHolder) holder).publish_time.setText(atyItem.getAtyStartTime() + "-" + atyItem.getAtyEndTime());
+            ((AtyViewHolder) holder).publish_time.setText(atyItem.getAtyStartTime() + "-\n" + atyItem.getAtyEndTime());
             ((AtyViewHolder) holder).activity_tag.setText(atyItem.getAtyType());
             ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
             ((AtyViewHolder) holder).atyPlace.setText(atyItem.getAtyPlace());
             ((AtyViewHolder) holder).total_member.setText(atyItem.getAtyMembers());
-            if(atyItem.getAtyPlused().equals("false")){
+            if (atyItem.getAtyPlused().equals("false")) {
                 ((AtyViewHolder) holder).plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-            }
-            else if(atyItem.getAtyPlused().equals("true")){
+                ((AtyViewHolder) holder).plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+            } else if (atyItem.getAtyPlused().equals("true")) {
                 ((AtyViewHolder) holder).plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+                ((AtyViewHolder) holder).plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
             }
-            if(atyItem.getAtyJoined().equals("true")){
+            if (atyItem.getAtyJoined().equals("true")) {
                 ((AtyViewHolder) holder).mjoinBtn.setText("已加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
-            }
-            else if(atyItem.getAtyJoined().equals("false")){
+            } else if (atyItem.getAtyJoined().equals("false")) {
                 ((AtyViewHolder) holder).mjoinBtn.setText("加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
             }
@@ -263,7 +265,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                     intent.putExtra(Intent.EXTRA_TITLE, "Title");
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-                    intent.putExtra(Intent.EXTRA_TEXT, "我要参加"+atyItem.getAtyName()+"，快来跟我一起吧！");
+                    intent.putExtra(Intent.EXTRA_TEXT, "我要参加" + atyItem.getAtyName() + "，快来跟我一起吧！");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(Intent.createChooser(intent, "Share"));
                 }
@@ -272,22 +274,11 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             plus_fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-                    Boolean isPlus = false;
                     if (atyItem.getAtyPlused().equals("true")) {
-                        isPlus = prefs.getBoolean("isPlus", true);
-                    }
-                    else if (atyItem.getAtyPlused().equals("false")) {
-                        isPlus = prefs.getBoolean("isPlus", false);
-                    }
-                    if (isPlus) {
                         plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-                        SharedPreferences.Editor editor = prefs.edit();
                         plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
                         atyItem.setAtyPlused("false");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
-                        editor.putBoolean("isPlus", false);
-                        editor.apply();
                         notifyDataSetChanged();
                         try {
                             totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) - 1);
@@ -297,12 +288,9 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     } else {
                         plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-                        SharedPreferences.Editor editor = prefs.edit();
                         plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
                         atyItem.setAtyPlused("true");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
-                        editor.putBoolean("isPlus", true);
-                        editor.apply();
                         notifyDataSetChanged();
                         try {
                             totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) + 1);

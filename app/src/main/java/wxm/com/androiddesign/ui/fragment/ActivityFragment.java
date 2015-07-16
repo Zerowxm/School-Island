@@ -49,7 +49,7 @@ public class ActivityFragment extends Fragment {
     RecyclerView recyclerView;
 
 
-    MyRecycerAdapter myRecycerAdapter;
+    static MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ScrollManager manager = new ScrollManager();
 
@@ -142,55 +142,28 @@ public class ActivityFragment extends Fragment {
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
 
         String jsonarrys =
-                "[{\"atyContent\":\"5\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"cc\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n" +
+                "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n"+
+                        "\"atyAlbum\":[\"cc\",\"dd\"],\n" +
+                        "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
+                        "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
+
+                        "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
+                        "\"atyAlbum\":[\"ff\",\"dd\"],\n" +
+
+                        "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
+                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}"+
                         "]";
         activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
         }.getType());
-        myRecycerAdapter=new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity());
+        myRecycerAdapter=new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity(),"ActivityFragment");
         recyclerView.setAdapter(myRecycerAdapter);
+    }
+
+    public static void refresh(AtyItem atyItem,int position){
+        activityItems.remove(position);
+        activityItems.add(position,atyItem);
+        myRecycerAdapter.notifyDataSetChanged();
     }
 }

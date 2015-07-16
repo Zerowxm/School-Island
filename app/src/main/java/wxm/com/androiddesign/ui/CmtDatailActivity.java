@@ -30,7 +30,7 @@ public class CmtDatailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
 
-        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList, this));
+        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList, this,"CmtDatailActivity"));
 
     }
 

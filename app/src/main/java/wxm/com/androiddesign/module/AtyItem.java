@@ -171,12 +171,13 @@ public class AtyItem implements Parcelable {
     }
 
     public AtyItem(String action, String userId, String userName, String userPhoto,
-                   String atyName, String atyStartTime, String atyEndTime,
+                   String atyName,String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
                    List<String> atyAlbum) {
         this.action = action;
         this.userId = userId;
+        this.atyType = atyType;
         this.userName = userName;
         this.userPhoto = userPhoto;
         this.atyName = atyName;

@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,8 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
+import wxm.com.androiddesign.ui.fragment.ActivityFragment;
+import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class DetailActivity extends AppCompatActivity {
     MultipleItemAdapter multipleItemAdapter;// = new MultipleItemAdapter(activityItemData,commentDatas);
     AtyItem atyItem;
     ArrayList<CommentData> commentDatas = new ArrayList<CommentData>();
+    int position;
+    String fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +45,9 @@ public class DetailActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
-
-        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas,this);
+        position = bundle.getInt("position");
+        fragment = bundle.getString("fragment");
+        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas,this,position);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
@@ -111,7 +117,7 @@ public class DetailActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas,this));
+        recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas,this,position));
         recyclerView.setAdapter(multipleItemAdapter);
     }
 
@@ -120,6 +126,15 @@ public class DetailActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(fragment.equals("HomeFragment"))
+            HomeFragment.refresh(atyItem,position);
+        else if(fragment.equals("ActivityFragment"))
+            ActivityFragment.refresh(atyItem,position);
     }
 
     @Override

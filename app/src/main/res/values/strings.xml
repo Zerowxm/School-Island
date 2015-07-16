@@ -35,6 +35,7 @@
     <string name="transition_card">transition_card</string>
     <string name="transition_user_photo">tansition_user_photo</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="transition_photo">transition_photo</string>
 
 
 

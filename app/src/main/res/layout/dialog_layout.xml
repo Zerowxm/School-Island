@@ -6,7 +6,8 @@
     android:gravity="center"
     >
 
-    <ImageView
+    <wxm.com.androiddesign.MatrixImageView
+        android:transitionName="transition_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/image_show" />

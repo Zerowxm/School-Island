@@ -3,6 +3,7 @@ package wxm.com.androiddesign.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,10 +40,12 @@ import butterknife.OnClick;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.AtyItem;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
+import wxm.com.androiddesign.utils.MyBitmapFactory;
 
 public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack {
 
@@ -121,9 +125,9 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Uri chosenImageUri = data.getData();
                 selectedImgUri = chosenImageUri;
                 //ImageView imageView = new ImageView(this);
-                RelativeLayout imageItem= (RelativeLayout)LayoutInflater.from(this).inflate(R.layout.image_item, null);
-                ImageView imageView=(ImageView)imageItem.getChildAt(0);
-                ImageView removeImage=(ImageView)imageItem.getChildAt(1);
+                RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
+                ImageView imageView = (ImageView) imageItem.getChildAt(0);
+                ImageView removeImage = (ImageView) imageItem.getChildAt(1);
                 removeImage.setTag(imageContains.getChildCount());
                 Log.d("image", "" + imageView.toString());
                 imageView.setLayoutParams(layoutParams);
@@ -139,9 +143,9 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
             }
             if (requestCode == TAKE_PHOTO) {
-                RelativeLayout imageItem= (RelativeLayout)LayoutInflater.from(this).inflate(R.layout.image_item, null);
-                ImageView imageView=(ImageView)imageItem.getChildAt(0);
-                ImageView removeImage=(ImageView)imageItem.getChildAt(1);
+                RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
+                ImageView imageView = (ImageView) imageItem.getChildAt(0);
+                ImageView removeImage = (ImageView) imageItem.getChildAt(1);
                 removeImage.setTag(imageContains.getChildCount());
                 Log.d("image", "" + imageView.toString());
                 imageView.setLayoutParams(layoutParams);
@@ -152,8 +156,14 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
                 Log.d("image", "" + imageView.toString());
                 if (selectedImgUri != null) {
-                    imageContains.addView(imageItem);
-                    uriList.add(selectedImgUri.toString());
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
+                        imageContains.addView(imageItem);
+                        //uriList.add(MyBitmapFactory.BitmapToString(bitmap));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
 
                 }
 
@@ -161,12 +171,12 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         }
     }
 
-    public void removePicture(View view){
+    public void removePicture(View view) {
         Log.d("image", "" + view.getTag());
-        int position=(int)view.getTag();
+        int position = (int) view.getTag();
         imageContains.removeViewAt(position);
         uriList.remove(position);
-        for(int i=0;i<imageContains.getChildCount();i++){
+        for (int i = 0; i < imageContains.getChildCount(); i++) {
             imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
         }
     }
@@ -178,9 +188,9 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         try {
             if (startTime.getText().toString().equals("开始时间")) {
                 Toast.makeText(this, "set your start time", Toast.LENGTH_SHORT).show();
-            } else if (startTime.getText().toString().equals("结束时间")) {
+            } else if (endTime.getText().toString().equals("结束时间")) {
                 Toast.makeText(this, "set your end time", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 Date d1 = df.parse(startTime.getText().toString());
                 Date d2 = df.parse(endTime.getText().toString());
                 long diff = d1.getTime() - d2.getTime();
@@ -193,30 +203,43 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 } else if (locaton.getText().toString().equals("add your location")) {
                     Toast.makeText(this, "set your location", Toast.LENGTH_SHORT).show();
                 } else {
-                    AtyItem atyItem = new AtyItem("release","userid","username","userphoto",atyName.getText().toString(), startTime.getText().toString(),
-                            endTime.getText().toString(), locaton.getText().toString(),"0",
+                    AtyItem atyItem = new AtyItem("release", "userid", "username", "userphoto", atyName.getText().toString(),"travel", startTime.getText().toString(),
+                            endTime.getText().toString(), locaton.getText().toString(), "1",
                             atyContent.getText().toString(), "0", "0",
-                           "true","false", "0", uriList);
-                    //json hear
+                            "true", "false", "0", uriList);
+                    new UpDateTask().execute(atyItem);
                     HomeFragment.addActivity(atyItem);
-
-                    MainActivity.instance.finish();
-                    Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
-                    intent.putExtra("send", true);
-                    finish();
-                    startActivity(intent);
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Toast.makeText(this, "error!", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
-    public interface addAty{
+    private class UpDateTask extends AsyncTask<AtyItem,Void,Void>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            finish();
+        }
+
+        @Override
+        protected Void doInBackground(AtyItem... params) {
+            JsonConnection.getJSON(new Gson().toJson(params[0]));
+//            HomeFragment.addActivity(params[0]);
+            return null;
+        }
+    }
+    public interface addAty {
         public void add(AtyItem atyItem);
     }
+
     @OnClick(R.id.add_start_time)
     public void addStartTime() {
         timeType = STARTTIME;
