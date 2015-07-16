@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,18 +41,20 @@ import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
-public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack{
+public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack {
 
     private int timeType;
-    public static final int STARTTIME=0x1;
-    public static final int ENDTIME=0x2;
+    public static final int STARTTIME = 0x1;
+    public static final int ENDTIME = 0x2;
 
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
     public static final int GET_LOCATION = 3;
     private LinearLayout.LayoutParams layoutParams;
-    private List<Uri> uriList = new ArrayList<Uri>();
+    private List<String> uriList = new ArrayList<>();
     private Uri selectedImgUri;
+
+    addAty addAty;
     // atyItem = new AtyItem();
 
     @Bind(R.id.sendButton)
@@ -63,7 +66,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @Bind(R.id.start_time)
     TextView startTime;
-    @Bind(R.id.end_time)TextView endTime;
+    @Bind(R.id.end_time)
+    TextView endTime;
     @Bind(R.id.aty_name)
     TextView atyName;
     @Bind(R.id.aty_content)
@@ -121,7 +125,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Glide.with(this).load(selectedImgUri).into(imageView);
                 if (selectedImgUri != null) {
                     imageContains.addView(imageItem);
-                    uriList.add(selectedImgUri);
+                    uriList.add(selectedImgUri.toString());
                 }
             }
             if (requestCode == TAKE_PHOTO) {
@@ -130,32 +134,65 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Glide.with(this).load(selectedImgUri).into(imageView);
                 imageView.setLayoutParams(layoutParams);
                 imageContains.addView(imageView);
-                uriList.add(selectedImgUri);
+                uriList.add(selectedImgUri.toString());
             }
         }
     }
 
     @OnClick(R.id.sendButton)
     public void send() {
-        //AtyItem atyItem = new AtyItem();
-        //HomeFragment.addActivity(atyItem);
-        MainActivity.instance.finish();
-        Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
-        intent.putExtra("send", true);
-        finish();
-        startActivity(intent);
+        DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+        try {
+            if (startTime.getText().toString().equals("开始时间")) {
+                Toast.makeText(this, "set your start time", Toast.LENGTH_SHORT).show();
+            } else if (startTime.getText().toString().equals("结束时间")) {
+                Toast.makeText(this, "set your end time", Toast.LENGTH_SHORT).show();
+            }else {
+                Date d1 = df.parse(startTime.getText().toString());
+                Date d2 = df.parse(endTime.getText().toString());
+                long diff = d1.getTime() - d2.getTime();
+                if (diff >= 0) {
+                    Toast.makeText(this, "end time must be later than start time", Toast.LENGTH_SHORT).show();
+                } else if (atyName.getText().toString().equals("")) {
+                    Toast.makeText(this, "set your activity name", Toast.LENGTH_SHORT).show();
+                } else if (atyContent.getText().toString().equals("")) {
+                    Toast.makeText(this, "set your activity content", Toast.LENGTH_SHORT).show();
+                } else if (locaton.getText().toString().equals("add your location")) {
+                    Toast.makeText(this, "set your location", Toast.LENGTH_SHORT).show();
+                } else {
+                    AtyItem atyItem = new AtyItem("release","userid","username","userphoto",atyName.getText().toString(), startTime.getText().toString(),
+                            endTime.getText().toString(), locaton.getText().toString(),"0",
+                            atyContent.getText().toString(), "0", "0",
+                           "true","false", "0", uriList);
+                    //json hear
+                    HomeFragment.addActivity(atyItem);
+
+                    MainActivity.instance.finish();
+                    Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
+                    intent.putExtra("send", true);
+                    finish();
+                    startActivity(intent);
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "error!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
+    public interface addAty{
+        public void add(AtyItem atyItem);
+    }
     @OnClick(R.id.add_start_time)
-     public void addStartTime() {
-        timeType=STARTTIME;
+    public void addStartTime() {
+        timeType = STARTTIME;
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "date");
     }
+
     @OnClick(R.id.add_end_time)
     public void addEndTime() {
-        timeType=ENDTIME;
+        timeType = ENDTIME;
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "date");
     }
@@ -170,6 +207,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @OnClick(R.id.add_image)
     public void addImg() {
+
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         photoPickerIntent.setType("image/*");
         Intent chooseImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -178,6 +216,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{chooseImage});
         photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(chooserIntent, CHOOSE_PHOTO);
+
     }
 
     @OnClick(R.id.take_photo)
@@ -202,9 +241,9 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @Override
     public void addTime(String time) {
-        if(timeType==STARTTIME){
+        if (timeType == STARTTIME) {
             startTime.setText(time);
-        }   else {
+        } else {
             endTime.setText(time);
         }
     }

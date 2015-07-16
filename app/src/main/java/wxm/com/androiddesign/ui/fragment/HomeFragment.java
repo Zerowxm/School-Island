@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.SearchManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,6 +42,7 @@ import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.ReleaseActivity;
 import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.TransparentToolBar;
 
@@ -89,6 +92,23 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return v;
     }
 
+    private void setupData(){
+
+    }
+
+    private class getData extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            myRecycerAdapter.notifyDataSetChanged();
+            return null;
+        }
+    }
+
     private void setupSpinner(Spinner spinner){
         List<String> spinnerarry=new ArrayList<String>();
         spinnerarry.add("厦门");
@@ -106,51 +126,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         //String test="{\"atyContent\":\"1\",\"time\":\"1\",\"atyName\":\"1\",\"comment\":\"1\",\"image\":[\"aa\",\"bb\"],\"imageUri\":[{\"uriString\":\"http://www.baidu.com\",\"scheme\":\"NOT CACHED\",\"cachedSsi\":-2,\"cachedFsi\":-2,\"host\":\"NOT CACHED\",\"port\":-2}],\"location\":\"1\",\"plus\":\"1\",\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n";
         String jsonarrys =
-                "[{\"atyContent\":\"5\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
+                "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n"+
                         "\"image\":[\"cc\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
+                        "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
+                        "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
+
+                        "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
                         "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0},\n" +
-                        "{\"atyContent\":\"6\",\"time\":\"1\",\"atyName\":\"1\",\n" +
-                        "\"comment\":\"1\",\n" +
-                        "\"image\":[\"ff\",\"dd\"],\n" +
-                        "\"location\":\"1\",\"plus\":\"1\",\n" +
-                        "\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n" +
+                        "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
+                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}"+
                         "]";
         String json = "{\"atyContent\":\"1\",\"time\":\"2\",\"atyName\":\"3\",\n" +
                 "\"comment\":\"4\",\n" +
@@ -229,6 +215,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        Log.d("spinner","nothing"+parent.getId());
+        Log.d("spinner", "nothing" + parent.getId());
     }
 }

@@ -65,12 +65,14 @@ public class DetailActivity extends AppCompatActivity {
                 if (cmt_text.getText() != null && !cmt_text.getText().toString().equals("")) {
                     SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     try {
-                        Date oldDate = oldFormatter.parse("2015-07-08 16:56:00");
+                        Date oldDate = oldFormatter.parse("2015-07-14 16:56:00");
                         Date nowDate=new Date(System.currentTimeMillis());
                         long time = nowDate.getTime()-oldDate.getTime();
                         String str = getSubTime(time);
-                        //commentDatas.add(new CommentData(str,cmt_text.getText().toString()));
+                        commentDatas.add(new CommentData("comment","userId",str,cmt_text.getText().toString()));
                         cmt_text.setText(null);
+
+                        //!json
                         multipleItemAdapter.notifyDataSetChanged();
 
                     } catch (ParseException e) {
