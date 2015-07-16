@@ -34,6 +34,7 @@
     <string name="transition_date">2</string>
     <string name="transition_card">transition_card</string>
     <string name="transition_user_photo">tansition_user_photo</string>
+    <string name="transition_photo">tansition_photo</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
 
 
