@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
 
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,7 +60,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         COMMENT_TYPE
     }
 
-    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1,AppCompatActivity activity) {
+    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1, AppCompatActivity activity) {
         atyItem = ActData;
         commentDatas = commentDatas1;
         this.activity = activity;
@@ -83,19 +83,33 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof AtyViewHolder) {
-
-
-          //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
-            //((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.getUserName());
-            //((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.getUserIcon());
-            ((AtyViewHolder) holder).activityItem.aty_name.setText(atyItem.getAtyName());
-            ((AtyViewHolder) holder).activityItem.aty_content.setText(atyItem.getAtyContent());
-            ((AtyViewHolder) holder).activityItem.total_comment.setText(atyItem.getAtyComment());
-            ((AtyViewHolder) holder).activityItem.total_plus.setText(atyItem.getAtyPlus());
-            ((AtyViewHolder) holder).activityItem.publish_time.setText(atyItem.getAtyStartTime());
-            ((AtyViewHolder) holder).activityItem.activity_tag.setText(atyItem.getAtyType());
+            //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
+            // ((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.getUserName());
+            //  ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.getUserIcon());
+            ((AtyViewHolder) holder).aty_name.setText(atyItem.getAtyName());
+            ((AtyViewHolder) holder).aty_content.setText(atyItem.getAtyContent());
+            ((AtyViewHolder) holder).total_comment.setText(atyItem.getAtyComment());
+            ((AtyViewHolder) holder).totle_plus.setText(atyItem.getAtyPlus());
+            ((AtyViewHolder) holder).publish_time.setText(atyItem.getAtyStartTime() + "-" + atyItem.getAtyEndTime());
+            ((AtyViewHolder) holder).activity_tag.setText(atyItem.getAtyType());
             ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
-            for (int i=0;i<atyItem.getAtyAlbum().size();i++){
+            ((AtyViewHolder) holder).atyPlace.setText(atyItem.getAtyPlace());
+            ((AtyViewHolder) holder).total_member.setText(atyItem.getAtyMembers());
+            if(atyItem.getAtyPlused().equals("false")){
+                ((AtyViewHolder) holder).plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+            }
+            else if(atyItem.getAtyPlused().equals("true")){
+                ((AtyViewHolder) holder).plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+            }
+            if(atyItem.getAtyJoined().equals("true")){
+                ((AtyViewHolder) holder).mjoinBtn.setText("已加入");
+                ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
+            }
+            else if(atyItem.getAtyJoined().equals("false")){
+                ((AtyViewHolder) holder).mjoinBtn.setText("加入");
+                ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
+            }
+            /*for (int i=0;i<atyItem.getAtyAlbum().size();i++){
                 ImageView imageView=(ImageView)activity.getLayoutInflater().inflate(R.layout.image_item,null);
                 WindowManager windowManager=activity.getWindowManager();
                 DisplayMetrics dm=new DisplayMetrics();
@@ -117,14 +131,14 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
-            }
+            }*/
             setAnimation(((AtyViewHolder) holder).cardView, position);
 
         } else if (holder instanceof CommentViewHolder) {
-            CommentData item = commentDatas.get(position-1);
-          //  ((CommentViewHolder) holder).user_name.setText(item.getUserName());
+            CommentData item = commentDatas.get(position - 1);
+            //  ((CommentViewHolder) holder).user_name.setText(item.getUserName());
             ((CommentViewHolder) holder).time.setText(item.getTime());
-           // ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
+            // ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
             ((CommentViewHolder) holder).user_comment.setText(item.getComment());
         }
     }
@@ -139,7 +153,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return commentDatas.size()+1;
+        return commentDatas.size() + 1;
     }
 
     @Override
@@ -148,43 +162,92 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-
-    public class CommentViewHolder extends RecyclerView.ViewHolder{
-        @Bind(R.id.user_photo) CircleImageView user_photo;
-        @Bind(R.id.user_name) TextView user_name;
-        @Bind(R.id.user_comment) TextView user_comment;
-        @Bind(R.id.time) TextView time;
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.user_photo)
+        CircleImageView user_photo;
+        @Bind(R.id.user_name)
+        TextView user_name;
+        @Bind(R.id.user_comment)
+        TextView user_comment;
+        @Bind(R.id.time)
+        TextView time;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            user_photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, UserAcitivity.class);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
+                    );
+                    ActivityCompat.startActivity(activity, intent, options.toBundle());
+                }
+            });
         }
     }
 
-    public class AtyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        ActivityItem activityItem;
-        LinearLayout imageViewContainer;
+    public class AtyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @Bind(R.id.join)
+        Button mjoinBtn;
+        @Bind(R.id.total_share)
+        TextView total_share;
+        @Bind(R.id.location)
+        TextView atyPlace;
+        @Bind(R.id.card_view)
         CardView cardView;
+        @Bind(R.id.imageViewContainer)
+        LinearLayout imageViewContainer;
+        @Bind(R.id.tag)
+        TextView activity_tag;
+        @Bind(R.id.fab_comment)
+        FloatingActionButton comment_fab;
+        @Bind(R.id.fab_plus)
+        FloatingActionButton plus_fab;
+        @Bind(R.id.total_plus)
+        TextView totle_plus;
+        @Bind(R.id.publish_time)
+        TextView publish_time;
+        @Bind(R.id.total_comment)
+        TextView total_comment;
+        @Bind(R.id.user_name)
+        TextView user_name;
+        @Bind(R.id.user_photo)
+        CircleImageView user_photo;
+        @Bind(R.id.aty_name)
+        TextView aty_name;
+        @Bind(R.id.aty_content)
+        TextView aty_content;
+        @Bind(R.id.fab_share)
+        FloatingActionButton share_fab;
+        @Bind(R.id.member_num)
+        TextView total_member;
 
         public AtyViewHolder(View itemView) {
             super(itemView);
-            activityItem = new ActivityItem();
-            cardView = (CardView) itemView.findViewById(R.id.card_view);
-            imageViewContainer=(LinearLayout)itemView.findViewById(R.id.imageViewContainer);
-            activityItem.activity_tag = (TextView) itemView.findViewById(R.id.tag);
-            activityItem.comment_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_comment);
-            activityItem.plus_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_plus);
-            activityItem.publish_image = (ImageView) itemView.findViewById(R.id.acitivity_image);
-            activityItem.total_plus = (TextView) itemView.findViewById(R.id.total_plus);
-            activityItem.publish_time = (TextView) itemView.findViewById(R.id.publish_time);
-            activityItem.total_comment = (TextView) itemView.findViewById(R.id.total_comment);
-            activityItem.user_name = (TextView) itemView.findViewById(R.id.user_name);
-            activityItem.user_photo = (CircleImageView) itemView.findViewById(R.id.user_photo);
-            activityItem.aty_name = (TextView)itemView.findViewById(R.id.aty_name);
-            activityItem.aty_content = (TextView)itemView.findViewById(R.id.aty_content);
-            activityItem.share_fab = (FloatingActionButton)itemView.findViewById(R.id.fab_share);
+            ButterKnife.bind(this, itemView);
 
-            activityItem.share_fab.setOnClickListener(new View.OnClickListener() {
+            mjoinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if ("加入".equals(mjoinBtn.getText().toString())) {
+                        mjoinBtn.setText("已加入");
+                        atyItem.setAtyJoined("true");
+                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
+                        mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
+                        notifyDataSetChanged();
+                    } else {
+                        mjoinBtn.setText("加入");
+                        atyItem.setAtyJoined("false");
+                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
+                        mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+
+            share_fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final String imgPath = null;
@@ -200,49 +263,61 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                     intent.putExtra(Intent.EXTRA_TITLE, "Title");
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-                    intent.putExtra(Intent.EXTRA_TEXT, "You are sharing text!");
+                    intent.putExtra(Intent.EXTRA_TEXT, "我要参加"+atyItem.getAtyName()+"，快来跟我一起吧！");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(Intent.createChooser(intent, "Share"));
                 }
             });
 
-            activityItem.plus_fab.setOnClickListener(new View.OnClickListener() {
+            plus_fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPreferences prefs=activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-                    Boolean isPlus=prefs.getBoolean("isPlus", false);
-                    if(isPlus){
-                        activityItem.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-                        SharedPreferences.Editor editor=prefs.edit();
+                    SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                    Boolean isPlus = false;
+                    if (atyItem.getAtyPlused().equals("true")) {
+                        isPlus = prefs.getBoolean("isPlus", true);
+                    }
+                    else if (atyItem.getAtyPlused().equals("false")) {
+                        isPlus = prefs.getBoolean("isPlus", false);
+                    }
+                    if (isPlus) {
+                        plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+                        SharedPreferences.Editor editor = prefs.edit();
+                        plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+                        atyItem.setAtyPlused("false");
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
                         editor.putBoolean("isPlus", false);
                         editor.apply();
+                        notifyDataSetChanged();
                         try {
-                            activityItem.total_plus.setText(Integer.parseInt(activityItem.total_plus.getText().toString()) - 1);
-                        }
-                        catch (Exception e) {
+                            totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) - 1);
+                        } catch (Exception e) {
 
                         }
 
-                    }else {
-                        activityItem.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-                        SharedPreferences.Editor editor=prefs.edit();
-                        editor.putBoolean("isPlus",true);
+                    } else {
+                        plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+                        SharedPreferences.Editor editor = prefs.edit();
+                        plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
+                        atyItem.setAtyPlused("true");
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
+                        editor.putBoolean("isPlus", true);
                         editor.apply();
+                        notifyDataSetChanged();
                         try {
-                            activityItem.total_plus.setText(Integer.parseInt(activityItem.total_plus.getText().toString()) + 1);
-                        }
-                        catch (Exception e) {
+                            totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) + 1);
+                        } catch (Exception e) {
 
                         }
                     }
                 }
             });
 
-            activityItem.user_photo.setOnClickListener(new View.OnClickListener() {
+            user_photo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, UserAcitivity.class);
-                    ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
                     );
                     ActivityCompat.startActivity(activity, intent, options.toBundle());

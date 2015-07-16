@@ -52,6 +52,7 @@ import wxm.com.androiddesign.ui.DetailActivity;
 
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
 
 /**
@@ -61,6 +62,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     protected static List<AtyItem> activityItems;
     private int lastPosition = -1;
     private static AppCompatActivity activity;
+    AtyItem item;
 
     public MyRecycerAdapter(List<AtyItem> activityItemArrayList, AppCompatActivity activity) {
         activityItems = activityItemArrayList;
@@ -75,10 +77,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
-                );
-                ActivityCompat.startActivity(activity, intent, options.toBundle());
+                activity.startActivity(intent);
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
+//                );
+//                ActivityCompat.startActivity(activity, intent, options.toBundle());
             }
 
             @Override
@@ -88,7 +91,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onCard(CardView cardView, int position) {
                 Intent intent = new Intent(activity, DetailActivity.class);
-                //intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
+                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
                 );
@@ -96,22 +99,58 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             }
 
             @Override
-            public void onComment(FloatingActionButton fab, int adapterPosition,TextView comment,TextView share) {
+            public void onComment(FloatingActionButton fab, int adapterPosition) {
                 Intent intent = new Intent(activity, DetailActivity.class);
-                comment.setText("22");
-                share.setText("22");
-                //intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
+                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                 activity.startActivity(intent);
             }
 
             @Override
-            public void onJoinBtn(Button button) {
+            public void onJoinBtn(Button button, int adapterPosition) {
+                AtyItem atyItem = activityItems.get(adapterPosition);
                 if ("加入".equals(button.getText().toString())) {
                     button.setText("已加入");
+                    atyItem.setAtyJoined("true");
+                    atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
                     button.setTextColor(activity.getResources().getColor(R.color.primary));
+                    notifyDataSetChanged();
                 } else {
                     button.setText("加入");
+                    atyItem.setAtyJoined("false");
+                    atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
                     button.setTextColor(activity.getResources().getColor(R.color.black));
+                    notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus) {
+                SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                Boolean isPlus = false;
+                AtyItem atyItem = activityItems.get(adapterPosition);
+                if (atyItem.getAtyPlused().equals("true"))
+                    isPlus = prefs.getBoolean("isPlus", true);
+                else if (atyItem.getAtyPlused().equals("false"))
+                    isPlus = prefs.getBoolean("isPlus", false);
+                if (isPlus) {
+                    fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+                    SharedPreferences.Editor editor = prefs.edit();
+                    //activityItem.plus_fab.setBackgroundDrawable();
+                    fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+                    atyItem.setAtyPlused("false");
+                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
+                    editor.putBoolean("isPlus", false);
+                    editor.apply();
+                    notifyDataSetChanged();
+                } else {
+                    fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+                    fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
+                    SharedPreferences.Editor editor = prefs.edit();
+                    atyItem.setAtyPlused("true");
+                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
+                    editor.putBoolean("isPlus", true);
+                    editor.apply();
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -119,16 +158,18 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final AtyItem item = activityItems.get(position);
-        //holder.activityItem.user_name.setText(item.getUserName());
-       // holder.activityItem.user_photo.setImageResource(item.getUserIcon());
-        holder.activityItem.total_comment.setText(item.getAtyComment());
-        holder.activityItem.aty_name.setText(item.getAtyName());
-        holder.activityItem.aty_content.setText(item.getAtyContent());
-        holder.activityItem.total_plus.setText(item.getAtyPlus());
-        holder.activityItem.publish_time.setText(item.getAtyStartTime());
-        holder.activityItem.activity_tag.setText(item.getAtyType());
+        item = activityItems.get(position);
 
+        holder.total_comment.setText(item.getAtyComment());
+        holder.aty_name.setText(item.getAtyName());
+        holder.aty_content.setText(item.getAtyContent());
+        holder.totle_plus.setText(item.getAtyPlus());
+        holder.publish_time.setText(item.getAtyStartTime()+"-"+item.getAtyEndTime());
+        holder.activity_tag.setText(item.getAtyType());
+        holder.atyPlace.setText(item.getAtyPlace());
+        holder.total_member.setText(item.getAtyMembers());
+        holder.totle_plus.setText(item.getAtyPlus());
+        holder.total_comment.setText(item.getAtyComment());
 //        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
 //            ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image_item, null);
 //            WindowManager windowManager = activity.getWindowManager();
@@ -137,21 +178,35 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 //            int width = display.getWidth() - 7;
 //            int height = display.getHeight();
 //            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
-//            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+//            Glide.with(activity).load(Uri.parse(item.getAtyAlbum().get(i))).into(imageView);
 //            imageView.setLayoutParams(layoutParams);
 //            imageView.setTag(i);
 //            imageView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    //Uri uri = item.getAtyAlbum().get((Integer) v.getTag());
+//                    Uri uri =Uri.parse(item.getAtyAlbum().get((Integer) v.getTag()));
 //                    MyDialog dialog = new MyDialog();
-//                    //dialog.setUri(uri);
+//                    dialog.setUri(uri);
 //                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
 //                }
 //            });
 //            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //            holder.imageViewContainer.addView(imageView);
-//        }
+        // }
+
+        if (item.getAtyPlused().equals("false")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+        } else if (item.getAtyPlused().equals("true")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+        }
+
+        if (item.getAtyJoined().equals("true")) {
+            holder.mjoinBtn.setText("已加入");
+            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
+        } else if (item.getAtyJoined().equals("false")) {
+            holder.mjoinBtn.setText("加入");
+            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
+        }
 
         setAnimation(holder.cardView, position);
     }
@@ -169,28 +224,28 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         return activityItems.size();
     }
 
-    public void setModels(List<AtyItem> models){
-        activityItems=models;
+    public void setModels(List<AtyItem> models) {
+        activityItems = models;
     }
 
-    public AtyItem removeItem(int position){
-        final AtyItem atyItem=activityItems.remove(position);
+    public AtyItem removeItem(int position) {
+        final AtyItem atyItem = activityItems.remove(position);
         notifyItemRemoved(position);
         return atyItem;
     }
 
-    public void addItem(int position,AtyItem atyItem){
-        activityItems.add(position,atyItem);
+    public void addItem(int position, AtyItem atyItem) {
+        activityItems.add(position, atyItem);
         notifyItemInserted(position);
     }
 
-    public void moveItem(int fromPosition,int toPosition){
-        final AtyItem atyItem=activityItems.remove(fromPosition);
-        activityItems.add(toPosition,atyItem);
+    public void moveItem(int fromPosition, int toPosition) {
+        final AtyItem atyItem = activityItems.remove(fromPosition);
+        activityItems.add(toPosition, atyItem);
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    public void animateTo(List<AtyItem> models){
+    public void animateTo(List<AtyItem> models) {
         applyAndAnimateRemovals(models);
         applyAndAnimateAdditions(models);
         applyAndAnimateMovedItems(models);
@@ -227,37 +282,51 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ActivityItem activityItem;
         MyViewHolderClicks mListener;
-        CardView cardView;
-        LinearLayout imageViewContainer;
+
         @Bind(R.id.join)
         Button mjoinBtn;
-        @Bind(R.id.total_comment)TextView total_comment;
-        @Bind(R.id.total_share)TextView total_share;
-
+        @Bind(R.id.total_share)
+        TextView total_share;
+        @Bind(R.id.location)
+        TextView atyPlace;
+        @Bind(R.id.card_view)
+        CardView cardView;
+        @Bind(R.id.imageViewContainer)
+        LinearLayout imageViewContainer;
+        @Bind(R.id.tag)
+        TextView activity_tag;
+        @Bind(R.id.fab_comment)
+        FloatingActionButton comment_fab;
+        @Bind(R.id.fab_plus)
+        FloatingActionButton plus_fab;
+        @Bind(R.id.total_plus)
+        TextView totle_plus;
+        @Bind(R.id.publish_time)
+        TextView publish_time;
+        @Bind(R.id.total_comment)
+        TextView total_comment;
+        @Bind(R.id.user_name)
+        TextView user_name;
+        @Bind(R.id.user_photo)
+        CircleImageView user_photo;
+        @Bind(R.id.aty_name)
+        TextView aty_name;
+        @Bind(R.id.aty_content)
+        TextView aty_content;
+        @Bind(R.id.member_num)
+        TextView total_member;
 
 
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
             mListener = listener;
             ButterKnife.bind(this, itemView);
-            cardView = (CardView) itemView.findViewById(R.id.card_view);
-            imageViewContainer = (LinearLayout) itemView.findViewById(R.id.imageViewContainer);
-            activityItem = new ActivityItem();
-            activityItem.activity_tag = (TextView) itemView.findViewById(R.id.tag);
-            activityItem.comment_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_comment);
-            activityItem.plus_fab = (FloatingActionButton) itemView.findViewById(R.id.fab_plus);
-            activityItem.total_plus = (TextView) itemView.findViewById(R.id.total_plus);
-            activityItem.publish_time = (TextView) itemView.findViewById(R.id.publish_time);
-            activityItem.total_comment = (TextView) itemView.findViewById(R.id.total_comment);
-            activityItem.user_name = (TextView) itemView.findViewById(R.id.user_name);
-            activityItem.user_photo = (CircleImageView) itemView.findViewById(R.id.user_photo);
-            activityItem.aty_name = (TextView) itemView.findViewById(R.id.aty_name);
-            activityItem.aty_content = (TextView) itemView.findViewById(R.id.aty_content);
             cardView.setOnClickListener(this);
-            activityItem.comment_fab.setOnClickListener(this);
-            activityItem.user_photo.setOnClickListener(this);
+            comment_fab.setOnClickListener(this);
+            user_photo.setOnClickListener(this);
             mjoinBtn.setOnClickListener(this);
-            setTextView(activityItem.aty_content);
+            plus_fab.setOnClickListener(this);
+            setTextView(aty_content);
         }
 
         public void setTextView(TextView tv) {
@@ -273,36 +342,18 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
                 mListener.onUserPhoto((CircleImageView) v);
             } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_comment)) {
-                mListener.onComment((FloatingActionButton) v, getAdapterPosition(),total_comment,total_share);
+                mListener.onComment((FloatingActionButton) v, getAdapterPosition());
+            } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_plus)) {
+                mListener.onPlus((FloatingActionButton) v, getAdapterPosition(), totle_plus);
             } else if (v instanceof ImageView) {
                 mListener.onPicture((ImageView) v);
             } else if (v instanceof CardView) {
                 mListener.onCard((CardView) v, getLayoutPosition());
             } else if (v instanceof Button) {
-                mListener.onJoinBtn((Button) v);
+                mListener.onJoinBtn((Button) v,getAdapterPosition());
             }
         }
 
-        @OnClick(R.id.fab_plus)
-
-        public void onPlus() {
-            SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            Boolean isPlus = prefs.getBoolean("isPlus", false);
-            if (isPlus) {
-                activityItem.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-                SharedPreferences.Editor editor = prefs.edit();
-                //activityItem.plus_fab.setBackgroundDrawable();
-                activityItem.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
-                editor.putBoolean("isPlus", false);
-                editor.apply();
-            } else {
-                activityItem.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-                activityItem.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("isPlus", true);
-                editor.apply();
-            }
-        }
 
         @OnClick(R.id.fab_share)
         public void onShare() {
@@ -325,7 +376,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         }
 
 
-
         public interface MyViewHolderClicks {
             public void onUserPhoto(CircleImageView user_photo);
 
@@ -334,9 +384,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onCard(CardView cardView, int position);
 
             //            public void onPlus(FloatingActionButton fab);
-            public void onComment(FloatingActionButton fab, int adapterPosition,TextView comment,TextView share);
+            public void onComment(FloatingActionButton fab, int adapterPosition);
 
-            public void onJoinBtn(Button button);
+            public void onJoinBtn(Button button,int adpterPosition);
+
+            public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus);
         }
     }
 }

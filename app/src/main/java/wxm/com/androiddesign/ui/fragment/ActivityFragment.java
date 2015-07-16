@@ -79,7 +79,7 @@ public class ActivityFragment extends Fragment {
         View v;
         if(type==Joined||type==Release){
             v = inflater.inflate(R.layout.activity_user_fragment, viewGroup, false);
-            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+            recyclerView = (RecyclerView) v;
             setupRecyclerView(recyclerView);
         }
         else {

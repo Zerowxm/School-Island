@@ -1,8 +1,11 @@
 package wxm.com.androiddesign;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +18,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by hdchen on 2015/6/30.
@@ -53,7 +63,46 @@ public class MyDialog extends DialogFragment{
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Save image", Toast.LENGTH_SHORT).show();
+                imageView.setDrawingCacheEnabled(true);
+                Bitmap bitmap = Bitmap.createBitmap(imageView.getDrawingCache());
+                imageView.setDrawingCacheEnabled(false);
+                File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                        getActivity().getPackageName());
+                if(!directory.exists())
+                    directory.mkdirs();
+
+                File f = new File(directory.getPath() + File.separator + getPhotoFileName());
+                if (f.exists()) {
+                    f.delete();
+                }
+                try {
+                    FileOutputStream out = new FileOutputStream(f);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    out.flush();
+                    out.close();
+                    if(f.exists()) {
+                        Toast.makeText(v.getContext(), "已保存到 "+"Pictures/"+getActivity().getPackageName(), Toast.LENGTH_LONG).show();
+                    } else{
+                        Toast.makeText(v.getContext(), "保存失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                // 其次把文件插入到系统图库
+                try {
+                    MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
+                            f.getAbsolutePath(), getPhotoFileName(), null);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                // 最后通知图库更新
+                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + f.getPath())));
+
+                //  MediaScannerConnection.scanFile(MainActivity.this, new String[]{f.getAbsolutePath().toString()}, null, null);
             }
         });
 
@@ -77,6 +126,11 @@ public class MyDialog extends DialogFragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+    }
+    private String getPhotoFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
+        return dateFormat.format(date) + ".jpg";
     }
 
     public void setBitmap(Bitmap bitmap){

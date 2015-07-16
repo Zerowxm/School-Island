@@ -100,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_group"/>
             <TextView
+                android:id="@+id/member_num"
                 android:layout_toRightOf="@id/personview"
                 android:layout_marginLeft="12dp"
                 android:layout_width="wrap_content"
