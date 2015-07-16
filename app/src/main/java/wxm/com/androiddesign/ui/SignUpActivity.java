@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -56,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Bind(R.id.email_text_input_layout)TextInputLayout emailInput;
     @Bind(R.id.userid_edit_text)EditText user_id;
     private Uri selectedImgUri;
-    String grant;
+    String gender;
     User user;
     Bitmap bitmap=null;
 
@@ -85,7 +86,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         ButterKnife.bind(this);
         setupTextInputLayout();
         setup();
-        //setupToolbar();
+       // setupToolbar();
     }
 
 
@@ -153,13 +154,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //            Snackbar.make(user_photo,"photo",Snackbar.LENGTH_SHORT).show();
 //            return;
 //        }
-        //String icon= MyBitmapFactory.BitmapToString(bitmap);
-//        user=new User("signup",get(user_id),get(user_name),get(password),get(emial),get(phone),
-//                grant,icon,"0");
+        bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.miao);
+        String icon= MyBitmapFactory.BitmapToString(bitmap);
 
-//        if(!isOnline()){
-//            return;
-//        }
+
+        user=new User("signup",get(user_id),get(user_name),get(password),get(emial),get(phone),
+                gender,icon,"0");
+
+        if(!isOnline()){
+            return;
+        }
 
         BackgroundTask task=new BackgroundTask(this);
         task.execute(user);
@@ -168,6 +172,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private class BackgroundTask extends AsyncTask<User,Void,Boolean>{
         MaterialDialog materialDialog;
         AppCompatActivity activity;
+        String mResult;
 
         public BackgroundTask(AppCompatActivity activity){
             this.activity=activity;
@@ -187,17 +192,34 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             //super.onPostExecute(aBoolean);
-            if (aBoolean)
-                Log.d("dialog","123");
+            if (aBoolean==true){
+
+            }else {
+                materialDialog.dismiss();
+                new MaterialDialog.Builder(activity)
+                        .title("注册失败")
+                        .content("用户名已存在")
+                        .positiveText("确定")
+                        .show();
+            }
+
 
         }
 
         @Override
         protected Boolean doInBackground(User... params) {
             Gson gson=new Gson();
-            Log.d("gson", gson.toJson(user));
+            Log.d("gson", gson.toJson(params[0]));
 
-            return true;
+            mResult=JsonConnection.getJSON(gson.toJson(user));
+            if(mResult!=""){
+                if(mResult.contains("false")){
+                    return false;
+                }
+                else if(mResult.contains("true"))
+                    return true;
+            }
+            return false;
 
         }
     }
@@ -211,7 +233,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     checkBox_woman.setChecked(false);
-                    grant=checkBox_man.getText().toString();
+                    gender=checkBox_man.getText().toString();
                 }
             }
         });
@@ -220,7 +242,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     checkBox_man.setChecked(false);
-                    grant = checkBox_woman.getText().toString();
+                    gender = checkBox_woman.getText().toString();
                 }
             }
         });

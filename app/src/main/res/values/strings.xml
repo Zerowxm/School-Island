@@ -26,6 +26,7 @@
 
     <!--prograss-->
     <string name="signup_title">Sign Up</string>
+    <string name="login_title">Logn in</string>
     <string name="please_wait">Please wait...</string>
 
     <!--transition_list-->

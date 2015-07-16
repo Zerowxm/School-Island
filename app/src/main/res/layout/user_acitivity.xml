@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fonts="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,49 +33,32 @@
                     android:id="@+id/user_photo"
                     android:layout_width="111dp"
                     android:layout_height="111dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/miao"
                     android:transitionName="@string/transition_user_photo"/>
 
-                <TextView
-                    android:id="@id/user_name"
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@+id/user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/user_photo"
-                    android:layout_marginLeft="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="40dp"
                     android:layout_marginTop="13dp"
-                    android:text="UserName"
-                    android:textColor="@android:color/black"
+                    android:text="昵称"
+                    fonts:typeface="Roboto-Bold.ttf"
+
                     android:textSize="33sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/user_id"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/user_name"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="13dp">
+                    android:text="积分：20"
+                    fonts:typeface="Roboto-Light.ttf"
+                    />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="关注数：20"
-                        android:textColor="@android:color/black" />
-
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="|"
-                        android:textColor="@android:color/black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="被关注数：10"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
 
             </RelativeLayout>
 

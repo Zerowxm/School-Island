@@ -4,12 +4,16 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 //import com.melnykov.fab.FloatingActionButton;
 
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,9 +26,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static MainActivity instance = null;
 
     @Bind(R.id.fab)FloatingActionButton fab;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +68,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupInfo(){
-        SharedPreferences prefs=getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-        String name=prefs.getString("Username",null);
-        String email=prefs.getString("Useremail",null);
-        if(name!=null&&email!=null){
-            ((TextView) findViewById(R.id.username)).setText(name);
-            ( (TextView) findViewById(R.id.user_email)).setText(email);
+
+    }
+
+    public class LoginTask extends AsyncTask<Void,Void,User>{
+        @Override
+        protected void onPostExecute(User aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected User doInBackground(Void... params) {
+            SharedPreferences prefs=getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+            String name=prefs.getString("UserId", null);
+            String password=prefs.getString("UserPassword",null);
+            JSONObject object=new JSONObject();
+            //object.put("action","")
+            return null;
         }
     }
 
     @Override
-    public void onLongin(String name,String email) {
+    public void onLongin(User user) {
+        this.user=user;
         SharedPreferences prefs=getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=prefs.edit();
-        editor.putString("Username",name);
-        editor.putString("Useremail", email);
+        editor.putString("UserId",user.getUserId());
+        editor.putString("UserPassword", user.getUserPassword());
         editor.apply();
-        ((TextView) findViewById(R.id.username)).setText(name);
-        ( (TextView) findViewById(R.id.user_email)).setText(email);
+        ((TextView) findViewById(R.id.username)).setText(user.getUserName());
+        ( (TextView) findViewById(R.id.user_email)).setText(user.getUserEmail());
     }
 
     private void setupDrawerContent(final NavigationView navigationView) {
@@ -137,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 drawerLayout.closeDrawers();
                 showLoginDialog();
-//               if(((TextView)findViewById(R.id.username)).getText().equals("未登录")){
+//               if(((TextView)findViewById(R.id.username)).getText().equals("游客")){
 //                    drawerLayout.closeDrawers();
 //                    showLoginDialog();
 //                }

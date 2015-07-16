@@ -186,7 +186,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeRefreshLayout.setProgressViewOffset(false, 0, 100);
+        swipeRefreshLayout.setProgressViewOffset(false, 0, 150);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override

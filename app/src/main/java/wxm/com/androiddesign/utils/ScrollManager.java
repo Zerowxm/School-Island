@@ -27,7 +27,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
     private int totalDy;
     private int initialOffset;
     private HashMap<View, Direction> viewsToHide = new HashMap<>();
-    SwipeRefreshLayout mRefreshLayout;
+    SwipeRefreshLayout mRefreshLayout=null;
 
     public static enum Direction {UP, DOWN}
 
@@ -53,13 +53,15 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         totalDy += dy;
-        //mRefreshLayout.setEnabled(false);
-        if(totalDy!=0){
-            mRefreshLayout.setEnabled(false);
-        }else {
-            Log.d("list",""+totalDy);
-            mRefreshLayout.setEnabled(true);
+        if(mRefreshLayout!=null){
+            if(totalDy!=0){
+                mRefreshLayout.setEnabled(false);
+            }else {
+                Log.d("list",""+totalDy);
+                mRefreshLayout.setEnabled(true);
+            }
         }
+
 
 
 

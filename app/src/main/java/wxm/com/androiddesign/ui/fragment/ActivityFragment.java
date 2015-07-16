@@ -37,10 +37,12 @@ import wxm.com.androiddesign.utils.ScrollManager;
  * Created by zero on 2015/6/25.
  */
 public class ActivityFragment extends Fragment {
-    public static final int Home=0;
+    public static final int Home=0x0;
     public static final int Hot=0x1;
-    public static final int Join=0x2;
-    public static final int Release=0x3;
+    public static final int Nearby=0x2;
+    public static final int Hight=0x3;
+    public static final int Joined=0x4;
+    public static final int Release=0x5;
 
     private int type;
 
@@ -49,6 +51,7 @@ public class ActivityFragment extends Fragment {
 
     MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    ScrollManager manager = new ScrollManager();
 
     public ActivityFragment(){
 
@@ -57,7 +60,7 @@ public class ActivityFragment extends Fragment {
     public static ActivityFragment newInstance(int type){
         ActivityFragment fragment=new ActivityFragment();
         Bundle args=new Bundle();
-        args.putInt("Type",type);
+        args.putInt("Type", type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,15 +76,25 @@ public class ActivityFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+        View v;
+        if(type==Joined||type==Release){
+            v = inflater.inflate(R.layout.activity_user_fragment, viewGroup, false);
+            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+            setupRecyclerView(recyclerView);
+        }
+        else {
+            v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
+            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+            mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+            setupSwipeRefreshLayout(mSwipeRefreshLayout);
+            setupRecyclerView(recyclerView);
+            manager.setSwipeRefreshLayout(mSwipeRefreshLayout);
+        }
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
-        ScrollManager manager = new ScrollManager();
-        manager.attach(recyclerView);
-        manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-        setupSwipeRefreshLayout(mSwipeRefreshLayout);
-        setupRecyclerView(recyclerView);
+
+
+
+
         return v;
     }
 
@@ -124,10 +137,9 @@ public class ActivityFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new MyItemAnimator());
-        ScrollManager manager = new ScrollManager();
+
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-        manager.setSwipeRefreshLayout(mSwipeRefreshLayout);
 
         String jsonarrys =
                 "[{\"atyContent\":\"5\",\"time\":\"1\",\"atyName\":\"1\",\n" +

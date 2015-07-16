@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpStatus;
@@ -63,6 +64,7 @@ public class LoginFragment extends DialogFragment {
     EditText user_name;
     @Bind(R.id.password_edit_text)
     EditText password;
+    String mResult="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +78,7 @@ public class LoginFragment extends DialogFragment {
     @OnClick(R.id.login_btn)
     public void Login() {
 
-        //loginCallBack.onLongin(user_name.getText().toString(), "zerowxm@gmail.com");
+        //
         //dismiss();
         myClickHandler();
     }
@@ -91,41 +93,67 @@ public class LoginFragment extends DialogFragment {
             user.setUserId(user_name.getText().toString());
             user.setUserPassword( password.getText().toString());
 
-            new LoginTask().execute(new Gson().toJson(user));
+            new LoginTask(getActivity()).execute(new Gson().toJson(user));
         } else {
             username_layout.setError("网络连接错误");
         }
     }
 
     private class LoginTask extends AsyncTask<String, Void, Boolean> {
+        MaterialDialog materialDialog;
+        Context context;
+
+        public LoginTask(Context context){
+            this.context=context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dismiss();
+            materialDialog=new MaterialDialog.Builder(context)
+                    .title(R.string.login_title)
+                    .content(R.string.please_wait)
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(false)
+                    .show();
+        }
 
         @Override
         protected Boolean doInBackground(String... params) {
             getJSON(params[0]);
-            return true;
+            if(mResult!=""){
+                if(mResult.contains("false")){
+                    return false;
+                }
+                else if(mResult.contains("true"))
+                return true;
+            }
+            return false;
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result==true){
-                //dismiss();
+                materialDialog.dismiss();
+                loginCallBack.onLongin(new Gson().fromJson(mResult,User.class));
                 //username_layout.setError("用户名错误");
             }
             else {
-                username_layout.setError("用户名错误");
+                materialDialog.dismiss();
+                new MaterialDialog.Builder(context)
+                        .title("登陆失败")
+                        .content("请重新登陆")
+                        .positiveText("确定")
+                        .show();
             }
         }
     }
 
     public void getJSON(String json) {
-
-            BufferedWriter bufferedWriter;
-            //BufferedReader bufferedReader;
-            StringBuffer result = new StringBuffer();
             try {
-                URL murl = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
-                //URL murl = new URL("http://101.200.191.149:8080/FirstWeb/HttpTestServlet");
+                URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
                 HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                 connection.setRequestProperty("Content-type", "application/json");
                 connection.setDoInput(true);
@@ -137,65 +165,34 @@ public class LoginFragment extends DialogFragment {
                 connection.connect();
                 OutputStream outStrm = connection.getOutputStream();
 
-                JSONObject jo = new JSONObject();
-                jo.put("userName", "003");
-                jo.put("userPassword", "123456");
-                jo.put("action", "login");
-
-              //  jo.get("a");
                 //HttpURLconnection写数据与发送数据
                 ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
                 objOutputStrm.writeObject(json);
                 objOutputStrm.flush();                              //数据输出
                 objOutputStrm.close();
-                Log.d("connection", json+"|"+jo.toString());
-
-                Log.d("connection", "yes1");
-//                bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-//                bufferedWriter.write(jo.toString());
-//                //bufferedWriter
-//                bufferedWriter.flush();
-//                bufferedWriter.close();
-                Log.d("connection", "yes2");
+                Log.d("connection", json);
                 InputStream ins ;
-                Log.d("connection", "yes2.5");
-                ObjectInputStream objinput = new ObjectInputStream(connection.getInputStream());
-                int status = connection.getResponseCode();
 
+                int status = connection.getResponseCode();
                 if(status >= HttpStatus.SC_BAD_REQUEST) {
                     ins = connection.getErrorStream();
                     Log.d("connection", ""+status);
                 }
                 else {
                     ins = connection.getInputStream();
-                    Log.d("connection", "yes2.7");
+                    Log.d("connection", ""+status);
                 }
-//               bufferedReader = new BufferedReader(new InputStreamReader(ins));
-//                Log.d("connection", "yes3");
-//                String line;
-//                while ((line = bufferedReader.readLine()) != null) {
-//                    result.append(line);
-//                }
-                String result2;
-                result2 = (String)objinput.readObject();
+                ObjectInputStream objinput = new ObjectInputStream(ins);
 
-                Log.d("connection", result2);
-                User user=new Gson().fromJson(result2, User.class);
-                Log.d("user",user.toString());
-//                ObjectInputStream objinput = new ObjectInputStream(connection.getInputStream());
-                Log.d("connection", "yes3.5");
+                mResult = (String)objinput.readObject();
 
-
-                Log.d("connection", "yes4");
-
+                Log.d("connection", mResult);
 
 
             } catch (IOException e) {
                 Log.d("Exception", e.toString());
                 Log.d("connection", "Excption");
-            }  catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            }   catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {
                 Log.d("connection", "con");
@@ -223,6 +220,6 @@ public class LoginFragment extends DialogFragment {
     }
 
     public interface LoginCallBack {
-        public void onLongin(String name, String email);
+        public void onLongin(User user);
     }
 }

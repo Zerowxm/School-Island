@@ -135,12 +135,22 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
             }
             if (requestCode == TAKE_PHOTO) {
-                ImageView imageView = new ImageView(this);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Glide.with(this).load(selectedImgUri).into(imageView);
+                RelativeLayout imageItem= (RelativeLayout)LayoutInflater.from(this).inflate(R.layout.image_item, null);
+                ImageView imageView=(ImageView)imageItem.getChildAt(0);
+                ImageView removeImage=(ImageView)imageItem.getChildAt(1);
+                removeImage.setTag(imageContains.getChildCount());
+                Log.d("image", "" + imageView.toString());
                 imageView.setLayoutParams(layoutParams);
-                imageContains.addView(imageView);
-                uriList.add(selectedImgUri);
+                Log.d("image", "" + imageView.toString());
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Log.d("image", "" + imageView.toString());
+                Glide.with(this).load(selectedImgUri).into(imageView);
+                Log.d("image", "" + imageView.toString());
+                if (selectedImgUri != null) {
+                    imageContains.addView(imageItem);
+                    uriList.add(selectedImgUri);
+
+                }
             }
         }
     }

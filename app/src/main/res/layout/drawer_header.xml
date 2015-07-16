@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/username"
 
-        android:text="未登录"
+        android:text="游客"
         android:clickable="true"
         android:layout_toRightOf="@id/user_photo"
         android:layout_alignBottom="@id/user_photo"
