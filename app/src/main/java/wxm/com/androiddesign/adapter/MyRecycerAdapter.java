@@ -82,11 +82,10 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                activity.startActivity(intent);
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
-//                );
-//                ActivityCompat.startActivity(activity, intent, options.toBundle());
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
+                );
+                ActivityCompat.startActivity(activity, intent, options.toBundle());
             }
 
             @Override

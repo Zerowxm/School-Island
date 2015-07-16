@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 //import com.melnykov.fab.FloatingActionButton;
@@ -25,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
@@ -152,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         header.setClickable(true);
         final CircleImageView userPhoto=(CircleImageView)findViewById(R.id.user_photo);
         userPhoto.setClickable(true);
+        //Glide.with(this).load("http://upload.shunwang.com/2013/1225/1387978515430.jpeg").into(userPhoto);
+        Glide.with(this).load("http://101.200.191.149:8080/bootstrapRepository/images_repo/back_dark.png").into(userPhoto);
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

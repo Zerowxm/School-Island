@@ -36,8 +36,7 @@ public class JsonConnection {
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
+
             connection.connect();
             OutputStream outStrm = connection.getOutputStream();
             Log.d("connection", "json"+json);

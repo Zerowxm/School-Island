@@ -2,6 +2,7 @@ package wxm.com.androiddesign.utils;
 
 import android.graphics.Bitmap;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -12,15 +13,16 @@ import java.io.UnsupportedEncodingException;
 public class MyBitmapFactory {
     public static String BitmapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] b=baos.toByteArray();
-       // String temp= Base64.encodeToString(b,Base64.DEFAULT);
-        String temp= null;
-        try {
-            temp = new String(b, "ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        String temp= Base64.encodeToString(b,Base64.DEFAULT);
+
+//        try {
+//            temp = new String(b, "ISO-8859-1");
+            Log.d("bitmap",""+b.length);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
         return temp;
     }
 

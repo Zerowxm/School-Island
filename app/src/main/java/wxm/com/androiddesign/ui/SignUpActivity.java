@@ -154,16 +154,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //            Snackbar.make(user_photo,"photo",Snackbar.LENGTH_SHORT).show();
 //            return;
 //        }
-        bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.miao);
-        String icon= MyBitmapFactory.BitmapToString(bitmap);
+
 
 
         user=new User("signup",get(user_id),get(user_name),get(password),get(emial),get(phone),
-                gender,icon,"0");
+                gender,"","0");
 
-        if(!isOnline()){
-            return;
-        }
+
 
         BackgroundTask task=new BackgroundTask(this);
         task.execute(user);
@@ -180,6 +177,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected void onPreExecute() {
+            Log.d("Task","onPreExecute");
             materialDialog=new MaterialDialog.Builder(activity)
                     .title(R.string.signup_title)
                     .content(R.string.please_wait)
@@ -192,6 +190,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             //super.onPostExecute(aBoolean);
+            Log.d("Task","onPostExecute");
             if (aBoolean==true){
 
             }else {
@@ -208,10 +207,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected Boolean doInBackground(User... params) {
-            Gson gson=new Gson();
-            Log.d("gson", gson.toJson(params[0]));
+            Log.d("Task","doInBackground");
+//            try {
+//                Log.d("Task","Image");
+//                bitmap =MediaStore.Images.Media.getBitmap(activity.getContentResolver(),selectedImgUri);
+//
+//            } catch (IOException e) {
+//                Log.d("Task","IOException");
+//                e.printStackTrace();
+//            }
+            bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.test);
 
+            Log.d("Task","doImage");
+            String icon= MyBitmapFactory.BitmapToString(bitmap);
+            Log.d("Task",""+icon.length());
+            Log.d("Task","doImageEncode");
+            if(!isOnline()){
+                return false;
+            }
+            user.setUserIcon(icon);
+            Gson gson=new Gson();
+            Log.d("gson", gson.toJson(user));
+            mResult="";
             mResult=JsonConnection.getJSON(gson.toJson(user));
+            Log.d("Task","doConnection");
             if(mResult!=""){
                 if(mResult.contains("false")){
                     return false;
@@ -255,11 +274,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         {
             Uri chosenImageUri = data.getData();
             selectedImgUri=chosenImageUri;
-            try {
-                bitmap =MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImgUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             Glide.with(this).load(selectedImgUri).into(user_photo);
         }
     }

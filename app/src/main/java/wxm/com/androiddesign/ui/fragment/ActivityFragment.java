@@ -144,17 +144,28 @@ public class ActivityFragment extends Fragment {
         String jsonarrys =
                 "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
                         "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n"+
+
                         "\"atyAlbum\":[\"cc\",\"dd\"],\n" +
+
                         "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
                         "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
 
                         "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
                         "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
+
                         "\"atyAlbum\":[\"ff\",\"dd\"],\n" +
+
 
                         "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
                         "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}"+
                         "]";
+        String json = "{\"atyContent\":\"1\",\"time\":\"2\",\"atyName\":\"3\",\n" +
+                "\"comment\":\"4\",\n" +
+                "\"image\":[\"cc\",\"dd\"],\n" +
+                "\"location\":\"5\",\"plus\":\"6\",\n" +
+                "\"tag\":\"7\",\"atyImageId\":8,\"photoId\":9}";
+        String json2 = "{\"atyContent\":\"2\",\"time\":\"3\",\"atyName\":\"4\",\"comment\":\"5\",\"location\":\"6\",\"plus\":\"7\",\"tag\":\"8\",\"atyImageId\":9,\"photoId\":10}";
+
         activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
         }.getType());
         myRecycerAdapter=new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity(),"ActivityFragment");

@@ -7,10 +7,11 @@
     >
 
     <wxm.com.androiddesign.MatrixImageView
-        android:transitionName="transition_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/image_show" />
+        android:id="@+id/image_show"
+        android:transitionName="@string/transition_photo"
+        />
         <!--android:src="@drawable/miao"-->
 
 
