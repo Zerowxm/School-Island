@@ -24,17 +24,8 @@ import android.widget.Toast;
 public class MatrixImageView extends ImageView {
     private final static String TAG = "MatrixImageView";
     private GestureDetector mGestureDetector;
-    /**
-
-     */
     private Matrix mMatrix = new Matrix();
-    /**
-
-     */
     private float mImageWidth;
-    /**
-
-     */
     private float mImageHeight;
     private boolean shouldReset = false;
 
@@ -43,7 +34,6 @@ public class MatrixImageView extends ImageView {
         MatrixTouchListener mListener = new MatrixTouchListener();
         setOnTouchListener(mListener);
         mGestureDetector = new GestureDetector(getContext(), new GestureListener(mListener));
-
         setBackgroundColor(Color.BLACK);
         setScaleType(ScaleType.FIT_CENTER);
     }
@@ -60,31 +50,14 @@ public class MatrixImageView extends ImageView {
     }
 
     public class MatrixTouchListener implements OnTouchListener {
-        /**
-         */
         private static final int MODE_DRAG = 1;
-        /**
-         */
         private static final int MODE_ZOOM = 2;
-        /**
-         */
         private static final int MODE_UNABLE = 3;
-        /**
-         */
         float mMaxScale = 6;
-        /**
-         */
         float mDobleClickScale = 2;
         private int mMode = 0;//
-        /**
-         */
         private float mStartDis;
-        /**
-         */
         private Matrix mCurrentMatrix = new Matrix();
-
-        /**
-         */
         private PointF startPoint = new PointF();
 
         @Override
@@ -137,11 +110,6 @@ public class MatrixImageView extends ImageView {
             }
         }
 
-        /**
-
-         *
-
-         */
         private boolean isZoomChanged() {
             float[] values = new float[9];
             getImageMatrix().getValues(values);
@@ -152,13 +120,6 @@ public class MatrixImageView extends ImageView {
             return scale != values[Matrix.MSCALE_X];
         }
 
-        /**
-
-         *
-         * @param values
-         * @param dy
-         * @return
-         */
         private float checkDyBound(float[] values, float dy) {
             float height = getHeight();
             //  mImageHeight=(getHeight()-values[Matrix.MTRANS_Y]*2)/values[Matrix.MSCALE_Y];
@@ -174,13 +135,6 @@ public class MatrixImageView extends ImageView {
             return dy;
         }
 
-        /**
-
-         *
-         * @param values
-         * @param dx
-         * @return
-         */
         private float checkDxBound(float[] values, float dx) {
             float width = getWidth();
             //  mImageWidth=getWidth()/values[Matrix.MSCALE_X];
@@ -196,11 +150,6 @@ public class MatrixImageView extends ImageView {
             return dx;
         }
 
-        /**
-
-         *
-         * @param event
-         */
         private void setZoomMatrix(MotionEvent event) {
 
             if (event.getPointerCount() < 2) return;
@@ -217,12 +166,6 @@ public class MatrixImageView extends ImageView {
             }
         }
 
-        /**
-         *
-         * @param scale
-         * @param values
-         * @return
-         */
         private float checkMaxScale(float scale, float[] values) {
             if (scale * values[Matrix.MSCALE_X] > mMaxScale)
                 scale = mMaxScale / values[Matrix.MSCALE_X];
@@ -236,8 +179,6 @@ public class MatrixImageView extends ImageView {
             return scale;
         }
 
-        /**
-         */
         private void reSetMatrix() {
             if (checkRest() || shouldReset) {
                 shouldReset = false;
@@ -246,9 +187,6 @@ public class MatrixImageView extends ImageView {
             }
         }
 
-        /**
-         *
-         */
         private boolean checkRest() {
             // TODO Auto-generated method stub
             float[] values = new float[9];
@@ -258,8 +196,6 @@ public class MatrixImageView extends ImageView {
             return scale < values[Matrix.MSCALE_X];
         }
 
-        /**
-         */
         private void isMatrixEnable() {
             if (getScaleType() != ScaleType.CENTER) {
                 setScaleType(ScaleType.MATRIX);
@@ -268,19 +204,12 @@ public class MatrixImageView extends ImageView {
             }
         }
 
-        /**
-         *
-         * @param event
-         * @return
-         */
         private float distance(MotionEvent event) {
             float dx = event.getX(1) - event.getX(0);
             float dy = event.getY(1) - event.getY(0);
             return (float) Math.sqrt(dx * dx + dy * dy);
         }
 
-        /**
-         */
         public void onDoubleClick() {
             float scale = isZoomChanged() ? 1 : mDobleClickScale;
             mCurrentMatrix.set(mMatrix);//��ʼ��Matrix

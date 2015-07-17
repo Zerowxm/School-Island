@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.ui;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +28,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
@@ -75,10 +79,11 @@ public class DetailActivity extends AppCompatActivity {
                         Date nowDate=new Date(System.currentTimeMillis());
                         long time = nowDate.getTime()-oldDate.getTime();
                         String str = getSubTime(time);
-                        commentDatas.add(new CommentData("comment","userId",str,cmt_text.getText().toString()));
+                        CommentData commentData = new CommentData("comment","userId",str,cmt_text.getText().toString());
+                        commentDatas.add(commentData);
                         cmt_text.setText(null);
 
-                        //!json
+                        new UpDateTask().execute(commentData);
                         multipleItemAdapter.notifyDataSetChanged();
 
                     } catch (ParseException e) {
@@ -91,6 +96,24 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private class UpDateTask extends AsyncTask<CommentData,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(CommentData... params) {
+            JsonConnection.getJSON(new Gson().toJson(params[0]));
+            return null;
+        }
     }
 
     private String getSubTime(long subTime) {

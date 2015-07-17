@@ -171,7 +171,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         for (int i = 0; i < item.getAtyAlbum().size(); i++) {
             ImageView imageView=(ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
             //imageView.setTransitionName(activity.getResources().getString(R.string.transition_photo));
-            Log.d("image",""+ item.getAtyAlbum().size());
+          //  Log.d("image",""+ item.getAtyAlbum().size());
 //            ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image_item, null);
             WindowManager windowManager = activity.getWindowManager();
             DisplayMetrics dm = new DisplayMetrics();
