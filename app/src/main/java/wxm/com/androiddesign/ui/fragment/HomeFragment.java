@@ -37,6 +37,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +76,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static HomeFragment newInstance(String muserId) {
         HomeFragment fragment = new HomeFragment();
@@ -95,7 +110,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
-                myRecycerAdapter.notifyDataSetChanged();
+
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,(AppCompatActivity) getActivity(), "HomeFragment");
+                recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         }
@@ -104,10 +121,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         protected Boolean doInBackground(String... params) {
             JSONObject object=new JSONObject();
             try {
-                object.put("action","showAcitivities");
+                object.put("action","showActivities");
                 String jsonarrys = JsonConnection.getJSON(object.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
+                for (int i=0;i<activityItems.size();i++){
+                    Log.d("Task",activityItems.get(i).toString());
+                }
+                Log.d("Task",jsonarrys);
                 return true;
 
             } catch (JSONException e) {
@@ -136,7 +157,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         setupRecyclerView(recyclerView);
         setupSpinner(mSpinner);
-        //new GetAtyTask().execute();
+        new GetAtyTask().execute();
         Log.d("home","onCreateView");
         return v;
     }
@@ -174,20 +195,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
         //String test="{\"atyContent\":\"1\",\"time\":\"1\",\"atyName\":\"1\",\"comment\":\"1\",\"image\":[\"aa\",\"bb\"],\"imageUri\":[{\"uriString\":\"http://www.baidu.com\",\"scheme\":\"NOT CACHED\",\"cachedSsi\":-2,\"cachedFsi\":-2,\"host\":\"NOT CACHED\",\"port\":-2}],\"location\":\"1\",\"plus\":\"1\",\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n";
-        String jsonarrys =
-                "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
-                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
-                        "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
-                        "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
-
-                        "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
-                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
-
-                        "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
-                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}" +
-                        "]";
+//        String jsonarrys =
+//                "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
+//                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
+//                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
+//                        "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
+//                        "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
+//
+//                        "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
+//                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
+//                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
+//
+//                        "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
+//                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}" +
+//                        "]";
         String json = "{\"atyContent\":\"1\",\"time\":\"2\",\"atyName\":\"3\",\n" +
                 "\"comment\":\"4\",\n" +
                 "\"image\":[\"cc\",\"dd\"],\n" +
@@ -195,13 +216,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 "\"tag\":\"7\",\"atyImageId\":8,\"photoId\":9}";
         String json2 = "{\"atyContent\":\"2\",\"time\":\"3\",\"atyName\":\"4\",\"comment\":\"5\",\"location\":\"6\",\"plus\":\"7\",\"tag\":\"8\",\"atyImageId\":9,\"photoId\":10}";
         Gson gson = new Gson();
-        activityItems = gson.fromJson(jsonarrys, new TypeToken<ArrayList<AtyItem>>() {
-        }.getType());
-        Log.d("Gson", gson.fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
-        }.getType()).toString());
+        //activityItems = gson.fromJson(jsonarrys, new TypeToken<ArrayList<AtyItem>>() {
+       // }.getType());
+       // Log.d("Gson", gson.fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+        //}.getType()).toString());
         //AtyItem atyItem = new AtyItem();
         //atyItem = gson.fromJson(json2, AtyItem.class);
-        Log.d("Gson", gson.fromJson(json, AtyItem.class).toString());
+        //Log.d("Gson", gson.fromJson(json, AtyItem.class).toString());
         //Log.d("Gson",gson.fromJson(test,AtyItem.class).toString());
         //Log.d("Gson", atyItem.toString());
         Log.d("Gson", "" + gson.toJson(activityItems));

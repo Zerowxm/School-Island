@@ -279,4 +279,27 @@ public class AtyItem implements Parcelable {
                 }
             };
 
+    @Override
+    public String toString() {
+        return "AtyItem{" +
+                "action='" + action + '\'' +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPhoto='" + userPhoto + '\'' +
+                ", atyId='" + atyId + '\'' +
+                ", atyName='" + atyName + '\'' +
+                ", atyType='" + atyType + '\'' +
+                ", atyStartTime='" + atyStartTime + '\'' +
+                ", atyEndTime='" + atyEndTime + '\'' +
+                ", atyPlace='" + atyPlace + '\'' +
+                ", atyMembers='" + atyMembers + '\'' +
+                ", atyContent='" + atyContent + '\'' +
+                ", atyPlus='" + atyPlus + '\'' +
+                ", atyComment='" + atyComment + '\'' +
+                ", atyJoined='" + atyJoined + '\'' +
+                ", atyPlused='" + atyPlused + '\'' +
+                ", atyShare='" + atyShare + '\'' +
+                ", atyAlbum=" + atyAlbum +
+                '}';
+    }
 }
