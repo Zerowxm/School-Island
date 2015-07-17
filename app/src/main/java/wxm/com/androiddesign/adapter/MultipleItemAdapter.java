@@ -56,18 +56,16 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ArrayList<CommentData> commentDatas;
     public static AppCompatActivity activity;
     private int lastPosition = -1;
-    private String userId;
 
     public static enum ITEM_TYPE {
         ATY_TYPE,
         COMMENT_TYPE
     }
 
-    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1,String userId, AppCompatActivity activity,int position) {
+    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1, AppCompatActivity activity,int position) {
         atyItem = ActData;
         commentDatas = commentDatas1;
         this.activity = activity;
-        this.userId = userId;
     }
 
     @Override
@@ -307,7 +305,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, UserAcitivity.class);
-                    intent.putExtra("userId",userId);
+                    intent.putExtra("userId",atyItem.getUserId());
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
                     );

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class ProfileFragment extends Fragment {
     public static ProfileFragment newInstance(String muserId) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString("UserId",muserId);
+        args.putString("UserId", muserId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +51,7 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.profile_layout, viewGroup, false);
         recyclerView = (RecyclerView) v;
         getProfile = new GetProfile(getActivity());
-        //getProfile.execute();
+        getProfile.execute(user);
         setupRecyclerView(recyclerView);
         userId = getArguments().getString("UserId");
         return v;
@@ -87,18 +88,16 @@ public class ProfileFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(User... params) {
-            if (params[0] == null) {
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("action", "showprofile");
-                    object.put("userId",userId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String json = JsonConnection.getJSON(object.toString());
-                user = new Gson().fromJson(json, new TypeToken<User>() {
-                }.getType());
+            JSONObject object = new JSONObject();
+            try {
+                object.put("action", "showprofile");
+                object.put("userId", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("json", "json");
+            user = new Gson().fromJson(json, User.class);
             return null;
         }
     }

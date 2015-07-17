@@ -69,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         fragment = bundle.getString("fragment");
         mGetCommentTask=new getCommentTask(getApplicationContext());
         //mGetCommentTask.execute();
-        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas,atyItem.getUserId(), this, position);
+        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas, this, position);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
@@ -199,7 +199,7 @@ public class DetailActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas,atyItem.getUserId(), this, position));
+        recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas, this, position));
         recyclerView.setAdapter(multipleItemAdapter);
 
     }
@@ -214,10 +214,10 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-//        if (fragment.equals("HomeFragment"))
-//            HomeFragment.refresh(atyItem, position);
-//        else if (fragment.equals("ActivityFragment"))
-//            ActivityFragment.refresh(atyItem, position);
+      //  if (fragment.equals("HomeFragment"))
+            HomeFragment.refresh(atyItem, position);
+     //   else if (fragment.equals("ActivityFragment"))
+        //    ActivityFragment.refresh(atyItem, position);
     }
 
     @Override

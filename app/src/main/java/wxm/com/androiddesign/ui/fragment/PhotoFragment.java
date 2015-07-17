@@ -102,7 +102,6 @@ public class PhotoFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(User... params) {
-            if (params[0] == null) {
                 JSONObject object = new JSONObject();
                 try {
                     object.put("action", "showphoto");
@@ -113,7 +112,6 @@ public class PhotoFragment extends Fragment {
                 String json = JsonConnection.getJSON(object.toString());
                 photoList = new Gson().fromJson(json, new TypeToken<List<String>>() {
                 }.getType());
-            }
             return null;
         }
     }
