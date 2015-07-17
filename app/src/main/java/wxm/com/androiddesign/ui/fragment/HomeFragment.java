@@ -34,6 +34,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,12 +75,46 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         setHasOptionsMenu(true);
     }
 
+
     public static HomeFragment newInstance(String muserId) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString("UserId", muserId);
         fragment.setArguments(args);
         return fragment;
+    }
+    private class GetAtyTask extends AsyncTask<String,Void,Boolean>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean==true){
+                myRecycerAdapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            JSONObject object=new JSONObject();
+            try {
+                object.put("action","showAcitivities");
+                String jsonarrys = JsonConnection.getJSON(object.toString());
+                activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+                }.getType());
+                return true;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     @Nullable
@@ -99,6 +136,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         setupRecyclerView(recyclerView);
         setupSpinner(mSpinner);
+        //new GetAtyTask().execute();
+        Log.d("home","onCreateView");
         return v;
     }
 
@@ -199,8 +238,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.d("home","postDelayed");
 
-                myRecycerAdapter.notifyDataSetChanged();
+                //myRecycerAdapter.notifyDataSetChanged();
 
                 mSwipeRefreshLayout.setRefreshing(false);
             }

@@ -142,11 +142,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.nav_user_setting:
 
                                 return true;
-                            case R.id.nav_setting:
-
-                                Snackbar.make(drawerLayout, "设置",
-                                        Snackbar.LENGTH_SHORT).show();
-                                return true;
+//                            case R.id.nav_setting:
+//
+//                                Snackbar.make(drawerLayout, "设置",
+//                                        Snackbar.LENGTH_SHORT).show();
+//                                return true;
                             default:
                                 return true;
                         }

@@ -61,11 +61,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <Button
+                android:textColor="@color/primary"
+                android:background="@drawable/material_button"
                 android:id="@+id/signup_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="注册"/>
             <Button
+                android:textColor="@color/primary_dark"
+                android:background="@drawable/material_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="登陆"

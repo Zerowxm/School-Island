@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,14 @@ public class DetailActivity extends AppCompatActivity {
     String fragment;
     getCommentTask mGetCommentTask;
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -84,16 +93,19 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            materialDialog = new MaterialDialog.Builder(context)
-                    .title("Loading")
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(true)
-                    .show();
+//            materialDialog = new MaterialDialog.Builder(context)
+//                    .title("Loading")
+//                    .progress(true, 0)
+//                    .progressIndeterminateStyle(true)
+//                    .show();
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            multipleItemAdapter.notifyDataSetChanged();
+            recyclerView.scrollToPosition(commentDatas.size());
+
         }
 
         @Override
@@ -111,7 +123,9 @@ public class DetailActivity extends AppCompatActivity {
                 }.getType());
             }
             commentDatas.add(params[0]);
-            multipleItemAdapter.notifyDataSetChanged();
+
+
+
             return null;
         }
     }
@@ -187,6 +201,7 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas,atyItem.getUserId(), this, position));
         recyclerView.setAdapter(multipleItemAdapter);
+
     }
 
     @Override
@@ -199,10 +214,10 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (fragment.equals("HomeFragment"))
-            HomeFragment.refresh(atyItem, position);
-        else if (fragment.equals("ActivityFragment"))
-            ActivityFragment.refresh(atyItem, position);
+//        if (fragment.equals("HomeFragment"))
+//            HomeFragment.refresh(atyItem, position);
+//        else if (fragment.equals("ActivityFragment"))
+//            ActivityFragment.refresh(atyItem, position);
     }
 
     @Override
@@ -211,7 +226,10 @@ public class DetailActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        if (id == R.id.home) {
+            finish();
+            return true;
+        }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;

@@ -96,6 +96,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onCard(CardView cardView, int position) {
+                Log.d("recyclerview", "onCard");
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                 intent.putExtra("position", position);
@@ -157,7 +158,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         item = activityItems.get(position);
-        Log.d("image", "onBindViewHolder");
+        Log.d("recyclerview", "onBindViewHolder");
         holder.total_comment.setText(item.getAtyComment());
         holder.aty_name.setText(item.getAtyName());
         holder.aty_content.setText(item.getAtyContent());
@@ -170,6 +171,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.total_comment.setText(item.getAtyComment());
 
         holder.imageViewContainer.removeAllViews();
+        Log.d("recyclerview", "item.getAtyAlbum().size()"+item.getAtyAlbum().size());
         for (int i = 0; i < item.getAtyAlbum().size(); i++) {
             ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
             //imageView.setTransitionName(activity.getResources().getString(R.string.transition_photo));
@@ -180,7 +182,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             Display display = windowManager.getDefaultDisplay();
             int width = display.getWidth() - 7;
             int height = display.getHeight();
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
             //imageView.setImageBitmap(MyBitmapFactory.StringToBitmap(item.getAtyAlbum().get(i)));
             Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
             imageView.setLayoutParams(layoutParams);
@@ -336,6 +338,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
+            Log.d("recyclerview", "MyViewHolder");
             mListener = listener;
             ButterKnife.bind(this, itemView);
             cardView.setOnClickListener(this);
@@ -349,7 +352,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         public void setTextView(TextView tv) {
             tv.setSingleLine(false);
             tv.setEllipsize(TextUtils.TruncateAt.END);
-            int n = 3; // the exact number of lines you want to display
+            int n = 2; // the exact number of lines you want to display
             tv.setLines(n);
         }
 

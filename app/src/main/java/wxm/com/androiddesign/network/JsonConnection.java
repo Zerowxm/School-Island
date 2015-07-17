@@ -3,6 +3,7 @@ package wxm.com.androiddesign.network;
 import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -32,6 +33,9 @@ public class JsonConnection {
             URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
             HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
             connection.setRequestProperty("Content-type", "application/json");
+            if(Build.VERSION.SDK_INT>13){
+                connection.setRequestProperty("Connection","close");
+            }
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -56,8 +60,10 @@ public class JsonConnection {
                 ins = connection.getInputStream();
                 Log.d("connection", "成功 " + status);
             }
+            Log.d("connection", "ObjectInputStream");
             ObjectInputStream objinput = new ObjectInputStream(ins);
 
+            Log.d("connection", "input");
             mResult = (String) objinput.readObject();
 
             Log.d("connection", "读入成功" + mResult);

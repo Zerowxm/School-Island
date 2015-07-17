@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -61,14 +62,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class BaseInfoViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.user_name)
-        TextView user_name;
-        @Bind(R.id.user_email)
-        TextView user_email;
-        @Bind(R.id.user_photo)
-        TextView user_photo;
-        @Bind(R.id.user_gender)
-        TextView user_gender;
+//        @Bind(R.id.user_name)
+//        EditText user_name;
+//        @Bind(R.id.user_email)
+//        EditText user_email;
+//        @Bind(R.id.user_photo)
+//        EditText user_photo;
+//        @Bind(R.id.user_gender)
+//        EditText user_gender;
 
         public BaseInfoViewHolder(View itemView) {
             super(itemView);

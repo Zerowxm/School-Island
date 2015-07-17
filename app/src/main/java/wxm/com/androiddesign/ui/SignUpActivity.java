@@ -98,6 +98,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         ButterKnife.bind(this);
         setupTextInputLayout();
         setup();
+
         // setupToolbar();
     }
 

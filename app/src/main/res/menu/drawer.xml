@@ -5,12 +5,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_action_apps"
             android:title="首页" />
 
         <item
             android:id="@+id/nav_explore"
-            android:icon="@drawable/ic_event"
+            android:icon="@drawable/ic_action_explore"
             android:title="发现" />
         <item
             android:id="@+id/nav_attention"
@@ -19,19 +19,16 @@
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_forum"
-            android:title="消息" />
+            android:title="系统信息" />
     </group>
 
     <group android:checkableBehavior="single">
         <menu>
             <item
                 android:id="@+id/nav_user_setting"
-                android:icon="@drawable/ic_dashboard"
+                android:icon="@drawable/ic_action_settings"
                 android:title="个人设置" />
-            <item
-                android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_forum"
-                android:title="设置" />
+
         </menu>
     </group>
 

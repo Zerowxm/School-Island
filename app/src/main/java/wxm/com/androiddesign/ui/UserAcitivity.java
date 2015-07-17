@@ -53,6 +53,7 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(new CmtListFragment(), "社区");
         adapter.addFragment(new UserListFragment(), "关注用户");
         adapter.addFragment(PhotoFragment.newInstance(userId),"相册");
+
         viewPager.setAdapter(adapter);
     }
 
