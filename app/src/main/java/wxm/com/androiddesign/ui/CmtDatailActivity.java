@@ -25,6 +25,8 @@ public class CmtDatailActivity extends AppCompatActivity {
 
     List<AtyItem> atyItemList = new ArrayList<AtyItem>();
 
+    String userId;
+
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
@@ -40,7 +42,7 @@ public class CmtDatailActivity extends AppCompatActivity {
         setContentView(R.layout.community_detail);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        userId = savedInstanceState.getString("userId");
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

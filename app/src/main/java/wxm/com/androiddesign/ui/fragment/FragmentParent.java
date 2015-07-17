@@ -34,6 +34,15 @@ import wxm.com.androiddesign.adapter.TabPagerAdapter;
  */
 public class FragmentParent extends Fragment {
 
+    String userId;
+    public static Fragment newInstance(String muserId) {
+        Fragment fragment = new FragmentParent();
+        Bundle args = new Bundle();
+        args.putString("UserId", muserId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,9 +68,9 @@ public class FragmentParent extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot), "热门活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot), "评价最高");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot), "热门收藏");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot,userId), "热门活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot,userId), "评价最高");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot,userId), "热门收藏");
         viewPager.setAdapter(adapter);
     }
 
@@ -74,6 +83,7 @@ public class FragmentParent extends Fragment {
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
+        userId = getArguments().getString("userId");
         setHasOptionsMenu(true);
     }
 

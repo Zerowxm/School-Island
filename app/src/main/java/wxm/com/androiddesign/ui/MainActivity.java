@@ -13,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -47,15 +49,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Bind(R.id.fab)
     FloatingActionButton fab;
-    User user;
+    User user=new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user.setUserId("aa");
         setContentView(R.layout.activity_main);
         instance = this;
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(user.getUserId())).commit();
         }
 
         ButterKnife.bind(this);
@@ -84,9 +87,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected User doInBackground(Void... params) {
             SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            String name = prefs.getString("UserId", null);
-            String password = prefs.getString("UserPassword", null);
+            String name = prefs.getString("UserId", "004");
+            String password = prefs.getString("UserPassword", "123");
             JSONObject object = new JSONObject();
+            try {
+                object.put("action","login");
+                object.put("userId",name);
+                object.put("userPassword",password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             //object.put("action","")
             return null;
         }
@@ -117,11 +127,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         drawerLayout.closeDrawers();
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(user.getUserId())).commit();
 
                                 return true;
                             case R.id.nav_explore:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new FragmentParent()).commit();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(user.getUserId())).commit();
 
                                 return true;
                             case R.id.nav_attention:
@@ -161,19 +171,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.closeDrawers();
-                showLoginDialog();
-//               if(((TextView)findViewById(R.id.username)).getText().equals("游客")){
-//                    drawerLayout.closeDrawers();
-//                    showLoginDialog();
-//                }
-//                else {
-//                   Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
-//                   ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                           MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
-//                   );
-//                   ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-//                }
+               if(((TextView)findViewById(R.id.username)).getText().equals("游客")){
+                    drawerLayout.closeDrawers();
+                    showLoginDialog();
+                }
+                else {
+                   Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
+                   intent.putExtra("userId",user.getUserId());
+                   ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(
+                           MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
+                   );
+                   ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
+                }
             }
         });
         userPhoto.setClickable(true);

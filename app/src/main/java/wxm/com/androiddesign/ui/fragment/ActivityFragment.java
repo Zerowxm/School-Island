@@ -45,6 +45,7 @@ public class ActivityFragment extends Fragment {
     public static final int Release = 0x5;
 
     private int type;
+    private String userId;
 
     RecyclerView recyclerView;
 
@@ -57,10 +58,11 @@ public class ActivityFragment extends Fragment {
 
     }
 
-    public static ActivityFragment newInstance(int type) {
+    public static ActivityFragment newInstance(int type,String muserId) {
         ActivityFragment fragment = new ActivityFragment();
         Bundle args = new Bundle();
         args.putInt("Type", type);
+        args.putString("UserId", muserId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,6 +73,7 @@ public class ActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type", Home);
+        userId = getArguments().getString("UserId");
     }
 
     @Nullable

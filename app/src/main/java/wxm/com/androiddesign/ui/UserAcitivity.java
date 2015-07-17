@@ -14,6 +14,7 @@ import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.CmtListFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
+import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
 import wxm.com.androiddesign.ui.fragment.UserListFragment;
 
@@ -21,11 +22,14 @@ import wxm.com.androiddesign.ui.fragment.UserListFragment;
 public class UserAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_acitivity);
+        Bundle bundle = getIntent().getExtras();
+        userId = bundle.getString("userId");
         setupToolBar();
         setupViewPager();
         setupTabLayout();
@@ -43,11 +47,12 @@ public class UserAcitivity extends AppCompatActivity {
     private void setupViewPager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ProfileFragment(), "个人信息");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Release), "已发布活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Joined), "参与活动");
+        adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Release,userId), "已发布活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Joined,userId), "参与活动");
         adapter.addFragment(new CmtListFragment(), "社区");
         adapter.addFragment(new UserListFragment(), "关注用户");
+        adapter.addFragment(PhotoFragment.newInstance(userId),"相册");
         viewPager.setAdapter(adapter);
     }
 

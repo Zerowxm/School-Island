@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
     ArrayList<CommentData> commentDatas = new ArrayList<CommentData>();
     int position;
     String fragment;
-
+    getCommentTask mGetCommentTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,9 @@ public class DetailActivity extends AppCompatActivity {
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
         position = bundle.getInt("position");
         fragment = bundle.getString("fragment");
-        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas, this, position);
+        mGetCommentTask=new getCommentTask(getApplicationContext());
+        //mGetCommentTask.execute();
+        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas,atyItem.getUserId(), this, position);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
@@ -127,8 +129,7 @@ public class DetailActivity extends AppCompatActivity {
                         Date nowDate = new Date(System.currentTimeMillis());
                         long time = nowDate.getTime() - oldDate.getTime();
                         String str = getSubTime(time);
-                        new getCommentTask(getApplicationContext())
-                                .execute(new CommentData("comment", "userId", str, cmt_text.getText().toString()));
+                        mGetCommentTask.execute(new CommentData("comment", "userId", str, cmt_text.getText().toString()));
                         cmt_text.setText(null);
                         //!json
 
@@ -184,7 +185,7 @@ public class DetailActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas, this, position));
+        recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas,atyItem.getUserId(), this, position));
         recyclerView.setAdapter(multipleItemAdapter);
     }
 

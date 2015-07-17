@@ -195,6 +195,14 @@ public class AtyItem implements Parcelable {
         this.atyAlbum = atyAlbum;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public AtyItem(String action, String userId, String atyId, String atyName,
                    String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent,

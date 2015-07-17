@@ -69,7 +69,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     AtyItem item;
     String fragment;
 
-
     public MyRecycerAdapter(List<AtyItem> activityItemArrayList, AppCompatActivity activity, String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
@@ -82,8 +81,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
-            public void onUserPhoto(CircleImageView userPhoto) {
+            public void onUserPhoto(CircleImageView userPhoto,int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
+                intent.putExtra("userId",activityItems.get(position).getUserId());
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
                 );
@@ -91,7 +91,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             }
 
             @Override
-            public void onPicture(ImageView picture) {
+            public void onPicture(ImageView picture,int position) {
             }
 
             @Override
@@ -357,13 +357,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         public void onClick(View v) {
             if (v instanceof CircleImageView) {
 
-                mListener.onUserPhoto((CircleImageView) v);
+                mListener.onUserPhoto((CircleImageView)v,getAdapterPosition());
             } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_comment)) {
                 mListener.onComment((FloatingActionButton) v, getAdapterPosition());
             } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_plus)) {
                 mListener.onPlus((FloatingActionButton) v, getAdapterPosition(), totle_plus);
             } else if (v instanceof ImageView) {
-                mListener.onPicture((ImageView) v);
+                mListener.onPicture((ImageView) v,getAdapterPosition());
             } else if (v instanceof CardView) {
                 mListener.onCard((CardView) v, getLayoutPosition());
             } else if (v instanceof Button) {
@@ -394,9 +394,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
 
         public interface MyViewHolderClicks {
-            public void onUserPhoto(CircleImageView user_photo);
+            public void onUserPhoto(CircleImageView user_photo,int position);
 
-            public void onPicture(ImageView picture);
+            public void onPicture(ImageView picture,int position);
 
             public void onCard(CardView cardView, int position);
 

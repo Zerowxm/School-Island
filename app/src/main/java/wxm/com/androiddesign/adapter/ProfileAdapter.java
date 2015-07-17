@@ -10,6 +10,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.User;
 
 import static wxm.com.androiddesign.adapter.ProfileAdapter.ITEM_TYPE.*;
 
@@ -22,9 +23,10 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         INFO,
         CMT
     }
+    public User user;
 
-    public ProfileAdapter() {
-
+    public ProfileAdapter(User user) {
+        this.user = user;
     }
 
     @Override
@@ -65,6 +67,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView user_email;
         @Bind(R.id.user_photo)
         TextView user_photo;
+        @Bind(R.id.user_gender)
+        TextView user_gender;
 
         public BaseInfoViewHolder(View itemView) {
             super(itemView);

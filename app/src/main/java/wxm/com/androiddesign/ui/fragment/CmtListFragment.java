@@ -21,6 +21,7 @@ import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 public class CmtListFragment extends Fragment {
     RecyclerView recyclerView;
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.cmt_layout, viewGroup, false);
         recyclerView = (RecyclerView) v;
