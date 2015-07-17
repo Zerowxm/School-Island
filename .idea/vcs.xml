@@ -8,9 +8,12 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+<<<<<<< Updated upstream
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
 =======
     <mapping directory="" vcs="" />
 >>>>>>> 949ddb7f7fc36b7bc3863e809ca323473267eeea
+=======
+>>>>>>> Stashed changes
   </component>
 </project>

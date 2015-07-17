@@ -1,5 +1,7 @@
 package wxm.com.androiddesign.ui;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +34,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
@@ -58,8 +68,48 @@ public class DetailActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         addComment();
+    }
 
+    private class getCommentTask extends AsyncTask<CommentData,Void,Boolean>{
+        MaterialDialog materialDialog;
+        Context context;
 
+        public getCommentTask(Context context){
+            this.context=context;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            materialDialog=new MaterialDialog.Builder(context)
+                    .title("Loading")
+                    .progress(true,0)
+                    .progressIndeterminateStyle(true)
+                    .show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+        }
+
+        @Override
+        protected Boolean doInBackground(CommentData... params) {
+            if(params[0]==null){
+                JSONObject object=new JSONObject();
+                try {
+                    object.put("action","showcomments");
+                    object.put("atyId",atyItem.getAtyId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String json=JsonConnection.getJSON(object.toString());
+                commentDatas = new Gson().fromJson(json, new TypeToken<ArrayList<AtyItem>>() {
+                }.getType());
+            }
+            commentDatas.add(params[0]);
+            multipleItemAdapter.notifyDataSetChanged();
+            return null;
+        }
     }
 
     public void addComment() {
@@ -75,11 +125,10 @@ public class DetailActivity extends AppCompatActivity {
                         Date nowDate=new Date(System.currentTimeMillis());
                         long time = nowDate.getTime()-oldDate.getTime();
                         String str = getSubTime(time);
-                        commentDatas.add(new CommentData("comment","userId",str,cmt_text.getText().toString()));
+                        new getCommentTask(getApplicationContext())
+                                .execute(new CommentData("comment", "userId", str, cmt_text.getText().toString()));
                         cmt_text.setText(null);
-
                         //!json
-                        multipleItemAdapter.notifyDataSetChanged();
 
                     } catch (ParseException e) {
                         e.printStackTrace();

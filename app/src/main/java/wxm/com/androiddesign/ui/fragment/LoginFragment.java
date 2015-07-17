@@ -154,6 +154,7 @@ public class LoginFragment extends DialogFragment {
     public void getJSON(String json) {
             try {
                 URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
+
                 HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                 connection.setRequestProperty("Content-type", "application/json");
                 connection.setDoInput(true);
@@ -165,12 +166,16 @@ public class LoginFragment extends DialogFragment {
                 connection.connect();
                 OutputStream outStrm = connection.getOutputStream();
 
+
+
                 //HttpURLconnection写数据与发送数据
                 ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
                 objOutputStrm.writeObject(json);
                 objOutputStrm.flush();                              //数据输出
                 objOutputStrm.close();
+
                 Log.d("connection", json);
+
                 InputStream ins ;
 
                 int status = connection.getResponseCode();
@@ -180,22 +185,22 @@ public class LoginFragment extends DialogFragment {
                 }
                 else {
                     ins = connection.getInputStream();
-                    Log.d("connection", ""+status);
+                    Log.d("connection", "" + status);
+
+                    ObjectInputStream objinput = new ObjectInputStream(ins);
+                    mResult = (String)objinput.readObject();
+
+                    Log.d("connection", mResult);
                 }
-                ObjectInputStream objinput = new ObjectInputStream(ins);
 
-                mResult = (String)objinput.readObject();
 
-                Log.d("connection", mResult);
 
 
             } catch (IOException e) {
                 Log.d("Exception", e.toString());
                 Log.d("connection", "Excption");
-            }   catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-            } finally {
-                Log.d("connection", "con");
             }
     }
 

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -49,6 +50,7 @@ import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.ui.DetailActivity;
 
 import wxm.com.androiddesign.ui.MainActivity;
@@ -215,6 +217,16 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         setAnimation(holder.cardView, position);
     }
 
+    private class getUserInfoTask extends AsyncTask<String,Void,Boolean>{
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            User user=new User();
+            user.setAction("");
+
+            return null;
+        }
+    }
     public void setAnimation(View viewtoAnimate, int position) {
         if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(activity, R.anim.item_anim);
