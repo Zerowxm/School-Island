@@ -18,14 +18,15 @@ import wxm.com.androiddesign.adapter.ProfileAdapter;
  */
 public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
-    public View onCreateView(LayoutInflater inflater,ViewGroup viewGroup,Bundle savedInstanceState){
-        View v =inflater.inflate(R.layout.profile_layout,viewGroup,false);
-        recyclerView=(RecyclerView)v;
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.profile_layout, viewGroup, false);
+        recyclerView = (RecyclerView) v;
         setupRecyclerView(recyclerView);
         return v;
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView){
+    private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
         recyclerView.setAdapter(new ProfileAdapter());

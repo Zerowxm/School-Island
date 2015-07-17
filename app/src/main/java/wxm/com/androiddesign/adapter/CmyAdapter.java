@@ -14,7 +14,7 @@ import wxm.com.androiddesign.R;
 /**
  * Created by zero on 2015/6/30.
  */
-public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder>{
+public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(
@@ -33,13 +33,15 @@ public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder>{
         return 3;
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.community_img)
         CircleImageView community_img;
-        @Bind(R.id.member_num)TextView member_num;
+        @Bind(R.id.member_num)
+        TextView member_num;
+
         public MyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

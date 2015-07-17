@@ -55,7 +55,7 @@ public class PhotoFragment extends Fragment {
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
 
 
-        myRecycerAdapter=new PhotoAdapter();
+        myRecycerAdapter = new PhotoAdapter();
         recyclerView.setAdapter(myRecycerAdapter);
     }
 }

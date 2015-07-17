@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -13,15 +14,16 @@ import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.*;
+
 import wxm.com.androiddesign.R;
 
 /**
  * Created by Administrator on 2015/7/3.
  */
-public class LocationActivity extends Activity{
+public class LocationActivity extends Activity {
     public static String Latitude = "Latitude";
     public static String Longtitude = "Longtitude";
-    public static String Address= "Address";
+    public static String Address = "Address";
     private String maddress;
     /**
      * Called when the activity is first created.
@@ -44,7 +46,7 @@ public class LocationActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-        hintText = (TextView)findViewById(R.id.hintText);
+        hintText = (TextView) findViewById(R.id.hintText);
 
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
@@ -77,8 +79,7 @@ public class LocationActivity extends Activity{
 
     }
 
-    private void InitGPS()
-    {
+    private void InitGPS() {
         // 定位初始化
         mLocClient = new LocationClient(this);
         mLocClient.registerLocationListener(myListener);
@@ -90,8 +91,7 @@ public class LocationActivity extends Activity{
         mLocClient.start();
     }
 
-    private void setLocationText(LatLng loc)
-    {
+    private void setLocationText(LatLng loc) {
         hintText.setText("Current Location: [" + loc.latitude + ", "
                 + loc.longitude + "]");
     }
@@ -103,12 +103,14 @@ public class LocationActivity extends Activity{
         mMapView.onDestroy();
         bdA.recycle();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
         mMapView.onResume();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -127,12 +129,12 @@ public class LocationActivity extends Activity{
         mBaiduMap.setOnMarkerDragListener(new BaiduMap.OnMarkerDragListener() {
             public void onMarkerDrag(Marker marker) {
 
-                LatLng loc = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+                LatLng loc = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
                 setLocationText(loc);
             }
 
             public void onMarkerDragEnd(Marker marker) {
-                LatLng loc = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+                LatLng loc = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
 
                 setLocationText(loc);
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(loc));
@@ -151,8 +153,7 @@ public class LocationActivity extends Activity{
     }
 
 
-    private void setLocationResult(LatLng local)
-    {
+    private void setLocationResult(LatLng local) {
         Intent i = new Intent();
         //the type of latitude and longitude is double
         i.putExtra(LocationActivity.Latitude, local.latitude);

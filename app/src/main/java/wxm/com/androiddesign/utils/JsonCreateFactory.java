@@ -10,7 +10,7 @@ import wxm.com.androiddesign.module.User;
 public class JsonCreateFactory {
     JSONObject mjsonObject;
 
-    public JsonCreateFactory(User user){
+    public JsonCreateFactory(User user) {
 
     }
 }

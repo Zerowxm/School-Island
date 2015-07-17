@@ -29,19 +29,20 @@ import java.util.Date;
 /**
  * Created by hdchen on 2015/6/30.
  */
-public class MyDialog extends DialogFragment{
+public class MyDialog extends DialogFragment {
 
     private ImageView imageView;
     private Button savebutton;
     private Bitmap bitmap;
     private String uri;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.dialog_layout, null);
-        imageView = (ImageView)view.findViewById(R.id.image_show);
-        savebutton = (Button)view.findViewById(R.id.savaImage);
+        imageView = (ImageView) view.findViewById(R.id.image_show);
+        savebutton = (Button) view.findViewById(R.id.savaImage);
         //imageView.setImageBitmap(bitmap);
         Glide.with(this).load(uri).into(imageView);
 
@@ -68,7 +69,7 @@ public class MyDialog extends DialogFragment{
                 imageView.setDrawingCacheEnabled(false);
                 File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                         getActivity().getPackageName());
-                if(!directory.exists())
+                if (!directory.exists())
                     directory.mkdirs();
 
                 File f = new File(directory.getPath() + File.separator + getPhotoFileName());
@@ -80,9 +81,9 @@ public class MyDialog extends DialogFragment{
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
                     out.flush();
                     out.close();
-                    if(f.exists()) {
-                        Toast.makeText(v.getContext(), "已保存到 "+"Pictures/"+getActivity().getPackageName(), Toast.LENGTH_LONG).show();
-                    } else{
+                    if (f.exists()) {
+                        Toast.makeText(v.getContext(), "已保存到 " + "Pictures/" + getActivity().getPackageName(), Toast.LENGTH_LONG).show();
+                    } else {
                         Toast.makeText(v.getContext(), "保存失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (FileNotFoundException e) {
@@ -113,31 +114,32 @@ public class MyDialog extends DialogFragment{
                 return false;
             }
         });
-        return  view;
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
 //        Glide.with(this).load(uri).into(imageView);
-}
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
     }
+
     private String getPhotoFileName() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
         return dateFormat.format(date) + ".jpg";
     }
 
-    public void setBitmap(Bitmap bitmap){
-       this.bitmap = bitmap;
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
-    public void setUri(String uri){
+    public void setUri(String uri) {
         this.uri = uri;
     }
 

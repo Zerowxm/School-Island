@@ -27,7 +27,7 @@ import java.net.URL;
  */
 public class JsonConnection {
     public static String getJSON(String json) {
-        String mResult="";
+        String mResult = "";
         try {
             URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
             HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
@@ -39,36 +39,35 @@ public class JsonConnection {
 
             connection.connect();
             OutputStream outStrm = connection.getOutputStream();
-            Log.d("connection", "json"+json);
+            Log.d("connection", "json" + json);
             //HttpURLconnection写数据与发送数据
             ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
             objOutputStrm.writeObject(json);
             objOutputStrm.flush();                              //数据输出
             objOutputStrm.close();
             Log.d("connection", "写入成功");
-            InputStream ins ;
+            InputStream ins;
 
             int status = connection.getResponseCode();
-            if(status >= HttpStatus.SC_BAD_REQUEST) {
+            if (status >= HttpStatus.SC_BAD_REQUEST) {
                 ins = connection.getErrorStream();
-                Log.d("connection", "失败 "+status);
-            }
-            else {
+                Log.d("connection", "失败 " + status);
+            } else {
                 ins = connection.getInputStream();
-                Log.d("connection", "成功 "+status);
+                Log.d("connection", "成功 " + status);
             }
             ObjectInputStream objinput = new ObjectInputStream(ins);
 
-            mResult = (String)objinput.readObject();
+            mResult = (String) objinput.readObject();
 
-            Log.d("connection","读入成功"+ mResult);
+            Log.d("connection", "读入成功" + mResult);
 
             return mResult;
 
         } catch (IOException e) {
             Log.d("Exception", e.toString());
             Log.d("connection", "Excption");
-        }   catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             Log.d("connection", "con");
@@ -76,8 +75,9 @@ public class JsonConnection {
         Log.d("connection", mResult);
         return mResult;
     }
+
     public static void getJsonObject(String json) {
-        StringBuffer stringBuffer=null;
+        StringBuffer stringBuffer = null;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -101,7 +101,7 @@ public class JsonConnection {
                             stringBuffer.append(line + "\n");
                         }
                         bufferedReader.close();
-                        Log.d("json","http"+stringBuffer.toString());
+                        Log.d("json", "http" + stringBuffer.toString());
 
                     } else {
                         Log.i("json", "访问失败" + responseCode);
@@ -109,7 +109,7 @@ public class JsonConnection {
 
 
                 } catch (IOException e) {
-                    Log.d("Exception",e.toString());
+                    Log.d("Exception", e.toString());
                 }
 
             }
@@ -118,14 +118,14 @@ public class JsonConnection {
 
     }
 
-    public static void submitJson(final String json){
+    public static void submitJson(final String json) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 BufferedWriter bufferedWriter;
                 BufferedReader bufferedReader;
-                StringBuffer result=new StringBuffer();
+                StringBuffer result = new StringBuffer();
                 try {
                     URL murl = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
                     HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
@@ -140,15 +140,15 @@ public class JsonConnection {
                     bufferedWriter.flush();
                     bufferedWriter.close();
 
-                    bufferedReader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     String line;
-                    while ((line=bufferedReader.readLine())!=null){
+                    while ((line = bufferedReader.readLine()) != null) {
                         result.append(line);
                     }
 
 
                 } catch (IOException e) {
-                    Log.d("Exception",e.toString());
+                    Log.d("Exception", e.toString());
                 }
 
             }

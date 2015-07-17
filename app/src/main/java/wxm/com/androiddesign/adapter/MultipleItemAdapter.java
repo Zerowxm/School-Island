@@ -111,8 +111,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((AtyViewHolder) holder).mjoinBtn.setText("加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
             }
-            /*for (int i=0;i<atyItem.getAtyAlbum().size();i++){
-                ImageView imageView=(ImageView)activity.getLayoutInflater().inflate(R.layout.image_item,null);
+            for (int i=0;i<atyItem.getAtyAlbum().size();i++){
+                ImageView imageView=(ImageView)activity.getLayoutInflater().inflate(R.layout.image,null);
                 WindowManager windowManager=activity.getWindowManager();
                 DisplayMetrics dm=new DisplayMetrics();
                 Display display=windowManager.getDefaultDisplay();
@@ -127,13 +127,13 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     public void onClick(View v) {
                         //Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
                         MyDialog dialog = new MyDialog();
-                        //dialog.setUri(uri);
+                        dialog.setUri(atyItem.getAtyAlbum().get((Integer) v.getTag()));
                         dialog.show(activity.getSupportFragmentManager(), "showPicture");
                     }
                 });
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
-            }*/
+            }
             setAnimation(((AtyViewHolder) holder).cardView, position);
 
         } else if (holder instanceof CommentViewHolder) {

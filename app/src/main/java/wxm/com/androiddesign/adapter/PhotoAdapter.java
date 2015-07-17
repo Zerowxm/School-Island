@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewHolder> {
 
-    List<Uri> ablum=new ArrayList<Uri>();
+    List<String> ablum = new ArrayList<String>();
 
     @Override
     public MyPhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

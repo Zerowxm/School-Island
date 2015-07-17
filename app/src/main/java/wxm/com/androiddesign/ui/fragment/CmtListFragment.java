@@ -20,15 +20,16 @@ import wxm.com.androiddesign.listener.RecyclerItemClickListener;
  */
 public class CmtListFragment extends Fragment {
     RecyclerView recyclerView;
-    public View onCreateView(LayoutInflater inflater,ViewGroup viewGroup,Bundle savedInstanceState){
-        View v =inflater.inflate(R.layout.cmt_layout,viewGroup,false);
-        recyclerView=(RecyclerView)v;
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.cmt_layout, viewGroup, false);
+        recyclerView = (RecyclerView) v;
         setupRecyclerView(recyclerView);
         return v;
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView){
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+    private void setupRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new CmyAdapter());

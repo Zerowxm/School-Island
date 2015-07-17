@@ -3,7 +3,7 @@ package wxm.com.androiddesign.module;
 /**
  * Created by hdchen on 2015/7/1.
  */
-public class CommentData{
+public class CommentData {
     public String action;
     public String userId;
     public String userName;

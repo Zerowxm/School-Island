@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by zero on 2015/7/7.
  */
-public class MyItemAnimator extends RecyclerView.ItemAnimator{
+public class MyItemAnimator extends RecyclerView.ItemAnimator {
 
     List<RecyclerView.ViewHolder> mViewHolders = new ArrayList<RecyclerView.ViewHolder>();
     List<RecyclerView.ViewHolder> mAnimationRemoveViewHolders = new ArrayList<RecyclerView.ViewHolder>();

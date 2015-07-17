@@ -10,7 +10,7 @@ import android.view.View;
 import wxm.com.androiddesign.R;
 
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-//    private int space;
+    //    private int space;
 //
 //    public SpacesItemDecoration(int space) {
 //        this.space = space;
@@ -26,7 +26,7 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 //        if(parent.getChildPosition(view) == 0)
 //            outRect.top = space;
 //    }
-private Drawable mDivider;
+    private Drawable mDivider;
 
     public SpacesItemDecoration(Resources resources) {
         mDivider = resources.getDrawable(R.drawable.line_divider);

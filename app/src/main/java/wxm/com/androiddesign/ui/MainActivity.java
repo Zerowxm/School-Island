@@ -40,12 +40,13 @@ import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,LoginFragment.LoginCallBack,SearchView.OnQueryTextListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack, SearchView.OnQueryTextListener {
     DrawerLayout drawerLayout;
 
     public static MainActivity instance = null;
 
-    @Bind(R.id.fab)FloatingActionButton fab;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
     User user;
 
     @Override
@@ -65,16 +66,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void setupFab(){
+    private void setupFab() {
 
-       fab.setOnClickListener(this);
+        fab.setOnClickListener(this);
     }
 
-    private void setupInfo(){
+    private void setupInfo() {
 
     }
 
-    public class LoginTask extends AsyncTask<Void,Void,User>{
+    public class LoginTask extends AsyncTask<Void, Void, User> {
         @Override
         protected void onPostExecute(User aVoid) {
             super.onPostExecute(aVoid);
@@ -82,10 +83,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected User doInBackground(Void... params) {
-            SharedPreferences prefs=getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            String name=prefs.getString("UserId", null);
-            String password=prefs.getString("UserPassword",null);
-            JSONObject object=new JSONObject();
+            SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+            String name = prefs.getString("UserId", null);
+            String password = prefs.getString("UserPassword", null);
+            JSONObject object = new JSONObject();
             //object.put("action","")
             return null;
         }
@@ -93,14 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onLongin(User user) {
-        this.user=user;
-        SharedPreferences prefs=getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=prefs.edit();
-        editor.putString("UserId",user.getUserId());
+        this.user = user;
+        SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("UserId", user.getUserId());
         editor.putString("UserPassword", user.getUserPassword());
         editor.apply();
         ((TextView) findViewById(R.id.username)).setText(user.getUserName());
-        ( (TextView) findViewById(R.id.user_email)).setText(user.getUserEmail());
+        ((TextView) findViewById(R.id.user_email)).setText(user.getUserEmail());
     }
 
     private void setupDrawerContent(final NavigationView navigationView) {
@@ -144,16 +145,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void setupNavigationView(){
+    private void setupNavigationView() {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView=(NavigationView)findViewById(R.id.navigation_view);
-        if(navigationView!=null){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-        View header=findViewById(R.id.header);
+        View header = findViewById(R.id.header);
         header.setClickable(true);
-        final CircleImageView userPhoto=(CircleImageView)findViewById(R.id.user_photo);
+        final CircleImageView userPhoto = (CircleImageView) findViewById(R.id.user_photo);
         userPhoto.setClickable(true);
         //Glide.with(this).load("http://upload.shunwang.com/2013/1225/1387978515430.jpeg").into(userPhoto);
         Glide.with(this).load("http://101.200.191.149:8080/bootstrapRepository/images_repo/back_dark.png").into(userPhoto);
@@ -197,44 +198,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem=menu.findItem(R.id.action_serch);
-        SearchManager searchManager=(SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView=null;
-        if(searchItem!=null){
-            searchView=(SearchView) MenuItemCompat.getActionView(searchItem);
-            Log.d("Menu",searchItem.toString()+"1");
+        MenuItem searchItem = menu.findItem(R.id.action_serch);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            Log.d("Menu", searchItem.toString() + "1");
         }
 
-        if(searchView!=null){
+        if (searchView != null) {
             searchView.setOnQueryTextListener(this);
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            Log.d("Menu",searchView.toString()+"2");
+            Log.d("Menu", searchView.toString() + "2");
         }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent =new Intent(MainActivity.this,ReleaseActivity.class);
+        Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
         startActivity(intent);
-        }
+    }
 
-    private void showLoginDialog(){
-        FragmentManager fm=getSupportFragmentManager();
-        LoginFragment releaseFragment=new LoginFragment();
+    private void showLoginDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        LoginFragment releaseFragment = new LoginFragment();
         releaseFragment.show(fm, "login");
     }
 
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Snackbar.make(drawerLayout,query,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(drawerLayout, query, Snackbar.LENGTH_SHORT).show();
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Snackbar.make(drawerLayout,"newText"+newText,Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(drawerLayout, "newText" + newText, Snackbar.LENGTH_SHORT).show();
         return false;
     }
 }

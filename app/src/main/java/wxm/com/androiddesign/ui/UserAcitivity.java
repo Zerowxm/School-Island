@@ -46,8 +46,8 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(new ProfileFragment(), "个人信息");
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Release), "已发布活动");
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Joined), "参与活动");
-        adapter.addFragment(new CmtListFragment(),"社区");
-        adapter.addFragment(new UserListFragment(),"关注用户");
+        adapter.addFragment(new CmtListFragment(), "社区");
+        adapter.addFragment(new UserListFragment(), "关注用户");
         viewPager.setAdapter(adapter);
     }
 

@@ -37,12 +37,12 @@ import wxm.com.androiddesign.utils.ScrollManager;
  * Created by zero on 2015/6/25.
  */
 public class ActivityFragment extends Fragment {
-    public static final int Home=0x0;
-    public static final int Hot=0x1;
-    public static final int Nearby=0x2;
-    public static final int Hight=0x3;
-    public static final int Joined=0x4;
-    public static final int Release=0x5;
+    public static final int Home = 0x0;
+    public static final int Hot = 0x1;
+    public static final int Nearby = 0x2;
+    public static final int Hight = 0x3;
+    public static final int Joined = 0x4;
+    public static final int Release = 0x5;
 
     private int type;
 
@@ -53,13 +53,13 @@ public class ActivityFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     ScrollManager manager = new ScrollManager();
 
-    public ActivityFragment(){
+    public ActivityFragment() {
 
     }
 
-    public static ActivityFragment newInstance(int type){
-        ActivityFragment fragment=new ActivityFragment();
-        Bundle args=new Bundle();
+    public static ActivityFragment newInstance(int type) {
+        ActivityFragment fragment = new ActivityFragment();
+        Bundle args = new Bundle();
         args.putInt("Type", type);
         fragment.setArguments(args);
         return fragment;
@@ -70,19 +70,18 @@ public class ActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        type=getArguments().getInt("Type",Home);
+        type = getArguments().getInt("Type", Home);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v;
-        if(type==Joined||type==Release){
+        if (type == Joined || type == Release) {
             v = inflater.inflate(R.layout.activity_user_fragment, viewGroup, false);
             recyclerView = (RecyclerView) v;
             setupRecyclerView(recyclerView);
-        }
-        else {
+        } else {
             v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
             mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
@@ -90,9 +89,6 @@ public class ActivityFragment extends Fragment {
             setupRecyclerView(recyclerView);
             manager.setSwipeRefreshLayout(mSwipeRefreshLayout);
         }
-
-
-
 
 
         return v;
@@ -143,7 +139,7 @@ public class ActivityFragment extends Fragment {
 
         String jsonarrys =
                 "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n"+
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
 
                         "\"atyAlbum\":[\"cc\",\"dd\"],\n" +
 
@@ -157,7 +153,7 @@ public class ActivityFragment extends Fragment {
 
 
                         "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
-                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}"+
+                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}" +
                         "]";
         String json = "{\"atyContent\":\"1\",\"time\":\"2\",\"atyName\":\"3\",\n" +
                 "\"comment\":\"4\",\n" +
@@ -168,13 +164,13 @@ public class ActivityFragment extends Fragment {
 
         activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
         }.getType());
-        myRecycerAdapter=new MyRecycerAdapter(activityItems, (AppCompatActivity)getActivity(),"ActivityFragment");
+        myRecycerAdapter = new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity(), "ActivityFragment");
         recyclerView.setAdapter(myRecycerAdapter);
     }
 
-    public static void refresh(AtyItem atyItem,int position){
+    public static void refresh(AtyItem atyItem, int position) {
         activityItems.remove(position);
-        activityItems.add(position,atyItem);
+        activityItems.add(position, atyItem);
         myRecycerAdapter.notifyDataSetChanged();
     }
 }

@@ -40,26 +40,38 @@ import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.MyBitmapFactory;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final int CHOOSE_PHOTO=0x1;
+    public static final int CHOOSE_PHOTO = 0x1;
 
-    @Bind(R.id.user_photo)CircleImageView user_photo;
-    @Bind(R.id.username_edit_text)EditText user_name;
-    @Bind(R.id.password_edit_text)EditText password;
-    @Bind(R.id.emial_edit_text)EditText emial;
-    @Bind(R.id.phone_edit_text)EditText phone;
-    @Bind(R.id.checkbox_man)CheckBox checkBox_man;
-    @Bind(R.id.checkbox_woman)CheckBox checkBox_woman;
-    @Bind(R.id.password_edit_text_again)EditText password_again;
-    @Bind(R.id.password_text_input_layout)TextInputLayout passwordInput;
-    @Bind(R.id.phone_text_input_layout)TextInputLayout photoInput;
-    @Bind(R.id.email_text_input_layout)TextInputLayout emailInput;
-    @Bind(R.id.userid_edit_text)EditText user_id;
+    @Bind(R.id.user_photo)
+    CircleImageView user_photo;
+    @Bind(R.id.username_edit_text)
+    EditText user_name;
+    @Bind(R.id.password_edit_text)
+    EditText password;
+    @Bind(R.id.emial_edit_text)
+    EditText emial;
+    @Bind(R.id.phone_edit_text)
+    EditText phone;
+    @Bind(R.id.checkbox_man)
+    CheckBox checkBox_man;
+    @Bind(R.id.checkbox_woman)
+    CheckBox checkBox_woman;
+    @Bind(R.id.password_edit_text_again)
+    EditText password_again;
+    @Bind(R.id.password_text_input_layout)
+    TextInputLayout passwordInput;
+    @Bind(R.id.phone_text_input_layout)
+    TextInputLayout photoInput;
+    @Bind(R.id.email_text_input_layout)
+    TextInputLayout emailInput;
+    @Bind(R.id.userid_edit_text)
+    EditText user_id;
     private Uri selectedImgUri;
     String gender;
     User user;
-    Bitmap bitmap=null;
+    Bitmap bitmap = null;
 
 
     private void setupToolbar() {
@@ -86,13 +98,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         ButterKnife.bind(this);
         setupTextInputLayout();
         setup();
-       // setupToolbar();
+        // setupToolbar();
     }
 
 
-
     @OnClick(R.id.user_photo)
-    public void chooseImg(CircleImageView v){
+    public void chooseImg(CircleImageView v) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         photoPickerIntent.setType("image/*");
         Intent chooseImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -105,10 +116,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if(v instanceof CircleImageView){
+        if (v instanceof CircleImageView) {
 
         }
     }
+
     public boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -116,13 +128,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-//    String action, String userName, String userPassword,
+    //    String action, String userName, String userPassword,
 //    String userEmail, String userPhone,
 //    String userGender, int userIcon
     @OnClick(R.id.signup_btn)
-    public void signup(){
+    public void signup() {
         String checkEmail = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-        String checkPhoto="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+        String checkPhoto = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
 //        if(password.getText().toString().length()<6){
 //            passwordInput.setErrorEnabled(true);
 //            passwordInput.setError("密码不得少于六位");
@@ -156,29 +168,27 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //        }
 
 
-
-        user=new User("signup",get(user_id),get(user_name),get(password),get(emial),get(phone),
-                gender,"","0");
-
+        user = new User("signup", get(user_id), get(user_name), get(password), get(emial), get(phone),
+                gender, "", "0");
 
 
-        BackgroundTask task=new BackgroundTask(this);
+        BackgroundTask task = new BackgroundTask(this);
         task.execute(user);
     }
 
-    private class BackgroundTask extends AsyncTask<User,Void,Boolean>{
+    private class BackgroundTask extends AsyncTask<User, Void, Boolean> {
         MaterialDialog materialDialog;
         AppCompatActivity activity;
         String mResult;
 
-        public BackgroundTask(AppCompatActivity activity){
-            this.activity=activity;
+        public BackgroundTask(AppCompatActivity activity) {
+            this.activity = activity;
         }
 
         @Override
         protected void onPreExecute() {
-            Log.d("Task","onPreExecute");
-            materialDialog=new MaterialDialog.Builder(activity)
+            Log.d("Task", "onPreExecute");
+            materialDialog = new MaterialDialog.Builder(activity)
                     .title(R.string.signup_title)
                     .content(R.string.please_wait)
                     .progress(true, 0)
@@ -190,10 +200,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             //super.onPostExecute(aBoolean);
-            Log.d("Task","onPostExecute");
-            if (aBoolean==true){
+            Log.d("Task", "onPostExecute");
+            if (aBoolean == true) {
 
-            }else {
+            } else {
                 materialDialog.dismiss();
                 new MaterialDialog.Builder(activity)
                         .title("注册失败")
@@ -207,7 +217,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected Boolean doInBackground(User... params) {
-            Log.d("Task","doInBackground");
+            Log.d("Task", "doInBackground");
 //            try {
 //                Log.d("Task","Image");
 //                bitmap =MediaStore.Images.Media.getBitmap(activity.getContentResolver(),selectedImgUri);
@@ -216,26 +226,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //                Log.d("Task","IOException");
 //                e.printStackTrace();
 //            }
-            bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.test);
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test);
 
-            Log.d("Task","doImage");
-            String icon= MyBitmapFactory.BitmapToString(bitmap);
-            Log.d("Task",""+icon.length());
-            Log.d("Task","doImageEncode");
-            if(!isOnline()){
+            Log.d("Task", "doImage");
+            String icon = MyBitmapFactory.BitmapToString(bitmap);
+            Log.d("Task", "" + icon.length());
+            Log.d("Task", "doImageEncode");
+            if (!isOnline()) {
                 return false;
             }
             user.setUserIcon(icon);
-            Gson gson=new Gson();
+            Gson gson = new Gson();
             Log.d("gson", gson.toJson(user));
-            mResult="";
-            mResult=JsonConnection.getJSON(gson.toJson(user));
-            Log.d("Task","doConnection");
-            if(mResult!=""){
-                if(mResult.contains("false")){
+            mResult = "";
+            mResult = JsonConnection.getJSON(gson.toJson(user));
+            Log.d("Task", "doConnection");
+            if (mResult != "") {
+                if (mResult.contains("false")) {
                     return false;
-                }
-                else if(mResult.contains("true"))
+                } else if (mResult.contains("true"))
                     return true;
             }
             return false;
@@ -243,16 +252,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public static String get(EditText editText){
+    public static String get(EditText editText) {
         return editText.getText().toString();
     }
-    private void setup(){
+
+    private void setup() {
         checkBox_man.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     checkBox_woman.setChecked(false);
-                    gender=checkBox_man.getText().toString();
+                    gender = checkBox_man.getText().toString();
                 }
             }
         });
@@ -267,13 +277,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK)
-        {
+        if (resultCode == RESULT_OK) {
             Uri chosenImageUri = data.getData();
-            selectedImgUri=chosenImageUri;
+            selectedImgUri = chosenImageUri;
 
             Glide.with(this).load(selectedImgUri).into(user_photo);
         }

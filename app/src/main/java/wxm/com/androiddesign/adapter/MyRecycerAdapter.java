@@ -70,7 +70,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     String fragment;
 
 
-    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, AppCompatActivity activity,String fragment) {
+    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, AppCompatActivity activity, String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
         this.fragment = fragment;
@@ -99,7 +99,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                 intent.putExtra("position", position);
-                intent.putExtra("fragment",fragment);
+                intent.putExtra("fragment", fragment);
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
                 );
@@ -111,7 +111,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                 intent.putExtra("position", adapterPosition);
-                intent.putExtra("fragment",fragment);
+                intent.putExtra("fragment", fragment);
                 activity.startActivity(intent);
             }
 
@@ -171,9 +171,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         holder.imageViewContainer.removeAllViews();
         for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-            ImageView imageView=(ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+            ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
             //imageView.setTransitionName(activity.getResources().getString(R.string.transition_photo));
-            Log.d("image",""+ item.getAtyAlbum().size());
+            //  Log.d("image",""+ item.getAtyAlbum().size());
 //            ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image_item, null);
             WindowManager windowManager = activity.getWindowManager();
             DisplayMetrics dm = new DisplayMetrics();
@@ -196,7 +196,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             });
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             holder.imageViewContainer.addView(imageView);
-         }
+        }
 
         if (item.getAtyPlused().equals("false")) {
             holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
@@ -217,16 +217,17 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         setAnimation(holder.cardView, position);
     }
 
-    private class getUserInfoTask extends AsyncTask<String,Void,Boolean>{
+    private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            User user=new User();
+            User user = new User();
             user.setAction("");
 
             return null;
         }
     }
+
     public void setAnimation(View viewtoAnimate, int position) {
         if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(activity, R.anim.item_anim);

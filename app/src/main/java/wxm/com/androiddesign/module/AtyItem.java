@@ -40,6 +40,7 @@ public class AtyItem implements Parcelable {
     public void setAtyPlused(String atyPlused) {
         this.atyPlused = atyPlused;
     }
+
     public String getAtyId() {
         return atyId;
     }
@@ -171,7 +172,7 @@ public class AtyItem implements Parcelable {
     }
 
     public AtyItem(String action, String userId, String userName, String userPhoto,
-                   String atyName,String atyType, String atyStartTime, String atyEndTime,
+                   String atyName, String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
                    List<String> atyAlbum) {

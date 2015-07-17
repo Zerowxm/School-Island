@@ -203,7 +203,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 } else if (locaton.getText().toString().equals("add your location")) {
                     Toast.makeText(this, "set your location", Toast.LENGTH_SHORT).show();
                 } else {
-                    AtyItem atyItem = new AtyItem("release", "userid", "username", "userphoto", atyName.getText().toString(),"travel", startTime.getText().toString(),
+                    AtyItem atyItem = new AtyItem("release", "userid", "username", "userphoto", atyName.getText().toString(), "travel", startTime.getText().toString(),
                             endTime.getText().toString(), locaton.getText().toString(), "1",
                             atyContent.getText().toString(), "0", "0",
                             "true", "false", "0", uriList);
@@ -217,7 +217,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         }
     }
 
-    private class UpDateTask extends AsyncTask<AtyItem,Void,Void>{
+    private class UpDateTask extends AsyncTask<AtyItem, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -236,6 +236,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
             return null;
         }
     }
+
     public interface addAty {
         public void add(AtyItem atyItem);
     }

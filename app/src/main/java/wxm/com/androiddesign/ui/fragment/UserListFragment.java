@@ -20,14 +20,15 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
  */
 public class UserListFragment extends Fragment {
     RecyclerView recyclerView;
-    public View onCreateView(LayoutInflater inflater,ViewGroup viewGroup,Bundle savedInstanceState){
-        View v =inflater.inflate(R.layout.cmt_layout,viewGroup,false);
-        recyclerView=(RecyclerView)v;
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.cmt_layout, viewGroup, false);
+        recyclerView = (RecyclerView) v;
         setupRecyclerView(recyclerView);
         return v;
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView){
+    private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));

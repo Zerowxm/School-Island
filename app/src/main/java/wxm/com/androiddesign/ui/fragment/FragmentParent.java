@@ -46,16 +46,17 @@ public class FragmentParent extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        Toolbar toolbar=(Toolbar)rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        final ActionBar actionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
         return rootView;
     }
+
     private void setupViewPager(ViewPager viewPager) {
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot), "热门活动");
@@ -66,12 +67,12 @@ public class FragmentParent extends Fragment {
 
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
-    public void onCreate(Bundle saveInstanceState){
+    public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setHasOptionsMenu(true);
     }

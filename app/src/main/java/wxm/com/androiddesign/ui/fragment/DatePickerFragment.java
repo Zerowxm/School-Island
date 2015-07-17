@@ -25,50 +25,50 @@ import wxm.com.androiddesign.ui.ReleaseActivity;
 /**
  * Created by zero on 2015/7/2.
  */
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     Calendar calendar;
     DatePickCallBack datePickCallBack;
-    String time="";
+    String time = "";
     View view;
     int mode;
-    int TIME=0;
-    int DATE=1;
-    String hour="";
-    String minutes="";
-    @Bind(R.id.picker)LinearLayout picker;
+    int TIME = 0;
+    int DATE = 1;
+    String hour = "";
+    String minutes = "";
+    @Bind(R.id.picker)
+    LinearLayout picker;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         view = inflater.inflate(R.layout.date_picker, container);
-        ButterKnife.bind(this,view);
-        calendar=Calendar.getInstance();
+        ButterKnife.bind(this, view);
+        calendar = Calendar.getInstance();
         //setupDatePicker();
-        DatePicker datePicker= new DatePicker(getActivity());
+        DatePicker datePicker = new DatePicker(getActivity());
         setupDatePicker(datePicker);
         picker.addView(datePicker);
-        mode=DATE;
-        hour=String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-        minutes=String.valueOf(calendar.get(Calendar.MINUTE));
+        mode = DATE;
+        hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+        minutes = String.valueOf(calendar.get(Calendar.MINUTE));
         return view;
     }
 
 
-static DatePickerFragment newInstance(int num) {
-    DatePickerFragment f = new DatePickerFragment();
+    static DatePickerFragment newInstance(int num) {
+        DatePickerFragment f = new DatePickerFragment();
 
-    // Supply num input as an argument.
-    Bundle args = new Bundle();
-    args.putInt("num", num);
-    f.setArguments(args);
+        // Supply num input as an argument.
+        Bundle args = new Bundle();
+        args.putInt("num", num);
+        f.setArguments(args);
 
-    return f;
-}
+        return f;
+    }
 
-    private void setupDatePicker(DatePicker datePicker){
+    private void setupDatePicker(DatePicker datePicker) {
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
 
@@ -80,52 +80,52 @@ static DatePickerFragment newInstance(int num) {
                 });
     }
 
-    private void setupTimePicker(TimePicker timePicker){
+    private void setupTimePicker(TimePicker timePicker) {
         timePicker.setIs24HourView(true);
         timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
         timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                hour=String.valueOf(hourOfDay);
-                minutes=String.valueOf(minute);
+                hour = String.valueOf(hourOfDay);
+                minutes = String.valueOf(minute);
             }
         });
     }
 
     @OnClick(R.id.cancel_btn)
-    public void onCancel(){
+    public void onCancel() {
         dismiss();
     }
 
     @OnClick(R.id.ok_btn)
-    public void onOk(){
-        if(mode==DATE) {
+    public void onOk() {
+        if (mode == DATE) {
 
             picker.removeAllViews();
             TimePicker timePicker = new TimePicker(getActivity());
             setupTimePicker(timePicker);
             picker.addView(timePicker);
-            mode=TIME;
-        }
-        else if(mode==TIME){
-            time+=calendar.get(Calendar.YEAR)+"."+calendar.get(Calendar.MONTH)+"."
-                    +calendar.get(Calendar.DAY_OF_MONTH)+" "+hour+":"+minutes;
+            mode = TIME;
+        } else if (mode == TIME) {
+            time += calendar.get(Calendar.YEAR) + "." + calendar.get(Calendar.MONTH) + "."
+                    + calendar.get(Calendar.DAY_OF_MONTH) + " " + hour + ":" + minutes;
             datePickCallBack.addTime(time);
             dismiss();
         }
     }
 
-    public interface DatePickCallBack{
+    public interface DatePickCallBack {
         public void addTime(String time);
     }
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if(activity instanceof ReleaseActivity){
-            datePickCallBack=(DatePickCallBack)activity;
+        if (activity instanceof ReleaseActivity) {
+            datePickCallBack = (DatePickCallBack) activity;
         }
     }
+
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 

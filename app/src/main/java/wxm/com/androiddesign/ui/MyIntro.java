@@ -10,16 +10,16 @@ import wxm.com.androiddesign.ui.guide.Guide1;
 /**
  * Created by zero on 2015/6/26.
  */
-public class MyIntro extends AppIntro{
+public class MyIntro extends AppIntro {
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
-        addSlide(new Guide1(),getApplicationContext());
-        addSlide(new Guide1(),getApplicationContext());
-        addSlide(new Guide1(),getApplicationContext());
-        
+        addSlide(new Guide1(), getApplicationContext());
+        addSlide(new Guide1(), getApplicationContext());
+        addSlide(new Guide1(), getApplicationContext());
+
     }
 
-    private void loadMainActivity(){
+    private void loadMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -30,7 +30,7 @@ public class MyIntro extends AppIntro{
         loadMainActivity();
     }
 
-    public void getStarted(View v){
+    public void getStarted(View v) {
         loadMainActivity();
     }
 }

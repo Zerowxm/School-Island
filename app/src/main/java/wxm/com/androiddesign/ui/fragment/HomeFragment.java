@@ -49,7 +49,7 @@ import wxm.com.androiddesign.utils.TransparentToolBar;
 /**
  * Created by zero on 2015/6/26.
  */
-public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener{
+public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     RecyclerView recyclerView;
     Toolbar toolbar;
@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-        mSpinner=(Spinner)v.findViewById(R.id.spinner);
+        mSpinner = (Spinner) v.findViewById(R.id.spinner);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -92,11 +92,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return v;
     }
 
-    private void setupData(){
+    private void setupData() {
 
     }
 
-    private class getData extends AsyncTask<Void,Void,Void>{
+    private class getData extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -109,13 +109,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
     }
 
-    private void setupSpinner(Spinner spinner){
-        List<String> spinnerarry=new ArrayList<String>();
+    private void setupSpinner(Spinner spinner) {
+        List<String> spinnerarry = new ArrayList<String>();
         spinnerarry.add("厦门");
 
-        ArrayAdapter<String>adapter=new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,spinnerarry);
-       // ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getActivity(),R.array.action_bar_spinner,
-       //         R.layout.spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, spinnerarry);
+        // ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getActivity(),R.array.action_bar_spinner,
+        //         R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         //String test="{\"atyContent\":\"1\",\"time\":\"1\",\"atyName\":\"1\",\"comment\":\"1\",\"image\":[\"aa\",\"bb\"],\"imageUri\":[{\"uriString\":\"http://www.baidu.com\",\"scheme\":\"NOT CACHED\",\"cachedSsi\":-2,\"cachedFsi\":-2,\"host\":\"NOT CACHED\",\"port\":-2}],\"location\":\"1\",\"plus\":\"1\",\"tag\":\"1\",\"atyImageId\":0,\"photoId\":0}\n";
         String jsonarrys =
                 "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n"+
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
                         "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
                         "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
                         "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
 
                         "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
-                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}"+
+                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}" +
                         "]";
         String json = "{\"atyContent\":\"1\",\"time\":\"2\",\"atyName\":\"3\",\n" +
                 "\"comment\":\"4\",\n" +
@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         //Log.d("Gson", atyItem.toString());
         Log.d("Gson", "" + gson.toJson(activityItems));
         //Log.d("Gson", "" + gson.toJson(new AtyItem()));
-        myRecycerAdapter = new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity(),"HomeFragment");
+        myRecycerAdapter = new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity(), "HomeFragment");
         recyclerView.setAdapter(myRecycerAdapter);
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         ScrollManager manager = new ScrollManager();
@@ -205,13 +205,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public static void addActivity(AtyItem atyItem) {
-        activityItems.add(0,atyItem);
+        activityItems.add(0, atyItem);
         myRecycerAdapter.notifyDataSetChanged();
     }
 
-    public static void refresh(AtyItem atyItem,int position){
+    public static void refresh(AtyItem atyItem, int position) {
         activityItems.remove(position);
-        activityItems.add(position,atyItem);
+        activityItems.add(position, atyItem);
         myRecycerAdapter.notifyDataSetChanged();
     }
 

@@ -28,7 +28,7 @@ public class User {
     @Expose
     public String userScore;
     @Expose
-    List<String> userAlbum=new ArrayList<String>();
+    List<String> userAlbum = new ArrayList<String>();
 
     @Override
     public String toString() {

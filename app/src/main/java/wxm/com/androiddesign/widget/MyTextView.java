@@ -13,7 +13,7 @@ import wxm.com.androiddesign.R;
  */
 public class MyTextView extends TextView {
     public MyTextView(Context context, AttributeSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
 
 //        if (isInEditMode()) {
 //            return;
@@ -26,7 +26,7 @@ public class MyTextView extends TextView {
 
 //        setTypeface(typeface);
         if (fontName != null) {
-            Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/"+fontName);
+            Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/" + fontName);
             setTypeface(typeface);
         }
     }

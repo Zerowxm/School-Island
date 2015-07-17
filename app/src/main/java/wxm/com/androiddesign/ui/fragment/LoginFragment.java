@@ -58,13 +58,15 @@ public class LoginFragment extends DialogFragment {
     //FloatingActionButton fab_longin;
 
     LoginCallBack loginCallBack;
-    @Bind(R.id.username_text_input_layout)TextInputLayout username_layout;
-    @Bind(R.id.password_text_input_layout)TextInputLayout password_layout;
+    @Bind(R.id.username_text_input_layout)
+    TextInputLayout username_layout;
+    @Bind(R.id.password_text_input_layout)
+    TextInputLayout password_layout;
     @Bind(R.id.username_edit_text)
     EditText user_name;
     @Bind(R.id.password_edit_text)
     EditText password;
-    String mResult="";
+    String mResult = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,10 +90,10 @@ public class LoginFragment extends DialogFragment {
         NetworkInfo networkInfo = check.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             //do some thing
-            User user =new User();
+            User user = new User();
             user.setAction("login");
             user.setUserId(user_name.getText().toString());
-            user.setUserPassword( password.getText().toString());
+            user.setUserPassword(password.getText().toString());
 
             new LoginTask(getActivity()).execute(new Gson().toJson(user));
         } else {
@@ -103,15 +105,15 @@ public class LoginFragment extends DialogFragment {
         MaterialDialog materialDialog;
         Context context;
 
-        public LoginTask(Context context){
-            this.context=context;
+        public LoginTask(Context context) {
+            this.context = context;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             dismiss();
-            materialDialog=new MaterialDialog.Builder(context)
+            materialDialog = new MaterialDialog.Builder(context)
                     .title(R.string.login_title)
                     .content(R.string.please_wait)
                     .progress(true, 0)
@@ -122,12 +124,11 @@ public class LoginFragment extends DialogFragment {
         @Override
         protected Boolean doInBackground(String... params) {
             getJSON(params[0]);
-            if(mResult!=""){
-                if(mResult.contains("false")){
+            if (mResult != "") {
+                if (mResult.contains("false")) {
                     return false;
-                }
-                else if(mResult.contains("true"))
-                return true;
+                } else if (mResult.contains("true"))
+                    return true;
             }
             return false;
         }
@@ -135,12 +136,11 @@ public class LoginFragment extends DialogFragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if(result==true){
+            if (result == true) {
                 materialDialog.dismiss();
-                loginCallBack.onLongin(new Gson().fromJson(mResult,User.class));
+                loginCallBack.onLongin(new Gson().fromJson(mResult, User.class));
                 //username_layout.setError("用户名错误");
-            }
-            else {
+            } else {
                 materialDialog.dismiss();
                 new MaterialDialog.Builder(context)
                         .title("登陆失败")
@@ -152,56 +152,52 @@ public class LoginFragment extends DialogFragment {
     }
 
     public void getJSON(String json) {
-            try {
-                URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
+        try {
+            URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
 
-                HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
-                connection.setRequestProperty("Content-type", "application/json");
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-                connection.setRequestMethod("POST");
-                connection.setUseCaches(false);
-                connection.setReadTimeout(5000);
-                connection.setConnectTimeout(5000);
-                connection.connect();
-                OutputStream outStrm = connection.getOutputStream();
-
-
-
-                //HttpURLconnection写数据与发送数据
-                ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
-                objOutputStrm.writeObject(json);
-                objOutputStrm.flush();                              //数据输出
-                objOutputStrm.close();
-
-                Log.d("connection", json);
-
-                InputStream ins ;
-
-                int status = connection.getResponseCode();
-                if(status >= HttpStatus.SC_BAD_REQUEST) {
-                    ins = connection.getErrorStream();
-                    Log.d("connection", ""+status);
-                }
-                else {
-                    ins = connection.getInputStream();
-                    Log.d("connection", "" + status);
-
-                    ObjectInputStream objinput = new ObjectInputStream(ins);
-                    mResult = (String)objinput.readObject();
-
-                    Log.d("connection", mResult);
-                }
+            HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
+            connection.setRequestProperty("Content-type", "application/json");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setUseCaches(false);
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+            connection.connect();
+            OutputStream outStrm = connection.getOutputStream();
 
 
+            //HttpURLconnection写数据与发送数据
+            ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
+            objOutputStrm.writeObject(json);
+            objOutputStrm.flush();                              //数据输出
+            objOutputStrm.close();
 
+            Log.d("connection", json);
 
-            } catch (IOException e) {
-                Log.d("Exception", e.toString());
-                Log.d("connection", "Excption");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            InputStream ins;
+
+            int status = connection.getResponseCode();
+            if (status >= HttpStatus.SC_BAD_REQUEST) {
+                ins = connection.getErrorStream();
+                Log.d("connection", "" + status);
+            } else {
+                ins = connection.getInputStream();
+                Log.d("connection", "" + status);
+
+                ObjectInputStream objinput = new ObjectInputStream(ins);
+                mResult = (String) objinput.readObject();
+
+                Log.d("connection", mResult);
             }
+
+
+        } catch (IOException e) {
+            Log.d("Exception", e.toString());
+            Log.d("connection", "Excption");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick(R.id.signup_btn)
