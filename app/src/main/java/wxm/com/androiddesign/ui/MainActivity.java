@@ -128,11 +128,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         drawerLayout.closeDrawers();
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(user.getUserId())).commit();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(user.getUserId())).commitAllowingStateLoss();
 
                                 return true;
                             case R.id.nav_explore:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(user.getUserId())).commit();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(user.getUserId())).commitAllowingStateLoss();
 
                                 return true;
                             case R.id.nav_attention:

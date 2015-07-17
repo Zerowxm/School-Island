@@ -237,4 +237,10 @@ public class DetailActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //outState.putString("");
+        super.onSaveInstanceState(outState);
+    }
 }
