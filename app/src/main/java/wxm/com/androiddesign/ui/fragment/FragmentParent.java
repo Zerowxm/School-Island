@@ -69,7 +69,7 @@ public class FragmentParent extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot,userId), "热门活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot,userId), "评价最高");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hight,userId), "评价最高");
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot,userId), "热门收藏");
         viewPager.setAdapter(adapter);
     }

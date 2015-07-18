@@ -35,7 +35,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -51,6 +54,7 @@ import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.DetailActivity;
 
 import wxm.com.androiddesign.ui.MainActivity;
@@ -132,6 +136,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     button.setTextColor(activity.getResources().getColor(R.color.black));
                     notifyDataSetChanged();
                 }
+                new UpDateTask().execute(atyItem);
             }
 
             @Override
@@ -151,8 +156,28 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
                     notifyDataSetChanged();
                 }
+                new UpDateTask().execute(atyItem);
             }
         });
+    }
+
+    private class UpDateTask extends AsyncTask<AtyItem, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(AtyItem... params) {
+            params[0].setAction("Update");
+            JsonConnection.getJSON(new Gson().toJson(params[0]));
+            return null;
+        }
     }
 
     @Override
@@ -171,49 +196,49 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.total_comment.setText(item.getAtyComment());
 
         holder.imageViewContainer.removeAllViews();
-        Log.d("recyclerview", "item.getAtyAlbum().size()"+item.getAtyAlbum().size());
-        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-            ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-            WindowManager windowManager = activity.getWindowManager();
-            DisplayMetrics dm = new DisplayMetrics();
-            Display display = windowManager.getDefaultDisplay();
-            int width = display.getWidth() - 7;
-            int height = display.getHeight();
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-            //imageView.setImageBitmap(MyBitmapFactory.StringToBitmap(item.getAtyAlbum().get(i)));
-            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-            imageView.setLayoutParams(layoutParams);
-            imageView.setTag(i);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Uri uri =Uri.parse(item.getAtyAlbum().get((Integer) v.getTag()));
-                    MyDialog dialog = new MyDialog();
-                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
-                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
-                }
-            });
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            holder.imageViewContainer.addView(imageView);
-        }
+//        Log.d("recyclerview", "item.getAtyAlbum().size()"+item.getAtyAlbum().size());
+//        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+//            ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+//            WindowManager windowManager = activity.getWindowManager();
+//            DisplayMetrics dm = new DisplayMetrics();
+//            Display display = windowManager.getDefaultDisplay();
+//            int width = display.getWidth() - 7;
+//            int height = display.getHeight();
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+//            //imageView.setImageBitmap(MyBitmapFactory.StringToBitmap(item.getAtyAlbum().get(i)));
+//            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+//            imageView.setLayoutParams(layoutParams);
+//            imageView.setTag(i);
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //Uri uri =Uri.parse(item.getAtyAlbum().get((Integer) v.getTag()));
+//                    MyDialog dialog = new MyDialog();
+//                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
+//                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                }
+//            });
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            holder.imageViewContainer.addView(imageView);
+//        }
 
-        if (item.getAtyPlused().equals("false")) {
-            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
-        } else if (item.getAtyPlused().equals("true")) {
-            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
-        }
-
-        if (item.getAtyJoined().equals("true")) {
-            holder.mjoinBtn.setText("已加入");
-            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
-        } else if (item.getAtyJoined().equals("false")) {
-            holder.mjoinBtn.setText("加入");
-            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
-        }
-
-        setAnimation(holder.cardView, position);
+//        if (item.getAtyPlused().equals("false")) {
+//            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+//            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+//        } else if (item.getAtyPlused().equals("true")) {
+//            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+//            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
+//        }
+//
+//        if (item.getAtyJoined().equals("true")) {
+//            holder.mjoinBtn.setText("已加入");
+//            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
+//        } else if (item.getAtyJoined().equals("false")) {
+//            holder.mjoinBtn.setText("加入");
+//            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
+//        }
+//
+//        setAnimation(holder.cardView, position);
     }
 
     private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
@@ -222,7 +247,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         protected Boolean doInBackground(String... params) {
             User user = new User();
             user.setAction("");
-
             return null;
         }
     }

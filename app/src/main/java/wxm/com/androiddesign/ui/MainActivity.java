@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user.setUserId("aa");
-        user.setUserName("hello");
+        user.setUserId("001");
+        user.setUserName("游客");
         setContentView(R.layout.activity_main);
         instance = this;
         if (savedInstanceState == null) {
@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
+        intent.putExtra("userId",user.getUserId());
         startActivity(intent);
     }
 

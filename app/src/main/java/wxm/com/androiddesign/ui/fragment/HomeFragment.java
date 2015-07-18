@@ -122,7 +122,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             JSONObject object=new JSONObject();
             try {
                 object.put("action","showActivities");
+                object.put("userId",userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
+              //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
                 for (int i=0;i<activityItems.size();i++){
@@ -160,23 +162,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         new GetAtyTask().execute();
         Log.d("home","onCreateView");
         return v;
-    }
-
-    private void setupData() {
-
-    }
-
-    private class getData extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            myRecycerAdapter.notifyDataSetChanged();
-            return null;
-        }
     }
 
     private void setupSpinner(Spinner spinner) {

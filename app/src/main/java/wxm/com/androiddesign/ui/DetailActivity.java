@@ -49,9 +49,10 @@ public class DetailActivity extends AppCompatActivity {
     int position;
     String fragment;
     getCommentTask mGetCommentTask;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
         }
         return super.onKeyDown(keyCode, event);
@@ -67,8 +68,9 @@ public class DetailActivity extends AppCompatActivity {
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
         position = bundle.getInt("position");
         fragment = bundle.getString("fragment");
-        mGetCommentTask=new getCommentTask(getApplicationContext());
-        //mGetCommentTask.execute();
+        mGetCommentTask = new getCommentTask(getApplicationContext());
+        CommentData temp = null;
+        mGetCommentTask.execute(temp);
         multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas, this, position);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
@@ -121,11 +123,10 @@ public class DetailActivity extends AppCompatActivity {
                 String json = JsonConnection.getJSON(object.toString());
                 commentDatas = new Gson().fromJson(json, new TypeToken<ArrayList<AtyItem>>() {
                 }.getType());
+            } else {
+                JsonConnection.getJSON(new Gson().toJson(params[0]));
+                commentDatas.add(params[0]);
             }
-            commentDatas.add(params[0]);
-
-
-
             return null;
         }
     }
@@ -137,61 +138,17 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cmt_text.getText() != null && !cmt_text.getText().toString().equals("")) {
-                    SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        Date oldDate = oldFormatter.parse("2015-07-14 16:56:00");
-                        Date nowDate = new Date(System.currentTimeMillis());
-                        long time = nowDate.getTime() - oldDate.getTime();
-                        String str = getSubTime(time);
-                        mGetCommentTask.execute(new CommentData("comment", "userId", str, cmt_text.getText().toString()));
-                        cmt_text.setText(null);
-                        //!json
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date nowDate = new Date(System.currentTimeMillis());
+                    String time = formatter.format(nowDate);
+                    mGetCommentTask.execute(new CommentData("comment", "userId", time, cmt_text.getText().toString()));
+                    cmt_text.setText(null);
                 } else {
                     Toast.makeText(DetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-    }
-
-    private class UpDateTask extends AsyncTask<CommentData, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-
-        @Override
-        protected Void doInBackground(CommentData... params) {
-            JsonConnection.getJSON(new Gson().toJson(params[0]));
-            return null;
-        }
-    }
-
-    private String getSubTime(long subTime) {
-        long days = subTime / (1000 * 60 * 60 * 24);
-        if (days < 1) {
-            long hours = subTime / (1000 * 60 * 60);
-            if (hours < 1) {
-                long minutes = subTime / (1000 * 60);
-                if (minutes < 1)
-                    return "Moments ago";
-                return (int) (minutes) == 1 ? String.format("%s minute", minutes) : String.format("%s minutes", minutes);
-            }
-            return (int) (hours) == 1 ? String.format("%s hour", hours) : String.format("%s hours", hours);
-        }
-        if (days >= 7) {
-            return (int) (days / 7) == 1 ? String.format("%s week", (int) (days / 7)) : String.format("%s weeks", (int) (days / 7));
-        } else
-            return (int) (days) == 1 ? String.format("%s day", days) : String.format("%s days", days);
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
@@ -214,9 +171,9 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-      //  if (fragment.equals("HomeFragment"))
-            HomeFragment.refresh(atyItem, position);
-     //   else if (fragment.equals("ActivityFragment"))
+        //  if (fragment.equals("HomeFragment"))
+        HomeFragment.refresh(atyItem, position);
+        //   else if (fragment.equals("ActivityFragment"))
         //    ActivityFragment.refresh(atyItem, position);
     }
 

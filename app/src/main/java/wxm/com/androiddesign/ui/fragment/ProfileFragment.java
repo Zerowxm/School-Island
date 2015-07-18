@@ -49,11 +49,11 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.profile_layout, viewGroup, false);
+        userId = getArguments().getString("UserId");
         recyclerView = (RecyclerView) v;
         getProfile = new GetProfile(getActivity());
-        getProfile.execute(user);
+        getProfile.execute(userId);
         setupRecyclerView(recyclerView);
-        userId = getArguments().getString("UserId");
         return v;
     }
 
@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
         recyclerView.setAdapter(new ProfileAdapter(user));
     }
 
-    private class GetProfile extends AsyncTask<User, Void, Boolean> {
+    private class GetProfile extends AsyncTask<String, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
@@ -87,11 +87,11 @@ public class ProfileFragment extends Fragment {
         }
 
         @Override
-        protected Boolean doInBackground(User... params) {
+        protected Boolean doInBackground(String... params) {
             JSONObject object = new JSONObject();
             try {
                 object.put("action", "showprofile");
-                object.put("userId", userId);
+                object.put("userId", params[0]);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

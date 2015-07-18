@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -29,9 +30,13 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +48,7 @@ import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
@@ -62,7 +68,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         COMMENT_TYPE
     }
 
-    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1, AppCompatActivity activity,int position) {
+    public MultipleItemAdapter(AtyItem ActData, ArrayList<CommentData> commentDatas1, AppCompatActivity activity, int position) {
         atyItem = ActData;
         commentDatas = commentDatas1;
         this.activity = activity;
@@ -111,38 +117,66 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((AtyViewHolder) holder).mjoinBtn.setText("加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
             }
-            for (int i=0;i<atyItem.getAtyAlbum().size();i++){
-                ImageView imageView=(ImageView)activity.getLayoutInflater().inflate(R.layout.image,null);
-                WindowManager windowManager=activity.getWindowManager();
-                DisplayMetrics dm=new DisplayMetrics();
-                Display display=windowManager.getDefaultDisplay();
-                int width=display.getWidth()-7;
-                int height=display.getHeight();
-                LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(width,height*2/5);
-                Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
-                imageView.setLayoutParams(layoutParams);
-                imageView.setTag(i);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
-                        MyDialog dialog = new MyDialog();
-                        dialog.setUri(atyItem.getAtyAlbum().get((Integer) v.getTag()));
-                        dialog.show(activity.getSupportFragmentManager(), "showPicture");
-                    }
-                });
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
-            }
+//            for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
+//                ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image, null);
+//                WindowManager windowManager = activity.getWindowManager();
+//                DisplayMetrics dm = new DisplayMetrics();
+//                Display display = windowManager.getDefaultDisplay();
+//                int width = display.getWidth() - 7;
+//                int height = display.getHeight();
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
+//                Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
+//                imageView.setLayoutParams(layoutParams);
+//                imageView.setTag(i);
+//                imageView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        //Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
+//                        MyDialog dialog = new MyDialog();
+//                        dialog.setUri(atyItem.getAtyAlbum().get((Integer) v.getTag()));
+//                        dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                    }
+//                });
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
+//            }
             setAnimation(((AtyViewHolder) holder).cardView, position);
 
         } else if (holder instanceof CommentViewHolder) {
             CommentData item = commentDatas.get(position - 1);
             //  ((CommentViewHolder) holder).user_name.setText(item.getUserName());
-            ((CommentViewHolder) holder).time.setText(item.getTime());
+            try {
+                SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date oldDate = null;
+                oldDate = oldFormatter.parse(item.getTime());
+                Date nowDate = new Date(System.currentTimeMillis());
+                long time = nowDate.getTime() - oldDate.getTime();
+                String str = getSubTime(time);
+                ((CommentViewHolder) holder).time.setText(str);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             // ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
             ((CommentViewHolder) holder).user_comment.setText(item.getComment());
         }
+    }
+
+    private String getSubTime(long subTime) {
+        long days = subTime / (1000 * 60 * 60 * 24);
+        if (days < 1) {
+            long hours = subTime / (1000 * 60 * 60);
+            if (hours < 1) {
+                long minutes = subTime / (1000 * 60);
+                if (minutes < 1)
+                    return "Moments ago";
+                return (int) (minutes) == 1 ? String.format("%s minute", minutes) : String.format("%s minutes", minutes);
+            }
+            return (int) (hours) == 1 ? String.format("%s hour", hours) : String.format("%s hours", hours);
+        }
+        if (days >= 7) {
+            return (int) (days / 7) == 1 ? String.format("%s week", (int) (days / 7)) : String.format("%s weeks", (int) (days / 7));
+        } else
+            return (int) (days) == 1 ? String.format("%s day", days) : String.format("%s days", days);
     }
 
     public void setAnimation(View viewtoAnimate, int position) {
@@ -246,6 +280,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
                         notifyDataSetChanged();
                     }
+                    new UpDateAtyTask().execute(atyItem);
                 }
             });
 
@@ -298,6 +333,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                         }
                     }
+                    new UpDateAtyTask().execute(atyItem);
                 }
             });
 
@@ -305,7 +341,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, UserAcitivity.class);
-                    intent.putExtra("userId",atyItem.getUserId());
+                    intent.putExtra("userId", atyItem.getUserId());
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
                     );
@@ -314,6 +350,25 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
 
+        }
+
+        private class UpDateAtyTask extends AsyncTask<AtyItem, Void, Void> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+            }
+
+            @Override
+            protected Void doInBackground(AtyItem... params) {
+                params[0].setAction("Update");
+                JsonConnection.getJSON(new Gson().toJson(params[0]));
+                return null;
+            }
         }
 
         @Override
