@@ -142,11 +142,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.nav_user_setting:
 
                                 return true;
-//                            case R.id.nav_setting:
-//
-//                                Snackbar.make(drawerLayout, "设置",
-//                                        Snackbar.LENGTH_SHORT).show();
-//                                return true;
                             default:
                                 return true;
                         }
@@ -212,13 +207,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SearchView searchView = null;
         if (searchItem != null) {
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-            Log.d("Menu", searchItem.toString() + "1");
         }
 
         if (searchView != null) {
             searchView.setOnQueryTextListener(this);
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            Log.d("Menu", searchView.toString() + "2");
         }
         return super.onCreateOptionsMenu(menu);
     }
