@@ -36,8 +36,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
     class MyViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.user_photo)
         CircleImageView user_photo;
-        @Bind(R.id.user_name)
-        TextView user_name;
 
         public MyViewHolder(View itemView) {
             super(itemView);

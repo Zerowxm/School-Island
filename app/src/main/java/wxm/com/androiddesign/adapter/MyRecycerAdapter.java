@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -35,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -84,10 +86,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onUserPhoto(CircleImageView userPhoto,int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
                 intent.putExtra("userId",activityItems.get(position).getUserId());
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
-                );
-                ActivityCompat.startActivity(activity, intent, options.toBundle());
+                activity.startActivity(intent);
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
+//                );
+//                ActivityCompat.startActivity(activity, intent, options.toBundle());
             }
 
             @Override
@@ -100,11 +103,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                 intent.putExtra("position", position);
-                intent.putExtra("fragment", fragment);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
-                );
-                ActivityCompat.startActivity(activity, intent, options.toBundle());
+                //intent.putExtra("fragment", fragment);
+                activity.startActivity(intent);
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
+//                );
+//                ActivityCompat.startActivity(activity, intent, options.toBundle());
             }
 
             @Override
@@ -179,18 +183,24 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             Display display = windowManager.getDefaultDisplay();
             int width = display.getWidth() - 7;
             int height = display.getHeight();
+            //Glide.clear(imageView);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-            //imageView.setImageBitmap(MyBitmapFactory.StringToBitmap(item.getAtyAlbum().get(i)));
-            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+            Log.d("image",item.getAtyAlbum().get(i));
+            Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+            //Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
             imageView.setLayoutParams(layoutParams);
             imageView.setTag(i);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    //Uri uri =Uri.parse(item.getAtyAlbum().get((Integer) v.getTag()));
-                    MyDialog dialog = new MyDialog();
-                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
-                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+                public void onClick(final View v) {
+                    new Handler().post(new Runnable() {
+                        public void run() {
+                            MyDialog dialog = new MyDialog();
+                            dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
+                            dialog.show(activity.getSupportFragmentManager(), "showPicture");
+                        }
+                    });
+
                 }
             });
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

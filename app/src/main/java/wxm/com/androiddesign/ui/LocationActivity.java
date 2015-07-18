@@ -3,6 +3,7 @@ package wxm.com.androiddesign.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,7 @@ import wxm.com.androiddesign.R;
 /**
  * Created by Administrator on 2015/7/3.
  */
-public class LocationActivity extends Activity {
+public class LocationActivity extends AppCompatActivity {
     public static String Latitude = "Latitude";
     public static String Longtitude = "Longtitude";
     public static String Address = "Address";
