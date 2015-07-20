@@ -26,7 +26,28 @@ public class User {
     @Expose
     public String userIcon;
     @Expose
+    public String qq;
+    @Expose
+    public String userAddress;
+    @Expose
     public String userScore;
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
     @Expose
     List<String> userAlbum = new ArrayList<String>();
 

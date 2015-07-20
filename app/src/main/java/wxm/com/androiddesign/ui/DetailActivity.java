@@ -107,7 +107,6 @@ public class DetailActivity extends AppCompatActivity {
             super.onPostExecute(result);
             multipleItemAdapter.notifyDataSetChanged();
             recyclerView.scrollToPosition(commentDatas.size());
-
         }
 
         @Override
@@ -115,7 +114,7 @@ public class DetailActivity extends AppCompatActivity {
             if (params[0] == null) {
                 JSONObject object = new JSONObject();
                 try {
-                    object.put("action", "showcomments");
+                    object.put("action", "showComments");
                     object.put("atyId", atyItem.getAtyId());
                 } catch (JSONException e) {
                     e.printStackTrace();

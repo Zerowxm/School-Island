@@ -72,11 +72,17 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     private static AppCompatActivity activity;
     AtyItem item;
     String fragment;
+    boolean isUser = false;
 
-    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, AppCompatActivity activity, String fragment) {
+    public MyRecycerAdapter(List<AtyItem> activityItemArrayList,String userId, AppCompatActivity activity, String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
         this.fragment = fragment;
+        if(userId.equals("001")){
+            isUser = false;
+        }else{
+            isUser = true;
+        }
     }
 
     @Override
@@ -100,63 +106,79 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onCard(CardView cardView, int position) {
-                Log.d("recyclerview", "onCard");
-                Intent intent = new Intent(activity, DetailActivity.class);
-                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
-                intent.putExtra("position", position);
-                intent.putExtra("fragment", fragment);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
-                );
-                ActivityCompat.startActivity(activity, intent, options.toBundle());
+                if(isUser) {
+                    Log.d("recyclerview", "onCard");
+                    Intent intent = new Intent(activity, DetailActivity.class);
+                    intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
+                    intent.putExtra("position", position);
+                    intent.putExtra("fragment", fragment);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
+                    );
+                    ActivityCompat.startActivity(activity, intent, options.toBundle());
+                }else{
+                    Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT);
+                }
             }
 
             @Override
             public void onComment(FloatingActionButton fab, int adapterPosition) {
-                Intent intent = new Intent(activity, DetailActivity.class);
-                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
-                intent.putExtra("position", adapterPosition);
-                intent.putExtra("fragment", fragment);
-                activity.startActivity(intent);
+                if(isUser) {
+                    Intent intent = new Intent(activity, DetailActivity.class);
+                    intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
+                    intent.putExtra("position", adapterPosition);
+                    intent.putExtra("fragment", fragment);
+                    activity.startActivity(intent);
+                }else{
+                    Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT);
+                }
             }
 
             @Override
             public void onJoinBtn(Button button, int adapterPosition) {
-                AtyItem atyItem = activityItems.get(adapterPosition);
-                if ("加入".equals(button.getText().toString())) {
-                    button.setText("已加入");
-                    atyItem.setAtyJoined("true");
-                    atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
-                    button.setTextColor(activity.getResources().getColor(R.color.primary));
-                    notifyDataSetChanged();
-                } else {
-                    button.setText("加入");
-                    atyItem.setAtyJoined("false");
-                    atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
-                    button.setTextColor(activity.getResources().getColor(R.color.black));
-                    notifyDataSetChanged();
+                if(isUser) {
+                    AtyItem atyItem = activityItems.get(adapterPosition);
+                    if ("加入".equals(button.getText().toString())) {
+                        button.setText("已加入");
+                        atyItem.setAtyJoined("true");
+                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
+                        button.setTextColor(activity.getResources().getColor(R.color.primary));
+                        notifyDataSetChanged();
+                    } else {
+                        button.setText("加入");
+                        atyItem.setAtyJoined("false");
+                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
+                        button.setTextColor(activity.getResources().getColor(R.color.black));
+                        notifyDataSetChanged();
+                    }
+                    new UpDateTask().execute(atyItem);
+                }else{
+                    Toast.makeText(activity,"请登录加入",Toast.LENGTH_SHORT);
                 }
-                new UpDateTask().execute(atyItem);
             }
 
             @Override
             public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus) {
-                AtyItem atyItem = activityItems.get(adapterPosition);
+                if(isUser) {
+                    AtyItem atyItem = activityItems.get(adapterPosition);
 
-                if (atyItem.getAtyPlused().equals("true")) {
-                    fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-                    fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
-                    atyItem.setAtyPlused("false");
-                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
-                    notifyDataSetChanged();
-                } else {
-                    fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-                    fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
-                    atyItem.setAtyPlused("true");
-                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
-                    notifyDataSetChanged();
+                    if (atyItem.getAtyPlused().equals("true")) {
+                        fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+                        fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+                        atyItem.setAtyPlused("false");
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
+                        notifyDataSetChanged();
+                    } else {
+                        fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+                        fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
+                        atyItem.setAtyPlused("true");
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
+                        notifyDataSetChanged();
+                    }
+                    new UpDateTask().execute(atyItem);
+                }else{
+                    Toast.makeText(activity,"请登录后点赞",Toast.LENGTH_SHORT);
                 }
-                new UpDateTask().execute(atyItem);
             }
         });
     }
@@ -194,7 +216,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.total_member.setText(item.getAtyMembers());
         holder.totle_plus.setText(item.getAtyPlus());
         holder.total_comment.setText(item.getAtyComment());
-
+        if(isUser){
+            holder.imageViewContainer.setVisibility(View.GONE);
+        }
         holder.imageViewContainer.removeAllViews();
 //        Log.d("recyclerview", "item.getAtyAlbum().size()"+item.getAtyAlbum().size());
 //        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
@@ -222,23 +246,23 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 //            holder.imageViewContainer.addView(imageView);
 //        }
 
-//        if (item.getAtyPlused().equals("false")) {
-//            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-//            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
-//        } else if (item.getAtyPlused().equals("true")) {
-//            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-//            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
-//        }
-//
-//        if (item.getAtyJoined().equals("true")) {
-//            holder.mjoinBtn.setText("已加入");
-//            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
-//        } else if (item.getAtyJoined().equals("false")) {
-//            holder.mjoinBtn.setText("加入");
-//            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
-//        }
-//
-//        setAnimation(holder.cardView, position);
+        if (item.getAtyPlused().equals("false")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+        } else if (item.getAtyPlused().equals("true")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
+        }
+
+        if (item.getAtyJoined().equals("true")) {
+            holder.mjoinBtn.setText("已加入");
+            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
+        } else if (item.getAtyJoined().equals("false")) {
+            holder.mjoinBtn.setText("加入");
+            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
+        }
+
+        setAnimation(holder.cardView, position);
     }
 
     private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {

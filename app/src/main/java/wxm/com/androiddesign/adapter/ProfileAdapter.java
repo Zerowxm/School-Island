@@ -83,6 +83,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.BaseInfo
         @Bind(R.id.user_qq)
         EditText user_qq;
 
+
+
         public BaseInfoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

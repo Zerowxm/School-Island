@@ -32,7 +32,7 @@ public class CmtDatailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
 
-        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList, this, "CmtDatailActivity"));
+        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList,userId, this, "CmtDatailActivity"));
 
     }
 

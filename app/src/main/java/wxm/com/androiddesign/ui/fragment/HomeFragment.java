@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
 
-                myRecycerAdapter = new MyRecycerAdapter(activityItems,(AppCompatActivity) getActivity(), "HomeFragment");
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -212,7 +212,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         //Log.d("Gson", atyItem.toString());
         Log.d("Gson", "" + gson.toJson(activityItems));
         //Log.d("Gson", "" + gson.toJson(new AtyItem()));
-        myRecycerAdapter = new MyRecycerAdapter(activityItems,(AppCompatActivity) getActivity(), "HomeFragment");
+        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
         recyclerView.setAdapter(myRecycerAdapter);
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         ScrollManager manager = new ScrollManager();

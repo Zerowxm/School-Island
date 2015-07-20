@@ -161,9 +161,17 @@ public class ActivityFragment extends Fragment {
                 "\"tag\":\"7\",\"atyImageId\":8,\"photoId\":9}";
         String json2 = "{\"atyContent\":\"2\",\"time\":\"3\",\"atyName\":\"4\",\"comment\":\"5\",\"location\":\"6\",\"plus\":\"7\",\"tag\":\"8\",\"atyImageId\":9,\"photoId\":10}";
 
+        switch (type){
+            case Hot:break;
+            case Nearby:break;
+            case Hight:break;
+            case Joined:break;
+            case Release:break;
+        }
+
         activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
         }.getType());
-        myRecycerAdapter = new MyRecycerAdapter(activityItems, (AppCompatActivity) getActivity(), "ActivityFragment");
+        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
         recyclerView.setAdapter(myRecycerAdapter);
     }
 
