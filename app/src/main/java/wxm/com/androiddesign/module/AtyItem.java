@@ -333,11 +333,11 @@ public class AtyItem implements Parcelable {
                 ", atyPlace='" + atyPlace + '\'' +
                 ", atyMembers='" + atyMembers + '\'' +
                 ", atyContent='" + atyContent + '\'' +
-                ", atyPlus='" + atyLikes + '\'' +
+                ", atyLikes='" + atyLikes + '\'' +
                 ", atyComment='" + atyComment + '\'' +
-                ", atyJoined='" + atyIsJoined + '\'' +
-                ", atyPlused='" + atyIsLiked + '\'' +
-                ", atyShare='" + atyShares + '\'' +
+                ", atyIsJoined='" + atyIsJoined + '\'' +
+                ", atyIsLiked='" + atyIsLiked + '\'' +
+                ", atyShares='" + atyShares + '\'' +
                 ", atyAlbum=" + atyAlbum +
                 '}';
     }

@@ -37,6 +37,7 @@ import wxm.com.androiddesign.utils.ScrollManager;
 public class PhotoFragment extends Fragment {
 
     PhotoAdapter myRecycerAdapter;
+    RecyclerView recyclerView;
     private String userId;
     public List<String> photoList;
 
@@ -62,7 +63,9 @@ public class PhotoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.photos_layout, container, false);
+        recyclerView=(RecyclerView)v;
+        return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
@@ -74,7 +77,7 @@ public class PhotoFragment extends Fragment {
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
 
 
-        myRecycerAdapter = new PhotoAdapter();
+        myRecycerAdapter = new PhotoAdapter(photoList);
         recyclerView.setAdapter(myRecycerAdapter);
     }
     private class getPhoto extends AsyncTask<User, Void, Boolean> {
@@ -98,6 +101,10 @@ public class PhotoFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            materialDialog.dismiss();
+
+            setupRecyclerView(recyclerView);
+
         }
 
         @Override

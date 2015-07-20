@@ -72,7 +72,7 @@ import wxm.com.androiddesign.utils.MyBitmapFactory;
  * Created by zero on 2015/6/25.
  */
 public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyViewHolder> {
-    protected static List<AtyItem> activityItems;
+    protected List<AtyItem> activityItems;
     private int lastPosition = -1;
     private static AppCompatActivity activity;
     AtyItem item;
@@ -90,22 +90,21 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 //        }else{
 //            isUser = true;
 //        }
+
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item, parent, false);
-
+        Log.d("recyclerview", "onCreateViewHolder");
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
             public void onUserPhoto(CircleImageView userPhoto,int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
                 intent.putExtra("userId",activityItems.get(position).getUserId());
+                Log.d("user","user:"+activityItems.get(position).getUserId());
                 activity.startActivity(intent);
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        activity, new Pair<View, String>(userPhoto, activity.getResources().getString(R.string.transition_user_photo))
-//                );
-//                ActivityCompat.startActivity(activity, intent, options.toBundle());
+//
             }
 
             @Override
@@ -129,11 +128,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 }else{
                     Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT).show();
                 }
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
-//                );
-//                ActivityCompat.startActivity(activity, intent, options.toBundle());
-
             }
 
             @Override
@@ -232,8 +226,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
         item = activityItems.get(position);
+        Log.d("recyclerview", item.toString());
         Log.d("recyclerview", "onBindViewHolder");
+        Log.d("recyclerview",""+ activityItems.size());
         holder.total_comment.setText(item.getAtyComment());
         holder.aty_name.setText(item.getAtyName());
         holder.aty_content.setText(item.getAtyContent());
@@ -250,32 +247,43 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             holder.imageViewContainer.setVisibility(View.GONE);
         }
 
-            holder.imageViewContainer.removeAllViews();
-//        Log.d("recyclerview", "item.getAtyAlbum().size()"+item.getAtyAlbum().size());
-//        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-//            ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-//            WindowManager windowManager = activity.getWindowManager();
-//            DisplayMetrics dm = new DisplayMetrics();
-//            Display display = windowManager.getDefaultDisplay();
-//            int width = display.getWidth() - 7;
-//            int height = display.getHeight();
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-//            //imageView.setImageBitmap(MyBitmapFactory.StringToBitmap(item.getAtyAlbum().get(i)));
-//            Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-//            imageView.setLayoutParams(layoutParams);
-//            imageView.setTag(i);
-//            imageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //Uri uri =Uri.parse(item.getAtyAlbum().get((Integer) v.getTag()));
-//                    MyDialog dialog = new MyDialog();
-//                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
-//                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
-//                }
-//            });
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            holder.imageViewContainer.addView(imageView);
-//        }
+
+
+ //           holder.imageViewContainer.removeAllViews();
+//            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
+//            for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+//                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+//                WindowManager windowManager = activity.getWindowManager();
+//                DisplayMetrics dm = new DisplayMetrics();
+//                Display display = windowManager.getDefaultDisplay();
+//                int width = display.getWidth() - 7;
+//                int height = display.getHeight();
+//                //Glide.clear(imageView);
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+//                Log.d("image", item.getAtyAlbum().get(i));
+//                Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+//                //Glide.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+//                imageView.setLayoutParams(layoutParams);
+//                imageView.setTag(i);
+//                imageView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(final View v) {
+//                        new Handler().post(new Runnable() {
+//                            public void run() {
+//                                MyDialog dialog = new MyDialog();
+//                                dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
+//                                dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                            }
+//                        });
+//
+//                    }
+//                });
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                holder.imageViewContainer.addView(imageView);
+//
+//            }
+//            holder.imageViewContainer.removeAllViews();
+//
 
             if (item.getAtyPlused().equals("false")) {
                 holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
@@ -295,7 +303,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             setAnimation(holder.cardView, position);
 
-    }
+        }
+
+
         private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
 
             @Override

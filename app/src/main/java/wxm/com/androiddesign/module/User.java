@@ -37,10 +37,13 @@ public class User {
     @Expose
 
     public String qq;
+
     @Expose
     public String userLocation;
     @Expose
     public String userScore;
+    @Expose
+    public String userAddress;
 
     public String getQq() {
         return qq;
@@ -50,8 +53,17 @@ public class User {
         this.qq = qq;
     }
 
-    @Expose
-    List<String> userAlbum = new ArrayList<String>();
+
+
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
 
     @Override
     public String toString() {
@@ -64,10 +76,15 @@ public class User {
                 ", userPhone='" + userPhone + '\'' +
                 ", userGender='" + userGender + '\'' +
                 ", userIcon='" + userIcon + '\'' +
+                ", qq='" + qq + '\'' +
+                ", userAddress='" + userAddress + '\'' +
                 ", userScore='" + userScore + '\'' +
                 ", userAlbum=" + userAlbum +
                 '}';
     }
+
+    @Expose
+    List<String> userAlbum = new ArrayList<String>();
 
     public User() {
     }

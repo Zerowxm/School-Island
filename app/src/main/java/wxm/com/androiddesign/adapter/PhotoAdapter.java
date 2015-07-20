@@ -21,6 +21,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
 
     List<String> ablum = new ArrayList<String>();
 
+    public PhotoAdapter(List<String> ablum) {
+        this.ablum = ablum;
+    }
+
     @Override
     public MyPhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyPhotoViewHolder(

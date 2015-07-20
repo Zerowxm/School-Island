@@ -63,11 +63,11 @@ public class ActivityFragment extends Fragment {
 
     }
 
-    public static ActivityFragment newInstance(int type,String muserId) {
+    public static ActivityFragment newInstance(int type, String muserId) {
         ActivityFragment fragment = new ActivityFragment();
         Bundle args = new Bundle();
         args.putInt("Type", type);
-        args.putString("UserId", muserId);
+        args.putString("userId", muserId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,7 +78,7 @@ public class ActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type", Home);
-        userId = getArguments().getString("UserId");
+        userId = getArguments().getString("userId");
     }
 
     @Nullable
@@ -144,24 +144,31 @@ public class ActivityFragment extends Fragment {
 
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-        switch (type){
-            case Hot:new GetAtyTask().execute(Hot);
+        switch (type) {
+            case Hot:
+                new GetAtyTask().execute(Hot);
                 break;
-            case Nearby:new GetAtyTask().execute(Nearby);
+            case Nearby:
+                new GetAtyTask().execute(Nearby);
                 break;
-            case Hight:new GetAtyTask().execute(Hight);
+            case Hight:
+                new GetAtyTask().execute(Hight);
                 break;
-            case Joined:new GetAtyTask().execute(Joined);
+            case Joined:
+                new GetAtyTask().execute(Joined);
                 break;
-            case Release:new GetAtyTask().execute(Release);
+            case Release:
+                new GetAtyTask().execute(Release);
                 break;
         }
 
+
         //activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
-       // }.getType());
+        // }.getType());
 //        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
 //        recyclerView.setAdapter(myRecycerAdapter);
     }
+
 
     private class GetAtyTask extends AsyncTask<Integer,Void,Boolean> {
 
@@ -212,6 +219,7 @@ public class ActivityFragment extends Fragment {
             }
             return null;
         }
+
     }
 
     public static void refresh(AtyItem atyItem, int position) {

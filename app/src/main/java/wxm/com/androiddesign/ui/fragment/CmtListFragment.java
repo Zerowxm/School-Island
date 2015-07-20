@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.CmyAdapter;
-import wxm.com.androiddesign.adapter.ProfileAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 
 /**
