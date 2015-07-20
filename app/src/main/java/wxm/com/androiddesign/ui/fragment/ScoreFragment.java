@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,10 +22,10 @@ import org.json.JSONObject;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.PhotoAdapter;
+import wxm.com.androiddesign.adapter.ScoreAdapter;
 import wxm.com.androiddesign.anim.MyItemAnimator;
-import wxm.com.androiddesign.module.AtyItem;
+import wxm.com.androiddesign.module.Score;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.ScrollManager;
@@ -34,15 +33,15 @@ import wxm.com.androiddesign.utils.ScrollManager;
 /**
  * Created by zero on 2015/7/15.
  */
-public class PhotoFragment extends Fragment {
+public class ScoreFragment extends Fragment {
 
-    PhotoAdapter myRecycerAdapter;
+    ScoreAdapter myRecycerAdapter;
     RecyclerView recyclerView;
     private String userId;
-    public List<String> photoList;
+    public List<Score> scoreList;
 
-    public static PhotoFragment newInstance(String muserId) {
-        PhotoFragment fragment = new PhotoFragment();
+    public static ScoreFragment newInstance(String muserId) {
+        ScoreFragment fragment = new ScoreFragment();
         Bundle args = new Bundle();
         args.putString("UserId", muserId);
         fragment.setArguments(args);
@@ -52,7 +51,7 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userId = getArguments().getString("UseId");
+//        userId = getArguments().getString("UseId");
     }
 
     @Override
@@ -63,7 +62,7 @@ public class PhotoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.photos_layout, container, false);
+        View v = inflater.inflate(R.layout.score_layout, container, false);
         recyclerView=(RecyclerView)v;
         return v;
     }
@@ -77,14 +76,14 @@ public class PhotoFragment extends Fragment {
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
 
 
-        myRecycerAdapter = new PhotoAdapter(photoList);
+        myRecycerAdapter = new ScoreAdapter();
         recyclerView.setAdapter(myRecycerAdapter);
     }
-    private class getPhoto extends AsyncTask<User, Void, Boolean> {
+    private class getScore extends AsyncTask<User, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
-        public getPhoto(Context context) {
+        public getScore(Context context) {
             this.context = context;
         }
 
@@ -101,21 +100,21 @@ public class PhotoFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            materialDialog.dismiss();
             setupRecyclerView(recyclerView);
         }
 
         @Override
         protected Boolean doInBackground(User... params) {
+
                 JSONObject object = new JSONObject();
                 try {
-                    object.put("action", "showphoto");
+                    object.put("action", "showscore");
                     object.put("userId",userId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 String json = JsonConnection.getJSON(object.toString());
-                photoList = new Gson().fromJson(json, new TypeToken<List<String>>() {
+                scoreList = new Gson().fromJson(json, new TypeToken<List<Score>>() {
                 }.getType());
 
             return null;

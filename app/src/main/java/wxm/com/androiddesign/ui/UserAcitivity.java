@@ -6,35 +6,48 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.CmtListFragment;
-import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
-import wxm.com.androiddesign.ui.fragment.UserListFragment;
+import wxm.com.androiddesign.ui.fragment.MsgListFragment;
+import wxm.com.androiddesign.ui.fragment.ScoreFragment;
 
 
 public class UserAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
-    String userId;
+    String userId="";
+    @Bind(R.id.user_id)TextView user_id;
+    @Bind(R.id.score)TextView score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_acitivity);
+        ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("userId");
+
         setupToolBar();
         setupViewPager();
         setupTabLayout();
+        setupInfo();
     }
 
+    private void setupInfo(){
+        user_id.setText("userid");
+        Log.d("user","user:"+userId);
+    }
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,7 +64,7 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Release,userId), "已发布活动");
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Joined,userId), "参与活动");
         adapter.addFragment(new CmtListFragment(), "社区");
-        adapter.addFragment(new UserListFragment(), "关注用户");
+        adapter.addFragment(new ScoreFragment(), "积分");
         adapter.addFragment(PhotoFragment.newInstance(userId),"相册");
 
         viewPager.setAdapter(adapter);

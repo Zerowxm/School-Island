@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fonts="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
@@ -13,20 +15,24 @@
         android:id="@id/user_photo"
         />
     <LinearLayout
+        android:layout_toRightOf="@id/user_photo"
+        android:layout_centerVertical="true"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
+        <wxm.com.androiddesign.widget.MyTextView
+            android:id="@id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="系统信息"/>
+            android:text="系统信息"
+            fonts:typeface="Roboto-Bold.ttf"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/system_msg"
-            android:layout_marginTop="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="babababa"/>
+            android:text=""/>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

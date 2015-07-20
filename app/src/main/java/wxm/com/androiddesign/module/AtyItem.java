@@ -25,20 +25,20 @@ public class AtyItem implements Parcelable {
     String atyPlace;
     String atyMembers;
     String atyContent;
-    String atyPlus;
+    String atyLikes;
     String atyComment;
-    String atyJoined;
-    String atyPlused;
-    String atyShare;
+    String atyIsJoined;
+    String atyIsLiked;
+    String atyShares;
     List<String> atyAlbum = new ArrayList<String>();
 
 
     public String getAtyPlused() {
-        return atyPlused;
+        return atyIsLiked;
     }
 
     public void setAtyPlused(String atyPlused) {
-        this.atyPlused = atyPlused;
+        this.atyIsLiked = atyPlused;
     }
 
     public String getAtyId() {
@@ -122,15 +122,23 @@ public class AtyItem implements Parcelable {
     }
 
     public String getAtyPlus() {
-        return atyPlus;
+        return atyLikes;
     }
 
     public void setAtyPlus(String atyPlus) {
-        this.atyPlus = atyPlus;
+        this.atyLikes = atyPlus;
     }
 
     public String getAtyComment() {
         return atyComment;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     public void setAtyComment(String atyComment) {
@@ -138,19 +146,19 @@ public class AtyItem implements Parcelable {
     }
 
     public String getAtyJoined() {
-        return atyJoined;
+        return atyIsJoined;
     }
 
     public void setAtyJoined(String atyJoined) {
-        this.atyJoined = atyJoined;
+        this.atyIsJoined = atyJoined;
     }
 
     public String getAtyShare() {
-        return atyShare;
+        return atyShares;
     }
 
     public void setAtyShare(String atyShare) {
-        this.atyShare = atyShare;
+        this.atyShares = atyShare;
     }
 
     public List<String> getAtyAlbum() {
@@ -187,11 +195,11 @@ public class AtyItem implements Parcelable {
         this.atyPlace = atyPlace;
         this.atyMembers = atyMembers;
         this.atyContent = atyContent;
-        this.atyPlus = atyPlus;
+        this.atyLikes = atyPlus;
         this.atyComment = atyComment;
-        this.atyJoined = atyJoined;
-        this.atyPlused = atyPlused;
-        this.atyShare = atyShare;
+        this.atyIsJoined = atyJoined;
+        this.atyIsLiked = atyPlused;
+        this.atyShares = atyShare;
         this.atyAlbum = atyAlbum;
     }
 
@@ -218,10 +226,10 @@ public class AtyItem implements Parcelable {
         this.atyPlace = atyPlace;
         this.atyMembers = atyMembers;
         this.atyContent = atyContent;
-        this.atyPlus = atyPlus;
+        this.atyLikes = atyPlus;
         this.atyComment = atyComment;
-        this.atyJoined = atyJoined;
-        this.atyShare = atyShare;
+        this.atyIsJoined = atyJoined;
+        this.atyShares = atyShare;
         this.atyAlbum = atyAlbum;
     }
 
@@ -239,11 +247,11 @@ public class AtyItem implements Parcelable {
         dest.writeString(atyPlace);
         dest.writeString(atyMembers);
         dest.writeString(atyContent);
-        dest.writeString(atyPlus);
+        dest.writeString(atyLikes);
         dest.writeString(atyComment);
-        dest.writeString(atyJoined);
-        dest.writeString(atyPlused);
-        dest.writeString(atyShare);
+        dest.writeString(atyIsJoined);
+        dest.writeString(atyIsLiked);
+        dest.writeString(atyShares);
         dest.writeList(atyAlbum);
     }
 
@@ -260,11 +268,11 @@ public class AtyItem implements Parcelable {
         atyPlace = in.readString();
         atyMembers = in.readString();
         atyContent = in.readString();
-        atyPlus = in.readString();
+        atyLikes = in.readString();
         atyComment = in.readString();
-        atyJoined = in.readString();
-        atyPlused = in.readString();
-        atyShare = in.readString();
+        atyIsJoined = in.readString();
+        atyIsLiked = in.readString();
+        atyShares = in.readString();
         in.readList(atyAlbum, List.class.getClassLoader());
     }
 
@@ -294,11 +302,11 @@ public class AtyItem implements Parcelable {
                 ", atyPlace='" + atyPlace + '\'' +
                 ", atyMembers='" + atyMembers + '\'' +
                 ", atyContent='" + atyContent + '\'' +
-                ", atyPlus='" + atyPlus + '\'' +
+                ", atyLikes='" + atyLikes + '\'' +
                 ", atyComment='" + atyComment + '\'' +
-                ", atyJoined='" + atyJoined + '\'' +
-                ", atyPlused='" + atyPlused + '\'' +
-                ", atyShare='" + atyShare + '\'' +
+                ", atyIsJoined='" + atyIsJoined + '\'' +
+                ", atyIsLiked='" + atyIsLiked + '\'' +
+                ", atyShares='" + atyShares + '\'' +
                 ", atyAlbum=" + atyAlbum +
                 '}';
     }

@@ -37,8 +37,16 @@
     <string name="transition_photo">tansition_photo</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
     <string name="title_activity_login_acivity">LoginAcivity</string>
+    <string name="title_activity_user_list">UserListActivity</string>
 
+    <string name="permission">设置权限</string>
 
+    <array name="permissions">
+        <item>仅自己看见</item>
+        <item>用户可见</item>
+        <item>所有人可见</item>
+    </array>
+    <string name="choose">选择</string>
 
 
 </resources>

@@ -23,8 +23,12 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +64,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     private List<String> uriList = new ArrayList<>();
 
     private Uri selectedImgUri;
-
+    private String userId;
     addAty addAty;
     // atyItem = new AtyItem();
 
@@ -96,6 +100,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         setContentView(R.layout.release_activity_layout);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        userId = intent.getExtras().getString("userId");
         WindowManager windowManager = this.getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         int width = display.getWidth() - 7;
@@ -184,6 +190,19 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     @OnClick(R.id.sendButton)
     public void send() {
 
+        new MaterialDialog.Builder(this)
+                .title(R.string.permission)
+                .items(R.array.permissions)
+                .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                        return true; // allow selection
+                    }
+                })
+                .positiveText(R.string.choose)
+                .show();
+
         DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
         try {
             if (startTime.getText().toString().equals("开始时间")) {
@@ -203,7 +222,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 } else if (locaton.getText().toString().equals("add your location")) {
                     Toast.makeText(this, "set your location", Toast.LENGTH_SHORT).show();
                 } else {
-                    AtyItem atyItem = new AtyItem("release", "userid", "username", "userphoto", atyName.getText().toString(), "travel", startTime.getText().toString(),
+                    AtyItem atyItem = new AtyItem("release", userId,"username","userphoto",atyName.getText().toString(), "travel", startTime.getText().toString(),
                             endTime.getText().toString(), locaton.getText().toString(), "1",
                             atyContent.getText().toString(), "0", "0",
                             "true", "false", "0", uriList);
@@ -231,7 +250,17 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
         @Override
         protected Void doInBackground(AtyItem... params) {
-            JsonConnection.getJSON(new Gson().toJson(params[0]));
+
+            JSONObject object = new JSONObject();
+            try {
+//                object.put("atyItem",new Gson().toJson(params[0]));
+//                object.put("releaseTime", String.valueOf(System.currentTimeMillis()));
+                object = new JSONObject(new Gson().toJson(params[0]));
+                object.put("releaseTime", String.valueOf(System.currentTimeMillis()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonConnection.getJSON(object.toString());
 //            HomeFragment.addActivity(params[0]);
             return null;
         }

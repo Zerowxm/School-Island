@@ -26,9 +26,27 @@ public class User {
     @Expose
     public String userIcon;
     @Expose
-    public String userScore;
+    public String qq;
     @Expose
-    List<String> userAlbum = new ArrayList<String>();
+    public String userAddress;
+    @Expose
+    public String userScore;
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
 
     @Override
     public String toString() {
@@ -41,10 +59,15 @@ public class User {
                 ", userPhone='" + userPhone + '\'' +
                 ", userGender='" + userGender + '\'' +
                 ", userIcon='" + userIcon + '\'' +
+                ", qq='" + qq + '\'' +
+                ", userAddress='" + userAddress + '\'' +
                 ", userScore='" + userScore + '\'' +
                 ", userAlbum=" + userAlbum +
                 '}';
     }
+
+    @Expose
+    List<String> userAlbum = new ArrayList<String>();
 
     public User() {
     }

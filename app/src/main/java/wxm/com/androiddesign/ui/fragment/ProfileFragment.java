@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.adapter.MultpleiProfileAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.ProfileAdapter;
 import wxm.com.androiddesign.module.AtyItem;
@@ -41,28 +43,28 @@ public class ProfileFragment extends Fragment {
     public static ProfileFragment newInstance(String muserId) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString("UserId",muserId);
+        args.putString("UserId", muserId);
         fragment.setArguments(args);
         return fragment;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.profile_layout, viewGroup, false);
+        userId = getArguments().getString("UserId");
         recyclerView = (RecyclerView) v;
         getProfile = new GetProfile(getActivity());
-        //getProfile.execute();
-        setupRecyclerView(recyclerView);
-        userId = getArguments().getString("UserId");
+        getProfile.execute(userId);
+
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new ProfileAdapter(user));
+        recyclerView.setAdapter(new MultpleiProfileAdapter(user));
     }
 
-    private class GetProfile extends AsyncTask<User, Void, Boolean> {
+    private class GetProfile extends AsyncTask<String, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
@@ -83,22 +85,23 @@ public class ProfileFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            materialDialog.dismiss();
+            setupRecyclerView(recyclerView);
         }
 
         @Override
-        protected Boolean doInBackground(User... params) {
-            if (params[0] == null) {
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("action", "showprofile");
-                    object.put("userId",userId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String json = JsonConnection.getJSON(object.toString());
-                user = new Gson().fromJson(json, new TypeToken<User>() {
-                }.getType());
+        protected Boolean doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("action", "showprofile");
+                object.put("userId", params[0]);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("json", "json");
+            user = new Gson().fromJson(json, User.class);
+
             return null;
         }
     }

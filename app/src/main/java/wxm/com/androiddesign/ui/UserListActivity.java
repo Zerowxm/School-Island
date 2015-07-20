@@ -13,17 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.MultipleItemAdapter;
+import wxm.com.androiddesign.adapter.MsgAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.module.AtyItem;
-import wxm.com.androiddesign.module.CommentData;
+import wxm.com.androiddesign.module.User;
 
-public class CmtDatailActivity extends AppCompatActivity {
-
-
+public class UserListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
-    List<AtyItem> atyItemList = new ArrayList<AtyItem>();
+    List<User> mUserList = new ArrayList<User>();
 
     String userId;
 
@@ -32,17 +30,16 @@ public class CmtDatailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
 
-        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList,userId, this, "CmtDatailActivity"));
+        recyclerView.setAdapter(new MsgAdapter());
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_detail);
+        setContentView(R.layout.activity_user_list);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        userId = savedInstanceState.getString("userId");
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -53,7 +50,7 @@ public class CmtDatailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_cmt_datail, menu);
+        getMenuInflater().inflate(R.menu.menu_user_list, menu);
         return true;
     }
 
