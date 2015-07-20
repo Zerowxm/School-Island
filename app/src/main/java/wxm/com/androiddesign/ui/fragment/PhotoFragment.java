@@ -98,6 +98,7 @@ public class PhotoFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            materialDialog.dismiss();
         }
 
         @Override
