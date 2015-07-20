@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
@@ -188,6 +189,19 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @OnClick(R.id.sendButton)
     public void send() {
+
+        new MaterialDialog.Builder(this)
+                .title(R.string.permission)
+                .items(R.array.permissions)
+                .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                        return true; // allow selection
+                    }
+                })
+                .positiveText(R.string.choose)
+                .show();
 
         DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
         try {

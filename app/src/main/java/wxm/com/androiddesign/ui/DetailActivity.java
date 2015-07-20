@@ -67,6 +67,7 @@ public class DetailActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
         position = bundle.getInt("position");
+
         fragment = bundle.getString("fragment");
         mGetCommentTask = new getCommentTask(getApplicationContext());
         CommentData temp = null;
@@ -197,6 +198,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //outState.putString("");
-        super.onSaveInstanceState(outState);
+        //super.onSaveInstanceState(outState);
     }
 }

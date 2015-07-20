@@ -139,6 +139,12 @@ public class MyDialog extends DialogFragment {
         this.bitmap = bitmap;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+        super.onSaveInstanceState(outState);
+    }
+
     public void setUri(String uri) {
         this.uri = uri;
     }

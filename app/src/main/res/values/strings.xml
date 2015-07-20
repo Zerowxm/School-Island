@@ -13,7 +13,7 @@
 
 
     <string name="checkin">Checkin</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">登录</string>
     <string name="title_activity_user_acitivity">UserAcitivity</string>
 
     <string name="skip_button">Skip</string>
@@ -21,7 +21,7 @@
 
     <string name="title_activity_link_web">LinkWebActivity</string>
 
-    <string name="title_activity_release">ReleaseActivity</string>
+    <string name="title_activity_release">发布活动</string>
     <string name="title_activity_cmt_datail">CmtDatailActivity</string>
 
     <!--prograss-->
@@ -36,7 +36,17 @@
     <string name="transition_user_photo">tansition_user_photo</string>
     <string name="transition_photo">tansition_photo</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="title_activity_login_acivity">LoginAcivity</string>
+    <string name="title_activity_user_list">UserListActivity</string>
 
+    <string name="permission">设置权限</string>
+
+    <array name="permissions">
+        <item>仅自己看见</item>
+        <item>用户可见</item>
+        <item>所有人可见</item>
+    </array>
+    <string name="choose">选择</string>
 
 
 </resources>

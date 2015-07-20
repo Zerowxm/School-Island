@@ -41,6 +41,7 @@ import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
+import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack, SearchView.OnQueryTextListener {
     DrawerLayout drawerLayout;
@@ -134,20 +135,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.nav_explore:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(user.getUserId())).commitAllowingStateLoss();
 
+
                                 return true;
                             case R.id.nav_attention:
 
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
+                            case R.id.nav_messages:
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(user.getUserId())).commitAllowingStateLoss();
                             case R.id.nav_user_setting:
 
                                 return true;
-//                            case R.id.nav_setting:
-//
-//                                Snackbar.make(drawerLayout, "设置",
-//                                        Snackbar.LENGTH_SHORT).show();
-//                                return true;
                             default:
                                 return true;
                         }
@@ -213,13 +212,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SearchView searchView = null;
         if (searchItem != null) {
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-            Log.d("Menu", searchItem.toString() + "1");
         }
 
         if (searchView != null) {
             searchView.setOnQueryTextListener(this);
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            Log.d("Menu", searchView.toString() + "2");
         }
         return super.onCreateOptionsMenu(menu);
     }
