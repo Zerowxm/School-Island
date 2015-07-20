@@ -37,6 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.services.LocationServices;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -51,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.fab)
     FloatingActionButton fab;
     User user=new User();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        closeLocationServices();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setupNavigationView();
         setupInfo();
+        openLocationServices();
+    }
+    private void openLocationServices()
+    {
+        Log.e("CJ", "onpenLocationServices");
+        Intent i = new Intent();
+        i.setClass(getApplicationContext(), LocationServices.class);
+        startService(i);
+    }
+    private void closeLocationServices()
+    {
+        Log.e("CJ","closeLocationServices");
+        Intent i = new Intent();
+        i.setClass(getApplicationContext(), LocationServices.class);
+        startService(i);
     }
 
 
