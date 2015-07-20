@@ -42,9 +42,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.BaseInfo
 //        holder.user_email.setText(user.getUserEmail());
 //        holder.user_gender.setText(user.getUserGender());
 //        holder.user_phone.setText(user.getUserPhone());
-//        holder.user_place.setText("厦大学生公寓");
-//        holder.user_qq.setText("110");
-
+//        holder.user_place.setText(user.getUserLocation());
+//        holder.user_qq.setText(user.getQq());
     }
 
     @Override

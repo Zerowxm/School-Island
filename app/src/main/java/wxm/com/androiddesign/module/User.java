@@ -25,7 +25,17 @@ public class User {
     public String userGender;
     @Expose
     public String userIcon;
+
+    public String getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(String userLocation) {
+        this.userLocation = userLocation;
+    }
+
     @Expose
+
     public String qq;
     @Expose
     public String userLocation;
@@ -38,14 +48,6 @@ public class User {
 
     public void setQq(String qq) {
         this.qq = qq;
-    }
-
-    public String getUserAddress() {
-        return userLocation;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userLocation = userAddress;
     }
 
     @Expose

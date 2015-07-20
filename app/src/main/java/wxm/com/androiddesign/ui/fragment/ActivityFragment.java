@@ -197,7 +197,7 @@ public class ActivityFragment extends Fragment {
                         break;
                     case Joined:object.put("action","showJoinedAty");
                         break;
-                    case Release:object.put("action","showReleaseAty");
+                    case Release:object.put("action","showDistributeAty");
                         break;
                 }
                 object.put("userId",userId);

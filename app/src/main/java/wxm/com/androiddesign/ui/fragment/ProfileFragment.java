@@ -53,7 +53,6 @@ public class ProfileFragment extends Fragment {
         recyclerView = (RecyclerView) v;
         getProfile = new GetProfile(getActivity());
         getProfile.execute(userId);
-        setupRecyclerView(recyclerView);
         return v;
     }
 
@@ -84,6 +83,7 @@ public class ProfileFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            setupRecyclerView(recyclerView);
         }
 
         @Override
@@ -96,7 +96,6 @@ public class ProfileFragment extends Fragment {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            Log.i("json", "json");
             user = new Gson().fromJson(json, User.class);
             return null;
         }
