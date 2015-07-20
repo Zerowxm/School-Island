@@ -39,7 +39,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.BaseInfo
         ), new BaseInfoViewHolder.MyViewHolderClicks() {
             @Override
             public void mEditProfile(ImageView edit) {
-                
+
             }
         });
 
