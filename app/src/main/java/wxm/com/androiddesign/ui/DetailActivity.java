@@ -141,7 +141,8 @@ public class DetailActivity extends AppCompatActivity {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date nowDate = new Date(System.currentTimeMillis());
                     String time = formatter.format(nowDate);
-                    mGetCommentTask.execute(new CommentData("comment", "userId", time, cmt_text.getText().toString()));
+                    new getCommentTask(getApplicationContext()).execute(new CommentData("comment", "userId", time, cmt_text.getText().toString()));
+
                     cmt_text.setText(null);
                 } else {
                     Toast.makeText(DetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();

@@ -22,8 +22,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.adapter.MultpleiProfileAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
-import wxm.com.androiddesign.adapter.ProfileAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.User;
@@ -53,14 +53,14 @@ public class ProfileFragment extends Fragment {
         recyclerView = (RecyclerView) v;
         getProfile = new GetProfile(getActivity());
         getProfile.execute(userId);
-        setupRecyclerView(recyclerView);
+
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        recyclerView.setAdapter(new ProfileAdapter(user));
+        recyclerView.setAdapter(new MultpleiProfileAdapter(user));
     }
 
     private class GetProfile extends AsyncTask<String, Void, Boolean> {
@@ -84,6 +84,8 @@ public class ProfileFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            materialDialog.dismiss();
+            setupRecyclerView(recyclerView);
         }
 
         @Override
@@ -98,6 +100,7 @@ public class ProfileFragment extends Fragment {
             String json = JsonConnection.getJSON(object.toString());
             Log.i("json", "json");
             user = new Gson().fromJson(json, User.class);
+
             return null;
         }
     }

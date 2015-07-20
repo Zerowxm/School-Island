@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onLongin(User user) {
         this.user = user;
+        Log.d("user",user.toString());
         SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("UserId", user.getUserId());
@@ -130,12 +131,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(user.getUserId())).commitAllowingStateLoss();
-
                                 return true;
                             case R.id.nav_explore:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(user.getUserId())).commitAllowingStateLoss();
-
-
                                 return true;
                             case R.id.nav_attention:
 
@@ -166,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         header.setClickable(true);
         final CircleImageView userPhoto = (CircleImageView) findViewById(R.id.user_photo);
         userPhoto.setClickable(true);
-        //Glide.with(this).load("http://upload.shunwang.com/2013/1225/1387978515430.jpeg").into(userPhoto);
         Glide.with(this).load("http://101.200.191.149:8080/bootstrapRepository/images_repo/back_dark.png").into(userPhoto);
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

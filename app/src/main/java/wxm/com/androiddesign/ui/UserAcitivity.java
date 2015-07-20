@@ -6,9 +6,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
@@ -22,19 +26,28 @@ import wxm.com.androiddesign.ui.fragment.ScoreFragment;
 public class UserAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
-    String userId;
+    String userId="";
+    @Bind(R.id.user_id)TextView user_id;
+    @Bind(R.id.score)TextView score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_acitivity);
+        ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("userId");
+
         setupToolBar();
         setupViewPager();
         setupTabLayout();
+        setupInfo();
     }
 
+    private void setupInfo(){
+        user_id.setText("userid");
+        Log.d("user","user:"+userId);
+    }
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -27,6 +27,7 @@ public class User {
     public String userIcon;
     @Expose
     public String qq;
+
     @Expose
     public String userAddress;
     @Expose
@@ -48,9 +49,6 @@ public class User {
         this.userAddress = userAddress;
     }
 
-    @Expose
-    List<String> userAlbum = new ArrayList<String>();
-
     @Override
     public String toString() {
         return "User{" +
@@ -62,10 +60,15 @@ public class User {
                 ", userPhone='" + userPhone + '\'' +
                 ", userGender='" + userGender + '\'' +
                 ", userIcon='" + userIcon + '\'' +
+                ", qq='" + qq + '\'' +
+                ", userAddress='" + userAddress + '\'' +
                 ", userScore='" + userScore + '\'' +
                 ", userAlbum=" + userAlbum +
                 '}';
     }
+
+    @Expose
+    List<String> userAlbum = new ArrayList<String>();
 
     public User() {
     }

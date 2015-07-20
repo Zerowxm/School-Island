@@ -72,7 +72,7 @@ import wxm.com.androiddesign.utils.MyBitmapFactory;
  * Created by zero on 2015/6/25.
  */
 public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyViewHolder> {
-    protected static List<AtyItem> activityItems;
+    protected List<AtyItem> activityItems;
     private int lastPosition = -1;
     private static AppCompatActivity activity;
     AtyItem item;
@@ -94,12 +94,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item, parent, false);
-
+        Log.d("recyclerview", "onCreateViewHolder");
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
             public void onUserPhoto(CircleImageView userPhoto,int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
                 intent.putExtra("userId",activityItems.get(position).getUserId());
+                Log.d("user","user:"+activityItems.get(position).getUserId());
                 activity.startActivity(intent);
 //
             }
@@ -129,8 +130,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Intent intent = new Intent(activity, DetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                 intent.putExtra("position", position);
-                //intent.putExtra("fragment", fragment);
                 activity.startActivity(intent);
+
 //                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
 //                        activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
 //                );
@@ -221,8 +222,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
         item = activityItems.get(position);
+        Log.d("recyclerview", item.toString());
         Log.d("recyclerview", "onBindViewHolder");
+        Log.d("recyclerview",""+ activityItems.size());
         holder.total_comment.setText(item.getAtyComment());
         holder.aty_name.setText(item.getAtyName());
         holder.aty_content.setText(item.getAtyContent());
