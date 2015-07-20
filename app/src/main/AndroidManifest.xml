@@ -131,6 +131,7 @@
             android:name=".ui.UserListActivity"
             android:label="@string/title_activity_user_list" >
         </activity>
+        <service android:name=".MessageService" android:enabled="true"/>
     </application>
 
 </manifest>

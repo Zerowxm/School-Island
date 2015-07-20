@@ -38,7 +38,7 @@ public class FragmentParent extends Fragment {
     public static Fragment newInstance(String muserId) {
         Fragment fragment = new FragmentParent();
         Bundle args = new Bundle();
-        args.putString("UserId", muserId);
+        args.putString("userId", muserId);
         fragment.setArguments(args);
         return fragment;
     }

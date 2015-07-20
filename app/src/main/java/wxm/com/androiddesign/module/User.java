@@ -28,7 +28,7 @@ public class User {
     @Expose
     public String qq;
     @Expose
-    public String userAddress;
+    public String userLocation;
     @Expose
     public String userScore;
 
@@ -41,11 +41,11 @@ public class User {
     }
 
     public String getUserAddress() {
-        return userAddress;
+        return userLocation;
     }
 
     public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
+        this.userLocation = userAddress;
     }
 
     @Expose

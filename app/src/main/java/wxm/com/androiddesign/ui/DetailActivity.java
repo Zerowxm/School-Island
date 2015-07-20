@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -48,7 +49,7 @@ public class DetailActivity extends AppCompatActivity {
     ArrayList<CommentData> commentDatas = new ArrayList<CommentData>();
     int position;
     String fragment;
-    getCommentTask mGetCommentTask;
+    String userId;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -67,15 +68,12 @@ public class DetailActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
         position = bundle.getInt("position");
-
+        userId = bundle.getString("userId");
         fragment = bundle.getString("fragment");
-        mGetCommentTask = new getCommentTask(getApplicationContext());
+       // mGetCommentTask = new getCommentTask(getApplicationContext());
         CommentData temp = null;
-        mGetCommentTask.execute(temp);
-        multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas, this, position);
+        new getCommentTask(getApplicationContext()).execute(temp);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
-        setupRecyclerView(recyclerView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
@@ -83,6 +81,11 @@ public class DetailActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         addComment();
+    }
+
+    @Override
+    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+        return super.onCreateView(parent, name, context, attrs);
     }
 
     private class getCommentTask extends AsyncTask<CommentData, Void, Boolean> {
@@ -106,6 +109,10 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+            multipleItemAdapter = new MultipleItemAdapter(atyItem, commentDatas, DetailActivity.this, position);
+
+            recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
+            setupRecyclerView(recyclerView);
             multipleItemAdapter.notifyDataSetChanged();
             recyclerView.scrollToPosition(commentDatas.size());
         }
@@ -120,12 +127,15 @@ public class DetailActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String json = JsonConnection.getJSON(object.toString());
-                commentDatas = new Gson().fromJson(json, new TypeToken<ArrayList<AtyItem>>() {
+                String json= JsonConnection.getJSON(object.toString());
+                Log.i("comjson",json);
+                commentDatas = new Gson().fromJson(json, new TypeToken<ArrayList<CommentData>>() {
                 }.getType());
             } else {
-                JsonConnection.getJSON(new Gson().toJson(params[0]));
-                commentDatas.add(params[0]);
+                String json = JsonConnection.getJSON(new Gson().toJson(params[0]));
+                CommentData commentData = new Gson().fromJson(json, new TypeToken<CommentData>() {
+                }.getType());
+                commentDatas.add(commentData);
             }
             return null;
         }
@@ -141,7 +151,7 @@ public class DetailActivity extends AppCompatActivity {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date nowDate = new Date(System.currentTimeMillis());
                     String time = formatter.format(nowDate);
-                    mGetCommentTask.execute(new CommentData("comment", "userId", time, cmt_text.getText().toString()));
+                    new getCommentTask(getApplicationContext()).execute(new CommentData("comment", userId,atyItem.getAtyId(), time, cmt_text.getText().toString()));
                     cmt_text.setText(null);
                 } else {
                     Toast.makeText(DetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();

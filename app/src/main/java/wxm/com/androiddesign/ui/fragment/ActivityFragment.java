@@ -1,6 +1,7 @@
 package wxm.com.androiddesign.ui.fragment;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -21,6 +22,9 @@ import android.support.design.widget.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.SocketHandler;
@@ -30,6 +34,7 @@ import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.ScrollManager;
 
 
@@ -139,40 +144,74 @@ public class ActivityFragment extends Fragment {
 
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-
-        String jsonarrys =
-                "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
-                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
-                        "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
-                        "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
-
-                        "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
-                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
-
-                        "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
-                        "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}" +
-                        "]";
-        String json = "{\"atyContent\":\"1\",\"time\":\"2\",\"atyName\":\"3\",\n" +
-                "\"comment\":\"4\",\n" +
-                "\"image\":[\"cc\",\"dd\"],\n" +
-                "\"location\":\"5\",\"plus\":\"6\",\n" +
-                "\"tag\":\"7\",\"atyImageId\":8,\"photoId\":9}";
-        String json2 = "{\"atyContent\":\"2\",\"time\":\"3\",\"atyName\":\"4\",\"comment\":\"5\",\"location\":\"6\",\"plus\":\"7\",\"tag\":\"8\",\"atyImageId\":9,\"photoId\":10}";
-
         switch (type){
-            case Hot:break;
-            case Nearby:break;
-            case Hight:break;
-            case Joined:break;
-            case Release:break;
+            case Hot:new GetAtyTask().execute(Hot);
+                break;
+            case Nearby:new GetAtyTask().execute(Nearby);
+                break;
+            case Hight:new GetAtyTask().execute(Hight);
+                break;
+            case Joined:new GetAtyTask().execute(Joined);
+                break;
+            case Release:new GetAtyTask().execute(Release);
+                break;
         }
 
-        activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
-        }.getType());
-        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
-        recyclerView.setAdapter(myRecycerAdapter);
+        //activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+       // }.getType());
+//        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+//        recyclerView.setAdapter(myRecycerAdapter);
+    }
+
+    private class GetAtyTask extends AsyncTask<Integer,Void,Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //mSwipeRefreshLayout.setRefreshing(true);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean==true){
+                for (int i=0;i<activityItems.size();i++){
+                    Log.d("Task",activityItems.get(i).toString());
+                }
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+                recyclerView.setAdapter(myRecycerAdapter);
+                //mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... params) {
+            JSONObject object=new JSONObject();
+            try {
+                switch (params[0]) {
+                    case Hot:object.put("action","showHotAty");
+                        break;
+                    case Nearby:object.put("action","showNearbyAty");
+                        break;
+                    case Hight:object.put("action","showHightAty");
+                        break;
+                    case Joined:object.put("action","showJoinedAty");
+                        break;
+                    case Release:object.put("action","showReleaseAty");
+                        break;
+                }
+                object.put("userId",userId);
+                String jsonarrys = JsonConnection.getJSON(object.toString());
+                  Log.i("jsonarray",jsonarrys.toString());
+                activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+                }.getType());
+                return true;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     public static void refresh(AtyItem atyItem, int position) {

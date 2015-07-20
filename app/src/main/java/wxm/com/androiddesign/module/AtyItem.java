@@ -32,6 +32,37 @@ public class AtyItem implements Parcelable {
     String atyShares;
     List<String> atyAlbum = new ArrayList<String>();
 
+    public String getAtyLikes() {
+        return atyLikes;
+    }
+
+    public void setAtyLikes(String atyLikes) {
+        this.atyLikes = atyLikes;
+    }
+
+    public String getAtyIsJoined() {
+        return atyIsJoined;
+    }
+
+    public void setAtyIsJoined(String atyIsJoined) {
+        this.atyIsJoined = atyIsJoined;
+    }
+
+    public String getAtyIsLiked() {
+        return atyIsLiked;
+    }
+
+    public void setAtyIsLiked(String atyIsLiked) {
+        this.atyIsLiked = atyIsLiked;
+    }
+
+    public String getAtyShares() {
+        return atyShares;
+    }
+
+    public void setAtyShares(String atyShares) {
+        this.atyShares = atyShares;
+    }
 
     public String getAtyPlused() {
         return atyIsLiked;

@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import wxm.com.androiddesign.MessageService;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.ui.MainActivity;
@@ -96,6 +97,10 @@ public class LoginFragment extends DialogFragment {
             user.setUserPassword(password.getText().toString());
 
             new LoginTask(getActivity()).execute(new Gson().toJson(user));
+            Intent i = new Intent();
+            i.setClass(getActivity(), MessageService.class);
+            i.putExtra("userId",user.getUserId());
+            getActivity().startService(i);
         } else {
             username_layout.setError("网络连接错误");
         }

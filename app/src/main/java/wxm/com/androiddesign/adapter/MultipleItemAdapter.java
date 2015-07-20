@@ -158,6 +158,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             // ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
             ((CommentViewHolder) holder).user_comment.setText(item.getComment());
+            ((CommentViewHolder) holder).user_name.setText(item.getUserName());
         }
     }
 
