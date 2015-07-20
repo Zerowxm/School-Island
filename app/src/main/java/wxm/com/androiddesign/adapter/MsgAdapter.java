@@ -18,9 +18,10 @@ import wxm.com.androiddesign.module.User;
 /**
  * Created by zero on 2015/6/30.
  */
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
+public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
-    List<User> userList=new ArrayList<>();
+    List<String> msgList=new ArrayList<>();
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,13 +38,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return msgList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.user_photo)
-        CircleImageView user_photo;
-        @Bind(R.id.user_name)TextView user_name;
+
+        @Bind(R.id.system_msg)TextView msg;
 
         public MyViewHolder(View itemView) {
             super(itemView);

@@ -13,42 +13,25 @@ import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
 
-import static wxm.com.androiddesign.adapter.ProfileAdapter.ITEM_TYPE.*;
-
 /**
  * Created by zero on 2015/6/30.
  */
 public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static enum ITEM_TYPE {
-        INFO,
-        CMT
-    }
     public User user;
 
     public ProfileAdapter(User user) {
         this.user = user;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        //return position == 0? INFO.ordinal(): CMT.ordinal();
-        return INFO.ordinal();
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ITEM_TYPE.INFO.ordinal()) {
+
             return new BaseInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.user_base_info, parent, false
             ));
-        }
-//        if (viewType==ITEM_TYPE.CMT.ordinal()){
-//            return new CmtsViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-//                    R.layout.communities,parent,false
-//            ));
-//        }
-        return null;
+
     }
 
     @Override

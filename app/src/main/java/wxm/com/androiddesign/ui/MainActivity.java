@@ -41,6 +41,7 @@ import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
+import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack, SearchView.OnQueryTextListener {
     DrawerLayout drawerLayout;
@@ -133,12 +134,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.nav_explore:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(user.getUserId())).commitAllowingStateLoss();
 
+
                                 return true;
                             case R.id.nav_attention:
 
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
+                            case R.id.nav_messages:
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(user.getUserId())).commitAllowingStateLoss();
                             case R.id.nav_user_setting:
 
                                 return true;

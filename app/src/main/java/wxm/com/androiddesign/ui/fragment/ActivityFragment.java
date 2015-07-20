@@ -142,18 +142,14 @@ public class ActivityFragment extends Fragment {
 
         String jsonarrys =
                 "[{\"atyContent\":\"content1\",\"atyStartTime\":\"starttime1\",\"atyEndTime\":\"endtime1\",\"atyName\":\"name1\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
-
-                        "\"atyAlbum\":[\"cc\",\"dd\"],\n" +
-
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
+                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
                         "\"atyPlace\":\"place1\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
                         "\"atyType\":\"type1\",\"atyImageId\":0,\"photoId\":0},\n" +
 
                         "{\"atyContent\":\"content2\",\"atyStartTime\":\"starttime2\",\"atyEndTime\":\"endtime2\",\"atyName\":\"name2\",\n" +
-                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\n" +
-
-                        "\"atyAlbum\":[\"ff\",\"dd\"],\n" +
-
+                        "\"comment\":\"1\",\"atyPlused\":\"false\",\"atyJoined\":\"false\",\"userId\":\"aaa\",\n" +
+                        "\"atyAlbum\":[\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\",\"http://imgsrc.baidu.com/forum/w%3D580/sign=b9fe30609158d109c4e3a9bae159ccd0/cee4762c11dfa9eceeb9050961d0f703908fc1d4.jpg\"],\n" +
 
                         "\"atyPlace\":\"place2\",\"atyPlus\":\"1\",\"atyComment\":\"1\",\"atyMembers\":\"1\",\n" +
                         "\"atyType\":\"tyoe2\",\"atyImageId\":0,\"photoId\":0}" +
