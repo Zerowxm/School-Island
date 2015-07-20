@@ -23,6 +23,7 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
  */
 public class MsgListFragment extends Fragment {
     RecyclerView recyclerView;
+    String userId;
 
     public static Fragment newInstance(String muserId) {
         Fragment fragment = new MsgListFragment();
@@ -34,6 +35,7 @@ public class MsgListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.msg_layout, viewGroup, false);
+        userId = getArguments().getString("UserId");
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
         setupRecyclerView(recyclerView);
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);

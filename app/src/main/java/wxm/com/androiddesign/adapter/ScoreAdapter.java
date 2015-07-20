@@ -21,6 +21,10 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyScoreViewH
 
     List<Score> scores = new ArrayList<Score>();
 
+    public ScoreAdapter(List<Score> scores){
+        this.scores = scores;
+    }
+
     @Override
     public MyScoreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyScoreViewHolder(
