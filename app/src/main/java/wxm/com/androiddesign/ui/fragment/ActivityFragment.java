@@ -60,11 +60,11 @@ public class ActivityFragment extends Fragment {
 
     }
 
-    public static ActivityFragment newInstance(int type,String muserId) {
+    public static ActivityFragment newInstance(int type, String muserId) {
         ActivityFragment fragment = new ActivityFragment();
         Bundle args = new Bundle();
         args.putInt("Type", type);
-        args.putString("UserId", muserId);
+        args.putString("userId", muserId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +76,8 @@ public class ActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type");
         Log.d("wxm123",""+type);
+        userId = getArguments().getString("userId");
+
     }
 
 
@@ -88,7 +90,6 @@ public class ActivityFragment extends Fragment {
             mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
             setupSwipeRefreshLayout(mSwipeRefreshLayout);
             setupRecyclerView(recyclerView);
-        new GetAtyTask().execute();
         Log.d("wxm123", "" + recyclerView.toString());
         return v;
     }
@@ -134,16 +135,76 @@ public class ActivityFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         //recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new MyItemAnimator());
-            manager.attach(recyclerView);
-            manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-        switch (type){
-            case Hot:break;
-            case Nearby:break;
-            case Hight:break;
+
+        manager.attach(recyclerView);
+        manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
+        switch (type) {
+            case Hot:
+                new GetAtyTask().execute(Hot);
+                break;
+            case Nearby:
+                new GetAtyTask().execute(Nearby);
+                break;
+            case Hight:
+                new GetAtyTask().execute(Hight);
+                break;
         }
 
-        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
-        recyclerView.setAdapter(myRecycerAdapter);
+
+        //activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+        // }.getType());
+//        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+//        recyclerView.setAdapter(myRecycerAdapter);
+    }
+
+
+    private class GetAtyTask extends AsyncTask<Integer,Void,Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //mSwipeRefreshLayout.setRefreshing(true);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean==true){
+                for (int i=0;i<activityItems.size();i++){
+                    Log.d("Task",activityItems.get(i).toString());
+                }
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+                recyclerView.setAdapter(myRecycerAdapter);
+                //mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... params) {
+            JSONObject object=new JSONObject();
+            try {
+                switch (params[0]) {
+                    case Hot:object.put("action","showHotAty");
+                        break;
+                    case Nearby:object.put("action","showNearbyAty");
+                        break;
+                    case Hight:object.put("action","showHightAty");
+                        break;
+                }
+                object.put("userId",userId);
+                String jsonarrys = JsonConnection.getJSON(object.toString());
+                  Log.i("jsonarray",jsonarrys.toString());
+                activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+                }.getType());
+                return true;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
     }
 
     public static void refresh(AtyItem atyItem, int position) {
@@ -152,64 +213,64 @@ public class ActivityFragment extends Fragment {
         myRecycerAdapter.notifyDataSetChanged();
     }
 
-    private class GetAtyTask extends AsyncTask<Void,Void,Boolean> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+//    private class GetAtyTask extends AsyncTask<Void,Void,Boolean> {
 //
-
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (aBoolean==true){
-
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String json="[{\"userId\":\"guangfan\",\"userName\":\"光凡\",\n" +
-                    "\"userIcon\":\"http://img.tuboshu.com/images/article/201410/11/1034/37/201410111034376744_600.jpeg\",\"atyId\":\"1001\",\"atyName\":\"活动1\",\n" +
-                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
-                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"海韵2\",\n" +
-                    "\"atyMembers\":\"6\",\"atyContent\":\"刀塔来来来\",\"atyIsLiked\":\"false\",\n" +
-                    "\"atyIsJoined\":\"false\"},\n" +
-                    "{\"userId\":\"hdchen\",\"userName\":\"hdchen\",\n" +
-                    "\"userIcon\":\"http://p2.pstatp.com/large/6441/3854679476\",\"atyId\":\"1002\",\"atyName\":\"活动2\",\n" +
-                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
-                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"公寓\",\n" +
-                    "\"atyMembers\":\"12\",\"atyContent\":\"自习\",\"atyIsLiked\":\"false\",\n" +
-                    "\"atyIsJoined\":\"false\"},\n" +
-                    "{\"userId\":\"wxm\",\"userName\":\"神大人\",\n" +
-                    "\"userIcon\":\"http://upload.shunwang.com/2013/1225/1387978438783.jpg\",\"atyId\":\"1003\",\"atyName\":\"活动3\",\n" +
-                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
-                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"海韵\",\n" +
-                    "\"atyMembers\":\"12\",\"atyContent\":\"自习\",\"atyIsLiked\":\"false\",\n" +
-                    "\"atyIsJoined\":\"false\"}\n" +
-                    "]";
-            JSONObject object=new JSONObject();
-            try {
-                object.put("action","showActivities");
-                object.put("userId",userId);
-                //String jsonarrys = JsonConnection.getJSON(object.toString());
-                //  Log.i("jsonarray",jsonarrys.toString());
-                activityItems = new Gson().fromJson(json, new TypeToken<List<AtyItem>>() {
-                }.getType());
-                if(activityItems.size()==0)
-                    return false;
-                for (int i=0;i<activityItems.size();i++){
-                    Log.d("Task",activityItems.get(i).toString());
-                }
-                //Log.d("Task",jsonarrys);
-                return true;
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+////
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean aBoolean) {
+//            super.onPostExecute(aBoolean);
+//            if (aBoolean==true){
+//
+//            }
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//            String json="[{\"userId\":\"guangfan\",\"userName\":\"光凡\",\n" +
+//                    "\"userIcon\":\"http://img.tuboshu.com/images/article/201410/11/1034/37/201410111034376744_600.jpeg\",\"atyId\":\"1001\",\"atyName\":\"活动1\",\n" +
+//                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
+//                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"海韵2\",\n" +
+//                    "\"atyMembers\":\"6\",\"atyContent\":\"刀塔来来来\",\"atyIsLiked\":\"false\",\n" +
+//                    "\"atyIsJoined\":\"false\"},\n" +
+//                    "{\"userId\":\"hdchen\",\"userName\":\"hdchen\",\n" +
+//                    "\"userIcon\":\"http://p2.pstatp.com/large/6441/3854679476\",\"atyId\":\"1002\",\"atyName\":\"活动2\",\n" +
+//                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
+//                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"公寓\",\n" +
+//                    "\"atyMembers\":\"12\",\"atyContent\":\"自习\",\"atyIsLiked\":\"false\",\n" +
+//                    "\"atyIsJoined\":\"false\"},\n" +
+//                    "{\"userId\":\"wxm\",\"userName\":\"神大人\",\n" +
+//                    "\"userIcon\":\"http://upload.shunwang.com/2013/1225/1387978438783.jpg\",\"atyId\":\"1003\",\"atyName\":\"活动3\",\n" +
+//                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
+//                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"海韵\",\n" +
+//                    "\"atyMembers\":\"12\",\"atyContent\":\"自习\",\"atyIsLiked\":\"false\",\n" +
+//                    "\"atyIsJoined\":\"false\"}\n" +
+//                    "]";
+//            JSONObject object=new JSONObject();
+//            try {
+//                object.put("action","showActivities");
+//                object.put("userId",userId);
+//                //String jsonarrys = JsonConnection.getJSON(object.toString());
+//                //  Log.i("jsonarray",jsonarrys.toString());
+//                activityItems = new Gson().fromJson(json, new TypeToken<List<AtyItem>>() {
+//                }.getType());
+//                if(activityItems.size()==0)
+//                    return false;
+//                for (int i=0;i<activityItems.size();i++){
+//                    Log.d("Task",activityItems.get(i).toString());
+//                }
+//                //Log.d("Task",jsonarrys);
+//                return true;
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+    //}
 }

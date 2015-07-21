@@ -104,6 +104,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             mSwipeRefreshLayout.setRefreshing(true);
         }
 
@@ -111,7 +112,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
-                setupRecyclerView(recyclerView);
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
+                recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
             }else{
                 Snackbar.make(mSwipeRefreshLayout,"Error",Snackbar.LENGTH_SHORT).show();
@@ -160,9 +162,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         actionBar.setDisplayShowCustomEnabled(true);
 
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
-        new GetAtyTask().execute();
+        //new GetAtyTask().execute();
         setupSpinner(mSpinner);
-
+        setupRecyclerView(recyclerView);
         Log.d("home","onCreateView");
         return v;
     }
@@ -182,8 +184,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
-        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
-        recyclerView.setAdapter(myRecycerAdapter);
+        new GetAtyTask().execute();
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         ScrollManager manager = new ScrollManager();
         manager.attach(recyclerView);

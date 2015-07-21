@@ -8,23 +8,16 @@ public class CommentData {
     public String userId;
     public String userName;
     public String userIcon;
-    public String time;
-    public String comment;
+    public String cmtTime;
+    public String cmtContent;
     public String atyId;
 
-    public CommentData(String userId, String userName, String userIcon, String time, String comment) {
-        this.userId = userId;
-        this.userName = userName;
-        this.userIcon = userIcon;
-        this.time = time;
-        this.comment = comment;
-    }
-
-    public CommentData(String action, String userId, String time, String comment) {
+    public CommentData(String action, String userId,String atyId, String time, String comment) {
         this.action = action;
         this.userId = userId;
-        this.time = time;
-        this.comment = comment;
+        this.cmtTime = time;
+        this.atyId = atyId;
+        this.cmtContent = comment;
     }
 
     public String getAtyId() {
@@ -68,18 +61,18 @@ public class CommentData {
     }
 
     public String getTime() {
-        return time;
+        return cmtTime;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.cmtTime = time;
     }
 
     public String getComment() {
-        return comment;
+        return cmtContent;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.cmtContent = comment;
     }
 }

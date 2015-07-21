@@ -39,7 +39,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.User;
+
 import wxm.com.androiddesign.network.JsonConnection;
+
+import wxm.com.androiddesign.services.LocationServices;
+
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -57,13 +61,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     User mUuser = new User();
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        closeLocationServices();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         instance=this;
         context=getApplicationContext();
         super.onCreate(savedInstanceState);
-        mUuser.setUserId("游客");
+
+        mUuser.setUserId("cz");
         mUuser.setUserName("游客");
-        mUuser.setUserPassword("123");
+
         setContentView(R.layout.activity_main);
         instance = this;
         if (savedInstanceState == null) {
@@ -75,6 +86,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new LoginTask(this).execute();
         setupNavigationView();
         setupInfo();
+        openLocationServices();
+    }
+    private void openLocationServices()
+    {
+        Log.e("CJ", "onpenLocationServices");
+        Intent i = new Intent();
+        i.setClass(getApplicationContext(), LocationServices.class);
+        startService(i);
+    }
+    private void closeLocationServices()
+    {
+        Log.e("CJ","closeLocationServices");
+        Intent i = new Intent();
+        i.setClass(getApplicationContext(), LocationServices.class);
+        startService(i);
     }
 
 

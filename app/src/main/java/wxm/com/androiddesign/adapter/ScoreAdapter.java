@@ -21,7 +21,8 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyScoreViewH
 
     List<Score> scores = new ArrayList<Score>();
 
-    public ScoreAdapter(List<Score> scores) {
+
+    public ScoreAdapter(List<Score> scores){
         this.scores = scores;
     }
 
@@ -35,14 +36,14 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyScoreViewH
 
     @Override
     public void onBindViewHolder(MyScoreViewHolder holder, int position) {
-        Score score=scores.get(position);
-        holder.score.setText(score.getScore());
-        holder.op.setText(score.getOp());
+//        Score score=scores.get(position);
+//        holder.score.setText(score.getScore());
+//        holder.op.setText(score.getOp());
     }
 
     @Override
     public int getItemCount() {
-        return scores.size();
+        return 5;
     }
 
     public static class MyScoreViewHolder extends RecyclerView.ViewHolder {

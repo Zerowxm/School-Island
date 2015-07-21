@@ -77,18 +77,20 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     private static AppCompatActivity activity;
     AtyItem item;
     String fragment;
-    boolean isUser = false;
+    String userId;
+    boolean isUser = true;
 
     public MyRecycerAdapter(List<AtyItem> activityItemArrayList,String userId, AppCompatActivity activity, String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
         this.fragment = fragment;
+        this.userId = userId;
+//        if("001".equals(userId)){
+//            isUser = false;
+//        }else{
+//            isUser = true;
+//        }
 
-        if("001".equals(userId)){
-            isUser = false;
-        }else{
-            isUser = true;
-        }
     }
 
     @Override
@@ -115,11 +117,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     Intent intent = new Intent(activity, DetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                     intent.putExtra("position", position);
+                    intent.putExtra("userId",userId);
                     activity.startActivity(intent);
                 }else{
                     Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
@@ -129,6 +131,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                     intent.putExtra("position", adapterPosition);
                     intent.putExtra("fragment", fragment);
+                    intent.putExtra("userId",userId);
                     activity.startActivity(intent);
                 }else{
                     Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT).show();
@@ -145,14 +148,15 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
                         button.setTextColor(activity.getResources().getColor(R.color.primary));
                         notifyDataSetChanged();
+                        new UpDateTask().execute("join");
                     } else {
                         button.setText("加入");
                         atyItem.setAtyJoined("false");
                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
                         button.setTextColor(activity.getResources().getColor(R.color.black));
                         notifyDataSetChanged();
+                        new UpDateTask().execute("notJoin");
                     }
-                    new UpDateTask().execute(atyItem);
                 }else{
                     Toast.makeText(activity,"请登录加入",Toast.LENGTH_SHORT).show();
                 }
@@ -169,14 +173,16 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         atyItem.setAtyPlused("false");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
                         notifyDataSetChanged();
+                        new UpDateTask().execute("notLike");
                     } else {
                         fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
                         fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
                         atyItem.setAtyPlused("true");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
                         notifyDataSetChanged();
+                        new UpDateTask().execute("like");
                     }
-                    new UpDateTask().execute(atyItem);
+
                 }else{
                     Toast.makeText(activity,"请登录后点赞",Toast.LENGTH_SHORT).show();
                 }
@@ -184,7 +190,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         });
     }
 
-    private class UpDateTask extends AsyncTask<AtyItem, Void, Void> {
+    private class UpDateTask extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -196,9 +202,19 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         }
 
         @Override
-        protected Void doInBackground(AtyItem... params) {
-            params[0].setAction("Update");
-            JsonConnection.getJSON(new Gson().toJson(params[0]));
+        protected Void doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object = new JSONObject();
+                object.put("action",params[0]);
+                object.put("userId",userId);
+                object.put("atyId",item.getAtyId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("mjson",json);
+//            HomeFragment.addActivity(params[0]);
             return null;
         }
     }
@@ -222,10 +238,14 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.total_member.setText(item.getAtyMembers());
         holder.totle_plus.setText(item.getAtyPlus());
         holder.total_comment.setText(item.getAtyComment());
+        holder.user_name.setText(item.getUserName());
 
         if (isUser) {
             holder.imageViewContainer.setVisibility(View.GONE);
         }
+
+
+
  //           holder.imageViewContainer.removeAllViews();
 //            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
 //            for (int i = 0; i < item.getAtyAlbum().size(); i++) {
@@ -279,7 +299,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             }
 
             setAnimation(holder.cardView, position);
+
         }
+
 
         private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
 

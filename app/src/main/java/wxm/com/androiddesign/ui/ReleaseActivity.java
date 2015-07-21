@@ -124,7 +124,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 String address = data.getStringExtra(LocationActivity.Address);
                 Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
                 Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
-                locaton.setText(address + lattitute + Longtitute);
+                locaton.setText(address +" "+ lattitute+" " + Longtitute);
             }
 
             if (requestCode == CHOOSE_PHOTO) {
@@ -222,7 +222,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 } else if (locaton.getText().toString().equals("add your location")) {
                     Toast.makeText(this, "set your location", Toast.LENGTH_SHORT).show();
                 } else {
-                    AtyItem atyItem = new AtyItem("release", userId,"username","userphoto",atyName.getText().toString(), "travel", startTime.getText().toString(),
+                    AtyItem atyItem = new AtyItem("release", userId,atyName.getText().toString(), "travel", startTime.getText().toString(),
                             endTime.getText().toString(), locaton.getText().toString(), "1",
                             atyContent.getText().toString(), "0", "0",
                             "true", "false", "0", uriList);
@@ -256,7 +256,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 //                object.put("atyItem",new Gson().toJson(params[0]));
 //                object.put("releaseTime", String.valueOf(System.currentTimeMillis()));
                 object = new JSONObject(new Gson().toJson(params[0]));
-                object.put("releaseTime", String.valueOf(System.currentTimeMillis()));
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

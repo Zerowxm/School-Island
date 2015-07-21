@@ -40,7 +40,7 @@ import wxm.com.androiddesign.utils.ScrollManager;
  */
 public class ScoreFragment extends Fragment {
 
-    List<Score> scoreList=new ArrayList<>();
+    List<Score> scoreList = new ArrayList<>();
     ScoreAdapter myRecycerAdapter;
     RecyclerView recyclerView;
     private String userId;
@@ -57,7 +57,7 @@ public class ScoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        userId = getArguments().getString("UseId");
+        userId = getArguments().getString("UserId");
     }
 
     @Override
@@ -70,9 +70,9 @@ public class ScoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.score_layout, container, false);
-        recyclerView=(RecyclerView)v;
+
+        recyclerView = (RecyclerView) v;
         setupRecyclerView(recyclerView);
-        //new getScore(getActivity()).execute();
         return v;
 
     }
@@ -80,11 +80,11 @@ public class ScoreFragment extends Fragment {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
-        //recyclerView.setItemAnimator(new MyItemAnimator());
-        myRecycerAdapter = new ScoreAdapter(scoreList);
-        recyclerView.setAdapter(myRecycerAdapter);
+        new getScore(getActivity()).execute();
+
     }
-    private class getScore extends AsyncTask<User, Void, Boolean> {
+
+    private class getScore extends AsyncTask<Void, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
@@ -106,26 +106,28 @@ public class ScoreFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            setupRecyclerView(recyclerView);
             materialDialog.dismiss();
+            myRecycerAdapter = new ScoreAdapter(scoreList);
+            recyclerView.setAdapter(myRecycerAdapter);
+
         }
 
         @Override
-        protected Boolean doInBackground(User... params) {
+        protected Boolean doInBackground(Void... params) {
 
 
-                JSONObject object = new JSONObject();
+            JSONObject object = new JSONObject();
             try {
                 object.put("action", "showScore");
 
-                object.put("userId",userId);
+                object.put("userId", userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
 
             scoreList = new Gson().fromJson(json, new TypeToken<List<Score>>() {
-                }.getType());
+            }.getType());
             return null;
         }
     }

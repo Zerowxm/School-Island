@@ -83,7 +83,9 @@ public class ProfileFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+
             materialDialog.dismiss();
+
             setupRecyclerView(recyclerView);
         }
 
@@ -97,7 +99,6 @@ public class ProfileFragment extends Fragment {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            Log.i("json", "json");
             user = new Gson().fromJson(json, User.class);
 
             return null;

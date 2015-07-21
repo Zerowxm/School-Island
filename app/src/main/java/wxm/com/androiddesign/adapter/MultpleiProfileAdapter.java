@@ -100,7 +100,7 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         protected Object doInBackground(Object[] params) {
-            user.setAction("updateprofile");
+            user.setAction("updateProfile");
             JsonConnection.getJSON(new Gson().toJson(user));
             return null;
         }

@@ -62,10 +62,11 @@ public class UserAcitivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
+
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release,userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
         adapter.addFragment(new CmtListFragment(), "社区");
-        adapter.addFragment(new ScoreFragment(), "积分");
+        adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
         adapter.addFragment(PhotoFragment.newInstance(userId),"相册");
 
         viewPager.setAdapter(adapter);

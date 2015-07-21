@@ -43,7 +43,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="YAGdsDL1e8ZUdVazpPPFhCpG" />
+            android:value="AN1K1V7t6tfjsXSscNzj8EnT" />
         <meta-data
             android:name="android.app.default_searchable"
             android:value="wxm.com.androiddesign.ui.SearchResultsActivity" />
@@ -131,6 +131,8 @@
             android:name=".ui.UserListActivity"
             android:label="@string/title_activity_user_list" >
         </activity>
+        <service android:name=".MessageService" android:enabled="true"/>
+        <service android:name=".services.LocationServices" android:enabled="true"/>
     </application>
 
 </manifest>

@@ -26,12 +26,43 @@ public class AtyItem implements Parcelable {
     String atyMembers;
     String atyContent;
     String atyLikes;
-    String atyComment;
+    String atyComments;
     String atyIsJoined;
     String atyIsLiked;
     String atyShares;
     List<String> atyAlbum = new ArrayList<String>();
 
+    public String getAtyLikes() {
+        return atyLikes;
+    }
+
+    public void setAtyLikes(String atyLikes) {
+        this.atyLikes = atyLikes;
+    }
+
+    public String getAtyIsJoined() {
+        return atyIsJoined;
+    }
+
+    public void setAtyIsJoined(String atyIsJoined) {
+        this.atyIsJoined = atyIsJoined;
+    }
+
+    public String getAtyIsLiked() {
+        return atyIsLiked;
+    }
+
+    public void setAtyIsLiked(String atyIsLiked) {
+        this.atyIsLiked = atyIsLiked;
+    }
+
+    public String getAtyShares() {
+        return atyShares;
+    }
+
+    public void setAtyShares(String atyShares) {
+        this.atyShares = atyShares;
+    }
 
     public String getAtyPlused() {
         return atyIsLiked;
@@ -130,7 +161,7 @@ public class AtyItem implements Parcelable {
     }
 
     public String getAtyComment() {
-        return atyComment;
+        return atyComments;
     }
 
     public String getAction() {
@@ -142,7 +173,7 @@ public class AtyItem implements Parcelable {
     }
 
     public void setAtyComment(String atyComment) {
-        this.atyComment = atyComment;
+        this.atyComments = atyComment;
     }
 
     public String getAtyJoined() {
@@ -196,7 +227,7 @@ public class AtyItem implements Parcelable {
         this.atyMembers = atyMembers;
         this.atyContent = atyContent;
         this.atyLikes = atyPlus;
-        this.atyComment = atyComment;
+        this.atyComments = atyComment;
         this.atyIsJoined = atyJoined;
         this.atyIsLiked = atyPlused;
         this.atyShares = atyShare;
@@ -211,23 +242,23 @@ public class AtyItem implements Parcelable {
         this.userId = userId;
     }
 
-    public AtyItem(String action, String userId, String atyId, String atyName,
+    public AtyItem(String action, String userId, String atyName,
                    String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent,
-                   String atyPlus, String atyComment, String atyJoined,
+                   String atyPlus, String atyComment, String atyJoined,String atyIsLiked,
                    String atyShare, List<String> atyAlbum) {
         this.action = action;
         this.userId = userId;
-        this.atyId = atyId;
         this.atyName = atyName;
         this.atyType = atyType;
+        this.atyIsLiked = atyIsLiked;
         this.atyStartTime = atyStartTime;
         this.atyEndTime = atyEndTime;
         this.atyPlace = atyPlace;
         this.atyMembers = atyMembers;
         this.atyContent = atyContent;
         this.atyLikes = atyPlus;
-        this.atyComment = atyComment;
+        this.atyComments = atyComment;
         this.atyIsJoined = atyJoined;
         this.atyShares = atyShare;
         this.atyAlbum = atyAlbum;
@@ -248,7 +279,7 @@ public class AtyItem implements Parcelable {
         dest.writeString(atyMembers);
         dest.writeString(atyContent);
         dest.writeString(atyLikes);
-        dest.writeString(atyComment);
+        dest.writeString(atyComments);
         dest.writeString(atyIsJoined);
         dest.writeString(atyIsLiked);
         dest.writeString(atyShares);
@@ -269,7 +300,7 @@ public class AtyItem implements Parcelable {
         atyMembers = in.readString();
         atyContent = in.readString();
         atyLikes = in.readString();
-        atyComment = in.readString();
+        atyComments = in.readString();
         atyIsJoined = in.readString();
         atyIsLiked = in.readString();
         atyShares = in.readString();
@@ -303,7 +334,7 @@ public class AtyItem implements Parcelable {
                 ", atyMembers='" + atyMembers + '\'' +
                 ", atyContent='" + atyContent + '\'' +
                 ", atyLikes='" + atyLikes + '\'' +
-                ", atyComment='" + atyComment + '\'' +
+                ", atyComment='" + atyComments + '\'' +
                 ", atyIsJoined='" + atyIsJoined + '\'' +
                 ", atyIsLiked='" + atyIsLiked + '\'' +
                 ", atyShares='" + atyShares + '\'' +

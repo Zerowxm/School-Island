@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -140,7 +141,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
             }
-            setAnimation(((AtyViewHolder) holder).cardView, position);
+
 
         } else if (holder instanceof CommentViewHolder) {
             CommentData item = commentDatas.get(position - 1);
@@ -158,6 +159,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             // ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
             ((CommentViewHolder) holder).user_comment.setText(item.getComment());
+            ((CommentViewHolder) holder).user_name.setText(item.getUserName());
+            setAnimation(((CommentViewHolder) holder).relativeLayout, position);
         }
     }
 
@@ -207,6 +210,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView user_comment;
         @Bind(R.id.time)
         TextView time;
+        @Bind(R.id.comment_container)RelativeLayout relativeLayout;
 
         public CommentViewHolder(View itemView) {
             super(itemView);

@@ -73,11 +73,11 @@ public class PhotoFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        //recyclerView.setHasFixedSize(true);
-        myRecycerAdapter = new PhotoAdapter(photoList,getActivity());
-        recyclerView.setAdapter(myRecycerAdapter);
+        recyclerView.setHasFixedSize(true);
+        new getPhoto(getActivity()).execute();
+
     }
-    private class getPhoto extends AsyncTask<String, Void, Boolean> {
+    private class getPhoto extends AsyncTask<Void, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
@@ -99,13 +99,13 @@ public class PhotoFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             materialDialog.dismiss();
-
-            setupRecyclerView(recyclerView);
+            myRecycerAdapter = new PhotoAdapter(photoList,getActivity());
+            recyclerView.setAdapter(myRecycerAdapter);
 
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(Void... params) {
                 JSONObject object = new JSONObject();
                 try {
                     object.put("action", "showPhoto");

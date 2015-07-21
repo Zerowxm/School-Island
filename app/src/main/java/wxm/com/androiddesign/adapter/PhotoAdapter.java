@@ -40,13 +40,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
 
     @Override
     public void onBindViewHolder(MyPhotoViewHolder holder, int position) {
-        String uri=ablum.get(position);
-        Picasso.with(context).load(uri).into(holder.photo);
+//        String uri=ablum.get(position);
+//        Picasso.with(context).load(uri).into(holder.photo);
+        Picasso.with(context).load(R.drawable.test);
     }
 
     @Override
     public int getItemCount() {
-        return ablum.size();
+        return 5;
     }
 
     public static class MyPhotoViewHolder extends RecyclerView.ViewHolder {
