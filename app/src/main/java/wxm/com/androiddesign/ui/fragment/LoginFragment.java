@@ -209,7 +209,7 @@ public class LoginFragment extends DialogFragment {
     public void SignUp() {
         dismiss();
         Intent intent = new Intent(getActivity(), SignUpActivity.class);
-        getActivity().startActivity(intent);
+        getActivity().startActivityForResult(intent,MainActivity.SIGNUP);
     }
 
 

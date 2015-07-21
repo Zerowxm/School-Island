@@ -68,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     TextInputLayout emailInput;
     @Bind(R.id.userid_edit_text)
     EditText user_id;
-    private Uri selectedImgUri;
+    private Uri selectedImgUri=null;
     String gender;
     User user;
     Bitmap bitmap = null;
@@ -170,14 +170,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
         user = new User("signup", get(user_id), get(user_name), get(password), get(emial), get(phone),
-                gender, "", "0");
+                gender,"", "0");
 
 
         BackgroundTask task = new BackgroundTask(this);
         task.execute(user);
     }
 
-    private class BackgroundTask extends AsyncTask<User, Void, Boolean> {
+    private class BackgroundTask extends AsyncTask<User, Void, Integer> {
         MaterialDialog materialDialog;
         AppCompatActivity activity;
         String mResult;
@@ -199,16 +199,28 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
+        protected void onPostExecute(Integer integer) {
             //super.onPostExecute(aBoolean);
             Log.d("Task", "onPostExecute");
-            if (aBoolean == true) {
-
-            } else {
+            if (integer == 0) {
+                materialDialog.dismiss();
+                Intent intent=new Intent();
+                intent.putExtra("userId",user.getUserId());
+                intent.putExtra("userPassword",user.getUserPassword());
+                setResult(RESULT_OK,intent);
+                finish();
+            } else if (integer==1){
                 materialDialog.dismiss();
                 new MaterialDialog.Builder(activity)
                         .title("注册失败")
-                        .content("用户名已存在")
+                        .content("请设置头像")
+                        .positiveText("确定")
+                        .show();
+            }else if(integer==2){
+                materialDialog.dismiss();
+                new MaterialDialog.Builder(activity)
+                        .title("注册失败")
+                        .content("用户名重复")
                         .positiveText("确定")
                         .show();
             }
@@ -217,24 +229,28 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected Boolean doInBackground(User... params) {
+        protected Integer doInBackground(User... params) {
             Log.d("Task", "doInBackground");
-//            try {
-//                Log.d("Task","Image");
-//                bitmap =MediaStore.Images.Media.getBitmap(activity.getContentResolver(),selectedImgUri);
-//
-//            } catch (IOException e) {
-//                Log.d("Task","IOException");
-//                e.printStackTrace();
-//            }
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test);
+            try {
+                Log.d("Task","Image");
+                if (selectedImgUri==null){
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test);
+                    //return 1;
+                }else
+                bitmap =MediaStore.Images.Media.getBitmap(activity.getContentResolver(),selectedImgUri);
+
+            } catch (IOException e) {
+                Log.d("Task","IOException");
+                e.printStackTrace();
+            }
+
 
             Log.d("Task", "doImage");
             String icon = MyBitmapFactory.BitmapToString(bitmap);
             Log.d("Task", "" + icon.length());
             Log.d("Task", "doImageEncode");
             if (!isOnline()) {
-                return false;
+                return 2;
             }
             user.setUserIcon(icon);
             Gson gson = new Gson();
@@ -244,11 +260,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             Log.d("Task", "doConnection");
             if (mResult != "") {
                 if (mResult.contains("false")) {
-                    return false;
+                    return 2;
                 } else if (mResult.contains("true"))
-                    return true;
+                    return 0;
             }
-            return false;
+            return 2;
 
         }
     }

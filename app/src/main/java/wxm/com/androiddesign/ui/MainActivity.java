@@ -53,6 +53,8 @@ import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack, SearchView.OnQueryTextListener {
     DrawerLayout drawerLayout;
 
+    public static int SIGNUP=0x1;
+
     public static MainActivity instance =null ;
     public static Context context;
 
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         context=getApplicationContext();
         super.onCreate(savedInstanceState);
 
-        mUuser.setUserId("cz");
+        mUuser.setUserId("游客");
         mUuser.setUserName("游客");
 
         setContentView(R.layout.activity_main);
@@ -214,19 +216,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                drawerLayout.closeDrawers();
+                showLoginDialog();
                 if (((TextView) findViewById(R.id.username)).getText().equals("游客")) {
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
-                    intent.putExtra("userId", mUuser.getUserId());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
-                    );
-                    ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
+//                    Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
+//                    intent.putExtra("userId", mUuser.getUserId());
+//                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                            MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
+//                    );
+//                    ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==SIGNUP&&resultCode==RESULT_OK){
+            String userId=data.getStringExtra("userId");
+            String password=data.getStringExtra("userPassword");
+            SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("UserId", userId);
+            editor.putString("UserPassword", password);
+            editor.apply();
+            new LoginTask(this).execute();
+        }
 
     }
 
