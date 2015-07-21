@@ -27,6 +27,7 @@ import java.util.List;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
+import wxm.com.androiddesign.module.MyUser;
 
 
 /**
@@ -69,9 +70,9 @@ public class FragmentParent extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         Log.d("user","setupViewPager"+userId);
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager());
-        //adapter.addFragment(HomeFragment.newInstance(userId), "热门活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hight,userId), "评价最高");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Nearby,userId), "附近活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot, MyUser.userId), "热门活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hight, MyUser.userId), "评价最高");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Nearby, MyUser.userId), "附近活动");
         viewPager.setAdapter(adapter);
     }
 

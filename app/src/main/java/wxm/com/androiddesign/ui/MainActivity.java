@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 
 import wxm.com.androiddesign.network.JsonConnection;
@@ -152,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onLongin(User user) {
         mUuser = user;
+        MyUser.userId=user.getUserId();
+        MyUser.userName=user.getUserName();
         Log.d("user", user.toString());
         SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
