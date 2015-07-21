@@ -44,6 +44,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.module.ActivityItem;
@@ -52,6 +53,7 @@ import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.UserListActivity;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
 /**
@@ -354,8 +356,14 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
 
-        }
 
+        }
+        @OnClick(R.id.show_people)
+        public void showPeople(){
+            Intent showIntent=new Intent(activity, UserListActivity.class);
+            showIntent.putExtra("atyId",atyItem.getAtyId());
+            activity.startActivity(showIntent);
+        }
         private class UpDateAtyTask extends AsyncTask<AtyItem, Void, Void> {
             @Override
             protected void onPreExecute() {

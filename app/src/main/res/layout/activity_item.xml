@@ -91,6 +91,7 @@
             android:layout_marginBottom="2dp"
             android:background="#cccccc" />
         <RelativeLayout
+            android:id="@+id/show_people"
             android:paddingLeft="22dp"
             android:layout_marginBottom="2dp"
             android:layout_width="match_parent"
