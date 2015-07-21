@@ -142,6 +142,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onJoinBtn(Button button, int adapterPosition) {
                 if(isUser) {
                     AtyItem atyItem = activityItems.get(adapterPosition);
+                    item = atyItem;
                     if ("加入".equals(button.getText().toString())) {
                         button.setText("已加入");
                         atyItem.setAtyJoined("true");
@@ -166,7 +167,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus) {
                 if(isUser) {
                     AtyItem atyItem = activityItems.get(adapterPosition);
-
+                    item = atyItem;
                     if (atyItem.getAtyPlused().equals("true")) {
                         fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
                         fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));

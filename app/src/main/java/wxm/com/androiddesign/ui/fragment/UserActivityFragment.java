@@ -63,6 +63,7 @@ public class UserActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type");
+        userId = getArguments().getString("UserId");
         Log.d("wxm123", "" + type);
     }
 
@@ -73,8 +74,6 @@ public class UserActivityFragment extends Fragment {
         v = inflater.inflate(R.layout.activity_user_fragment, viewGroup, false);
         recyclerView = (RecyclerView) v;
         setupRecyclerView(recyclerView);
-        Log.d("wxm123", "" + recyclerView.toString());
-        new GetAtyTask().execute();
         Log.d("wxm123", "" + recyclerView.toString());
         return v;
     }
@@ -88,11 +87,13 @@ public class UserActivityFragment extends Fragment {
         recyclerView.setItemAnimator(new MyItemAnimator());
         myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
         recyclerView.setAdapter(myRecycerAdapter);
+        new GetAtyTask().execute(type);
+
     }
 
 
 
-    private class GetAtyTask extends AsyncTask<Void, Void, Boolean> {
+    private class GetAtyTask extends AsyncTask<Integer, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -104,38 +105,26 @@ public class UserActivityFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean == true) {
-                myRecycerAdapter.notifyDataSetChanged();
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+                recyclerView.setAdapter(myRecycerAdapter);
             }
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            String json = "[{\"userId\":\"guangfan\",\"userName\":\"光凡\",\n" +
-                    "\"userIcon\":\"http://img.tuboshu.com/images/article/201410/11/1034/37/201410111034376744_600.jpeg\",\"atyId\":\"1001\",\"atyName\":\"活动1\",\n" +
-                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
-                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"海韵2\",\n" +
-                    "\"atyMembers\":\"6\",\"atyContent\":\"刀塔来来来\",\"atyIsLiked\":\"false\",\n" +
-                    "\"atyIsJoined\":\"false\"},\n" +
-                    "{\"userId\":\"hdchen\",\"userName\":\"hdchen\",\n" +
-                    "\"userIcon\":\"http://p2.pstatp.com/large/6441/3854679476\",\"atyId\":\"1002\",\"atyName\":\"活动2\",\n" +
-                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
-                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"公寓\",\n" +
-                    "\"atyMembers\":\"12\",\"atyContent\":\"自习\",\"atyIsLiked\":\"false\",\n" +
-                    "\"atyIsJoined\":\"false\"},\n" +
-                    "{\"userId\":\"wxm\",\"userName\":\"神大人\",\n" +
-                    "\"userIcon\":\"http://upload.shunwang.com/2013/1225/1387978438783.jpg\",\"atyId\":\"1003\",\"atyName\":\"活动3\",\n" +
-                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
-                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"海韵\",\n" +
-                    "\"atyMembers\":\"12\",\"atyContent\":\"自习\",\"atyIsLiked\":\"false\",\n" +
-                    "\"atyIsJoined\":\"false\"}\n" +
-                    "]";
+        protected Boolean doInBackground(Integer... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showActivities");
+                switch (params[0]) {
+                    case Joined:object.put("action","showJoinedAty");
+                        break;
+                    case Release:object.put("action","showDistributeAty");
+                        break;
+
+                }
                 object.put("userId", userId);
-                //String jsonarrys = JsonConnection.getJSON(object.toString());
+                String jsonarrys = JsonConnection.getJSON(object.toString());
                 //  Log.i("jsonarray",jsonarrys.toString());
-                activityItems = new Gson().fromJson(json, new TypeToken<List<AtyItem>>() {
+                activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
                 if (activityItems.size() == 0)
                     return false;

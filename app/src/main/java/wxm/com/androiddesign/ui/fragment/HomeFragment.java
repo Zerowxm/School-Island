@@ -46,6 +46,7 @@ import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.ReleaseActivity;
 import wxm.com.androiddesign.utils.ScrollManager;
@@ -125,7 +126,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             JSONObject object=new JSONObject();
             try {
                 object.put("action","showActivities");
-                object.put("userId",userId);
+                object.put("userId", MyUser.userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
               //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
@@ -185,6 +186,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
         new GetAtyTask().execute();
+
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         ScrollManager manager = new ScrollManager();
         manager.attach(recyclerView);

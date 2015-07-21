@@ -138,17 +138,8 @@ public class ActivityFragment extends Fragment {
 
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-        switch (type) {
-            case Hot:
-                new GetAtyTask().execute(Hot);
-                break;
-            case Nearby:
-                new GetAtyTask().execute(Nearby);
-                break;
-            case Hight:
-                new GetAtyTask().execute(Hight);
-                break;
-        }
+        new GetAtyTask().execute(type);
+
 
 
         //activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
@@ -236,7 +227,7 @@ public class ActivityFragment extends Fragment {
 //                    "\"userIcon\":\"http://img.tuboshu.com/images/article/201410/11/1034/37/201410111034376744_600.jpeg\",\"atyId\":\"1001\",\"atyName\":\"活动1\",\n" +
 //                    "\"atyType\":\"dota\",\"atyStartTime\":\"2015-07-01 19:20:18\",\n" +
 //                    "\"atyEndTime\":\"2015-07-01 19:20:30\",\"atyPlace\":\"海韵2\",\n" +
-//                    "\"atyMembers\":\"6\",\"atyContent\":\"刀塔来来来\",\"atyIsLiked\":\"false\",\n" +
+//                    "\"atyMembers\":\"6\",\"atyContent\":\"�?塔来来来\",\"atyIsLiked\":\"false\",\n" +
 //                    "\"atyIsJoined\":\"false\"},\n" +
 //                    "{\"userId\":\"hdchen\",\"userName\":\"hdchen\",\n" +
 //                    "\"userIcon\":\"http://p2.pstatp.com/large/6441/3854679476\",\"atyId\":\"1002\",\"atyName\":\"活动2\",\n" +
