@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user.setUserId("001");
+        user.setUserId("cz");
         user.setUserName("游客");
         setContentView(R.layout.activity_main);
         instance = this;

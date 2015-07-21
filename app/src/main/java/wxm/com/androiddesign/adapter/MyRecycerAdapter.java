@@ -161,7 +161,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
                         button.setTextColor(activity.getResources().getColor(R.color.black));
                         notifyDataSetChanged();
-                        new UpDateTask().execute("notjoin");
+                        new UpDateTask().execute("notJoin");
                     }
                 }else{
                     Toast.makeText(activity,"请登录加入",Toast.LENGTH_SHORT).show();
@@ -179,14 +179,14 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         atyItem.setAtyPlused("false");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
                         notifyDataSetChanged();
-                        new UpDateTask().execute("like");
+                        new UpDateTask().execute("notLike");
                     } else {
                         fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
                         fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
                         atyItem.setAtyPlused("true");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
                         notifyDataSetChanged();
-                        new UpDateTask().execute("notlike");
+                        new UpDateTask().execute("like");
                     }
 
                 }else{
@@ -218,7 +218,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            JsonConnection.getJSON(object.toString());
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("mjson",json);
 //            HomeFragment.addActivity(params[0]);
             return null;
         }

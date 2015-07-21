@@ -128,7 +128,6 @@ public class DetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 String json= JsonConnection.getJSON(object.toString());
-                Log.i("comjson",json);
                 commentDatas = new Gson().fromJson(json, new TypeToken<ArrayList<CommentData>>() {
                 }.getType());
             } else {
@@ -151,8 +150,9 @@ public class DetailActivity extends AppCompatActivity {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date nowDate = new Date(System.currentTimeMillis());
                     String time = formatter.format(nowDate);
-                    new getCommentTask(getApplicationContext()).execute(new CommentData("comment", userId,atyItem.getAtyId(), time, cmt_text.getText().toString()));
-
+                    CommentData mcommentData = new CommentData("comment", userId,atyItem.getAtyId(), time, cmt_text.getText().toString());
+                    new getCommentTask(getApplicationContext()).execute(mcommentData);
+                    //commentDatas.add(mcommentData);
                     cmt_text.setText(null);
                 } else {
                     Toast.makeText(DetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();
