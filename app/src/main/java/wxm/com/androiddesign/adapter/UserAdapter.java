@@ -1,10 +1,13 @@
 package wxm.com.androiddesign.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,12 @@ import wxm.com.androiddesign.module.User;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
     List<User> userList=new ArrayList<>();
+    Context context;
+
+    public UserAdapter(List<User> userList, Context context) {
+        this.userList = userList;
+        this.context = context;
+    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,7 +41,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        User item=userList.get(position);
+        holder.user_name.setText(item.getUserName());
+        Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
     }
 
     @Override

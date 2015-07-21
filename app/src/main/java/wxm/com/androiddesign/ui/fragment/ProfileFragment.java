@@ -59,7 +59,6 @@ public class ProfileFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-
         recyclerView.setAdapter(new MultpleiProfileAdapter(user));
     }
 
@@ -92,7 +91,7 @@ public class ProfileFragment extends Fragment {
         protected Boolean doInBackground(String... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showprofile");
+                object.put("action", "showProfile");
                 object.put("userId", params[0]);
             } catch (JSONException e) {
                 e.printStackTrace();

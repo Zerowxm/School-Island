@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.ParseException;
@@ -91,9 +92,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof AtyViewHolder) {
-            //  ViewCompat.setTransitionName( ((AtyViewHolder) holder).activityItem.user_name,"1");
-            // ((AtyViewHolder) holder).activityItem.user_name.setText(atyItem.getUserName());
-            //  ((AtyViewHolder) holder).activityItem.user_photo.setImageResource(atyItem.getUserIcon());
+            //Picasso.with(activity).load(atyItem.getUserPhoto()).into(((AtyViewHolder) holder).user_photo);
+            ((AtyViewHolder) holder).user_name.setText(atyItem.getUserName());
             ((AtyViewHolder) holder).aty_name.setText(atyItem.getAtyName());
             ((AtyViewHolder) holder).aty_content.setText(atyItem.getAtyContent());
             ((AtyViewHolder) holder).total_comment.setText(atyItem.getAtyComment());
@@ -117,29 +117,29 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((AtyViewHolder) holder).mjoinBtn.setText("加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
             }
-//            for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
-//                ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image, null);
-//                WindowManager windowManager = activity.getWindowManager();
-//                DisplayMetrics dm = new DisplayMetrics();
-//                Display display = windowManager.getDefaultDisplay();
-//                int width = display.getWidth() - 7;
-//                int height = display.getHeight();
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
-//                Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
-//                imageView.setLayoutParams(layoutParams);
-//                imageView.setTag(i);
-//                imageView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        //Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
-//                        MyDialog dialog = new MyDialog();
-//                        dialog.setUri(atyItem.getAtyAlbum().get((Integer) v.getTag()));
-//                        dialog.show(activity.getSupportFragmentManager(), "showPicture");
-//                    }
-//                });
-//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
-//            }
+            for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
+                ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image, null);
+                WindowManager windowManager = activity.getWindowManager();
+                DisplayMetrics dm = new DisplayMetrics();
+                Display display = windowManager.getDefaultDisplay();
+                int width = display.getWidth() - 7;
+                int height = display.getHeight();
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
+                Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
+                imageView.setLayoutParams(layoutParams);
+                imageView.setTag(i);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
+                        MyDialog dialog = new MyDialog();
+                        dialog.setUri(atyItem.getAtyAlbum().get((Integer) v.getTag()));
+                        dialog.show(activity.getSupportFragmentManager(), "showPicture");
+                    }
+                });
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
+            }
             setAnimation(((AtyViewHolder) holder).cardView, position);
 
         } else if (holder instanceof CommentViewHolder) {

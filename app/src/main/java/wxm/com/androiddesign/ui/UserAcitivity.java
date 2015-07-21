@@ -21,6 +21,7 @@ import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 import wxm.com.androiddesign.ui.fragment.ScoreFragment;
+import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
 
 
 public class UserAcitivity extends AppCompatActivity {
@@ -45,8 +46,8 @@ public class UserAcitivity extends AppCompatActivity {
     }
 
     private void setupInfo(){
-        user_id.setText("userid");
-        Log.d("user","user:"+userId);
+        user_id.setText(userId);
+        Log.d("user", "user:" + userId);
     }
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -61,8 +62,8 @@ public class UserAcitivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Release,userId), "已发布活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Joined,userId), "参与活动");
+        adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release,userId), "已发布活动");
+        adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
         adapter.addFragment(new CmtListFragment(), "社区");
         adapter.addFragment(new ScoreFragment(), "积分");
         adapter.addFragment(PhotoFragment.newInstance(userId),"相册");

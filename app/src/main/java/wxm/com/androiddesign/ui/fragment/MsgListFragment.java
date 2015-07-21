@@ -1,5 +1,7 @@
 package wxm.com.androiddesign.ui.fragment;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -13,9 +15,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MsgAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
+import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
@@ -23,6 +37,7 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
  */
 public class MsgListFragment extends Fragment {
     RecyclerView recyclerView;
+    List<String> MsgList=new ArrayList<>();
 
     public static Fragment newInstance(String muserId) {
         Fragment fragment = new MsgListFragment();
@@ -57,6 +72,47 @@ public class MsgListFragment extends Fragment {
 
             }
         }));
-        recyclerView.setAdapter(new MsgAdapter());
+        recyclerView.setAdapter(new MsgAdapter(MsgList));
+    }
+
+    private class getMsg extends AsyncTask<User, Void, Boolean> {
+        MaterialDialog materialDialog;
+        Context context;
+
+        public getMsg(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            materialDialog = new MaterialDialog.Builder(context)
+                    .title("Loading")
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(false)
+                    .show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            materialDialog.dismiss();
+            setupRecyclerView(recyclerView);
+
+        }
+
+        @Override
+        protected Boolean doInBackground(User... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("action", "showmsg");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            MsgList = new Gson().fromJson(json, new TypeToken<List<String>>() {
+            }.getType());
+            return null;
+        }
     }
 }

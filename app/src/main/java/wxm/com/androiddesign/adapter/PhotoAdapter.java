@@ -1,11 +1,14 @@
 package wxm.com.androiddesign.adapter;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +23,11 @@ import wxm.com.androiddesign.R;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewHolder> {
 
     List<String> ablum = new ArrayList<String>();
+    Context context;
 
-    public PhotoAdapter(List<String> ablum) {
+    public PhotoAdapter(List<String> ablum,Context context) {
         this.ablum = ablum;
+        this.context=context;
     }
 
     @Override
@@ -35,7 +40,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
 
     @Override
     public void onBindViewHolder(MyPhotoViewHolder holder, int position) {
-
+        String uri=ablum.get(position);
+        Picasso.with(context).load(uri).into(holder.photo);
     }
 
     @Override

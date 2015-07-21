@@ -22,6 +22,9 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
     List<String> msgList=new ArrayList<>();
 
+    public MsgAdapter(List<String> msgList) {
+        this.msgList = msgList;
+    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,7 +36,8 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        String item=msgList.get(position);
+        holder.msg.setText(item);
     }
 
     @Override

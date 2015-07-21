@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -110,10 +111,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
-
-                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
-                recyclerView.setAdapter(myRecycerAdapter);
+                setupRecyclerView(recyclerView);
                 mSwipeRefreshLayout.setRefreshing(false);
+            }else{
+                Snackbar.make(mSwipeRefreshLayout,"Error",Snackbar.LENGTH_SHORT).show();
             }
         }
 
@@ -127,6 +128,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
               //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
+                if(activityItems.size()==0)
+                    return false;
                 for (int i=0;i<activityItems.size();i++){
                     Log.d("Task",activityItems.get(i).toString());
                 }
@@ -157,7 +160,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         actionBar.setDisplayShowCustomEnabled(true);
 
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
-        setupRecyclerView(recyclerView);
+        new GetAtyTask().execute();
         setupSpinner(mSpinner);
 
         Log.d("home","onCreateView");
@@ -178,8 +181,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        new GetAtyTask().execute();
-//        activityItems.get(1).toString();
+
         myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
         recyclerView.setAdapter(myRecycerAdapter);
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();

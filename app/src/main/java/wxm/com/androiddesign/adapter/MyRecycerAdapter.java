@@ -102,7 +102,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 intent.putExtra("userId",activityItems.get(position).getUserId());
                 Log.d("user","user:"+activityItems.get(position).getUserId());
                 activity.startActivity(intent);
-//
             }
 
             @Override
@@ -111,31 +110,15 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onCard(CardView cardView, int position) {
-
                 if(isUser) {
                     Log.d("recyclerview", "onCard");
                     Intent intent = new Intent(activity, DetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                     intent.putExtra("position", position);
-                    intent.putExtra("fragment", fragment);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
-                    );
-                    ActivityCompat.startActivity(activity, intent, options.toBundle());
+                    activity.startActivity(intent);
                 }else{
                     Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT).show();
                 }
-
-                Log.d("recyclerview", "onCard");
-                Intent intent = new Intent(activity, DetailActivity.class);
-                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
-                intent.putExtra("position", position);
-                activity.startActivity(intent);
-
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        activity, new Pair<View, String>(cardView, activity.getResources().getString(R.string.transition_card))
-//                );
-//                ActivityCompat.startActivity(activity, intent, options.toBundle());
 
             }
 
@@ -227,6 +210,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         Log.d("recyclerview", item.toString());
         Log.d("recyclerview", "onBindViewHolder");
         Log.d("recyclerview",""+ activityItems.size());
+       // Picasso.with(activity).load(item.getUserPhoto()).into(holder.user_photo);
+        holder.user_name.setText(item.getUserName());
         holder.total_comment.setText(item.getAtyComment());
         holder.aty_name.setText(item.getAtyName());
         holder.aty_content.setText(item.getAtyContent());
@@ -240,7 +225,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         if (isUser) {
             holder.imageViewContainer.setVisibility(View.GONE);
-
         }
  //           holder.imageViewContainer.removeAllViews();
 //            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());

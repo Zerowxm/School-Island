@@ -71,6 +71,8 @@ public class ScoreFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.score_layout, container, false);
         recyclerView=(RecyclerView)v;
+        setupRecyclerView(recyclerView);
+        //new getScore(getActivity()).execute();
         return v;
 
     }
@@ -78,14 +80,8 @@ public class ScoreFragment extends Fragment {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new MyItemAnimator());
-        ScrollManager manager = new ScrollManager();
-        manager.attach(recyclerView);
-        manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-
-
-
-        myRecycerAdapter = new ScoreAdapter();
+        //recyclerView.setItemAnimator(new MyItemAnimator());
+        myRecycerAdapter = new ScoreAdapter(scoreList);
         recyclerView.setAdapter(myRecycerAdapter);
     }
     private class getScore extends AsyncTask<User, Void, Boolean> {
@@ -111,7 +107,7 @@ public class ScoreFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             setupRecyclerView(recyclerView);
-
+            materialDialog.dismiss();
         }
 
         @Override
@@ -120,7 +116,7 @@ public class ScoreFragment extends Fragment {
 
                 JSONObject object = new JSONObject();
             try {
-                object.put("action", "showscore");
+                object.put("action", "showScore");
 
                 object.put("userId",userId);
             } catch (JSONException e) {

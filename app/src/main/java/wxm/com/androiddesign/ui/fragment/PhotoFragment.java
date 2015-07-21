@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
@@ -39,7 +40,7 @@ public class PhotoFragment extends Fragment {
     PhotoAdapter myRecycerAdapter;
     RecyclerView recyclerView;
     private String userId;
-    public List<String> photoList;
+    public List<String> photoList=new ArrayList<>();
 
     public static PhotoFragment newInstance(String muserId) {
         PhotoFragment fragment = new PhotoFragment();
@@ -65,22 +66,18 @@ public class PhotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.photos_layout, container, false);
         recyclerView=(RecyclerView)v;
+        //new getPhoto(getActivity()).execute(userId);
+        setupRecyclerView(recyclerView);
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new MyItemAnimator());
-        ScrollManager manager = new ScrollManager();
-        manager.attach(recyclerView);
-        manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
-
-
-        myRecycerAdapter = new PhotoAdapter(photoList);
+        //recyclerView.setHasFixedSize(true);
+        myRecycerAdapter = new PhotoAdapter(photoList,getActivity());
         recyclerView.setAdapter(myRecycerAdapter);
     }
-    private class getPhoto extends AsyncTask<User, Void, Boolean> {
+    private class getPhoto extends AsyncTask<String, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
@@ -108,10 +105,10 @@ public class PhotoFragment extends Fragment {
         }
 
         @Override
-        protected Boolean doInBackground(User... params) {
+        protected Boolean doInBackground(String... params) {
                 JSONObject object = new JSONObject();
                 try {
-                    object.put("action", "showphoto");
+                    object.put("action", "showPhoto");
                     object.put("userId",userId);
                 } catch (JSONException e) {
                     e.printStackTrace();

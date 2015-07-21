@@ -15,6 +15,7 @@ import java.util.List;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MsgAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
+import wxm.com.androiddesign.adapter.UserAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.User;
 
@@ -30,7 +31,7 @@ public class UserListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
 
-        recyclerView.setAdapter(new MsgAdapter());
+        recyclerView.setAdapter(new UserAdapter(mUserList,this));
 
     }
 
