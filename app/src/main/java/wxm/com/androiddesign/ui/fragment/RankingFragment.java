@@ -1,7 +1,6 @@
 package wxm.com.androiddesign.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,94 +25,82 @@ import java.util.List;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MsgAdapter;
-import wxm.com.androiddesign.adapter.UserAdapter;
+import wxm.com.androiddesign.adapter.RankingAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
+import wxm.com.androiddesign.module.Message;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
  * Created by zero on 2015/7/8.
  */
-public class UserListFragment extends Fragment {
+public class RankingFragment extends Fragment {
     RecyclerView recyclerView;
 
-    List<User> UserList=new ArrayList<>();
-
-    String cmtId;
-
-
-    public static Fragment newInstance(String cmtId) {
-        Fragment fragment = new UserListFragment();
-        Bundle args = new Bundle();
-        args.putString("cmtId",cmtId );
-        fragment.setArguments(args);
-        return fragment;
-    }
+    List<User> userList=new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.list_layout, viewGroup, false);
-        cmtId = getArguments().getString("cmtId");
-        recyclerView = (RecyclerView) v;
-        new GetMembers(getActivity()).execute();
+        View v = inflater.inflate(R.layout.msg_layout, viewGroup, false);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+        setupRecyclerView(recyclerView);
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+        setupRecyclerView(recyclerView);
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        new GetRanking().execute();
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), UserAcitivity.class);
-                intent.putExtra("userId", UserList.get(position).getUserId());
-                Log.d("user", "user:" + UserList.get(position).getUserId());
-                getActivity().startActivity(intent);
+
             }
         }));
+        ScrollManager manager = new ScrollManager();
+        manager.attach(recyclerView);
+        manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
 
-        recyclerView.setAdapter(new UserAdapter(UserList,getActivity()));
     }
 
-    private class GetMembers extends AsyncTask<User, Void, Boolean> {
-        MaterialDialog materialDialog;
-        Context context;
+    private class GetRanking extends AsyncTask<Void, Void, Boolean> {
 
-        public GetMembers(Context context) {
-            this.context = context;
-        }
+
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            materialDialog = new MaterialDialog.Builder(context)
-                    .title("Loading")
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(false)
-                    .show();
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            materialDialog.dismiss();
-            setupRecyclerView(recyclerView);
 
+            recyclerView.setAdapter(new RankingAdapter(userList,getActivity()));
         }
 
         @Override
-        protected Boolean doInBackground(User... params) {
+        protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showMembersInCommunity");
-                object.put("ctyId",cmtId);
+                object.put("action", "show");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            UserList = new Gson().fromJson(json, new TypeToken<List<User>>() {
+            userList = new Gson().fromJson(json, new TypeToken<List<User>>() {
             }.getType());
             return null;
         }

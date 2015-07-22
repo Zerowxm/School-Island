@@ -8,6 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -99,6 +100,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+
         if (holder instanceof AtyViewHolder) {
             //Picasso.with(activity).load(atyItem.getUserPhoto()).into(((AtyViewHolder) holder).user_photo);
             ((AtyViewHolder) holder).user_name.setText(atyItem.getUserName());
@@ -127,35 +130,53 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             if (atyItem.getAtyIsJoined().equals("false") && atyItem.getAtyIsPublic().equals("")) {
-                ((AtyViewHolder)holder).imageViewContainer.setVisibility(View.GONE);
+                ((AtyViewHolder) holder).imageViewContainer.setVisibility(View.GONE);
             }
 
-            for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
-                ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image, null);
-                WindowManager windowManager = activity.getWindowManager();
-                DisplayMetrics dm = new DisplayMetrics();
-                Display display = windowManager.getDefaultDisplay();
-                int width = display.getWidth() - 7;
-                int height = display.getHeight();
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
-                Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
-                imageView.setLayoutParams(layoutParams);
-                imageView.setTag(i);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Uri uri = atyItem.getAtyAlbum().get((Integer)v.getTag());
-                        MyDialog dialog = new MyDialog();
-                        dialog.setUri(atyItem.getAtyAlbum().get((Integer) v.getTag()));
-                        dialog.show(activity.getSupportFragmentManager(), "showPicture");
+            ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
+            if (atyItem.getAtyAlbum() != null) {
+                if (atyItem.getAtyIsJoined().equals("false") && atyItem.getAtyIsPublic().equals("toMembers")) {
+                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+                    WindowManager windowManager = activity.getWindowManager();
+                    DisplayMetrics dm = new DisplayMetrics();
+                    Display display = windowManager.getDefaultDisplay();
+                    int width = display.getWidth() - 7;
+                    int height = display.getHeight();
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+                    Picasso.with(activity).load(R.drawable.miao).into(imageView);
+                    imageView.setLayoutParams(layoutParams);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
+
+                } else if (atyItem.getAtyIsJoined().equals("true") && atyItem.getAtyIsPublic().equals("toMembers") || atyItem.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && atyItem.getAtyIsPublic().equals("toUsers")) {
+                    for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
+                        ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image, null);
+                        WindowManager windowManager = activity.getWindowManager();
+                        DisplayMetrics dm = new DisplayMetrics();
+                        Display display = windowManager.getDefaultDisplay();
+                        int width = display.getWidth() - 7;
+                        int height = display.getHeight();
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
+                        Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
+                        imageView.setLayoutParams(layoutParams);
+                        imageView.setTag(i);
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d("imageuri", atyItem.getAtyAlbum().get((Integer) v.getTag()));
+                                MyDialog dialog = MyDialog.newInstance(atyItem.getAtyAlbum().get((Integer) v.getTag()));
+                                dialog.show(activity.getSupportFragmentManager(), "showPicture");
+                            }
+                        });
+                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
                     }
-                });
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
+
+                }
+
             }
-
-
-        } else if (holder instanceof CommentViewHolder) {
+        }
+        else if (holder instanceof CommentViewHolder) {
             CommentData item = commentDatas.get(position - 1);
             //  ((CommentViewHolder) holder).user_name.setText(item.getUserName());
             try {
@@ -169,12 +190,13 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            // ((CommentViewHolder) holder).user_photo.setImageResource(item.getUserIcon());
+
             ((CommentViewHolder) holder).user_comment.setText(item.getComment());
             ((CommentViewHolder) holder).user_name.setText(item.getUserName());
             setAnimation(((CommentViewHolder) holder).relativeLayout, position);
         }
     }
+
 
     private String getSubTime(long subTime) {
         long days = subTime / (1000 * 60 * 60 * 24);
@@ -213,205 +235,207 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    public class CommentViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.user_photo)
-        CircleImageView user_photo;
-        @Bind(R.id.user_name)
-        TextView user_name;
-        @Bind(R.id.user_comment)
-        TextView user_comment;
-        @Bind(R.id.time)
-        TextView time;
-        @Bind(R.id.comment_container)RelativeLayout relativeLayout;
+public class CommentViewHolder extends RecyclerView.ViewHolder {
+    @Bind(R.id.user_photo)
+    CircleImageView user_photo;
+    @Bind(R.id.user_name)
+    TextView user_name;
+    @Bind(R.id.user_comment)
+    TextView user_comment;
+    @Bind(R.id.time)
+    TextView time;
+    @Bind(R.id.comment_container)
+    RelativeLayout relativeLayout;
 
-        public CommentViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            user_photo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(activity, UserAcitivity.class);
-                    intent.putExtra("userId", atyItem.getUserId());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
-                    );
-                    ActivityCompat.startActivity(activity, intent, options.toBundle());
+    public CommentViewHolder(View itemView) {
+        super(itemView);
+        ButterKnife.bind(this, itemView);
+        user_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, UserAcitivity.class);
+                intent.putExtra("userId", atyItem.getUserId());
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
+                );
+                ActivityCompat.startActivity(activity, intent, options.toBundle());
+            }
+        });
+    }
+}
+
+public class AtyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Bind(R.id.join)
+    Button mjoinBtn;
+    @Bind(R.id.total_share)
+    TextView total_share;
+    @Bind(R.id.location)
+    TextView atyPlace;
+    @Bind(R.id.card_view)
+    CardView cardView;
+    @Bind(R.id.imageViewContainer)
+    LinearLayout imageViewContainer;
+    @Bind(R.id.tag)
+    TextView activity_tag;
+    @Bind(R.id.fab_comment)
+    FloatingActionButton comment_fab;
+    @Bind(R.id.fab_plus)
+    FloatingActionButton plus_fab;
+    @Bind(R.id.total_plus)
+    TextView totle_plus;
+    @Bind(R.id.publish_time)
+    TextView publish_time;
+    @Bind(R.id.total_comment)
+    TextView total_comment;
+    @Bind(R.id.user_name)
+    TextView user_name;
+    @Bind(R.id.user_photo)
+    CircleImageView user_photo;
+    @Bind(R.id.aty_name)
+    TextView aty_name;
+    @Bind(R.id.aty_content)
+    TextView aty_content;
+    @Bind(R.id.fab_share)
+    FloatingActionButton share_fab;
+    @Bind(R.id.member_num)
+    TextView total_member;
+
+
+    public AtyViewHolder(View itemView) {
+        super(itemView);
+        ButterKnife.bind(this, itemView);
+
+        mjoinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("加入".equals(mjoinBtn.getText().toString())) {
+                    mjoinBtn.setText("已加入");
+                    atyItem.setAtyJoined("true");
+                    atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
+                    mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
+                    notifyDataSetChanged();
+                    new UpDateTask().execute("join");
+                } else {
+                    mjoinBtn.setText("加入");
+                    atyItem.setAtyJoined("false");
+                    atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
+                    mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
+                    notifyDataSetChanged();
+                    new UpDateTask().execute("notJoin");
                 }
-            });
-        }
+            }
+        });
+
+        share_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String imgPath = null;
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                if (imgPath != null && !imgPath.equals("")) {
+                    File f = new File(imgPath);
+                    if (f != null && f.exists() && f.isFile()) {
+                        intent.setType("image/*");
+                        Uri u = Uri.fromFile(f);
+                        intent.putExtra(Intent.EXTRA_STREAM, u);
+                    }
+                }
+                intent.putExtra(Intent.EXTRA_TITLE, "Title");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+                intent.putExtra(Intent.EXTRA_TEXT, "我要参加" + atyItem.getAtyName() + "，快来跟我一起吧！");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(Intent.createChooser(intent, "Share"));
+            }
+        });
+
+        plus_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (atyItem.getAtyPlused().equals("true")) {
+                    plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+                    plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+                    atyItem.setAtyPlused("false");
+                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
+                    notifyDataSetChanged();
+                    try {
+                        totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) - 1);
+                    } catch (Exception e) {
+
+                    }
+                    new UpDateTask().execute("notLike");
+
+                } else {
+                    plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+                    plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
+                    atyItem.setAtyPlused("true");
+                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
+                    notifyDataSetChanged();
+                    try {
+                        totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) + 1);
+                    } catch (Exception e) {
+
+                    }
+                    new UpDateTask().execute("like");
+                }
+
+            }
+        });
+
+        user_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, UserAcitivity.class);
+                intent.putExtra("userId", atyItem.getUserId());
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
+                );
+                ActivityCompat.startActivity(activity, intent, options.toBundle());
+            }
+        });
+
+
     }
 
-    public class AtyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.join)
-        Button mjoinBtn;
-        @Bind(R.id.total_share)
-        TextView total_share;
-        @Bind(R.id.location)
-        TextView atyPlace;
-        @Bind(R.id.card_view)
-        CardView cardView;
-        @Bind(R.id.imageViewContainer)
-        LinearLayout imageViewContainer;
-        @Bind(R.id.tag)
-        TextView activity_tag;
-        @Bind(R.id.fab_comment)
-        FloatingActionButton comment_fab;
-        @Bind(R.id.fab_plus)
-        FloatingActionButton plus_fab;
-        @Bind(R.id.total_plus)
-        TextView totle_plus;
-        @Bind(R.id.publish_time)
-        TextView publish_time;
-        @Bind(R.id.total_comment)
-        TextView total_comment;
-        @Bind(R.id.user_name)
-        TextView user_name;
-        @Bind(R.id.user_photo)
-        CircleImageView user_photo;
-        @Bind(R.id.aty_name)
-        TextView aty_name;
-        @Bind(R.id.aty_content)
-        TextView aty_content;
-        @Bind(R.id.fab_share)
-        FloatingActionButton share_fab;
-        @Bind(R.id.member_num)
-        TextView total_member;
+    @OnClick(R.id.show_people)
+    public void showPeople() {
+        Intent showIntent = new Intent(activity, UserListActivity.class);
+        showIntent.putExtra("atyId", atyItem.getAtyId());
+        activity.startActivity(showIntent);
+    }
 
+    private class UpDateTask extends AsyncTask<String, Void, Void> {
 
-        public AtyViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-
-            mjoinBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("加入".equals(mjoinBtn.getText().toString())) {
-                        mjoinBtn.setText("已加入");
-                        atyItem.setAtyJoined("true");
-                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
-                        mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
-                        notifyDataSetChanged();
-                        new UpDateTask().execute("join");
-                    } else {
-                        mjoinBtn.setText("加入");
-                        atyItem.setAtyJoined("false");
-                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
-                        mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
-                        notifyDataSetChanged();
-                        new UpDateTask().execute("notJoin");
-                    }
-                }
-            });
-
-            share_fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final String imgPath = null;
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    if (imgPath != null && !imgPath.equals("")) {
-                        File f = new File(imgPath);
-                        if (f != null && f.exists() && f.isFile()) {
-                            intent.setType("image/*");
-                            Uri u = Uri.fromFile(f);
-                            intent.putExtra(Intent.EXTRA_STREAM, u);
-                        }
-                    }
-                    intent.putExtra(Intent.EXTRA_TITLE, "Title");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-                    intent.putExtra(Intent.EXTRA_TEXT, "我要参加" + atyItem.getAtyName() + "，快来跟我一起吧！");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(Intent.createChooser(intent, "Share"));
-                }
-            });
-
-            plus_fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (atyItem.getAtyPlused().equals("true")) {
-                        plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-                        plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
-                        atyItem.setAtyPlused("false");
-                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
-                        notifyDataSetChanged();
-                        try {
-                            totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) - 1);
-                        } catch (Exception e) {
-
-                        }
-                        new UpDateTask().execute("notLike");
-
-                    } else {
-                        plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-                        plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
-                        atyItem.setAtyPlused("true");
-                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
-                        notifyDataSetChanged();
-                        try {
-                            totle_plus.setText(Integer.parseInt(totle_plus.getText().toString()) + 1);
-                        } catch (Exception e) {
-
-                        }
-                        new UpDateTask().execute("like");
-                    }
-
-                }
-            });
-
-            user_photo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(activity, UserAcitivity.class);
-                    intent.putExtra("userId", atyItem.getUserId());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
-                    );
-                    ActivityCompat.startActivity(activity, intent, options.toBundle());
-                }
-            });
-
-
-        }
-        @OnClick(R.id.show_people)
-        public void showPeople(){
-            Intent showIntent=new Intent(activity, UserListActivity.class);
-            showIntent.putExtra("atyId",atyItem.getAtyId());
-            activity.startActivity(showIntent);
-        }
-
-        private class UpDateTask extends AsyncTask<String, Void, Void> {
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-            }
-
-            @Override
-            protected Void doInBackground(String... params) {
-                JSONObject object = new JSONObject();
-                try {
-                    object = new JSONObject();
-                    object.put("action",params[0]);
-                    object.put("userId", MyUser.userId);
-                    object.put("atyId",atyItem.getAtyId());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String json = JsonConnection.getJSON(object.toString());
-                Log.i("mjson", json);
-//            HomeFragment.addActivity(params[0]);
-                return null;
-            }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
         @Override
-        public void onClick(View v) {
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
 
+        @Override
+        protected Void doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object = new JSONObject();
+                object.put("action", params[0]);
+                object.put("userId", MyUser.userId);
+                object.put("atyId", atyItem.getAtyId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("mjson", json);
+//            HomeFragment.addActivity(params[0]);
+            return null;
         }
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+}
 }

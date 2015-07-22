@@ -18,6 +18,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 
@@ -46,6 +47,10 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+        if (MyUser.userId.equals(user.getUserId())){
+
+        }
+
         if (viewType == 0) {
             return new BaseInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.user_base_info_1, parent, false
@@ -100,7 +105,7 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         protected Object doInBackground(Object[] params) {
-            user.setAction("updateProfile");
+            user.setAction("editProfile");
             JsonConnection.getJSON(new Gson().toJson(user));
             return null;
         }
@@ -158,6 +163,8 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             editTextList.add(user_email);
             editTextList.add(user_phone);
             edit.setOnClickListener(this);
+
+
         }
 
         @Override

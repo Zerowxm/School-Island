@@ -109,7 +109,9 @@ public class DetailActivity extends AppCompatActivity {
             recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
             setupRecyclerView(recyclerView);
             multipleItemAdapter.notifyDataSetChanged();
-            recyclerView.scrollToPosition(commentDatas.size());
+            if (result){
+                recyclerView.scrollToPosition(commentDatas.size());
+            }
 
         }
 
@@ -126,13 +128,15 @@ public class DetailActivity extends AppCompatActivity {
                 String json= JsonConnection.getJSON(object.toString());
                 commentDatas = new Gson().fromJson(json, new TypeToken<ArrayList<CommentData>>() {
                 }.getType());
+                return false;
             } else {
                 String json = JsonConnection.getJSON(new Gson().toJson(params[0]));
-                CommentData commentData = new Gson().fromJson(json, new TypeToken<CommentData>() {
-                }.getType());
+                CommentData commentData = new Gson().fromJson(json,CommentData.class);
+                Log.d("comment",commentData.toString());
                 commentDatas.add(commentData);
+                return true;
             }
-            return null;
+
         }
     }
 

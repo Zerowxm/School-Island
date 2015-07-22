@@ -62,7 +62,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     String fragment;
     String userId;
 
-    public MyRecycerAdapter(List<AtyItem> activityItemArrayList,String userId, AppCompatActivity activity, String fragment) {
+    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, String userId, AppCompatActivity activity, String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
         this.fragment = fragment;
@@ -75,55 +75,57 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         Log.d("recyclerview", "onCreateViewHolder");
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
-            public void onUserPhoto(CircleImageView userPhoto,int position) {
+            public void onUserPhoto(CircleImageView userPhoto, int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                intent.putExtra("userId",activityItems.get(position).getUserId());
-                Log.d("user","user:"+activityItems.get(position).getUserId());
+                intent.putExtra("userId", activityItems.get(position).getUserId());
+                Log.d("user", "user:" + activityItems.get(position).getUserId());
                 activity.startActivity(intent);
             }
 
             @Override
-            public void onCommunity(TextView community,int position){
+            public void onCommunity(TextView community, int position) {
                 Intent intent = new Intent(activity, CtyAcitivity.class);
+
                 intent.putExtra("ctyId",community.getText().toString());
+
                 activity.startActivity(intent);
             }
 
             @Override
-            public void onPicture(ImageView picture,int position) {
+            public void onPicture(ImageView picture, int position) {
             }
 
             @Override
             public void onCard(CardView cardView, int position) {
-                if(!"001".equals(MyUser.userId)) {
+                if (!"001".equals(MyUser.userId)) {
                     Log.d("recyclerview", "onCard");
                     Intent intent = new Intent(activity, DetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                     intent.putExtra("position", position);
-                    intent.putExtra("userId",userId);
+                    intent.putExtra("userId", userId);
                     activity.startActivity(intent);
-                }else{
-                    Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onComment(FloatingActionButton fab, int adapterPosition) {
-                if(!"001".equals(MyUser.userId)) {
+                if (!"001".equals(MyUser.userId)) {
                     Intent intent = new Intent(activity, DetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                     intent.putExtra("position", adapterPosition);
                     intent.putExtra("fragment", fragment);
-                    intent.putExtra("userId",userId);
+                    intent.putExtra("userId", userId);
                     activity.startActivity(intent);
-                }else{
-                    Toast.makeText(activity,"请登录后查看",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onJoinBtn(Button button, int adapterPosition) {
-                if(!"001".equals(MyUser.userId)) {
+                if (!"001".equals(MyUser.userId)) {
                     AtyItem atyItem = activityItems.get(adapterPosition);
                     item = atyItem;
                     if ("加入".equals(button.getText().toString())) {
@@ -141,14 +143,14 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         notifyDataSetChanged();
                         new UpDateTask().execute("notJoin");
                     }
-                }else{
-                    Toast.makeText(activity,"请登录加入",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "请登录加入", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus) {
-                if(!"001".equals(MyUser.userId)) {
+                if (!"001".equals(MyUser.userId)) {
                     AtyItem atyItem = activityItems.get(adapterPosition);
                     item = atyItem;
                     if (atyItem.getAtyPlused().equals("true")) {
@@ -167,8 +169,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         new UpDateTask().execute("like");
                     }
 
-                }else{
-                    Toast.makeText(activity,"请登录后点赞",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "请登录后点赞", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -190,15 +192,15 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             JSONObject object = new JSONObject();
             try {
                 object = new JSONObject();
-                object.put("action",params[0]);
-                object.put("userId",MyUser.userId);
-                object.put("atyId",item.getAtyId());
-                object.put("atyName",item.getAtyName());
+                object.put("action", params[0]);
+                object.put("userId", MyUser.userId);
+                object.put("atyId", item.getAtyId());
+                object.put("atyName", item.getAtyName());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            Log.i("mjson",json);
+            Log.i("mjson", json);
             return null;
         }
     }
@@ -223,73 +225,114 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.total_comment.setText(item.getAtyComment());
         holder.user_name.setText(item.getUserName());
 
-        if (!"001".equals(MyUser.userId) || (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals(""))) {
-            holder.imageViewContainer.setVisibility(View.GONE);
-        }
 
         holder.imageViewContainer.removeAllViews();
-        if(item.getAtyAlbum()!=null){
-            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
-            for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-                WindowManager windowManager = activity.getWindowManager();
-                DisplayMetrics dm = new DisplayMetrics();
-                Display display = windowManager.getDefaultDisplay();
-                int width = display.getWidth() - 7;
-                int height = display.getHeight();
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-                Log.d("image", item.getAtyAlbum().get(i));
-                Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-                imageView.setLayoutParams(layoutParams);
-                imageView.setTag(i);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        new Handler().post(new Runnable() {
-                            public void run() {
-                                MyDialog dialog = new MyDialog();
-                                dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
-                                dialog.show(activity.getSupportFragmentManager(), "showPicture");
-                            }
-                        });
+//        if (item.getAtyAlbum() != null) {
+//            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers")|| "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
+//                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+//                WindowManager windowManager = activity.getWindowManager();
+//                DisplayMetrics dm = new DisplayMetrics();
+//                Display display = windowManager.getDefaultDisplay();
+//                int width = display.getWidth() - 7;
+//                int height = display.getHeight();
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+//                Picasso.with(activity).load(R.drawable.miao).into(imageView);
+//                imageView.setLayoutParams(layoutParams);
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                holder.imageViewContainer.addView(imageView);
+//
+//            } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers")||item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
+//                for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+//                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+//                    WindowManager windowManager = activity.getWindowManager();
+//                    DisplayMetrics dm = new DisplayMetrics();
+//                    Display display = windowManager.getDefaultDisplay();
+//                    int width = display.getWidth() - 7;
+//                    int height = display.getHeight();
+//                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+//                    Log.d("image", item.getAtyAlbum().get(i));
+//                    Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+//                    imageView.setLayoutParams(layoutParams);
+//                    imageView.setTag(i);
+//                    imageView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(final View v) {
+//                            new Handler().post(new Runnable() {
+//                                public void run() {
+//                                    MyDialog dialog = new MyDialog();
+//                                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
+//                                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                                }
+//                            });
+//
+//                        }
+//                    });
+//                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    holder.imageViewContainer.addView(imageView);
+//                }
+//            }
+//
+//            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
+//
+//        }
+        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+                    WindowManager windowManager = activity.getWindowManager();
+                    DisplayMetrics dm = new DisplayMetrics();
+                    Display display = windowManager.getDefaultDisplay();
+                    int width = display.getWidth() - 7;
+                    int height = display.getHeight();
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+                    Log.d("image", item.getAtyAlbum().get(i));
+                    Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+                    imageView.setLayoutParams(layoutParams);
+                    imageView.setTag(i);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            new Handler().post(new Runnable() {
+                                public void run() {
+                                    Log.d("imageuri",item.getAtyAlbum().get((Integer) v.getTag()));
+                                    MyDialog dialog =MyDialog.newInstance(item.getAtyAlbum().get((Integer) v.getTag()));
+                                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+                                }
+                            });
 
-                    }
-                });
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                holder.imageViewContainer.addView(imageView);
-            }
-            }
-
-            if (item.getAtyPlused().equals("false")) {
-                holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
-                holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
-            } else if (item.getAtyPlused().equals("true")) {
-                holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
-                holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
-            }
-
-            if (item.getAtyJoined().equals("true")) {
-                holder.mjoinBtn.setText("已加入");
-                holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
-            } else if (item.getAtyJoined().equals("false")) {
-                holder.mjoinBtn.setText("加入");
-                holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
-            }
-
-            setAnimation(holder.cardView, position);
-
+                        }
+                    });
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    holder.imageViewContainer.addView(imageView);
+        }
+        if (item.getAtyPlused().equals("false")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
+            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
+        } else if (item.getAtyPlused().equals("true")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
+            holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
         }
 
-
-        private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
-
-            @Override
-            protected Boolean doInBackground(String... params) {
-                User user = new User();
-                user.setAction("");
-                return null;
-            }
+        if (item.getAtyJoined().equals("true")) {
+            holder.mjoinBtn.setText("已加入");
+            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
+        } else if (item.getAtyJoined().equals("false")) {
+            holder.mjoinBtn.setText("加入");
+            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
         }
+
+        setAnimation(holder.cardView, position);
+
+    }
+
+
+    private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            User user = new User();
+            user.setAction("");
+            return null;
+        }
+    }
 
 
     public void setAnimation(View viewtoAnimate, int position) {
@@ -397,7 +440,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView total_member;
 
 
-
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
             Log.d("recyclerview", "MyViewHolder");
@@ -423,19 +465,20 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         public void onClick(View v) {
             if (v instanceof CircleImageView) {
 
-                mListener.onUserPhoto((CircleImageView)v,getAdapterPosition());
+                mListener.onUserPhoto((CircleImageView) v, getAdapterPosition());
             } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_comment)) {
                 mListener.onComment((FloatingActionButton) v, getAdapterPosition());
             } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_plus)) {
                 mListener.onPlus((FloatingActionButton) v, getAdapterPosition(), totle_plus);
             } else if (v instanceof ImageView) {
-                mListener.onPicture((ImageView) v,getAdapterPosition());
+                mListener.onPicture((ImageView) v, getAdapterPosition());
             } else if (v instanceof CardView) {
                 mListener.onCard((CardView) v, getLayoutPosition());
             } else if (v instanceof Button) {
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
             }else if(v instanceof TextView && (v.getId() == R.id.tag)){
                 mListener.onCommunity((TextView)v,getAdapterPosition());
+
             }
         }
 
@@ -462,11 +505,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
 
         public interface MyViewHolderClicks {
-            public void onUserPhoto(CircleImageView user_photo,int position);
+            public void onUserPhoto(CircleImageView user_photo, int position);
 
-            public void onCommunity(TextView community,int position);
+            public void onCommunity(TextView community, int position);
 
-            public void onPicture(ImageView picture,int position);
+            public void onPicture(ImageView picture, int position);
 
             public void onCard(CardView cardView, int position);
 

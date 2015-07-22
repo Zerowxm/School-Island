@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,15 +38,25 @@ public class MyDialog extends DialogFragment {
     private Bitmap bitmap;
     private String uri;
 
+
+
+    public static MyDialog newInstance(String uri){
+        MyDialog myDialog=new MyDialog();
+        Bundle bundle=new Bundle();
+        bundle.putString("uri", uri);
+        myDialog.setArguments(bundle);
+        return myDialog;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.dialog_layout, null);
-        imageView = (ImageView) view.findViewById(R.id.image_show);
+        imageView = (MatrixImageView) view.findViewById(R.id.image_show);
         savebutton = (Button) view.findViewById(R.id.savaImage);
-        //imageView.setImageBitmap(bitmap);
-        Glide.with(this).load(uri).into(imageView);
+        Log.d("dialog",uri+"onCreateView");
+        Picasso.with(getActivity()).load(uri).into(imageView);
 
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -127,6 +139,8 @@ public class MyDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        uri=getArguments().getString("uri");
+        Log.d("dialog",uri);
     }
 
     private String getPhotoFileName() {

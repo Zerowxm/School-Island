@@ -1,6 +1,7 @@
 package wxm.com.androiddesign.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +9,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
@@ -26,6 +29,7 @@ import wxm.com.androiddesign.adapter.MsgAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.UserAdapter;
 import wxm.com.androiddesign.anim.MyItemAnimator;
+import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
@@ -42,6 +46,15 @@ public class UserListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setItemAnimator(new MyItemAnimator());
         new GetPeople(this).execute();
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(UserListActivity.this, UserAcitivity.class);
+                intent.putExtra("userId", mUserList.get(position).getUserId());
+                Log.d("user", "user:" + mUserList.get(position).getUserId());
+                startActivity(intent);
+            }
+        }));
     }
 
     @Override
