@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/username"
+        android:id="@id/user_name"
 
         android:text="游客"
         android:clickable="true"
@@ -39,7 +39,16 @@
         android:layout_height="wrap_content"
         android:text="请登录"
         android:layout_toRightOf="@id/user_photo"
-        android:layout_below="@id/username"
+        android:layout_below="@id/user_name"
 
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/user_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 </RelativeLayout>

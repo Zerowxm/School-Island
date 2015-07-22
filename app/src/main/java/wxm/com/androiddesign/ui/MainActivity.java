@@ -35,14 +35,12 @@ import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
-
 import wxm.com.androiddesign.network.JsonConnection;
-
 import wxm.com.androiddesign.services.LocationServices;
-
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -60,6 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.fab)
     FloatingActionButton fab;
     User mUser = new User();
+    @Bind(R.id.logout)
+    TextView logout;
+    @Bind(R.id.user_photo)
+    CircleImageView user_photo;
+    @Bind(R.id.user_name)
+    TextView user_name;
+    @Bind(R.id.user_email)
+    TextView user_email;
 
     @Override
     protected void onDestroy() {
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mUser.setUserName("游客");
         mUser.setUserId("001");
-        mUser.setUserIcon("null");
+        mUser.setUserIcon("R.drawable.miao");
 
 
         setContentView(R.layout.activity_main);
@@ -83,10 +89,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commit();
         }
-
         ButterKnife.bind(this);
         setupFab();
-        new LoginTask(this).execute();
+        new LoginTask(this).execute(false);
         setupNavigationView();
         setupInfo();
         openLocationServices();
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public class LoginTask extends AsyncTask<Void, Void, User> {
+    public class LoginTask extends AsyncTask<Boolean, Void, User> {
         Context context;
 
         public LoginTask(Context context) {
@@ -127,19 +132,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
             mUser = user;
-            ((TextView) findViewById(R.id.username)).setText(mUser.getUserName());
-            if (((TextView) findViewById(R.id.username)).getText().equals("vistor")) {
-                ((TextView) findViewById(R.id.user_email)).setText("点击头像登录");
-            } else
-                ((TextView) findViewById(R.id.user_email)).setText(mUser.getUserEmail());
+            user_name.setText(mUser.getUserName());
+            if (user_name.getText().equals("vistor")) {
+               user_email.setText("点击头像登录");
+                logout.setText("");
+                logout.setClickable(false);
+            } else {
+                user_email.setText(mUser.getUserEmail());
+                logout.setText("Logout");
+                logout.setClickable(true);
+            }
             MyUser.userId = mUser.getUserId();
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
-            Picasso.with(context).load(mUser.getUserIcon()).into((CircleImageView) findViewById(R.id.user_photo));
+            Picasso.with(context).load(mUser.getUserIcon()).into(user_photo);
         }
 
         @Override
-        protected User doInBackground(Void... params) {
+        protected User doInBackground(Boolean... params) {
+            if(params[0]){
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("action", "login");
+                    object.put("userId", "001");
+                    object.put("userPassword", "001");
+
+                    String userJson = JsonConnection.getJSON(object.toString());
+                    return new Gson().fromJson(userJson, User.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
             SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
             String name = prefs.getString("UserId", "001");
             String password = prefs.getString("UserPassword", "001");
@@ -169,9 +193,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.putString("UserId", user.getUserId());
         editor.putString("UserPassword", user.getUserPassword());
         editor.apply();
-        ((TextView) findViewById(R.id.username)).setText(user.getUserName());
-        ((TextView) findViewById(R.id.user_email)).setText(user.getUserEmail());
-        Picasso.with(this).load(user.getUserIcon()).into((CircleImageView) findViewById(R.id.user_photo));
+        user_name.setText(user.getUserName());
+        user_email.setText(user.getUserEmail());
+        Picasso.with(this).load(user.getUserIcon()).into(user_photo);
     }
 
     private void setupDrawerContent(final NavigationView navigationView) {
@@ -209,6 +233,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
+    @OnClick(R.id.logout)
+    public void Logout(){
+        new LoginTask(this).execute(true);
+    }
+
 
     private void setupNavigationView() {
 
@@ -225,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
 
-                if (((TextView) findViewById(R.id.username)).getText().equals("vistor")) {
+                if (user_name.getText().equals("vistor")) {
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {
