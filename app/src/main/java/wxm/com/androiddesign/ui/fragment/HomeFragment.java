@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
     Toolbar toolbar;
-    static MyHomeRecycerAdapter myRecycerAdapter;
+    static MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
     //Spinner mSpinner;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
@@ -130,7 +130,7 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
-                myRecycerAdapter = new MyHomeRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
                 country.setText(LocationServices.City);

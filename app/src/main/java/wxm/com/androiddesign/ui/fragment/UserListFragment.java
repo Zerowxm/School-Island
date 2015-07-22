@@ -54,7 +54,7 @@ public class UserListFragment extends Fragment {
         View v = inflater.inflate(R.layout.list_layout, viewGroup, false);
         cmtId = getArguments().getString("cmtId");
         recyclerView = (RecyclerView) v;
-        setupRecyclerView(recyclerView);
+        new GetMembers(getActivity()).execute();
         return v;
     }
 

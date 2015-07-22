@@ -85,7 +85,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onCommunity(TextView community,int position){
                 Intent intent = new Intent(activity, CtyAcitivity.class);
-                intent.putExtra("cmtId",community.getText().toString());
+                intent.putExtra("ctyId",community.getText().toString());
                 activity.startActivity(intent);
             }
 
@@ -434,7 +434,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 mListener.onCard((CardView) v, getLayoutPosition());
             } else if (v instanceof Button) {
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
-            }else if(v instanceof TextView && (v.getId() == R.id.community_name)){
+            }else if(v instanceof TextView && (v.getId() == R.id.tag)){
                 mListener.onCommunity((TextView)v,getAdapterPosition());
             }
         }

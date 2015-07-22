@@ -51,10 +51,9 @@ public class CtyAcitivity extends AppCompatActivity {
         setContentView(R.layout.community_detail);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
-        cmtId = bundle.getString("cmtId");
-        setupToolBar();
-        setupViewPager();
-        setupTabLayout();
+        //cmtId = bundle.getString("ctyId");
+        cmtId="music";
+        new GetUserInfo(this).execute();
         //new GetUserINfo(this).execute();
     }
 
@@ -68,6 +67,9 @@ public class CtyAcitivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean reslut) {
             super.onPostExecute(reslut);
+            setupToolBar();
+            setupViewPager();
+            setupTabLayout();
             if (reslut){
                 cmt_name.setText(ctyItem.getCtyId());
                 cmt_member.setText(ctyItem.getCtyMembers());
@@ -104,7 +106,7 @@ public class CtyAcitivity extends AppCompatActivity {
             joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
             flag=false;
         }
-
+        new joinCmtTask().execute();
     }
 
     private class joinCmtTask extends AsyncTask<Void, Void, Void> {
@@ -157,7 +159,7 @@ public class CtyAcitivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(CtyAtyFragment.newInstance(cmtId),"活动");
+       // adapter.addFragment(CtyAtyFragment.newInstance(cmtId),"活动");
 
         adapter.addFragment(UserListFragment.newInstance(cmtId),"用户");
 
@@ -188,7 +190,7 @@ public class CtyAcitivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (item.getItemId()) {
             case android.R.id.home:
-                new joinCmtTask().execute();
+               // new joinCmtTask().execute();
                 finish();
                 return true;
         }

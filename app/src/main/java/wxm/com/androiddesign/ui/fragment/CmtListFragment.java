@@ -44,7 +44,7 @@ public class CmtListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.cmt_layout, viewGroup, false);
         recyclerView = (RecyclerView) v;
-        setupRecyclerView(recyclerView);
+        new GetAtyTask().execute();
         return v;
     }
 
@@ -72,6 +72,7 @@ public class CmtListFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            setupRecyclerView(recyclerView);
         }
 
         @Override
