@@ -36,14 +36,14 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyScoreViewH
 
     @Override
     public void onBindViewHolder(MyScoreViewHolder holder, int position) {
-//        Score score=scores.get(position);
-//        holder.score.setText(score.getScore());
-//        holder.op.setText(score.getOp());
+        Score score=scores.get(position);
+        holder.score.setText(score.getCreditNumbers());
+        holder.op.setText(score.getCreditContent());
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return scores.size();
     }
 
     public static class MyScoreViewHolder extends RecyclerView.ViewHolder {

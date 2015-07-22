@@ -203,7 +203,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             try {
                 object = new JSONObject();
                 object.put("action",params[0]);
-                object.put("userId",userId);
+                object.put("userId",MyUser.userId);
                 object.put("atyId",item.getAtyId());
                 object.put("atyName",item.getAtyName());
             } catch (JSONException e) {

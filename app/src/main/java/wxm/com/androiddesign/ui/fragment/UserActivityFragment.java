@@ -115,7 +115,7 @@ public class UserActivityFragment extends Fragment {
                 switch (params[0]) {
                     case Joined:object.put("action","showJoinedAty");
                         break;
-                    case Release:object.put("action","showDistributeAty");
+                    case Release:object.put("action","showDistributedAty");
                         break;
 
                 }

@@ -83,7 +83,7 @@ public class UserListActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             materialDialog.dismiss();
-            recyclerView.setAdapter(new UserAdapter(mUserList, context));
+            recyclerView.setAdapter(new UserAdapter(mUserList, context,UserListActivity.this));
         }
 
         @Override

@@ -118,7 +118,7 @@ public class ScoreFragment extends Fragment {
 
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showScores");
+                object.put("action", "showCredit");
 
                 object.put("userId", userId);
             } catch (JSONException e) {

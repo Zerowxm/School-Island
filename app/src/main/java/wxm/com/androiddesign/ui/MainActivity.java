@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userId = mUser.getUserId();
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
+
             Picasso.with(context).load(mUser.getUserIcon()).into(user_photo);
         }
 
