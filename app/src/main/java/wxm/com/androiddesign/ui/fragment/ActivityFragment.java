@@ -35,6 +35,7 @@ import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.services.LocationServices;
 import wxm.com.androiddesign.utils.ScrollManager;
 
 
@@ -161,6 +162,9 @@ public class ActivityFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
+                if (activityItems==null){
+                    return;
+                }
                 for (int i=0;i<activityItems.size();i++){
                     Log.d("Task",activityItems.get(i).toString());
                 }
@@ -178,6 +182,8 @@ public class ActivityFragment extends Fragment {
                     case Hot:object.put("action","showHotAty");
                         break;
                     case Nearby:object.put("action","showNearbyAty");
+                        object.put("latitude", LocationServices.Latitude);
+                        object.put("longitude",LocationServices.Longitude);
                         break;
                     case Hight:object.put("action","showHightAty");
                         break;

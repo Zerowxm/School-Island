@@ -61,7 +61,7 @@ import wxm.com.androiddesign.utils.TransparentToolBar;
 /**
  * Created by zero on 2015/6/26.
  */
-public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
     Toolbar toolbar;
@@ -220,7 +220,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeRefreshLayout.setProgressViewOffset(false, 0, 150);
+        swipeRefreshLayout.setProgressViewOffset(false, 0, 200);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -263,13 +263,4 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         myRecycerAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        Log.d("spinner",view.toString()+position+"|"+id);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        Log.d("spinner", "nothing" + parent.getId());
-    }
 }

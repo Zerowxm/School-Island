@@ -1,12 +1,12 @@
 package wxm.com.androiddesign.ui;
 
-import android.app.SearchManager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
-//import com.melnykov.fab.FloatingActionButton;
+
 
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,11 +15,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +46,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack, SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack{
     DrawerLayout drawerLayout;
 
     public static int SIGNUP = 0x1;
@@ -81,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commit();
-        }
         ButterKnife.bind(this);
         setupFab();
         new LoginTask(this).execute(false);
@@ -105,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
+<<<<<<< HEAD
+=======
+        i.putExtra("userId", mUser.getUserId());
+>>>>>>> origin/wxm
         i.setClass(getApplicationContext(), LocationServices.class);
         stopService(i);
     }
@@ -146,8 +145,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
 
+<<<<<<< HEAD
             //Log.d("user",MyUser.userIcon);
+=======
+>>>>>>> origin/wxm
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
+
+            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+
 
         }
 
@@ -224,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_attention:
-                                Intent cmtIntent=new Intent(MainActivity.this,CmtAcitivity.class);
+                                Intent cmtIntent = new Intent(MainActivity.this, CmtAcitivity.class);
                                 startActivity(cmtIntent);
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
@@ -262,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
 
-                if (user_name.getText().equals("vistor")) {
+                if ("001".equals(MyUser.userId)) {
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {
@@ -302,6 +307,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 return true;
             case R.id.action_serch:
+                Intent intent=new Intent(MainActivity.this,SearchResultsActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -313,17 +320,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_serch);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        }
-
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(this);
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -346,15 +342,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        Snackbar.make(drawerLayout, query, Snackbar.LENGTH_SHORT).show();
-        return false;
-    }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        Snackbar.make(drawerLayout, "newText" + newText, Snackbar.LENGTH_SHORT).show();
-        return false;
-    }
 }

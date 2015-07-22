@@ -57,7 +57,7 @@
                             android:layout_alignLeft="@id/user_name"
                             android:layout_alignParentBottom="true"
                             android:layout_alignStart="@id/user_name"
-                            android:text="community" />
+                            android:text="choose community" />
                     </LinearLayout>
 
                     <ImageView

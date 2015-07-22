@@ -38,8 +38,6 @@ import wxm.com.androiddesign.adapter.MultipleItemAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.ActivityFragment;
-import wxm.com.androiddesign.ui.fragment.HomeFragment;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -48,7 +46,6 @@ public class DetailActivity extends AppCompatActivity {
     AtyItem atyItem;
     ArrayList<CommentData> commentDatas = new ArrayList<CommentData>();
     int position;
-    String fragment;
     String userId;
 
     @Override
@@ -69,8 +66,6 @@ public class DetailActivity extends AppCompatActivity {
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
         position = bundle.getInt("position");
         userId = bundle.getString("userId");
-        fragment = bundle.getString("fragment");
-       // mGetCommentTask = new getCommentTask(getApplicationContext());
         CommentData temp = null;
         new getCommentTask(getApplicationContext()).execute(temp);
 
@@ -178,10 +173,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //  if (fragment.equals("HomeFragment"))
-//        HomeFragment.refresh(atyItem, position);
-        //   else if (fragment.equals("ActivityFragment"))
-        //    ActivityFragment.refresh(atyItem, position);
     }
 
     @Override
