@@ -41,6 +41,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.services.LocationServices;
+import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -88,22 +89,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new LoginTask(this).execute(false);
         setupNavigationView();
         openLocationServices();
+
+        Intent i = new Intent();
+        i.setClass(getApplicationContext(), LocationActivity.class);
+        startActivity(i);
     }
 
     private void openLocationServices() {
         Log.e("CJ", "onpenLocationServices");
         Intent i = new Intent();
         i.setClass(getApplicationContext(), LocationServices.class);
-        i.putExtra("userId", mUser.getUserId());
         startService(i);
     }
 
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
-        i.putExtra("userId",mUser.getUserId());
         i.setClass(getApplicationContext(), LocationServices.class);
-        startService(i);
+        stopService(i);
     }
 
 
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
             mUser = user;
-            Log.d("user",mUser.toString());
+            Log.d("user", mUser.toString());
             user_name.setText(mUser.getUserName());
             if ("001".equals(mUser.getUserId())) {
                user_email.setText("点击头像登录");
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
 
-            Log.d("user",MyUser.userIcon);
+            //Log.d("user",MyUser.userIcon);
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
         }
