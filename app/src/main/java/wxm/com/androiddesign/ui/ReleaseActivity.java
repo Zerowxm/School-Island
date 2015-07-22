@@ -211,7 +211,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @OnClick(R.id.sendButton)
     public void send() {
-
         new MaterialDialog.Builder(this)
                 .title(R.string.permission)
                 .items(R.array.permissions)
