@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.CmtItem;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.CmtAtyFragment;
@@ -37,7 +39,6 @@ public class CmtAcitivity extends AppCompatActivity {
     ViewPager viewPager;
     String cmtId="";
     CmtItem cmtItem;
-    String userId="";
     Boolean flag=false;
 
 
@@ -51,8 +52,7 @@ public class CmtAcitivity extends AppCompatActivity {
         setContentView(R.layout.community_detail);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
-        //cmtId = bundle.getString("cmtId");
-        //userId=bundle.getString("userId");
+        cmtId = bundle.getString("cmtName");
         setupToolBar();
         setupViewPager();
         setupTabLayout();
@@ -82,6 +82,7 @@ public class CmtAcitivity extends AppCompatActivity {
             try {
                 object.put("action","showCmt");
                 object.put("cmtId",cmtId);
+                object.put("usrID", MyUser.userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -103,7 +104,35 @@ public class CmtAcitivity extends AppCompatActivity {
             joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
             flag=false;
         }
+        new joinCmtTask().execute(joinbtn.getText().toString());
+    }
 
+    private class joinCmtTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object = new JSONObject();
+                object.put("action",params[0]);
+                object.put("userId",MyUser.userId);
+                object.put("cmtId",cmtId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("mjson", json);
+            return null;
+        }
     }
 
     private void setupToolBar() {
@@ -118,7 +147,9 @@ public class CmtAcitivity extends AppCompatActivity {
     private void setupViewPager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(CmtAtyFragment.newInstance(cmtId),"相册");
+
+        adapter.addFragment(CmtAtyFragment.newInstance(cmtId),"活动");
+
         adapter.addFragment(UserListFragment.newInstance(cmtId),"用户");
 
         viewPager.setAdapter(adapter);

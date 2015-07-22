@@ -1,12 +1,12 @@
 package wxm.com.androiddesign.ui;
 
-import android.app.SearchManager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
-//import com.melnykov.fab.FloatingActionButton;
+
 
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,11 +15,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,9 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commit();
-        }
         ButterKnife.bind(this);
         setupFab();
         new LoginTask(this).execute(false);
@@ -128,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
             mUser = user;
-            Log.d("user",mUser.toString());
+            Log.d("user", mUser.toString());
             user_name.setText(mUser.getUserName());
             if ("001".equals(mUser.getUserId())) {
                user_email.setText("点击头像登录");
@@ -144,6 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userIcon = mUser.getUserIcon();
 
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
+
+            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+
 
         }
 

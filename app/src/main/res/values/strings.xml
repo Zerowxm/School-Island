@@ -40,11 +40,16 @@
     <string name="title_activity_user_list">UserListActivity</string>
 
     <string name="permission">设置相册权限</string>
-
+    <string name="community">选择社区</string>
     <array name="permissions">
         <item>活动内可见</item>
         <item>用户可见</item>
         <item>所有人可见</item>
+    </array>
+    <array name="communities">
+        <item>travel</item>
+        <item>Android</item>
+        <item>dota</item>
     </array>
     <string name="choose">选择</string>
     <string name="title_activity_setting">SettingActivity</string>

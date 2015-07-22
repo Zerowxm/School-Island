@@ -26,7 +26,7 @@ public class User {
     @Expose
     public String userIcon;
     @Expose
-    public String isPublic;
+    public String userAlbumIsPublic;
 
     public String getUserLocation() {
         return userLocation;
@@ -105,7 +105,7 @@ public class User {
         this.userGender = userGender;
         this.userIcon = userIcon;
         this.userScore = userScore;
-        this.isPublic = isPublic;
+        this.userAlbumIsPublic = isPublic;
     }
 
     public String getAction() {
@@ -181,10 +181,10 @@ public class User {
     }
 
     public String getIsPublic() {
-        return isPublic;
+        return userAlbumIsPublic;
     }
 
     public void setIsPublic(String isPublic) {
-        this.isPublic = isPublic;
+        this.userAlbumIsPublic = isPublic;
     }
 }

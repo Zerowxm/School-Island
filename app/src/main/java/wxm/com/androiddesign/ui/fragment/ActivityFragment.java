@@ -35,6 +35,7 @@ import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.services.LocationServices;
 import wxm.com.androiddesign.utils.ScrollManager;
 
 
@@ -181,6 +182,8 @@ public class ActivityFragment extends Fragment {
                     case Hot:object.put("action","showHotAty");
                         break;
                     case Nearby:object.put("action","showNearbyAty");
+                        object.put("latitude", LocationServices.Latitude);
+                        object.put("longitude",LocationServices.Longitude);
                         break;
                     case Hight:object.put("action","showHightAty");
                         break;
