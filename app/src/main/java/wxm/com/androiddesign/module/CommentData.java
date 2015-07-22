@@ -12,6 +12,35 @@ public class CommentData {
     public String cmtContent;
     public String atyId;
 
+    @Override
+    public String toString() {
+        return "CommentData{" +
+                "action='" + action + '\'' +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userIcon='" + userIcon + '\'' +
+                ", cmtTime='" + cmtTime + '\'' +
+                ", cmtContent='" + cmtContent + '\'' +
+                ", atyId='" + atyId + '\'' +
+                '}';
+    }
+
+    public String getCmtTime() {
+        return cmtTime;
+    }
+
+    public void setCmtTime(String cmtTime) {
+        this.cmtTime = cmtTime;
+    }
+
+    public String getCmtContent() {
+        return cmtContent;
+    }
+
+    public void setCmtContent(String cmtContent) {
+        this.cmtContent = cmtContent;
+    }
+
     public CommentData(String action, String userId,String atyId, String time, String comment) {
         this.action = action;
         this.userId = userId;

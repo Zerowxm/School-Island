@@ -32,6 +32,8 @@ public class User {
         return userAlbumIsPublic;
     }
 
+
+
     public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String qq, String userLocation, String userScore, String userAddress, List<String> userAlbum) {
         this.action = action;
         this.userId = userId;

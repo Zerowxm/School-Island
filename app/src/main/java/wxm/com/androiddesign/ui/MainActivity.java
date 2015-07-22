@@ -45,6 +45,7 @@ import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
+import wxm.com.androiddesign.ui.fragment.RankingFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack{
     DrawerLayout drawerLayout;
@@ -251,8 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_attention:
-                                Intent cmtIntent = new Intent(MainActivity.this, CtyAcitivity.class);
-                                startActivity(cmtIntent);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new RankingFragment()).commitAllowingStateLoss();
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;

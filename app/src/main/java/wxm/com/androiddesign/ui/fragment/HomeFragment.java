@@ -69,7 +69,6 @@ public class HomeFragment extends Fragment {
     Toolbar toolbar;
     static MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    //Spinner mSpinner;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
     private String userId;
     @Bind(R.id.country)TextView country;
@@ -146,7 +145,6 @@ public class HomeFragment extends Fragment {
                 object.put("action","showActivities");
                 object.put("userId", MyUser.userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
-              //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
 
@@ -170,7 +168,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-        //mSpinner = (Spinner) v.findViewById(R.id.spinner);
         ButterKnife.bind(this,v);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
@@ -182,11 +179,7 @@ public class HomeFragment extends Fragment {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
-        //new GetAtyTask().execute();
-        //setupSpinner(mSpinner);
         setupRecyclerView(recyclerView);
-        Log.d("home", "onCreateView");
-
         return v;
     }
 
