@@ -49,7 +49,8 @@
                         android:textColor="@color/white"
                         android:textSize="22sp"
                         android:text="城市"
-                        fonts:typeface="Roboto-Bold.ttf" />
+                        fonts:typeface="Roboto-Bold.ttf"
+                        android:layout_centerVertical="true"/>
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
 

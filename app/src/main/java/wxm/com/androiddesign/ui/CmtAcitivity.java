@@ -37,6 +37,7 @@ public class CmtAcitivity extends AppCompatActivity {
     String cmtId="";
     CmtItem cmtItem;
     String userId="";
+    Boolean flag=false;
 
 
     @Bind(R.id.cmt_name)TextView cmt_name;
@@ -90,9 +91,18 @@ public class CmtAcitivity extends AppCompatActivity {
 
     @OnClick(R.id.join)
     public void joinCmt(){
-        joinbtn.setText("已订阅");
-        joinbtn.setTextColor(getResources().getColor(R.color.gray));
-        joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button,null));
+        if (!flag){
+            joinbtn.setText("已订阅");
+            joinbtn.setTextColor(getResources().getColor(R.color.gray));
+            joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
+            flag=true;
+        }else {
+            joinbtn.setText("+订阅");
+            joinbtn.setTextColor(getResources().getColor(R.color.primary));
+            joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
+            flag=false;
+        }
+
     }
 
     private void setupToolBar() {
