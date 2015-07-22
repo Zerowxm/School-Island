@@ -101,8 +101,8 @@ public class UserListFragment extends Fragment {
         protected Boolean doInBackground(User... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showCmtMembers");
-                object.put("cmtId",cmtId);
+                object.put("action", "showMembersInCommunity");
+                object.put("ctyId",cmtId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

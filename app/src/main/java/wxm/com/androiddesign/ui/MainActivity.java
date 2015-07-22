@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userIcon = mUser.getUserIcon();
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
-            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
 
 
         }
@@ -153,7 +153,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     object.put("action", "login");
                     object.put("userId", "001");
                     object.put("userPassword", "001");
-
+                    SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("UserId", "001");
+                    editor.putString("UserPassword", "001");
+                    editor.apply();
                     String userJson = JsonConnection.getJSON(object.toString());
                     return new Gson().fromJson(userJson, User.class);
                 } catch (JSONException e) {

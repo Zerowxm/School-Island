@@ -47,6 +47,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import wxm.com.androiddesign.adapter.MyHomeRecycerAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
@@ -66,7 +67,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
     Toolbar toolbar;
-    static MyRecycerAdapter myRecycerAdapter;
+    static MyHomeRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
     //Spinner mSpinner;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
@@ -129,7 +130,7 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
-                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
+                myRecycerAdapter = new MyHomeRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
                 country.setText(LocationServices.City);
@@ -193,19 +194,6 @@ public class HomeFragment extends Fragment {
     public void chooseCountry(){
 
     }
-
-//    private void setupSpinner(Spinner spinner) {
-//        List<String> spinnerarry = new ArrayList<String>();
-//        spinnerarry.add("厦门");
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, spinnerarry);
-//        // ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getActivity(),R.array.action_bar_spinner,
-//        //         R.layout.spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//        spinner.setOnItemSelectedListener(this);
-//    }
-
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
@@ -241,9 +229,9 @@ public class HomeFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.d("home","postDelayed");
+                Log.d("home", "postDelayed");
 
-                //myRecycerAdapter.notifyDataSetChanged();
+                new GetAtyTask().execute();
 
                 mSwipeRefreshLayout.setRefreshing(false);
             }
