@@ -47,7 +47,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack, SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack{
     DrawerLayout drawerLayout;
 
     public static int SIGNUP = 0x1;
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
-        i.putExtra("userId",mUser.getUserId());
+        i.putExtra("userId", mUser.getUserId());
         i.setClass(getApplicationContext(), LocationServices.class);
         startService(i);
     }
@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
 
-            Log.d("user",MyUser.userIcon);
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
         }
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_attention:
-                                Intent cmtIntent=new Intent(MainActivity.this,CmtAcitivity.class);
+                                Intent cmtIntent = new Intent(MainActivity.this, CmtAcitivity.class);
                                 startActivity(cmtIntent);
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
@@ -259,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
 
-                if (user_name.getText().equals("vistor")) {
+                if ("001".equals(MyUser.userId)) {
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {
@@ -299,6 +298,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 return true;
             case R.id.action_serch:
+                Intent intent=new Intent(MainActivity.this,SearchResultsActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -310,17 +311,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_serch);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        }
-
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(this);
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -343,15 +333,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        Snackbar.make(drawerLayout, query, Snackbar.LENGTH_SHORT).show();
-        return false;
-    }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        Snackbar.make(drawerLayout, "newText" + newText, Snackbar.LENGTH_SHORT).show();
-        return false;
-    }
 }

@@ -47,6 +47,9 @@
         <item>所有人可见</item>
     </array>
     <string name="choose">选择</string>
+    <string name="title_activity_setting">SettingActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 
 </resources>

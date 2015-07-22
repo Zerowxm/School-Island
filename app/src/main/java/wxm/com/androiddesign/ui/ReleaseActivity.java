@@ -131,7 +131,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
             if (requestCode == CHOOSE_PHOTO) {
                 Uri chosenImageUri = data.getData();
                 selectedImgUri = chosenImageUri;
-                //ImageView imageView = new ImageView(this);
                 RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
                 ImageView imageView = (ImageView) imageItem.getChildAt(0);
                 ImageView removeImage = (ImageView) imageItem.getChildAt(1);
@@ -144,8 +143,13 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Glide.with(this).load(selectedImgUri).into(imageView);
                 Log.d("image", "" + imageView.toString());
                 if (selectedImgUri != null) {
-                    imageContains.addView(imageItem);
-                    uriList.add(selectedImgUri.toString());
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
+                        imageContains.addView(imageItem);
+                        uriList.add(MyBitmapFactory.BitmapToString(bitmap));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -166,7 +170,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
                         imageContains.addView(imageItem);
-                        //uriList.add(MyBitmapFactory.BitmapToString(bitmap));
+                        uriList.add(MyBitmapFactory.BitmapToString(bitmap));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

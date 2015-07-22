@@ -161,6 +161,9 @@ public class ActivityFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean==true){
+                if (activityItems==null){
+                    return;
+                }
                 for (int i=0;i<activityItems.size();i++){
                     Log.d("Task",activityItems.get(i).toString());
                 }

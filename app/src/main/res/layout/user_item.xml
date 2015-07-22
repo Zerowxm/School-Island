@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fonts="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:padding="16dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:src="@drawable/miao"
+        android:id="@id/user_photo"
+        />
+    <LinearLayout
+        android:layout_toRightOf="@id/user_photo"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <wxm.com.androiddesign.widget.MyTextView
+            android:id="@id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="用户名"
+            fonts:typeface="Roboto-Bold.ttf"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</RelativeLayout>

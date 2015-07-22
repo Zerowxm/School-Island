@@ -40,20 +40,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.msg_item, parent, false
+                        R.layout.user_item, parent, false
                 ));
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        User item=userList.get(position);
-        holder.user_name.setText(item.getUserName());
-        Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
+//        User item=userList.get(position);
+//        holder.user_name.setText(item.getUserName());
+//        Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return 5;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

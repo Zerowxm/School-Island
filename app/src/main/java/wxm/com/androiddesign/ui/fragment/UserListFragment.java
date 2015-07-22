@@ -65,7 +65,7 @@ public class UserListFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                
             }
         }));
         recyclerView.setAdapter(new UserAdapter(UserList,getActivity()));
