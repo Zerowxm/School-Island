@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.services.LocationServices;
+import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.ReleaseActivity;
 import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.TransparentToolBar;
@@ -79,8 +82,16 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         userId = getArguments().getString("UserId");
         setHasOptionsMenu(true);
+        openMessageService();
     }
-
+    public void openMessageService()
+    {
+        Intent i = new Intent();
+        i.setClass(getActivity(), MessageService.class);
+        i.putExtra("userId", "cz");
+        getActivity().startService(i);
+        Log.i("CJ", "openMessageService " + userId);
+    }
     @Override
     public void onDetach() {
         super.onDetach();
@@ -165,7 +176,6 @@ public class HomeFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         //new GetAtyTask().execute();
         //setupSpinner(mSpinner);

@@ -88,6 +88,8 @@ public class LocationActivity extends AppCompatActivity {
         option.setOpenGps(true);// 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(1000);    //设置定位间隔
+        option.setIsNeedAddress(true);
+        option.setIgnoreKillProcess(false);
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
@@ -184,6 +186,7 @@ public class LocationActivity extends AppCompatActivity {
                         location.getLongitude());
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(loc);
                 mBaiduMap.animateMapStatus(u);
+                maddress = location.getAddrStr();
                 setLocationResult(loc);
                 initOverlay(loc);
                 setLocationText(loc);

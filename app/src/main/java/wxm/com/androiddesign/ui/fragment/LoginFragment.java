@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Debug;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -16,37 +16,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpStatus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import wxm.com.androiddesign.MessageService;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.SignUpActivity;
 
@@ -144,11 +133,12 @@ public class LoginFragment extends DialogFragment {
                 User mUser=new Gson().fromJson(mResult, User.class);
                 mUser.setUserPassword(user.getUserPassword());
                 loginCallBack.onLongin(mUser);
+
 //                Intent i = new Intent();
 //                i.setClass(getActivity(), MessageService.class);
-//                i.putExtra("userId", user.getUserId());
+//                i.putExtra("userId", mUser.getUserId());
 //                getActivity().startService(i);
-                //username_layout.setError("用户名错误");
+//                Log.i("CJ", "loginSuccess and OpenMessage " +mUser.getUserId());
             } else {
                 materialDialog.dismiss();
                 new MaterialDialog.Builder(context)

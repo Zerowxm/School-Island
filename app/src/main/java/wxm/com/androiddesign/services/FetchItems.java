@@ -1,4 +1,4 @@
-package wxm.com.androiddesign;
+package wxm.com.androiddesign.services;
 
 import android.util.Log;
 
@@ -26,7 +26,7 @@ public class FetchItems {
         try {
             if(surl == null)
                 surl = defaultUrl;
-            //create HttpURLConnecition object
+
             URL url = new URL(surl);
             URLConnection urlConnection = url.openConnection();
             HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
@@ -52,18 +52,11 @@ public class FetchItems {
 
             OutputStream outStrm = httpURLConnection.getOutputStream();
 
-            /*JSONObject jo = new JSONObject();
-            try {
-                jo.put("userid", "003");
-                jo.put("userpassword", "123456");
-                jo.put("action", "login");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
-
             //HttpURLconnection写数据与发送数据
+
             ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
             objOutputStrm.writeObject(json);
+
             objOutputStrm.flush();                              //数据输出
             objOutputStrm.close();
 
@@ -73,7 +66,6 @@ public class FetchItems {
             InputStream inStrm = httpURLConnection.getInputStream();
 
             ObjectInputStream objInputStrm = new ObjectInputStream(inStrm);
-            //String result = (String)objInputStrm.readObject();
 
             Log.d("connection", "c5");
 
@@ -87,10 +79,6 @@ public class FetchItems {
 
                 Object obj = objInputStrm.readObject();
                 result = obj.toString();
-                JSONObject inJson = new JSONObject(result);
-              //  JSONObject inJson = new JSONObject(obj.toString());
-                //BufferedReader br = new BufferedReader(inStrm);
-                Log.d("my debug", "result:" + inJson.getString("result"));
             }
             else
             {
@@ -104,8 +92,6 @@ public class FetchItems {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
