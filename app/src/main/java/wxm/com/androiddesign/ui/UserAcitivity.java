@@ -116,7 +116,6 @@ public class UserAcitivity extends AppCompatActivity {
         else{
            adapter.addFragment(new FooFragment(), "相册");
         }
-
         viewPager.setAdapter(adapter);
     }
 

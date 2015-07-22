@@ -100,8 +100,8 @@ public class CtyAtyFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
-
-                object.put("cmtId", cmtId);
+                object.put("action","showAtyInCommunity");
+                object.put("ctyId", cmtId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
                 atyItemList = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());

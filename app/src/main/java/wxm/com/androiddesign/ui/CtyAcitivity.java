@@ -79,7 +79,7 @@ public class CtyAcitivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             JSONObject object=new JSONObject();
             try {
-                object.put("action","showCmt");
+                object.put("action","showCommunity");
                 object.put("ctyId",cmtId);
                 object.put("userId", MyUser.userId);
             } catch (JSONException e) {
@@ -126,11 +126,11 @@ public class CtyAcitivity extends AppCompatActivity {
                 if (flag){
                     object.put("action","joinCty");
                     object.put("userId",MyUser.userId);
-                    object.put("cmtId",cmtId);
+                    object.put("ctyId",cmtId);
                 }else {
                     object.put("action","notJoinCty");
                     object.put("userId",MyUser.userId);
-                    object.put("cmtId",cmtId);
+                    object.put("ctyId",cmtId);
                 }
 
 
