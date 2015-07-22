@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 return true;
                             case R.id.nav_attention:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, new RankingFragment()).commitAllowingStateLoss();
-                                Snackbar.make(drawerLayout, "关注",
+                                Snackbar.make(drawerLayout, "积分排行",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.nav_messages:

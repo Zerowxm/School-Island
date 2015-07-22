@@ -70,6 +70,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     TextInputLayout emailInput;
     @Bind(R.id.userid_edit_text)
     EditText user_id;
+    @Bind(R.id.friend_edit_text)
+    EditText friend;
     private Uri selectedImgUri=null;
     String gender;
     User user;
@@ -173,8 +175,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
         user = new User("signup", get(user_id), get(user_name), get(password), get(emial), get(phone),
-                gender,"", "0","true");
-
+                gender,"", "true","0",get(friend));
+//        user = new User("signup", get(user_id), get(user_name), get(password), get(emial), get(phone),
+//                gender,"", "true","0");
 
         BackgroundTask task = new BackgroundTask(this);
         task.execute(user);

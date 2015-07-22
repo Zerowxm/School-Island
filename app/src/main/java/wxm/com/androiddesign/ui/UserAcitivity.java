@@ -73,7 +73,7 @@ public class UserAcitivity extends AppCompatActivity {
                 setupViewPager();
                 setupTabLayout();
                 user_id.setText(user.getUserId());
-                score.setText(user.getUserScore());
+                score.setText(user.getCredit());
                 Picasso.with(context).load(user.getUserIcon()).into(user_photo);
             }
         }
@@ -110,7 +110,7 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
         adapter.addFragment(new CmtListFragment(), "社区");
         //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
-        if(user.getIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
+        if(user.getUserAlbumIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
             adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
         }
         else{

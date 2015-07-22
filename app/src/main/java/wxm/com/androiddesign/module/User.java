@@ -27,111 +27,31 @@ public class User {
     public String userIcon;
     @Expose
     public String userAlbumIsPublic;
-
-    public String getUserAlbumIsPublic() {
-        return userAlbumIsPublic;
-    }
-
-
-
-    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String qq, String userLocation, String userScore, String userAddress, List<String> userAlbum) {
-        this.action = action;
-        this.userId = userId;
-        this.userName = userName;
-        this.userPassword = userPassword;
-        this.userEmail = userEmail;
-        this.userPhone = userPhone;
-        this.userGender = userGender;
-        this.userIcon = userIcon;
-        this.userAlbumIsPublic = userAlbumIsPublic;
-        this.qq = qq;
-        this.userLocation = userLocation;
-        this.userScore = userScore;
-        this.userAddress = userAddress;
-        this.userAlbum = userAlbum;
-    }
-
-    public void setUserAlbumIsPublic(String userAlbumIsPublic) {
-        this.userAlbumIsPublic = userAlbumIsPublic;
-    }
-
-    public List<String> getUserAlbum() {
-        return userAlbum;
-    }
-
-    public void setUserAlbum(List<String> userAlbum) {
-        this.userAlbum = userAlbum;
-    }
-
-    public String getUserLocation() {
-        return userLocation;
-    }
-
-    public void setUserLocation(String userLocation) {
-        this.userLocation = userLocation;
-    }
-
     @Expose
-
     public String qq;
-
     @Expose
     public String userLocation;
     @Expose
-    public String userScore;
+    public String Credit;
     @Expose
     public String userAddress;
-
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
-
-
-
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "action='" + action + '\'' +
-                ", userId='" + userId + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", userPhone='" + userPhone + '\'' +
-                ", userGender='" + userGender + '\'' +
-                ", userIcon='" + userIcon + '\'' +
-                ", qq='" + qq + '\'' +
-                ", userAddress='" + userAddress + '\'' +
-                ", userScore='" + userScore + '\'' +
-                ", userAlbumIsPublic='" + userAlbumIsPublic + '\'' +
-                ", userAlbum=" + userAlbum +
-                '}';
-    }
-
     @Expose
     List<String> userAlbum = new ArrayList<String>();
+    @Expose
+    String userCode;
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
 
     public User() {
     }
 
-    public User(String action, String userId,
-                String userName, String userPassword,
-                String userEmail, String userPhone,
-                String userGender, String userIcon,
-                String userScore,String isPublic) {
+    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String credit, String userCode) {
         this.action = action;
         this.userId = userId;
         this.userName = userName;
@@ -140,8 +60,39 @@ public class User {
         this.userPhone = userPhone;
         this.userGender = userGender;
         this.userIcon = userIcon;
-        this.userScore = userScore;
-        this.userAlbumIsPublic = isPublic;
+        this.userAlbumIsPublic = userAlbumIsPublic;
+        Credit = credit;
+        this.userCode = userCode;
+    }
+
+    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String credit) {
+        this.action = action;
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userEmail = userEmail;
+        this.userPhone = userPhone;
+        this.userGender = userGender;
+        this.userIcon = userIcon;
+        this.userAlbumIsPublic = userAlbumIsPublic;
+        Credit = credit;
+    }
+
+    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String qq, String userLocation, String credit, String userAddress, List<String> userAlbum) {
+        this.action = action;
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userEmail = userEmail;
+        this.userPhone = userPhone;
+        this.userGender = userGender;
+        this.userIcon = userIcon;
+        this.userAlbumIsPublic = userAlbumIsPublic;
+        this.qq = qq;
+        this.userLocation = userLocation;
+        Credit = credit;
+        this.userAddress = userAddress;
+        this.userAlbum = userAlbum;
     }
 
     public String getAction() {
@@ -208,19 +159,51 @@ public class User {
         this.userIcon = userIcon;
     }
 
-    public String getUserScore() {
-        return userScore;
-    }
-
-    public void setUserScore(String userScore) {
-        this.userScore = userScore;
-    }
-
-    public String getIsPublic() {
+    public String getUserAlbumIsPublic() {
         return userAlbumIsPublic;
     }
 
-    public void setIsPublic(String isPublic) {
-        this.userAlbumIsPublic = isPublic;
+    public void setUserAlbumIsPublic(String userAlbumIsPublic) {
+        this.userAlbumIsPublic = userAlbumIsPublic;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(String userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public String getCredit() {
+        return Credit;
+    }
+
+    public void setCredit(String credit) {
+        Credit = credit;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public List<String> getUserAlbum() {
+        return userAlbum;
+    }
+
+    public void setUserAlbum(List<String> userAlbum) {
+        this.userAlbum = userAlbum;
     }
 }
