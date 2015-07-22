@@ -19,20 +19,47 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <wxm.com.androiddesign.widget.MyTextView
-            android:id="@id/user_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="系统信息"
-            fonts:typeface="Roboto-Bold.ttf"
-            android:textSize="18sp"/>
+            android:orientation="horizontal">
+            <wxm.com.androiddesign.widget.MyTextView
+                android:id="@+id/msg_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="id"
+                fonts:typeface="Roboto-Bold.ttf"
+                android:textSize="18sp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_play_arrow"
+                android:background="?android:attr/selectableItemBackground"
+                />
+            <TextView
+                android:id="@+id/msg_type"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="type"/>
+
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/system_msg"
+            android:id="@+id/msg_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""/>
+            android:text="content"/>
     </LinearLayout>
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/msg_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"/>
+
 </RelativeLayout>

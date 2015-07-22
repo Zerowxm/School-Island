@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">来嗨</string>
+    <string name="app_name">A Plus</string>
 
     <string name="action_settings">Settings</string>
 
@@ -45,6 +45,11 @@
         <item>活动内可见</item>
         <item>用户可见</item>
         <item>所有人可见</item>
+    </array>
+
+    <array name="per_permission">
+        <item>公开</item>
+        <item>私密</item>
     </array>
     <array name="communities">
         <item>travel</item>

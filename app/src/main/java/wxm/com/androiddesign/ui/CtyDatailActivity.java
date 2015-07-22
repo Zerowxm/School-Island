@@ -18,7 +18,7 @@ import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 
-public class CmtDatailActivity extends AppCompatActivity {
+public class CtyDatailActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;

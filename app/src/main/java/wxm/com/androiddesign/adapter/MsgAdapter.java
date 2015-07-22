@@ -13,6 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.Message;
 import wxm.com.androiddesign.module.User;
 
 /**
@@ -20,9 +21,9 @@ import wxm.com.androiddesign.module.User;
  */
 public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
-    List<String> msgList=new ArrayList<>();
+    List<Message> msgList=new ArrayList<>();
 
-    public MsgAdapter(List<String> msgList) {
+    public MsgAdapter(List<Message> msgList) {
         this.msgList = msgList;
     }
 
@@ -36,8 +37,11 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        String item=msgList.get(position);
-        holder.msg.setText(item);
+        Message item=msgList.get(position);
+        holder.msg.setText(item.getMsgContent());
+        holder.id.setText(item.getMsgId());
+        holder.time.setText(item.getMsgTime());
+        holder.type.setText(item.getMsgType());
     }
 
     @Override
@@ -46,8 +50,11 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.msg_type)TextView type;
+        @Bind(R.id.msg_id)TextView id;
+        @Bind(R.id.msg_time)TextView time;
+        @Bind(R.id.msg_content)TextView msg;
 
-        @Bind(R.id.system_msg)TextView msg;
 
         public MyViewHolder(View itemView) {
             super(itemView);

@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,6 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.services.LocationServices;
-import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openLocationServices() {
         Log.e("CJ", "onpenLocationServices");
         Intent i = new Intent();
+        i.putExtra("userId",MyUser.userId);
         i.setClass(getApplicationContext(), LocationServices.class);
         startService(i);
     }
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
+        i.putExtra("userId",MyUser.userId);
         i.setClass(getApplicationContext(), LocationServices.class);
         stopService(i);
     }
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         logout.setClickable(true);
     }
 
-    private void setupDrawerContent(final NavigationView navigationView) {
+    private void setupDrawerContent(final NavigationView navigationView, final Context context) {
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -216,15 +218,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_attention:
-                                Intent cmtIntent = new Intent(MainActivity.this, CmtAcitivity.class);
+                                Intent cmtIntent = new Intent(MainActivity.this, CtyAcitivity.class);
                                 startActivity(cmtIntent);
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.nav_messages:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                return true;
                             case R.id.nav_user_setting:
-
+                                new MaterialDialog.Builder(context)
+                                        .title(R.string.permission)
+                                        .items(R.array.per_permission)
+                                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                            @Override
+                                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                                if (which==0){
+                                                    mUser.setIsPublic("true");
+                                                }else if (which==1){
+                                                    mUser.setIsPublic("false");
+                                                }else
+                                                {
+                                                    Log.d("userwxm","countA"+which+text);
+                                                    return false;
+                                                }
+                                                Log.d("userwxm","countB"+which+text);
+                                                return true;
+                                            }
+                                        }).positiveText(R.string.choose)
+                                            .show();
                                 return true;
                             default:
                                 return true;
@@ -244,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {
-            setupDrawerContent(navigationView);
+            setupDrawerContent(navigationView,this);
         }
         View header = findViewById(R.id.header);
         header.setClickable(true);

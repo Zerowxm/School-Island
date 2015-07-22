@@ -1,21 +1,12 @@
 package wxm.com.androiddesign.adapter;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -32,23 +23,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-
-import com.google.gson.Gson;
 
 import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -56,19 +40,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
-import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.CmtAcitivity;
+import wxm.com.androiddesign.ui.CtyAcitivity;
 import wxm.com.androiddesign.ui.DetailActivity;
 
-import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
-import wxm.com.androiddesign.ui.fragment.HomeFragment;
-import wxm.com.androiddesign.utils.MyBitmapFactory;
 
 
 /**
@@ -104,8 +84,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onCommunity(TextView community,int position){
-                Intent intent = new Intent(activity, CmtAcitivity.class);
-                intent.putExtra("cmtName",community.getText().toString());
+                Intent intent = new Intent(activity, CtyAcitivity.class);
+                intent.putExtra("cmtId",community.getText().toString());
                 activity.startActivity(intent);
             }
 
@@ -434,6 +414,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             user_photo.setOnClickListener(this);
             mjoinBtn.setOnClickListener(this);
             plus_fab.setOnClickListener(this);
+            activity_tag.setOnClickListener(this);
             setTextView(aty_content);
         }
 

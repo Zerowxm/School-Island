@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
@@ -80,6 +81,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         userId = getArguments().getString("UserId");
         setHasOptionsMenu(true);
         openMessageService();
@@ -88,7 +90,7 @@ public class HomeFragment extends Fragment {
     {
         Intent i = new Intent();
         i.setClass(getActivity(), MessageService.class);
-        i.putExtra("userId", "cz");
+        i.putExtra("userId", MyUser.userId);
         getActivity().startService(i);
         Log.i("CJ", "openMessageService " + userId);
     }
@@ -130,6 +132,7 @@ public class HomeFragment extends Fragment {
                 myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
+                country.setText(LocationServices.City);
             }else{
                 Snackbar.make(mSwipeRefreshLayout,"Error",Snackbar.LENGTH_SHORT).show();
             }
@@ -167,6 +170,7 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
         //mSpinner = (Spinner) v.findViewById(R.id.spinner);
+        ButterKnife.bind(this,v);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -180,7 +184,8 @@ public class HomeFragment extends Fragment {
         //new GetAtyTask().execute();
         //setupSpinner(mSpinner);
         setupRecyclerView(recyclerView);
-        Log.d("home","onCreateView");
+        Log.d("home", "onCreateView");
+
         return v;
     }
 

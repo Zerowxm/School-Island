@@ -64,11 +64,10 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     public static final int GET_LOCATION = 3;
 
     private List<String> uriList = new ArrayList<>();
-
+    String Location;
     private Uri selectedImgUri;
     private String userId;
-    addAty addAty;
-    // atyItem = new AtyItem();
+
 
     @Bind(R.id.sendButton)
     ImageView send;
@@ -142,7 +141,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 String address = data.getStringExtra(LocationActivity.Address);
                 Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
                 Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
-                locaton.setText(address +" "+ lattitute+" " + Longtitute);
+                Location=address+" "+lattitute+" "+Longtitute;
+                locaton.setText(address);
             }
 
             if (requestCode == CHOOSE_PHOTO) {
@@ -218,7 +218,15 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+                        String temp="toVisitors";
                         try {
+                            if (which==0){
+                                temp="toMembers";
+                            }else if(which==1){
+                                temp="toUsers";
+                            }else if (which==2){
+                                temp="toVisitors";
+                            }
                             if (startTime.getText().toString().equals("开始时间")) {
                                 Toast.makeText(getApplicationContext(), "set your start time", Toast.LENGTH_SHORT).show();
                             } else if (endTime.getText().toString().equals("结束时间")) {
@@ -241,7 +249,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                                     AtyItem atyItem = new AtyItem("release", MyUser.userId,atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
                                             endTime.getText().toString(), locaton.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
-                                            "true", "false", "0",text.toString(), uriList);
+                                            "true", "false", "0",temp, uriList);
                                     new UpDateTask().execute(atyItem);
                                     atyItem.setUserName(MyUser.userName);
                                     HomeFragment.addActivity(atyItem);
@@ -282,20 +290,16 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 object = new JSONObject(new Gson().toJson(params[0]));
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
-                object.put("longitude",params[0].getAtyPlace().split(" ")[2]);
-                object.put("latitude",params[0].getAtyPlace().split(" ")[1]);
+                object.put("longitude",Location.split(" ")[2]);
+                object.put("latitude",Location.split(" ")[1]);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             JsonConnection.getJSON(object.toString());
-//            HomeFragment.addActivity(params[0]);
             return null;
         }
     }
 
-    public interface addAty {
-        public void add(AtyItem atyItem);
-    }
 
     @OnClick(R.id.add_start_time)
     public void addStartTime() {

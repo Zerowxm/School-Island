@@ -37,7 +37,7 @@
     <application
         android:name=".ui.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
@@ -61,7 +61,7 @@
 
 
         </activity>
-        <activity android:name=".ui.CmtAcitivity" />
+        <activity android:name=".ui.CtyAcitivity" />
         <activity
             android:name=".ui.SignUpActivity"
             android:label="@string/signup_title" >
@@ -87,7 +87,7 @@
         <activity
             android:name=".ui.ReleaseActivity"
             android:label="@string/title_activity_release" />
-        <activity android:name=".ui.CmtDatailActivity" />
+        <activity android:name=".ui.CtyDatailActivity" />
         <activity android:name=".ui.LocationActivity" />
 
         <service
@@ -132,6 +132,7 @@
 
         <service android:name=".services.LocationServices" android:enabled="true"/>
         <service android:name=".services.MessageService" android:enabled="true"/>
+
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting" >
