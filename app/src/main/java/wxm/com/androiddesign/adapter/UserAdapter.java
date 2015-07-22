@@ -46,14 +46,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-//        User item=userList.get(position);
-//        holder.user_name.setText(item.getUserName());
-//        Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
+        User item=userList.get(position);
+        holder.user_name.setText(item.getUserName());
+        Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return userList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

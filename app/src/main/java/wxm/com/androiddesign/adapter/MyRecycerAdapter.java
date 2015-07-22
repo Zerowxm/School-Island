@@ -245,6 +245,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         if (!"001".equals(MyUser.userId)) {
             holder.imageViewContainer.setVisibility(View.GONE);
+        }else if(item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("")){
+
         }
 
 

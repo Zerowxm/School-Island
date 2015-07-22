@@ -217,7 +217,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                         DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
                         try {
                             if (startTime.getText().toString().equals("开始时间")) {
@@ -242,7 +241,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                                     AtyItem atyItem = new AtyItem("release", MyUser.userId,atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
                                             endTime.getText().toString(), locaton.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
-                                            "true", "false", "0", uriList);
+                                            "true", "false", "0",text.toString(), uriList);
                                     new UpDateTask().execute(atyItem);
                                     atyItem.setUserName(MyUser.userName);
                                     HomeFragment.addActivity(atyItem);
