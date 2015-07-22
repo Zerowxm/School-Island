@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.ui.MainActivity;
 
 
@@ -43,7 +44,7 @@ public class MessageService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        userId = intent.getStringExtra("userId");
+        userId = MyUser.userId;
         Log.i("CJ", "onStartCommand " + userId);
         return super.onStartCommand(intent, flags, startId);
     }

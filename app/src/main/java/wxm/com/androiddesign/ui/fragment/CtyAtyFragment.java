@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,9 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.CmtAtyAdapter;
-import wxm.com.androiddesign.adapter.CmyAdapter;
-import wxm.com.androiddesign.adapter.MyRecycerAdapter;
+import wxm.com.androiddesign.adapter.CtyAtyAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.MyUser;
@@ -37,18 +33,18 @@ import wxm.com.androiddesign.ui.DetailActivity;
 /**
  * Created by zero on 2015/7/22.
  */
-public class CmtAtyFragment extends Fragment {
+public class CtyAtyFragment extends Fragment {
 
     RecyclerView recyclerView;
     List<AtyItem> atyItemList= new ArrayList<>();
     String cmtId="";
 
-    public static CmtAtyFragment newInstance(String cmtId){
-        CmtAtyFragment cmtAtyFragment=new CmtAtyFragment();
+    public static CtyAtyFragment newInstance(String cmtId){
+        CtyAtyFragment ctyAtyFragment =new CtyAtyFragment();
         Bundle args= new Bundle();
         args.putString("cmtId",cmtId);
-        cmtAtyFragment.setArguments(args);
-        return cmtAtyFragment;
+        ctyAtyFragment.setArguments(args);
+        return ctyAtyFragment;
     }
 
     @Override
@@ -95,7 +91,7 @@ public class CmtAtyFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean == true) {
-                CmtAtyAdapter myRecycerAdapter=new CmtAtyAdapter(atyItemList,getActivity());
+                CtyAtyAdapter myRecycerAdapter=new CtyAtyAdapter(atyItemList,getActivity());
                 recyclerView.setAdapter(myRecycerAdapter);
             }
         }

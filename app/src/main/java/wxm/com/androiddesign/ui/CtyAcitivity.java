@@ -26,19 +26,18 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
-import wxm.com.androiddesign.module.CmtItem;
+import wxm.com.androiddesign.module.CtyItem;
 import wxm.com.androiddesign.module.MyUser;
-import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.CmtAtyFragment;
 import wxm.com.androiddesign.ui.fragment.UserListFragment;
 
 
-public class CmtAcitivity extends AppCompatActivity {
+public class CtyAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
     String cmtId="";
-    CmtItem cmtItem;
+    CtyItem ctyItem;
     Boolean flag=false;
 
 
@@ -52,17 +51,17 @@ public class CmtAcitivity extends AppCompatActivity {
         setContentView(R.layout.community_detail);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
-        cmtId = bundle.getString("cmtName");
+        cmtId = bundle.getString("cmtId");
         setupToolBar();
         setupViewPager();
         setupTabLayout();
         //new GetUserINfo(this).execute();
     }
 
-    private class GetUserINfo extends AsyncTask<Void,Void,Boolean>{
+    private class GetUserInfo extends AsyncTask<Void,Void,Boolean>{
         Context context;
 
-        public GetUserINfo(Context context) {
+        public GetUserInfo(Context context) {
             this.context = context;
         }
 
@@ -70,9 +69,9 @@ public class CmtAcitivity extends AppCompatActivity {
         protected void onPostExecute(Boolean reslut) {
             super.onPostExecute(reslut);
             if (reslut){
-                cmt_name.setText(cmtItem.getCmtId());
-                cmt_member.setText(cmtItem.getCmtMembers());
-                Picasso.with(context).load(cmtItem.getCmtIcon()).into(cmt_photo);
+                cmt_name.setText(ctyItem.getCtyId());
+                cmt_member.setText(ctyItem.getCmtMembers());
+                Picasso.with(context).load(ctyItem.getCmtIcon()).into(cmt_photo);
             }
         }
 
@@ -81,12 +80,13 @@ public class CmtAcitivity extends AppCompatActivity {
             JSONObject object=new JSONObject();
             try {
                 object.put("action","showCmt");
-                object.put("cmtId",cmtId);
-                object.put("usrID", MyUser.userId);
+                object.put("ctyId",cmtId);
+                object.put("userId", MyUser.userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            cmtItem=new Gson().fromJson(JsonConnection.getJSON(object.toString()),CmtItem.class);
+            ctyItem =new Gson().fromJson(JsonConnection.getJSON(object.toString()),CtyItem.class);
+            //cmtItem.setCtyId(cmtId);
             return true;
         }
     }
@@ -104,10 +104,10 @@ public class CmtAcitivity extends AppCompatActivity {
             joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
             flag=false;
         }
-        new joinCmtTask().execute(joinbtn.getText().toString());
+
     }
 
-    private class joinCmtTask extends AsyncTask<String, Void, Void> {
+    private class joinCmtTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -119,13 +119,22 @@ public class CmtAcitivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Void doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
                 object = new JSONObject();
-                object.put("action",params[0]);
-                object.put("userId",MyUser.userId);
-                object.put("cmtId",cmtId);
+                if (flag){
+                    object.put("action","joinCty");
+                    object.put("userId",MyUser.userId);
+                    object.put("cmtId",cmtId);
+                }else {
+                    object.put("action","notJoinCty");
+                    object.put("userId",MyUser.userId);
+                    object.put("cmtId",cmtId);
+                }
+
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -179,6 +188,7 @@ public class CmtAcitivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (item.getItemId()) {
             case android.R.id.home:
+                new joinCmtTask().execute();
                 finish();
                 return true;
         }

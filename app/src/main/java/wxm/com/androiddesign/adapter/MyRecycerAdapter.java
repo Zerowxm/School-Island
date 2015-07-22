@@ -105,7 +105,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onCommunity(TextView community,int position){
                 Intent intent = new Intent(activity, CmtAcitivity.class);
-                intent.putExtra("cmtName",community.getText().toString());
+                intent.putExtra("cmtId",community.getText().toString());
                 activity.startActivity(intent);
             }
 
@@ -432,6 +432,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             user_photo.setOnClickListener(this);
             mjoinBtn.setOnClickListener(this);
             plus_fab.setOnClickListener(this);
+            activity_tag.setOnClickListener(this);
             setTextView(aty_content);
         }
 

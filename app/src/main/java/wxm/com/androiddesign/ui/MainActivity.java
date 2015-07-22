@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -85,9 +86,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupNavigationView();
         openLocationServices();
 
-        Intent i = new Intent();
-        i.setClass(getApplicationContext(), LocationActivity.class);
-        startActivity(i);
     }
 
     private void openLocationServices() {
@@ -100,10 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
-<<<<<<< HEAD
-=======
         i.putExtra("userId", mUser.getUserId());
->>>>>>> origin/wxm
+
         i.setClass(getApplicationContext(), LocationServices.class);
         stopService(i);
     }
@@ -144,11 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userId = mUser.getUserId();
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
-
-<<<<<<< HEAD
-            //Log.d("user",MyUser.userIcon);
-=======
->>>>>>> origin/wxm
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
             getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
@@ -210,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         logout.setClickable(true);
     }
 
-    private void setupDrawerContent(final NavigationView navigationView) {
+    private void setupDrawerContent(final NavigationView navigationView, final Context context) {
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -236,8 +227,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 return true;
                             case R.id.nav_messages:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                return true;
                             case R.id.nav_user_setting:
+                                new MaterialDialog.Builder(context)
+                                        .title(R.string.permission)
+                                        .items(R.array.per_permission)
+                                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                            @Override
+                                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                                if (which==0){
+                                                    mUser.setIsPublic("true");
+                                                }else if (which==1){
+                                                    mUser.setIsPublic("false");
+                                                }else return false;
 
+                                                return true;
+                                            }
+                                        }).positiveText(R.string.choose)
+                                            .show();
                                 return true;
                             default:
                                 return true;
@@ -257,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {
-            setupDrawerContent(navigationView);
+            setupDrawerContent(navigationView,this);
         }
         View header = findViewById(R.id.header);
         header.setClickable(true);

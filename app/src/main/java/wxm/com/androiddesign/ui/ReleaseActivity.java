@@ -64,11 +64,10 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     public static final int GET_LOCATION = 3;
 
     private List<String> uriList = new ArrayList<>();
-
+    String Location;
     private Uri selectedImgUri;
     private String userId;
-    addAty addAty;
-    // atyItem = new AtyItem();
+
 
     @Bind(R.id.sendButton)
     ImageView send;
@@ -142,7 +141,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 String address = data.getStringExtra(LocationActivity.Address);
                 Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
                 Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
-                locaton.setText(address +" "+ lattitute+" " + Longtitute);
+                Location=address+" "+lattitute+" "+Longtitute;
+                locaton.setText(address);
             }
 
             if (requestCode == CHOOSE_PHOTO) {
@@ -211,7 +211,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @OnClick(R.id.sendButton)
     public void send() {
-
         new MaterialDialog.Builder(this)
                 .title(R.string.permission)
                 .items(R.array.permissions)
@@ -284,20 +283,16 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 object = new JSONObject(new Gson().toJson(params[0]));
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
-                object.put("longitude",params[0].getAtyPlace().split(" ")[2]);
-                object.put("latitude",params[0].getAtyPlace().split(" ")[1]);
+                object.put("longitude",Location.split(" ")[2]);
+                object.put("latitude",Location.split(" ")[1]);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             JsonConnection.getJSON(object.toString());
-//            HomeFragment.addActivity(params[0]);
             return null;
         }
     }
 
-    public interface addAty {
-        public void add(AtyItem atyItem);
-    }
 
     @OnClick(R.id.add_start_time)
     public void addStartTime() {

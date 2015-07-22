@@ -21,11 +21,11 @@ import wxm.com.androiddesign.module.AtyItem;
 /**
  * Created by zero on 2015/7/22.
  */
-public class CmtAtyAdapter extends RecyclerView.Adapter<CmtAtyAdapter.CmtAtyViewHodler> {
+public class CtyAtyAdapter extends RecyclerView.Adapter<CtyAtyAdapter.CmtAtyViewHodler> {
     List<AtyItem> atyItemList= new ArrayList<>();
     Context context;
 
-    public CmtAtyAdapter(List<AtyItem> atyItemList, Context context) {
+    public CtyAtyAdapter(List<AtyItem> atyItemList, Context context) {
         this.atyItemList = atyItemList;
         this.context = context;
     }

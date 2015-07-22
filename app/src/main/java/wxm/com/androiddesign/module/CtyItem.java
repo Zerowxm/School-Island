@@ -3,15 +3,15 @@ package wxm.com.androiddesign.module;
 /**
  * Created by zero on 2015/7/22.
  */
-public class CmtItem {
+public class CtyItem {
     String action;
-    String cmtId;
+    String ctyId;
     String cmtMembers;
     String cmtIcon;
 
-    public CmtItem(String action, String cmtId, String cmtMembers) {
+    public CtyItem(String action, String ctyId, String cmtMembers) {
         this.action = action;
-        this.cmtId = cmtId;
+        this.ctyId = ctyId;
         this.cmtMembers = cmtMembers;
     }
 
@@ -19,7 +19,7 @@ public class CmtItem {
     public String toString() {
         return "CmtItem{" +
                 "action='" + action + '\'' +
-                ", cmtId='" + cmtId + '\'' +
+                ", ctyId='" + ctyId + '\'' +
                 ", cmtMembers='" + cmtMembers + '\'' +
                 '}';
     }
@@ -32,12 +32,12 @@ public class CmtItem {
         this.action = action;
     }
 
-    public String getCmtId() {
-        return cmtId;
+    public String getCtyId() {
+        return ctyId;
     }
 
-    public void setCmtId(String cmtId) {
-        this.cmtId = cmtId;
+    public void setCtyId(String ctyId) {
+        this.ctyId = ctyId;
     }
 
     public String getCmtIcon() {

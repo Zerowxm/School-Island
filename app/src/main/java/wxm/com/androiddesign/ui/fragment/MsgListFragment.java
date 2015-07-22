@@ -28,6 +28,7 @@ import java.util.List;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MsgAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
+import wxm.com.androiddesign.module.Message;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
@@ -38,7 +39,7 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
 public class MsgListFragment extends Fragment {
     RecyclerView recyclerView;
 
-    List<String> MsgList=new ArrayList<>();
+    List<Message> MsgList=new ArrayList<>();
 
     String userId;
 
@@ -64,6 +65,7 @@ public class MsgListFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
+        setupRecyclerView(recyclerView);
         return v;
     }
 
@@ -77,10 +79,10 @@ public class MsgListFragment extends Fragment {
 
             }
         }));
-        recyclerView.setAdapter(new MsgAdapter(MsgList));
+        new getMsg(getActivity()).execute();
     }
 
-    private class getMsg extends AsyncTask<User, Void, Boolean> {
+    private class getMsg extends AsyncTask<Void, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
@@ -102,20 +104,20 @@ public class MsgListFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             materialDialog.dismiss();
-            setupRecyclerView(recyclerView);
-
+            recyclerView.setAdapter(new MsgAdapter(MsgList));
         }
 
         @Override
-        protected Boolean doInBackground(User... params) {
+        protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showmsg");
+                object.put("action", "showMessage");
+                object.put("userId", userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            MsgList = new Gson().fromJson(json, new TypeToken<List<String>>() {
+            MsgList = new Gson().fromJson(json, new TypeToken<List<Message>>() {
             }.getType());
             return null;
         }
