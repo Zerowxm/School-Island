@@ -53,7 +53,7 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userId = getArguments().getString("UseId");
+        userId = getArguments().getString("UserId");
     }
 
     @Override

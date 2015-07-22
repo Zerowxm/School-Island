@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -291,9 +292,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
-        intent.putExtra("userId", mUser.getUserId());
-        startActivity(intent);
+        if(!MyUser.userId.equals("001")) {
+            Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
+            intent.putExtra("userId", mUser.getUserId());
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(this,"请登录后发布",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showLoginDialog() {

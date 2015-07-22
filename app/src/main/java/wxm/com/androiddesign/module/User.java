@@ -25,6 +25,8 @@ public class User {
     public String userGender;
     @Expose
     public String userIcon;
+    @Expose
+    public String isPublic;
 
     public String getUserLocation() {
         return userLocation;
@@ -93,7 +95,7 @@ public class User {
                 String userName, String userPassword,
                 String userEmail, String userPhone,
                 String userGender, String userIcon,
-                String userScore) {
+                String userScore,String isPublic) {
         this.action = action;
         this.userId = userId;
         this.userName = userName;
@@ -103,6 +105,7 @@ public class User {
         this.userGender = userGender;
         this.userIcon = userIcon;
         this.userScore = userScore;
+        this.isPublic = isPublic;
     }
 
     public String getAction() {
@@ -175,5 +178,13 @@ public class User {
 
     public void setUserScore(String userScore) {
         this.userScore = userScore;
+    }
+
+    public String getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(String isPublic) {
+        this.isPublic = isPublic;
     }
 }

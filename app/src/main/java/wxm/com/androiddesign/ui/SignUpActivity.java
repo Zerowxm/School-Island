@@ -173,7 +173,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
         user = new User("signup", get(user_id), get(user_name), get(password), get(emial), get(phone),
-                gender,"", "0");
+                gender,"", "0","true");
 
 
         BackgroundTask task = new BackgroundTask(this);
