@@ -217,9 +217,16 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                         DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+                        String temp="toVisitors";
                         try {
+                            if (which==0){
+                                temp="toMembers";
+                            }else if(which==1){
+                                temp="toUsers";
+                            }else if (which==2){
+                                temp="toVisitors";
+                            }
                             if (startTime.getText().toString().equals("开始时间")) {
                                 Toast.makeText(getApplicationContext(), "set your start time", Toast.LENGTH_SHORT).show();
                             } else if (endTime.getText().toString().equals("结束时间")) {
@@ -242,7 +249,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                                     AtyItem atyItem = new AtyItem("release", MyUser.userId,atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
                                             endTime.getText().toString(), locaton.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
-                                            "true", "false", "0", uriList);
+                                            "true", "false", "0",temp, uriList);
                                     new UpDateTask().execute(atyItem);
                                     atyItem.setUserName(MyUser.userName);
                                     HomeFragment.addActivity(atyItem);

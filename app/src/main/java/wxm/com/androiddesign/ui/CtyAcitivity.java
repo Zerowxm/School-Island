@@ -70,8 +70,8 @@ public class CtyAcitivity extends AppCompatActivity {
             super.onPostExecute(reslut);
             if (reslut){
                 cmt_name.setText(ctyItem.getCtyId());
-                cmt_member.setText(ctyItem.getCmtMembers());
-                Picasso.with(context).load(ctyItem.getCmtIcon()).into(cmt_photo);
+                cmt_member.setText(ctyItem.getCtyMembers());
+                Picasso.with(context).load(ctyItem.getCtyIcon()).into(cmt_photo);
             }
         }
 

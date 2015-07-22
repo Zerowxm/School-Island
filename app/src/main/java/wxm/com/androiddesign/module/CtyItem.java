@@ -6,13 +6,22 @@ package wxm.com.androiddesign.module;
 public class CtyItem {
     String action;
     String ctyId;
-    String cmtMembers;
-    String cmtIcon;
+    String ctyMembers;
+    String ctyIcon;
+    String ctyIsAttention;
 
-    public CtyItem(String action, String ctyId, String cmtMembers) {
+    public String getCtyIsAttention() {
+        return ctyIsAttention;
+    }
+
+    public void setCtyIsAttention(String ctyIsAttention) {
+        this.ctyIsAttention = ctyIsAttention;
+    }
+
+    public CtyItem(String action, String ctyId, String ctyMembers) {
         this.action = action;
         this.ctyId = ctyId;
-        this.cmtMembers = cmtMembers;
+        this.ctyMembers = ctyMembers;
     }
 
     @Override
@@ -20,7 +29,7 @@ public class CtyItem {
         return "CmtItem{" +
                 "action='" + action + '\'' +
                 ", ctyId='" + ctyId + '\'' +
-                ", cmtMembers='" + cmtMembers + '\'' +
+                ", ctyMembers='" + ctyMembers + '\'' +
                 '}';
     }
 
@@ -40,19 +49,19 @@ public class CtyItem {
         this.ctyId = ctyId;
     }
 
-    public String getCmtIcon() {
-        return cmtIcon;
+    public String getCtyIcon() {
+        return ctyIcon;
     }
 
-    public void setCmtIcon(String cmtIcon) {
-        this.cmtIcon = cmtIcon;
+    public void setCtyIcon(String ctyIcon) {
+        this.ctyIcon = ctyIcon;
     }
 
-    public String getCmtMembers() {
-        return cmtMembers;
+    public String getCtyMembers() {
+        return ctyMembers;
     }
 
-    public void setCmtMembers(String cmtMembers) {
-        this.cmtMembers = cmtMembers;
+    public void setCtyMembers(String ctyMembers) {
+        this.ctyMembers = ctyMembers;
     }
 }

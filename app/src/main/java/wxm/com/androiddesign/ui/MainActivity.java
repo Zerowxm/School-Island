@@ -84,12 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new LoginTask(this).execute(false);
         setupNavigationView();
         openLocationServices();
-
     }
 
     private void openLocationServices() {
         Log.e("CJ", "onpenLocationServices");
         Intent i = new Intent();
+        i.putExtra("userId",MyUser.userId);
         i.setClass(getApplicationContext(), LocationServices.class);
         startService(i);
     }
@@ -97,8 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
-        i.putExtra("userId", mUser.getUserId());
-
+        i.putExtra("userId",MyUser.userId);
         i.setClass(getApplicationContext(), LocationServices.class);
         stopService(i);
     }
@@ -238,8 +237,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                     mUser.setIsPublic("true");
                                                 }else if (which==1){
                                                     mUser.setIsPublic("false");
-                                                }else return false;
-
+                                                }else
+                                                {
+                                                    Log.d("userwxm","countA"+which+text);
+                                                    return false;
+                                                }
+                                                Log.d("userwxm","countB"+which+text);
                                                 return true;
                                             }
                                         }).positiveText(R.string.choose)

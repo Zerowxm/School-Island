@@ -53,11 +53,9 @@ public class UserAcitivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("userId");
-
-        setupToolBar();
-        setupViewPager();
-        setupTabLayout();
         new GetUserINfo(this).execute();
+
+
     }
 
     private class GetUserINfo extends AsyncTask<Void,Void,Boolean>{
@@ -71,6 +69,9 @@ public class UserAcitivity extends AppCompatActivity {
         protected void onPostExecute(Boolean reslut) {
             super.onPostExecute(reslut);
             if (reslut){
+                setupToolBar();
+                setupViewPager();
+                setupTabLayout();
                 user_id.setText(user.getUserId());
                 score.setText(user.getUserScore());
                 Picasso.with(context).load(user.getUserIcon()).into(user_photo);
@@ -87,13 +88,9 @@ public class UserAcitivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             user=new Gson().fromJson(JsonConnection.getJSON(object.toString()),User.class);
+
             return true;
         }
-    }
-
-    private void setupInfo(){
-        user_id.setText(userId);
-        Log.d("user", "user:" + userId);
     }
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

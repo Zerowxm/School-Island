@@ -30,7 +30,24 @@ public class AtyItem implements Parcelable {
     String atyIsJoined;
     String atyIsLiked;
     String atyShares;
+    String atyIsPublic;
     List<String> atyAlbum = new ArrayList<String>();
+
+    public String getAtyComments() {
+        return atyComments;
+    }
+
+    public void setAtyComments(String atyComments) {
+        this.atyComments = atyComments;
+    }
+
+    public String getAtyIsPublic() {
+        return atyIsPublic;
+    }
+
+    public void setAtyIsPublic(String atyIsPublic) {
+        this.atyIsPublic = atyIsPublic;
+    }
 
     public String getAtyLikes() {
         return atyLikes;
@@ -214,10 +231,11 @@ public class AtyItem implements Parcelable {
                    String atyName, String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
-                   List<String> atyAlbum) {
+                   String atyIsPublic,List<String> atyAlbum) {
         this.action = action;
         this.userId = userId;
         this.atyType = atyType;
+        this.atyIsPublic = atyIsPublic;
         this.userName = userName;
         this.userPhoto = userPhoto;
         this.atyName = atyName;
@@ -246,7 +264,7 @@ public class AtyItem implements Parcelable {
                    String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent,
                    String atyPlus, String atyComment, String atyJoined,String atyIsLiked,
-                   String atyShare, List<String> atyAlbum) {
+                   String atyShare,String atyIsPublic, List<String> atyAlbum) {
         this.action = action;
         this.userId = userId;
         this.atyName = atyName;
@@ -260,6 +278,7 @@ public class AtyItem implements Parcelable {
         this.atyLikes = atyPlus;
         this.atyComments = atyComment;
         this.atyIsJoined = atyJoined;
+        this.atyIsPublic = atyIsPublic;
         this.atyShares = atyShare;
         this.atyAlbum = atyAlbum;
     }
@@ -282,6 +301,7 @@ public class AtyItem implements Parcelable {
         dest.writeString(atyComments);
         dest.writeString(atyIsJoined);
         dest.writeString(atyIsLiked);
+        dest.writeString(atyIsPublic);
         dest.writeString(atyShares);
         dest.writeList(atyAlbum);
     }
@@ -303,6 +323,7 @@ public class AtyItem implements Parcelable {
         atyComments = in.readString();
         atyIsJoined = in.readString();
         atyIsLiked = in.readString();
+        atyIsPublic = in.readString();
         atyShares = in.readString();
         in.readList(atyAlbum, List.class.getClassLoader());
     }
@@ -337,6 +358,7 @@ public class AtyItem implements Parcelable {
                 ", atyComment='" + atyComments + '\'' +
                 ", atyIsJoined='" + atyIsJoined + '\'' +
                 ", atyIsLiked='" + atyIsLiked + '\'' +
+                ", atyIsPublic='" + atyIsPublic + '\'' +
                 ", atyShares='" + atyShares + '\'' +
                 ", atyAlbum=" + atyAlbum +
                 '}';

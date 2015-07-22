@@ -28,6 +28,39 @@ public class User {
     @Expose
     public String userAlbumIsPublic;
 
+    public String getUserAlbumIsPublic() {
+        return userAlbumIsPublic;
+    }
+
+    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String qq, String userLocation, String userScore, String userAddress, List<String> userAlbum) {
+        this.action = action;
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userEmail = userEmail;
+        this.userPhone = userPhone;
+        this.userGender = userGender;
+        this.userIcon = userIcon;
+        this.userAlbumIsPublic = userAlbumIsPublic;
+        this.qq = qq;
+        this.userLocation = userLocation;
+        this.userScore = userScore;
+        this.userAddress = userAddress;
+        this.userAlbum = userAlbum;
+    }
+
+    public void setUserAlbumIsPublic(String userAlbumIsPublic) {
+        this.userAlbumIsPublic = userAlbumIsPublic;
+    }
+
+    public List<String> getUserAlbum() {
+        return userAlbum;
+    }
+
+    public void setUserAlbum(List<String> userAlbum) {
+        this.userAlbum = userAlbum;
+    }
+
     public String getUserLocation() {
         return userLocation;
     }
