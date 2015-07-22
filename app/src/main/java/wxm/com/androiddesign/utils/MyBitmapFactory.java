@@ -15,14 +15,14 @@ public class MyBitmapFactory {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-
-//        try {
-//            temp = new String(b, "ISO-8859-1");
+//        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        String temp="";
+        try {
+            temp = new String(b, "ISO-8859-1");
         Log.d("bitmap", "" + b.length);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return temp;
     }
 

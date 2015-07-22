@@ -39,7 +39,6 @@ public class LocationServices extends Service {
 
     @Override
     public void onCreate() {
-        Log.e("CJ", "onServiceCreate");
         InitGPS();
         super.onCreate();
     }
@@ -54,7 +53,6 @@ public class LocationServices extends Service {
                 return;
             Latitude = location.getLatitude();
             Longitude = location.getLongitude();
-            Log.e("CJ","location : " + Latitude + " " + Longitude);
         }
     }
 }

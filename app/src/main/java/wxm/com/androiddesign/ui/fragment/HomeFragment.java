@@ -30,6 +30,7 @@ import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -42,6 +43,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
@@ -61,10 +64,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     Toolbar toolbar;
     static MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    Spinner mSpinner;
+    //Spinner mSpinner;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
     private String userId;
-
+    @Bind(R.id.country)TextView country;
 
     @Override
     public void setHasOptionsMenu(boolean hasMenu) {
@@ -131,7 +134,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
               //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
-                if(activityItems.size()==0)
+
+                if(activityItems==null)
                     return false;
                 for (int i=0;i<activityItems.size();i++){
                     Log.d("Task",activityItems.get(i).toString());
@@ -151,7 +155,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-        mSpinner = (Spinner) v.findViewById(R.id.spinner);
+        //mSpinner = (Spinner) v.findViewById(R.id.spinner);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -164,23 +168,28 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         //new GetAtyTask().execute();
-        setupSpinner(mSpinner);
+        //setupSpinner(mSpinner);
         setupRecyclerView(recyclerView);
         Log.d("home","onCreateView");
         return v;
     }
 
-    private void setupSpinner(Spinner spinner) {
-        List<String> spinnerarry = new ArrayList<String>();
-        spinnerarry.add("厦门");
+    @OnClick(R.id.country)
+    public void chooseCountry(){
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, spinnerarry);
-        // ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getActivity(),R.array.action_bar_spinner,
-        //         R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
     }
+
+//    private void setupSpinner(Spinner spinner) {
+//        List<String> spinnerarry = new ArrayList<String>();
+//        spinnerarry.add("厦门");
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, spinnerarry);
+//        // ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getActivity(),R.array.action_bar_spinner,
+//        //         R.layout.spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+//        spinner.setOnItemSelectedListener(this);
+//    }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));

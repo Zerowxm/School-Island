@@ -68,6 +68,7 @@ public class LoginFragment extends DialogFragment {
     @Bind(R.id.password_edit_text)
     EditText password;
     String mResult = "";
+    User user = new User();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,16 +92,13 @@ public class LoginFragment extends DialogFragment {
         NetworkInfo networkInfo = check.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             //do some thing
-            User user = new User();
+
             user.setAction("login");
             user.setUserId(user_name.getText().toString());
             user.setUserPassword(password.getText().toString());
 
             new LoginTask(getActivity()).execute(new Gson().toJson(user));
-            Intent i = new Intent();
-            i.setClass(getActivity(), MessageService.class);
-            i.putExtra("userId",user.getUserId());
-            getActivity().startService(i);
+
         } else {
             username_layout.setError("网络连接错误");
         }
@@ -143,7 +141,13 @@ public class LoginFragment extends DialogFragment {
             super.onPostExecute(result);
             if (result == true) {
                 materialDialog.dismiss();
-                loginCallBack.onLongin(new Gson().fromJson(mResult, User.class));
+                User mUser=new Gson().fromJson(mResult, User.class);
+                mUser.setUserPassword(user.getUserPassword());
+                loginCallBack.onLongin(mUser);
+//                Intent i = new Intent();
+//                i.setClass(getActivity(), MessageService.class);
+//                i.putExtra("userId", user.getUserId());
+//                getActivity().startService(i);
                 //username_layout.setError("用户名错误");
             } else {
                 materialDialog.dismiss();

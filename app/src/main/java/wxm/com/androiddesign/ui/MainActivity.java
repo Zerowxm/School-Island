@@ -78,12 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         instance = this;
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
-
-        mUser.setUserName("游客");
-        mUser.setUserId("001");
-        mUser.setUserIcon("R.drawable.miao");
-
-
         setContentView(R.layout.activity_main);
         instance = this;
         if (savedInstanceState == null) {
@@ -93,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupFab();
         new LoginTask(this).execute(false);
         setupNavigationView();
-        setupInfo();
         openLocationServices();
     }
 
@@ -101,12 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e("CJ", "onpenLocationServices");
         Intent i = new Intent();
         i.setClass(getApplicationContext(), LocationServices.class);
+        i.putExtra("userId", mUser.getUserId());
         startService(i);
     }
 
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
+        i.putExtra("userId",mUser.getUserId());
         i.setClass(getApplicationContext(), LocationServices.class);
         startService(i);
     }
@@ -117,9 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
     }
 
-    private void setupInfo() {
-
-    }
 
     public class LoginTask extends AsyncTask<Boolean, Void, User> {
         Context context;
@@ -131,9 +123,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
+            if (user==null){
+
+                return;
+            }
             mUser = user;
+            Log.d("user",mUser.toString());
             user_name.setText(mUser.getUserName());
-            if (user_name.getText().equals("vistor")) {
+            if ("001".equals(mUser.getUserId())) {
                user_email.setText("点击头像登录");
                 logout.setText("");
                 logout.setClickable(false);
@@ -145,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userId = mUser.getUserId();
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
-            Picasso.with(context).load(mUser.getUserIcon()).into(user_photo);
+            Log.d("user",MyUser.userIcon);
+            Picasso.with(context).load(MyUser.userIcon).into(user_photo);
         }
 
         @Override
@@ -162,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return null;
             }
             SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
             String name = prefs.getString("UserId", "001");
@@ -174,6 +171,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 object.put("userPassword", password);
 
                 String userJson = JsonConnection.getJSON(object.toString());
+                if (userJson.contains("false")){
+                    return null;
+                }
                 return new Gson().fromJson(userJson, User.class);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -196,6 +196,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user_name.setText(user.getUserName());
         user_email.setText(user.getUserEmail());
         Picasso.with(this).load(user.getUserIcon()).into(user_photo);
+        logout.setText("Logout");
+        logout.setClickable(true);
     }
 
     private void setupDrawerContent(final NavigationView navigationView) {
@@ -217,7 +219,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_attention:
-
+                                Intent cmtIntent=new Intent(MainActivity.this,CmtAcitivity.class);
+                                startActivity(cmtIntent);
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
@@ -281,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editor.putString("UserId", userId);
             editor.putString("UserPassword", password);
             editor.apply();
-            new LoginTask(this).execute();
+            new LoginTask(this).execute(false);
         }
 
     }
