@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 //import com.melnykov.fab.FloatingActionButton;
@@ -13,7 +12,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
@@ -28,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -54,14 +51,14 @@ import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack, SearchView.OnQueryTextListener {
     DrawerLayout drawerLayout;
 
-    public static int SIGNUP=0x1;
+    public static int SIGNUP = 0x1;
 
-    public static MainActivity instance =null ;
+    public static MainActivity instance = null;
     public static Context context;
 
     @Bind(R.id.fab)
     FloatingActionButton fab;
-    User mUuser = new User();
+    User mUser = new User();
 
     @Override
     protected void onDestroy() {
@@ -71,17 +68,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        instance=this;
-        context=getApplicationContext();
+        instance = this;
+        context = getApplicationContext();
         super.onCreate(savedInstanceState);
 
-        mUuser.setUserId("游客");
-        mUuser.setUserName("游客");
+        mUser.setUserName("游客");
+        mUser.setUserId("001");
+        mUser.setUserIcon("null");
+
 
         setContentView(R.layout.activity_main);
         instance = this;
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(mUuser.getUserId())).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commit();
         }
 
         ButterKnife.bind(this);
@@ -91,16 +90,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupInfo();
         openLocationServices();
     }
-    private void openLocationServices()
-    {
+
+    private void openLocationServices() {
         Log.e("CJ", "onpenLocationServices");
         Intent i = new Intent();
         i.setClass(getApplicationContext(), LocationServices.class);
         startService(i);
     }
-    private void closeLocationServices()
-    {
-        Log.e("CJ","closeLocationServices");
+
+    private void closeLocationServices() {
+        Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
         i.setClass(getApplicationContext(), LocationServices.class);
         startService(i);
@@ -126,17 +125,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
-            mUuser = user;
-            ((TextView) findViewById(R.id.username)).setText(mUuser.getUserName());
-            ((TextView) findViewById(R.id.user_email)).setText(mUuser.getUserEmail());
-            Picasso.with(context).load(mUuser.getUserIcon()).into((CircleImageView) findViewById(R.id.user_photo));
+            mUser = user;
+            ((TextView) findViewById(R.id.username)).setText(mUser.getUserName());
+            if (((TextView) findViewById(R.id.username)).getText().equals("vistor")) {
+                ((TextView) findViewById(R.id.user_email)).setText("点击头像登录");
+            } else
+                ((TextView) findViewById(R.id.user_email)).setText(mUser.getUserEmail());
+            MyUser.userId = mUser.getUserId();
+            MyUser.userName = mUser.getUserName();
+            MyUser.userIcon = mUser.getUserIcon();
+            Picasso.with(context).load(mUser.getUserIcon()).into((CircleImageView) findViewById(R.id.user_photo));
         }
 
         @Override
         protected User doInBackground(Void... params) {
             SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            String name = prefs.getString("UserId", "游客");
-            String password = prefs.getString("UserPassword", "123");
+            String name = prefs.getString("UserId", "001");
+            String password = prefs.getString("UserPassword", "001");
             JSONObject object = new JSONObject();
             try {
                 object.put("action", "login");
@@ -154,9 +159,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onLongin(User user) {
-        mUuser = user;
-        MyUser.userId=user.getUserId();
-        MyUser.userName=user.getUserName();
+        mUser = user;
+        MyUser.userId = user.getUserId();
+        MyUser.userName = user.getUserName();
         Log.d("user", user.toString());
         SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -181,10 +186,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         drawerLayout.closeDrawers();
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(mUuser.getUserId())).commitAllowingStateLoss();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_explore:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUuser.getUserId())).commitAllowingStateLoss();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_attention:
 
@@ -192,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         Snackbar.LENGTH_SHORT).show();
                                 return true;
                             case R.id.nav_messages:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(mUuser.getUserId())).commitAllowingStateLoss();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                             case R.id.nav_user_setting:
 
                                 return true;
@@ -215,22 +220,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         header.setClickable(true);
         final CircleImageView userPhoto = (CircleImageView) findViewById(R.id.user_photo);
         userPhoto.setClickable(true);
-        //Glide.with(this).load("http://101.200.191.149:8080/bootstrapRepository/images_repo/back_dark.png").into(userPhoto);
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.closeDrawers();
-                showLoginDialog();
-                if (((TextView) findViewById(R.id.username)).getText().equals("游客")) {
+
+                if (((TextView) findViewById(R.id.username)).getText().equals("vistor")) {
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {
-//                    Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
-//                    intent.putExtra("userId", mUuser.getUserId());
-//                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                            MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
-//                    );
-//                    ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
+                    Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
+                    intent.putExtra("userId", mUser.getUserId());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
+                    );
+                    ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
                 }
             }
         });
@@ -240,9 +243,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==SIGNUP&&resultCode==RESULT_OK){
-            String userId=data.getStringExtra("userId");
-            String password=data.getStringExtra("userPassword");
+        if (requestCode == SIGNUP && resultCode == RESULT_OK) {
+            String userId = data.getStringExtra("userId");
+            String password = data.getStringExtra("userPassword");
             SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("UserId", userId);
@@ -289,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
-        intent.putExtra("userId", mUuser.getUserId());
+        intent.putExtra("userId", mUser.getUserId());
         startActivity(intent);
     }
 

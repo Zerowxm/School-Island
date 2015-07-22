@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -79,6 +81,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         toolbar.setTitle("SignUp");
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setElevation(10);
     }
 
@@ -99,7 +102,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setupTextInputLayout();
         setup();
 
-        // setupToolbar();
+        setupToolbar();
     }
 
 
@@ -302,6 +305,32 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             Glide.with(this).load(selectedImgUri).into(user_photo);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_user_acitivity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

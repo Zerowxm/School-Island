@@ -179,7 +179,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         //  if (fragment.equals("HomeFragment"))
-        HomeFragment.refresh(atyItem, position);
+//        HomeFragment.refresh(atyItem, position);
         //   else if (fragment.equals("ActivityFragment"))
         //    ActivityFragment.refresh(atyItem, position);
     }

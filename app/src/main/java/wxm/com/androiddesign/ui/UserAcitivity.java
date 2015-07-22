@@ -1,5 +1,7 @@
 package wxm.com.androiddesign.ui;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,10 +13,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
+import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.CmtListFragment;
 import wxm.com.androiddesign.ui.fragment.PhotoFragment;
@@ -28,9 +39,11 @@ public class UserAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
     String userId="";
+    User user;
+
     @Bind(R.id.user_id)TextView user_id;
     @Bind(R.id.score)TextView score;
-
+    @Bind(R.id.user_photo)CircleImageView user_photo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +55,38 @@ public class UserAcitivity extends AppCompatActivity {
         setupToolBar();
         setupViewPager();
         setupTabLayout();
-        setupInfo();
+        new GetUserINfo(this).execute();
+    }
+
+    private class GetUserINfo extends AsyncTask<Void,Void,Boolean>{
+        Context context;
+
+        public GetUserINfo(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean reslut) {
+            super.onPostExecute(reslut);
+            if (reslut){
+                user_id.setText(user.getUserId());
+                score.setText(user.getUserScore());
+                Picasso.with(context).load(user.getUserIcon()).into(user_photo);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            JSONObject object=new JSONObject();
+            try {
+                object.put("action","showProfile");
+                object.put("userId",userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            user=new Gson().fromJson(JsonConnection.getJSON(object.toString()),User.class);
+            return true;
+        }
     }
 
     private void setupInfo(){

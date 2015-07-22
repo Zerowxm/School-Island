@@ -59,6 +59,7 @@ import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.DetailActivity;
@@ -79,19 +80,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     AtyItem item;
     String fragment;
     String userId;
-    boolean isUser = true;
 
     public MyRecycerAdapter(List<AtyItem> activityItemArrayList,String userId, AppCompatActivity activity, String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
         this.fragment = fragment;
         this.userId = userId;
-//        if("001".equals(userId)){
-//            isUser = false;
-//        }else{
-//            isUser = true;
-//        }
-
     }
 
     @Override
@@ -113,7 +107,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onCard(CardView cardView, int position) {
-                if(isUser) {
+                if(!"001".equals(MyUser.userId)) {
                     Log.d("recyclerview", "onCard");
                     Intent intent = new Intent(activity, DetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
@@ -127,7 +121,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onComment(FloatingActionButton fab, int adapterPosition) {
-                if(isUser) {
+                if(!"001".equals(MyUser.userId)) {
                     Intent intent = new Intent(activity, DetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                     intent.putExtra("position", adapterPosition);
@@ -141,7 +135,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onJoinBtn(Button button, int adapterPosition) {
-                if(isUser) {
+                if(!"001".equals(MyUser.userId)) {
                     AtyItem atyItem = activityItems.get(adapterPosition);
                     item = atyItem;
                     if ("加入".equals(button.getText().toString())) {
@@ -166,7 +160,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onPlus(FloatingActionButton fab, int adapterPosition, TextView plus) {
-                if(isUser) {
+                if(!"001".equals(MyUser.userId)) {
                     AtyItem atyItem = activityItems.get(adapterPosition);
                     item = atyItem;
                     if (atyItem.getAtyPlused().equals("true")) {
@@ -211,6 +205,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 object.put("action",params[0]);
                 object.put("userId",userId);
                 object.put("atyId",item.getAtyId());
+                object.put("atyName",item.getAtyName());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -242,7 +237,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.total_comment.setText(item.getAtyComment());
         holder.user_name.setText(item.getUserName());
 
-        if (isUser) {
+        if (!"001".equals(MyUser.userId)) {
             holder.imageViewContainer.setVisibility(View.GONE);
         }
 
@@ -385,7 +380,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ActivityItem activityItem;
         MyViewHolderClicks mListener;
 
         @Bind(R.id.join)

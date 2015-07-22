@@ -85,8 +85,6 @@ public class UserActivityFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new MyItemAnimator());
-        myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
-        recyclerView.setAdapter(myRecycerAdapter);
         new GetAtyTask().execute(type);
 
     }
