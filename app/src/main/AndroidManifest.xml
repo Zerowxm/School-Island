@@ -129,22 +129,14 @@
             android:label="@string/title_activity_user_list" >
         </activity>
 
-<<<<<<< HEAD
+
         <service android:name=".services.LocationServices" android:enabled="true"/>
         <service android:name=".services.MessageService" android:enabled="true"/>
-=======
-        <service
-            android:name=".MessageService"
-            android:enabled="true" />
-        <service
-            android:name=".services.LocationServices"
-            android:enabled="true" />
-
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting" >
         </activity>
->>>>>>> origin/wxm
+
     </application>
 
 </manifest>

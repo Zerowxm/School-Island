@@ -84,10 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new LoginTask(this).execute(false);
         setupNavigationView();
         openLocationServices();
-
-        Intent i = new Intent();
-        i.setClass(getApplicationContext(), LocationActivity.class);
-        startActivity(i);
     }
 
     private void openLocationServices() {
@@ -100,10 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
-<<<<<<< HEAD
-=======
-        i.putExtra("userId", mUser.getUserId());
->>>>>>> origin/wxm
         i.setClass(getApplicationContext(), LocationServices.class);
         stopService(i);
     }
@@ -144,11 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userId = mUser.getUserId();
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
-
-<<<<<<< HEAD
-            //Log.d("user",MyUser.userIcon);
-=======
->>>>>>> origin/wxm
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
             getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
