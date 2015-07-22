@@ -62,6 +62,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.DetailActivity;
 
 import wxm.com.androiddesign.ui.MainActivity;
@@ -98,6 +99,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Intent intent = new Intent(activity, UserAcitivity.class);
                 intent.putExtra("userId",activityItems.get(position).getUserId());
                 Log.d("user","user:"+activityItems.get(position).getUserId());
+                activity.startActivity(intent);
+            }
+
+            @Override
+            public void onCommunity(TextView community,int position){
+                Intent intent = new Intent(activity, CmtAcitivity.class);
+                intent.putExtra("cmtName",community.getText().toString());
                 activity.startActivity(intent);
             }
 
@@ -452,6 +460,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 mListener.onCard((CardView) v, getLayoutPosition());
             } else if (v instanceof Button) {
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
+            }else if(v instanceof TextView && (v.getId() == R.id.community_name)){
+                mListener.onCommunity((TextView)v,getAdapterPosition());
             }
         }
 
@@ -479,6 +489,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         public interface MyViewHolderClicks {
             public void onUserPhoto(CircleImageView user_photo,int position);
+
+            public void onCommunity(TextView community,int position);
 
             public void onPicture(ImageView picture,int position);
 

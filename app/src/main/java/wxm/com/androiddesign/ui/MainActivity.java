@@ -80,9 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commit();
-        }
         ButterKnife.bind(this);
         setupFab();
         new LoginTask(this).execute(false);
@@ -128,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
             mUser = user;
-            Log.d("user",mUser.toString());
+            Log.d("user", mUser.toString());
             user_name.setText(mUser.getUserName());
             if ("001".equals(mUser.getUserId())) {
                user_email.setText("点击头像登录");
@@ -142,9 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userId = mUser.getUserId();
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
-
-            Log.d("user",MyUser.userIcon);
-            Picasso.with(context).load(MyUser.userIcon).into(user_photo);
+            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+           // Log.d("user",MyUser.userIcon);
+           // Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
         }
 
@@ -259,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
 
-                if (user_name.getText().equals("vistor")) {
+                if (MyUser.userId.equals("001")) {
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {
