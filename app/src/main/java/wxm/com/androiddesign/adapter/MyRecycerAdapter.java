@@ -223,18 +223,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.total_comment.setText(item.getAtyComment());
         holder.user_name.setText(item.getUserName());
 
-        if (!"001".equals(MyUser.userId)) {
+        if (!"001".equals(MyUser.userId) || (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals(""))) {
             holder.imageViewContainer.setVisibility(View.GONE);
-        }else if(item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("")){
-
         }
 
-
-
-            holder.imageViewContainer.removeAllViews();
+        holder.imageViewContainer.removeAllViews();
         if(item.getAtyAlbum()!=null){
-
-
             Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
             for (int i = 0; i < item.getAtyAlbum().size(); i++) {
                 ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);

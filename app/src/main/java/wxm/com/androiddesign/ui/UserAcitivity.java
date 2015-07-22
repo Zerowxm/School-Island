@@ -88,7 +88,7 @@ public class UserAcitivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             user=new Gson().fromJson(JsonConnection.getJSON(object.toString()),User.class);
-
+            user.setUserId(userId);
             return true;
         }
     }
@@ -110,10 +110,11 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
         adapter.addFragment(new CmtListFragment(), "社区");
         //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
-        if(user.getIsPublic().equals("true") || MyUser.userId.equals(user.getUserId()))
-            adapter.addFragment(PhotoFragment.newInstance(userId),"相册");
+        if(user.getIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
+            adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
+        }
         else{
-           adapter.addFragment(new FooFragment(),"相册");
+           adapter.addFragment(new FooFragment(), "相册");
         }
 
         viewPager.setAdapter(adapter);

@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="22sp"
-                        android:text="城市"
+                        android:text="定位中..."
                         fonts:typeface="Roboto-Bold.ttf"
                         android:layout_centerVertical="true"/>
                 </RelativeLayout>

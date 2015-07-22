@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MyUser.userIcon = mUser.getUserIcon();
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
-            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
 
 
         }
@@ -197,6 +197,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Picasso.with(this).load(user.getUserIcon()).into(user_photo);
         logout.setText("Logout");
         logout.setClickable(true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+    }
+
+    private class UpDateTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object = new JSONObject();
+                object.put("action","editAlbumRight");
+                object.put("userId",MyUser.userId);
+                object.put("userAlbumIsPublic",params[0]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("mjson",json);
+            return null;
+        }
     }
 
     private void setupDrawerContent(final NavigationView navigationView, final Context context) {
@@ -234,9 +263,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             @Override
                                             public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                                 if (which==0){
-                                                    mUser.setIsPublic("true");
+                                                    new UpDateTask().execute("true");
                                                 }else if (which==1){
-                                                    mUser.setIsPublic("false");
+                                                    new UpDateTask().execute("false");
                                                 }else
                                                 {
                                                     Log.d("userwxm","countA"+which+text);
@@ -258,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @OnClick(R.id.logout)
     public void Logout(){
         new LoginTask(this).execute(true);
+        drawerLayout.closeDrawers();
     }
 
 

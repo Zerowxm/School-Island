@@ -30,7 +30,7 @@ public class FetchItems {
             URL url = new URL(surl);
             URLConnection urlConnection = url.openConnection();
             HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
-            Log.d("connection", "c1");
+          //  Log.d("connection", "c1");
 
             //设置HttpURLConnextion参数设置
             httpURLConnection.setDoOutput(true);
@@ -43,12 +43,12 @@ public class FetchItems {
             httpURLConnection.setConnectTimeout(5000);          //设置连接超时的时间
 
 
-            Log.d("connection", "c2");
+           // Log.d("connection", "c2");
 
             //HttpURLConnection连接
             httpURLConnection.connect();
 
-            Log.d("connection", "c3");
+           // Log.d("connection", "c3");
 
             OutputStream outStrm = httpURLConnection.getOutputStream();
 
@@ -60,14 +60,14 @@ public class FetchItems {
             objOutputStrm.flush();                              //数据输出
             objOutputStrm.close();
 
-            Log.d("connection", "c4");
+          // Log.d("connection", "c4");
 
             //getInputstream会发出请求代码，至此一次http请求结束，后面写的对象输出流没有意义
             InputStream inStrm = httpURLConnection.getInputStream();
 
             ObjectInputStream objInputStrm = new ObjectInputStream(inStrm);
 
-            Log.d("connection", "c5");
+           // Log.d("connection", "c5");
 
             int status = httpURLConnection.getResponseCode();
 
@@ -75,14 +75,14 @@ public class FetchItems {
             if (status == 200)
             {
                 //JSONObject inJson = (JSONObject)objInputStrm.readObject();
-                Log.e("connection", "Connection Success");
+              //  Log.e("connection", "Connection Success");
 
                 Object obj = objInputStrm.readObject();
                 result = obj.toString();
             }
             else
             {
-                Log.d("connection", "返回数据失败");
+             //   Log.d("connection", "返回数据失败");
             }
 
             objInputStrm.close();

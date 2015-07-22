@@ -125,6 +125,11 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((AtyViewHolder) holder).mjoinBtn.setText("加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
             }
+
+            if (atyItem.getAtyIsJoined().equals("false") && atyItem.getAtyIsPublic().equals("")) {
+                ((AtyViewHolder)holder).imageViewContainer.setVisibility(View.GONE);
+            }
+
             for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
                 ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image, null);
                 WindowManager windowManager = activity.getWindowManager();
@@ -271,6 +276,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         FloatingActionButton share_fab;
         @Bind(R.id.member_num)
         TextView total_member;
+
 
         public AtyViewHolder(View itemView) {
             super(itemView);

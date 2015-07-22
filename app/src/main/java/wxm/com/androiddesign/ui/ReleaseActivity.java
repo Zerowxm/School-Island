@@ -191,8 +191,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                 }
 
             }
