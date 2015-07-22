@@ -29,7 +29,7 @@ import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.CtyItem;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.CmtAtyFragment;
+import wxm.com.androiddesign.ui.fragment.CtyAtyFragment;
 import wxm.com.androiddesign.ui.fragment.UserListFragment;
 
 
@@ -157,7 +157,7 @@ public class CtyAcitivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(CmtAtyFragment.newInstance(cmtId),"活动");
+        adapter.addFragment(CtyAtyFragment.newInstance(cmtId),"活动");
 
         adapter.addFragment(UserListFragment.newInstance(cmtId),"用户");
 

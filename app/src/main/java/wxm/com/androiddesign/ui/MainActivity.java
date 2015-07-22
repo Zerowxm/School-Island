@@ -40,7 +40,6 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.services.LocationServices;
-import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 return true;
                             case R.id.nav_attention:
-                                Intent cmtIntent = new Intent(MainActivity.this, CmtAcitivity.class);
+                                Intent cmtIntent = new Intent(MainActivity.this, CtyAcitivity.class);
                                 startActivity(cmtIntent);
                                 Snackbar.make(drawerLayout, "关注",
                                         Snackbar.LENGTH_SHORT).show();
