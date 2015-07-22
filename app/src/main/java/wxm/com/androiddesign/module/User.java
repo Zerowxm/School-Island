@@ -46,7 +46,7 @@ public class User {
         this.userAlbumIsPublic = userAlbumIsPublic;
         this.qq = qq;
         this.userLocation = userLocation;
-        this.userScore = userScore;
+        this.userCredit = userScore;
         this.userAddress = userAddress;
         this.userAlbum = userAlbum;
     }
@@ -78,8 +78,18 @@ public class User {
     @Expose
     public String userLocation;
     @Expose
-    public String userScore;
+    public String userCredit;
+
+    public String getUserCredit() {
+        return userCredit;
+    }
+
+    public void setUserCredit(String userCredit) {
+        this.userCredit = userCredit;
+    }
+
     @Expose
+
     public String userAddress;
 
     public String getQq() {
@@ -115,7 +125,7 @@ public class User {
                 ", userIcon='" + userIcon + '\'' +
                 ", qq='" + qq + '\'' +
                 ", userAddress='" + userAddress + '\'' +
-                ", userScore='" + userScore + '\'' +
+                ", userScore='" + userCredit + '\'' +
                 ", userAlbumIsPublic='" + userAlbumIsPublic + '\'' +
                 ", userAlbum=" + userAlbum +
                 '}';
@@ -140,7 +150,7 @@ public class User {
         this.userPhone = userPhone;
         this.userGender = userGender;
         this.userIcon = userIcon;
-        this.userScore = userScore;
+        this.userCredit = userScore;
         this.userAlbumIsPublic = isPublic;
     }
 
@@ -209,11 +219,11 @@ public class User {
     }
 
     public String getUserScore() {
-        return userScore;
+        return userCredit;
     }
 
     public void setUserScore(String userScore) {
-        this.userScore = userScore;
+        this.userCredit = userScore;
     }
 
     public String getIsPublic() {
