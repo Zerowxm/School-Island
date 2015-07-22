@@ -44,6 +44,7 @@ public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         CtyItem ctyItem=ctyItems.get(position);
         holder.community_name.setText(ctyItem.getCtyId());
+        holder.member_num.setText(ctyItem.getCtyMembers());
         Picasso.with(context).load(ctyItem.getCtyIcon()).into(holder.community_img);
     }
 

@@ -77,8 +77,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto,int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                intent.putExtra("userId",activityItems.get(position).getUserId());
-                Log.d("user","user:"+activityItems.get(position).getUserId());
+                intent.putExtra("userId", activityItems.get(position).getUserId());
+                Log.d("user", "user:" + activityItems.get(position).getUserId());
                 activity.startActivity(intent);
             }
 

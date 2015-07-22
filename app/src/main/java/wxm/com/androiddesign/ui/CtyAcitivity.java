@@ -52,9 +52,9 @@ public class CtyAcitivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         //cmtId = bundle.getString("ctyId");
-        cmtId="music";
+        cmtId="科学";
         new GetUserInfo(this).execute();
-        //new GetUserINfo(this).execute();
+       // if(ctyItem)
     }
 
     private class GetUserInfo extends AsyncTask<Void,Void,Boolean>{
@@ -74,6 +74,14 @@ public class CtyAcitivity extends AppCompatActivity {
                 cmt_name.setText(ctyItem.getCtyId());
                 cmt_member.setText(ctyItem.getCtyMembers());
                 Picasso.with(context).load(ctyItem.getCtyIcon()).into(cmt_photo);
+
+                if(ctyItem.getCtyIsAttention().equals("true")){
+                    joinbtn.setTextColor(getResources().getColor(R.color.gray));
+                    joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
+                }else{
+                    joinbtn.setTextColor(getResources().getColor(R.color.primary));
+                    joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
+                }
             }
         }
 
@@ -97,11 +105,13 @@ public class CtyAcitivity extends AppCompatActivity {
     public void joinCmt(){
         if (!flag){
             joinbtn.setText("已订阅");
+            cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString())+1));
             joinbtn.setTextColor(getResources().getColor(R.color.gray));
             joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
             flag=true;
         }else {
             joinbtn.setText("+订阅");
+            cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString())-1));
             joinbtn.setTextColor(getResources().getColor(R.color.primary));
             joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
             flag=false;
@@ -113,6 +123,7 @@ public class CtyAcitivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
 
         @Override
@@ -157,9 +168,10 @@ public class CtyAcitivity extends AppCompatActivity {
 
     private void setupViewPager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
 
-       // adapter.addFragment(CtyAtyFragment.newInstance(cmtId),"活动");
+        adapter.addFragment(CtyAtyFragment.newInstance(cmtId),"活动");
 
         adapter.addFragment(UserListFragment.newInstance(cmtId),"用户");
 
