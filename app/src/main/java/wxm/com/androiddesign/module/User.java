@@ -81,6 +81,7 @@ public class User {
                 ", qq='" + qq + '\'' +
                 ", userAddress='" + userAddress + '\'' +
                 ", userScore='" + userScore + '\'' +
+                ", userAlbumIsPublic='" + userAlbumIsPublic + '\'' +
                 ", userAlbum=" + userAlbum +
                 '}';
     }
