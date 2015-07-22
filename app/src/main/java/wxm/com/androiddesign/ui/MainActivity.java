@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         instance=this;
         context=getApplicationContext();
         super.onCreate(savedInstanceState);
-
-        mUuser.setUserId("cz");
-        mUuser.setUserName("游客");
+        mUuser.setUserId("001");
+       // mUuser.setUserName("游客");
+        mUuser.setUserIcon("null");
 
         setContentView(R.layout.activity_main);
         instance = this;
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(mUuser.getUserId())).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.content, HomeFragment.newInstance(MyUser.userId)).commit();
         }
 
         ButterKnife.bind(this);
@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected User doInBackground(Void... params) {
             SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            String name = prefs.getString("UserId", "游客");
-            String password = prefs.getString("UserPassword", "123");
+            String name = prefs.getString("UserId", "001");
+            String password = prefs.getString("UserPassword", "001");
             JSONObject object = new JSONObject();
             try {
                 object.put("action", "login");
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((TextView) findViewById(R.id.username)).getText().equals("游客")) {
+                if (((TextView) findViewById(R.id.username)).getText().equals("visitor")) {
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {

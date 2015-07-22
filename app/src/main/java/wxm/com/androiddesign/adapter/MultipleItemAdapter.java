@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,9 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,6 +54,7 @@ import wxm.com.androiddesign.module.ActivityItem;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
@@ -277,14 +282,15 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
                         mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
                         notifyDataSetChanged();
+                        new UpDateTask().execute("join");
                     } else {
                         mjoinBtn.setText("加入");
                         atyItem.setAtyJoined("false");
                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
                         mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
                         notifyDataSetChanged();
+                        new UpDateTask().execute("notJoin");
                     }
-                    new UpDateAtyTask().execute(atyItem);
                 }
             });
 
@@ -324,6 +330,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         } catch (Exception e) {
 
                         }
+                        new UpDateTask().execute("notLike");
 
                     } else {
                         plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
@@ -336,8 +343,9 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         } catch (Exception e) {
 
                         }
+                        new UpDateTask().execute("like");
                     }
-                    new UpDateAtyTask().execute(atyItem);
+
                 }
             });
 
@@ -356,7 +364,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         }
 
-        private class UpDateAtyTask extends AsyncTask<AtyItem, Void, Void> {
+        private class UpDateTask extends AsyncTask<String, Void, Void> {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -368,9 +376,19 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             @Override
-            protected Void doInBackground(AtyItem... params) {
-                params[0].setAction("Update");
-                JsonConnection.getJSON(new Gson().toJson(params[0]));
+            protected Void doInBackground(String... params) {
+                JSONObject object = new JSONObject();
+                try {
+                    object = new JSONObject();
+                    object.put("action",params[0]);
+                    object.put("userId", MyUser.userId);
+                    object.put("atyId",atyItem.getAtyId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String json = JsonConnection.getJSON(object.toString());
+                Log.i("mjson", json);
+//            HomeFragment.addActivity(params[0]);
                 return null;
             }
         }
