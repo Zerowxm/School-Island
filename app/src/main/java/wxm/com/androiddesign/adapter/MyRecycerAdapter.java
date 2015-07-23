@@ -260,8 +260,10 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         public void onClick(final View v) {
                             new Handler().post(new Runnable() {
                                 public void run() {
-                                    MyDialog dialog = new MyDialog();
-                                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
+                                    MyDialog dialog = MyDialog.newInstance(item.getAtyAlbum().get((Integer) v.getTag()));
+                                    Log.i("tagtag",v.getTag()+"");
+                                    Log.i("getsize",item.getAtyAlbum().size()+"");
+                                  //  dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
                                     dialog.show(activity.getSupportFragmentManager(), "showPicture");
                                 }
                             });
