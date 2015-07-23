@@ -30,6 +30,7 @@ public class CtyItem {
                 "action='" + action + '\'' +
                 ", ctyId='" + ctyId + '\'' +
                 ", ctyMembers='" + ctyMembers + '\'' +
+                ", ctyIsAttention='" + ctyIsAttention + '\'' +
                 '}';
     }
 

@@ -109,7 +109,9 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release,userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
         //adapter.addFragment(CmtListFragment.newInstance(userId), "社区");
-        adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+        //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+        Log.i("publicuser",user.getUserId());
+        Log.i("publicuser",MyUser.userId);
         if(user.getIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
             adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
         }
