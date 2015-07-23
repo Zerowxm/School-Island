@@ -40,6 +40,20 @@ import wxm.com.androiddesign.services.LocationServices;
 public class CmtListFragment extends Fragment {
     RecyclerView recyclerView;
     List<CtyItem> ctyItems = new ArrayList<>();
+    String userId;
+    public static UserActivityFragment newInstance(String muserId) {
+        UserActivityFragment fragment = new UserActivityFragment();
+        Bundle args = new Bundle();
+        args.putString("UserId", muserId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userId = getArguments().getString("UserId");
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.cmt_layout, viewGroup, false);
@@ -79,15 +93,15 @@ public class CmtListFragment extends Fragment {
         protected Boolean doInBackground(String... params) {
             JSONObject object=new JSONObject();
             try {
-                object.put("action","showAllCommunity");
-                object.put("userId", MyUser.userId);
+                object.put("action","showAllCommunities");
+                object.put("userId", userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
-                //  Log.i("jsonarray",jsonarrys.toString());
+                Log.i("jsonarray",jsonarrys.toString());
                 ctyItems = new Gson().fromJson(jsonarrys, new TypeToken<List<CtyItem>>() {
                 }.getType());
 
-                if(ctyItems==null)
-                    return false;
+               // if(ctyItems==null)
+                  //  return false;
                 for (int i=0;i<ctyItems.size();i++){
                     Log.d("Task", ctyItems.get(i).toString());
                 }

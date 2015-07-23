@@ -42,7 +42,7 @@ public class CtyAtyAdapter extends RecyclerView.Adapter<CtyAtyAdapter.CmtAtyView
     public void onBindViewHolder(CmtAtyViewHodler holder, int position) {
         AtyItem atyItem=atyItemList.get(position);
         holder.aty_name.setText(atyItem.getAtyName());
-        Picasso.with(context).load(atyItem.getUserPhoto()).into(holder.user_photo);
+        Picasso.with(context).load(atyItem.getUserIcon()).into(holder.user_photo);
     }
 
     @Override

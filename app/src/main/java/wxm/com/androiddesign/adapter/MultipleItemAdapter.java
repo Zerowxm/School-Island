@@ -103,7 +103,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         if (holder instanceof AtyViewHolder) {
-            //Picasso.with(activity).load(atyItem.getUserPhoto()).into(((AtyViewHolder) holder).user_photo);
+            //Picasso.with(activity).load(atyItem.getUserIcon()).into(((AtyViewHolder) holder).user_photo);
             ((AtyViewHolder) holder).user_name.setText(atyItem.getUserName());
             ((AtyViewHolder) holder).aty_name.setText(atyItem.getAtyName());
             ((AtyViewHolder) holder).aty_content.setText(atyItem.getAtyContent());

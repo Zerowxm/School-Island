@@ -1,7 +1,5 @@
 package wxm.com.androiddesign.module;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,7 +14,7 @@ public class AtyItem implements Parcelable {
     String action;
     String userId;
     String userName;
-    String userPhoto;
+    String userIcon;
     String atyId;
     String atyName;
     String atyType;
@@ -133,12 +131,12 @@ public class AtyItem implements Parcelable {
         this.userName = userName;
     }
 
-    public void setUserPhoto(String userPhoto) {
-        this.userPhoto = userPhoto;
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
     }
 
-    public String getUserPhoto() {
-        return userPhoto;
+    public String getUserIcon() {
+        return userIcon;
     }
 
     public void setAtyEndTime(String atyEndTime) {
@@ -227,7 +225,7 @@ public class AtyItem implements Parcelable {
         return 0;
     }
 
-    public AtyItem(String action, String userId, String userName, String userPhoto,
+    public AtyItem(String action, String userId, String userName, String userIcon,
                    String atyName, String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
@@ -237,7 +235,7 @@ public class AtyItem implements Parcelable {
         this.atyType = atyType;
         this.atyIsPublic = atyIsPublic;
         this.userName = userName;
-        this.userPhoto = userPhoto;
+        this.userIcon = userIcon;
         this.atyName = atyName;
         this.atyStartTime = atyStartTime;
         this.atyEndTime = atyEndTime;
@@ -288,7 +286,7 @@ public class AtyItem implements Parcelable {
         dest.writeString(action);
         dest.writeString(userId);
         dest.writeString(userName);
-        dest.writeString(userPhoto);
+        dest.writeString(userIcon);
         dest.writeString(atyId);
         dest.writeString(atyName);
         dest.writeString(atyType);
@@ -310,7 +308,7 @@ public class AtyItem implements Parcelable {
         action = in.readString();
         userId = in.readString();
         userName = in.readString();
-        userPhoto = in.readString();
+        userIcon = in.readString();
         atyId = in.readString();
         atyName = in.readString();
         atyType = in.readString();
@@ -345,7 +343,7 @@ public class AtyItem implements Parcelable {
                 "action='" + action + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
-                ", userPhoto='" + userPhoto + '\'' +
+                ", userIcon='" + userIcon + '\'' +
                 ", atyId='" + atyId + '\'' +
                 ", atyName='" + atyName + '\'' +
                 ", atyType='" + atyType + '\'' +

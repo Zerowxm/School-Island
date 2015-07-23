@@ -32,7 +32,7 @@ public class User {
     @Expose
     public String userLocation;
     @Expose
-    public String Credit;
+    public String userCredit;
     @Expose
     public String userAddress;
     @Expose
@@ -51,7 +51,7 @@ public class User {
     public User() {
     }
 
-    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String credit, String userCode) {
+    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String userCredit, String userCode) {
         this.action = action;
         this.userId = userId;
         this.userName = userName;
@@ -61,11 +61,12 @@ public class User {
         this.userGender = userGender;
         this.userIcon = userIcon;
         this.userAlbumIsPublic = userAlbumIsPublic;
-        Credit = credit;
+        this.userCredit = userCredit;
         this.userCode = userCode;
+
     }
 
-    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String credit) {
+    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String userCredit) {
         this.action = action;
         this.userId = userId;
         this.userName = userName;
@@ -75,10 +76,11 @@ public class User {
         this.userGender = userGender;
         this.userIcon = userIcon;
         this.userAlbumIsPublic = userAlbumIsPublic;
-        Credit = credit;
+        this.userCredit = userCredit;
     }
 
-    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String qq, String userLocation, String credit, String userAddress, List<String> userAlbum) {
+    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String qq, String userLocation, String userCredit, String userAddress, List<String> userAlbum) {
+
         this.action = action;
         this.userId = userId;
         this.userName = userName;
@@ -90,7 +92,7 @@ public class User {
         this.userAlbumIsPublic = userAlbumIsPublic;
         this.qq = qq;
         this.userLocation = userLocation;
-        Credit = credit;
+        this.userCredit = userCredit;
         this.userAddress = userAddress;
         this.userAlbum = userAlbum;
     }
@@ -159,6 +161,7 @@ public class User {
         this.userIcon = userIcon;
     }
 
+
     public String getUserAlbumIsPublic() {
         return userAlbumIsPublic;
     }
@@ -183,12 +186,12 @@ public class User {
         this.userLocation = userLocation;
     }
 
-    public String getCredit() {
-        return Credit;
+    public String getUserCredit() {
+        return userCredit;
     }
 
-    public void setCredit(String credit) {
-        Credit = credit;
+    public void setUserCredit(String userCredit) {
+        this.userCredit = userCredit;
     }
 
     public String getUserAddress() {

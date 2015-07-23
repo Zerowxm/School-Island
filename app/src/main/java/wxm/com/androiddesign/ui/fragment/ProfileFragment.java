@@ -35,7 +35,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     private String userId;
-    User user;
+    User user=new User();
     GetProfile getProfile;
 
 
@@ -95,11 +95,13 @@ public class ProfileFragment extends Fragment {
             try {
                 object.put("action", "showProfile");
                 object.put("userId", params[0]);
+                user.setUserId(params[0]);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
             user = new Gson().fromJson(json, User.class);
+            user.setUserId(params[0]);
 
             return null;
         }

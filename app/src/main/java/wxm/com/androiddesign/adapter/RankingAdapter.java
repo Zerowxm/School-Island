@@ -21,6 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.widget.MyTextView;
 
 /**
  * Created by zero on 2015/6/30.
@@ -46,15 +47,22 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-//        User item=userList.get(position);
-        holder.count.setText(""+position);
-        //holder.user_name.setText(item.getUserName());
-        //Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
+        User item=userList.get(position);
+        int count=position+1;
+        holder.count.setText(""+count);
+        if (count<4){
+            holder.count.setTextColor(context.getResources().getColor(R.color.primary));
+
+        }else {
+            holder.count.setTextColor(context.getResources().getColor(R.color.secondary_text));
+        }
+        holder.user_name.setText(item.getUserName());
+        Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return userList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +70,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.MyViewHo
         ImageView user_photo;
         @Bind(R.id.user_name)
         TextView user_name;
-        @Bind(R.id.count)TextView count;
+        @Bind(R.id.count)MyTextView count;
 
 
         public MyViewHolder(View itemView) {

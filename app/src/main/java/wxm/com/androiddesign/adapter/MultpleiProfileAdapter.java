@@ -30,10 +30,16 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public User user;
     Boolean isEdit = false;
     Context context;
+    static boolean flag=false;
 
     public MultpleiProfileAdapter(User user) {
         Log.i("pro", "pro");
         this.user = user;
+        if(MyUser.userId.equals(user.getUserId())){
+            flag=true;
+        }else {
+            flag=false;
+        }
     }
 
     public MultpleiProfileAdapter(Context context) {
@@ -53,10 +59,11 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if (viewType == 0) {
             return new BaseInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.user_base_info_1, parent, false
+                    R.layout.user_base_info, parent, false
             ), new BaseInfoViewHolder.MyViewHolderClicks() {
                 @Override
                 public void mEditProfile(ImageView edit, List<EditText> list) {
+
                     if (!isEdit) {
                         edit.setImageResource(R.drawable.ic_action_done_black);
                         isEdit = true;
@@ -75,7 +82,7 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             });
         } else if(viewType==1)
             return new UserInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.user_base_info, parent, false
+                R.layout.user_base_info_1, parent, false
         ), new UserInfoViewHolder.MyViewHolderClicks() {
             @Override
             public void mEditProfile(ImageView edit, List<EditText> list) {
@@ -114,14 +121,16 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof UserInfoViewHolder) {
-            ((UserInfoViewHolder)holder).user_gender.setText(user.getUserGender());
-            ((UserInfoViewHolder)holder).user_place.setText(user.getUserAddress());
-            ((UserInfoViewHolder)holder).user_qq.setText(user.getQq());
+            ((UserInfoViewHolder)holder).user_email.setText(user.getUserEmail());
+            ((UserInfoViewHolder) holder).user_name.setText(user.getUserName());
+            ((UserInfoViewHolder) holder).user_phone.setText(user.getUserPhone());
+
 
         } else if (holder instanceof BaseInfoViewHolder) {
-            ((BaseInfoViewHolder)holder).user_email.setText(user.getUserEmail());
-            ((BaseInfoViewHolder) holder).user_name.setText(user.getUserName());
-            ((BaseInfoViewHolder) holder).user_phone.setText(user.getUserPhone());
+            ((BaseInfoViewHolder)holder).user_gender.setText(user.getUserGender());
+            ((BaseInfoViewHolder)holder).user_place.setText(user.getUserAddress());
+            ((BaseInfoViewHolder)holder).user_qq.setText(user.getQq());
+
         }
     }
 
@@ -144,12 +153,12 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public static class BaseInfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         List<EditText> editTextList = new ArrayList<>();
-        @Bind(R.id.user_name)
-        EditText user_name;
-        @Bind(R.id.user_email)
-        EditText user_email;
-        @Bind(R.id.user_phone)
-        EditText user_phone;
+        @Bind(R.id.user_gender)
+        EditText user_gender;
+        @Bind(R.id.user_place)
+        EditText user_place;
+        @Bind(R.id.user_qq)
+        EditText user_qq;
         @Bind(R.id.edit_info)
         ImageView edit;
 
@@ -159,9 +168,12 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             this.mListener = mListener;
             ButterKnife.bind(this, itemView);
-            editTextList.add(user_name);
-            editTextList.add(user_email);
-            editTextList.add(user_phone);
+            if(flag){
+                edit.setVisibility(View.VISIBLE);
+            }else edit.setVisibility(View.GONE);
+            editTextList.add(user_gender);
+            editTextList.add(user_place);
+            editTextList.add(user_qq);
             edit.setOnClickListener(this);
 
 
@@ -181,12 +193,14 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public static class UserInfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         List<EditText> editTextList = new ArrayList<>();
-        @Bind(R.id.user_gender)
-        EditText user_gender;
-        @Bind(R.id.user_place)
-        EditText user_place;
-        @Bind(R.id.user_qq)
-        EditText user_qq;
+        @Bind(R.id.user_name)
+        EditText user_name;
+        @Bind(R.id.user_email)
+        EditText user_email;
+        @Bind(R.id.user_phone)
+        EditText user_phone;
+
+
         @Bind(R.id.edit_info)
         ImageView edit;
 
@@ -196,9 +210,12 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             this.mListener = mListener;
             ButterKnife.bind(this, itemView);
-            editTextList.add(user_gender);
-            editTextList.add(user_place);
-            editTextList.add(user_qq);
+            if(flag){
+                edit.setVisibility(View.VISIBLE);
+            }else edit.setVisibility(View.GONE);
+            editTextList.add(user_name);
+            editTextList.add(user_email);
+            editTextList.add(user_phone);
             edit.setOnClickListener(this);
         }
 

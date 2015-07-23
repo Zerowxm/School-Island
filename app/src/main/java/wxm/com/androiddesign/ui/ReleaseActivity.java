@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -157,7 +158,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Log.d("image", "" + imageView.toString());
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Log.d("image", "" + imageView.toString());
-                Glide.with(this).load(selectedImgUri).into(imageView);
+                Picasso.with(this).load(selectedImgUri).into(imageView);
                 Log.d("image", "" + imageView.toString());
                 if (selectedImgUri != null) {
                     try {
@@ -168,6 +169,19 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                         e.printStackTrace();
                     }
                 }
+//                for (int i=0;i<uriList.size();i++){
+//                    RelativeLayout imageItem1 = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
+//                    ImageView imageView1 = (ImageView) imageItem1.getChildAt(0);
+//                    ImageView removeImage1 = (ImageView) imageItem1.getChildAt(1);
+//                    removeImage1.setTag(imageContains.getChildCount());
+//                    Log.d("image", "" + imageView1.toString());
+//                    imageView.setLayoutParams(layoutParams);
+//                    Log.d("image", "" + imageView1.toString());
+//                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    Log.d("image", "" + imageView1.toString());
+//                    imageView1.setImageBitmap(MyBitmapFactory.StringToBitmap(uriList.get(i)));
+//                    imageContains.addView(imageItem1);
+//                }
 
             }
             if (requestCode == TAKE_PHOTO) {
@@ -180,9 +194,10 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Log.d("image", "" + imageView.toString());
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Log.d("image", "" + imageView.toString());
-                Glide.with(this).load(selectedImgUri).into(imageView);
+                Picasso.with(this).load(selectedImgUri).into(imageView);
 
                 Log.d("image", "" + imageView.toString());
+
                 if (selectedImgUri != null) {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);

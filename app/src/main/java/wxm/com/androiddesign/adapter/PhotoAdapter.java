@@ -1,12 +1,17 @@
 package wxm.com.androiddesign.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -23,9 +28,9 @@ import wxm.com.androiddesign.R;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewHolder> {
 
     List<String> ablum = new ArrayList<String>();
-    Context context;
+    Activity context;
 
-    public PhotoAdapter(List<String> ablum,Context context) {
+    public PhotoAdapter(List<String> ablum,Activity context) {
         this.ablum = ablum;
         this.context=context;
     }
@@ -40,14 +45,21 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
 
     @Override
     public void onBindViewHolder(MyPhotoViewHolder holder, int position) {
-//        String uri=ablum.get(position);
-//        Picasso.with(context).load(uri).into(holder.photo);
-        Picasso.with(context).load(R.drawable.test);
+        String uri=ablum.get(position);
+        Picasso.with(context).load(uri).into(holder.photo);
+        WindowManager windowManager = context.getWindowManager();
+        DisplayMetrics dm = new DisplayMetrics();
+        Display display = windowManager.getDefaultDisplay();
+        int width = display.getWidth() - 7;
+        int height = display.getHeight();
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/3-2, height * 1 / 3);
+        holder.photo.setLayoutParams(layoutParams);
+        //Picasso.with(context).load(R.drawable.test);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return ablum.size();
     }
 
     public static class MyPhotoViewHolder extends RecyclerView.ViewHolder {

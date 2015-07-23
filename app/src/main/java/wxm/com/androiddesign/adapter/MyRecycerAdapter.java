@@ -224,58 +224,26 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.totle_plus.setText(item.getAtyPlus());
         holder.total_comment.setText(item.getAtyComment());
         holder.user_name.setText(item.getUserName());
+        Picasso.with(activity).load(item.getUserIcon()).into(holder.user_photo);
 
 
         holder.imageViewContainer.removeAllViews();
-//        if (item.getAtyAlbum() != null) {
-//            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers")|| "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
-//                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-//                WindowManager windowManager = activity.getWindowManager();
-//                DisplayMetrics dm = new DisplayMetrics();
-//                Display display = windowManager.getDefaultDisplay();
-//                int width = display.getWidth() - 7;
-//                int height = display.getHeight();
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-//                Picasso.with(activity).load(R.drawable.miao).into(imageView);
-//                imageView.setLayoutParams(layoutParams);
-//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                holder.imageViewContainer.addView(imageView);
-//
-//            } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers")||item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
-//                for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-//                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-//                    WindowManager windowManager = activity.getWindowManager();
-//                    DisplayMetrics dm = new DisplayMetrics();
-//                    Display display = windowManager.getDefaultDisplay();
-//                    int width = display.getWidth() - 7;
-//                    int height = display.getHeight();
-//                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-//                    Log.d("image", item.getAtyAlbum().get(i));
-//                    Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-//                    imageView.setLayoutParams(layoutParams);
-//                    imageView.setTag(i);
-//                    imageView.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(final View v) {
-//                            new Handler().post(new Runnable() {
-//                                public void run() {
-//                                    MyDialog dialog = new MyDialog();
-//                                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
-//                                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
-//                                }
-//                            });
-//
-//                        }
-//                    });
-//                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                    holder.imageViewContainer.addView(imageView);
-//                }
-//            }
-//
-//            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
-//
-//        }
-        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+        if (item.getAtyAlbum() != null) {
+            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers")|| "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
+                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+                WindowManager windowManager = activity.getWindowManager();
+                DisplayMetrics dm = new DisplayMetrics();
+                Display display = windowManager.getDefaultDisplay();
+                int width = display.getWidth() - 7;
+                int height = display.getHeight();
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+                Picasso.with(activity).load(R.drawable.miao).into(imageView);
+                imageView.setLayoutParams(layoutParams);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                holder.imageViewContainer.addView(imageView);
+
+            } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers")||item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
+                for (int i = 0; i < item.getAtyAlbum().size(); i++) {
                     ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
                     WindowManager windowManager = activity.getWindowManager();
                     DisplayMetrics dm = new DisplayMetrics();
@@ -292,8 +260,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                         public void onClick(final View v) {
                             new Handler().post(new Runnable() {
                                 public void run() {
-                                    Log.d("imageuri",item.getAtyAlbum().get((Integer) v.getTag()));
-                                    MyDialog dialog =MyDialog.newInstance(item.getAtyAlbum().get((Integer) v.getTag()));
+                                    MyDialog dialog = new MyDialog();
+                                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
                                     dialog.show(activity.getSupportFragmentManager(), "showPicture");
                                 }
                             });
@@ -302,7 +270,40 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     });
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     holder.imageViewContainer.addView(imageView);
+                }
+            }
+
+            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
+
         }
+//        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+//                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+//                    WindowManager windowManager = activity.getWindowManager();
+//                    DisplayMetrics dm = new DisplayMetrics();
+//                    Display display = windowManager.getDefaultDisplay();
+//                    int width = display.getWidth() - 7;
+//                    int height = display.getHeight();
+//                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+//                    Log.d("image", item.getAtyAlbum().get(i));
+//                    Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+//                    imageView.setLayoutParams(layoutParams);
+//                    imageView.setTag(i);
+//                    imageView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(final View v) {
+//                            new Handler().post(new Runnable() {
+//                                public void run() {
+//                                    Log.d("imageuri",item.getAtyAlbum().get((Integer) v.getTag()));
+//                                    MyDialog dialog =MyDialog.newInstance(item.getAtyAlbum().get((Integer) v.getTag()));
+//                                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+//                                }
+//                            });
+//
+//                        }
+//                    });
+//                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    holder.imageViewContainer.addView(imageView);
+//        }
         if (item.getAtyPlused().equals("false")) {
             holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
             holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));

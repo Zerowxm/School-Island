@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -27,13 +26,9 @@ import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.ActivityFragment;
-import wxm.com.androiddesign.ui.fragment.CmtListFragment;
 import wxm.com.androiddesign.ui.fragment.FooFragment;
 import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
-import wxm.com.androiddesign.ui.fragment.MsgListFragment;
-import wxm.com.androiddesign.ui.fragment.ScoreFragment;
 import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
 
 
@@ -73,7 +68,7 @@ public class UserAcitivity extends AppCompatActivity {
                 setupViewPager();
                 setupTabLayout();
                 user_id.setText(user.getUserId());
-                score.setText(user.getCredit());
+                score.setText(user.getUserCredit());
                 Picasso.with(context).load(user.getUserIcon()).into(user_photo);
             }
         }
@@ -89,6 +84,7 @@ public class UserAcitivity extends AppCompatActivity {
             }
             user=new Gson().fromJson(JsonConnection.getJSON(object.toString()),User.class);
             user.setUserId(userId);
+//            user.setUserIcon(MyUser.userIcon);
             return true;
         }
     }
@@ -108,9 +104,13 @@ public class UserAcitivity extends AppCompatActivity {
 
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release,userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
-        adapter.addFragment(new CmtListFragment(), "社区");
-        //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+
+        //adapter.addFragment(new CmtListFragment(), "社区");
+
         if(user.getUserAlbumIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
+
+        //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+
             adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
         }
         else{

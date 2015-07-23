@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment {
             public void run() {
                 Log.d("home", "postDelayed");
 
-                new GetAtyTask().execute();
+                //new GetAtyTask().execute();
 
                 mSwipeRefreshLayout.setRefreshing(false);
             }

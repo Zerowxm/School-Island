@@ -1,6 +1,7 @@
 package wxm.com.androiddesign.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.Message;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
@@ -68,6 +71,15 @@ public class RankingFragment extends Fragment {
 
             }
         }));
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), UserAcitivity.class);
+                intent.putExtra("userId", userList.get(position).getUserId());
+                Log.d("user", "user:" + userList.get(position).getUserId());
+                getActivity().startActivity(intent);
+            }
+        }));
         ScrollManager manager = new ScrollManager();
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
@@ -95,7 +107,7 @@ public class RankingFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "show");
+                object.put("action", "creditRank");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

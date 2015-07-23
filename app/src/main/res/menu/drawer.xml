@@ -14,7 +14,7 @@
         <item
             android:id="@+id/nav_attention"
             android:icon="@drawable/ic_headset"
-            android:title="关注" />
+            android:title="积分排行" />
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_forum"
