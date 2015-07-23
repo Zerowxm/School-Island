@@ -86,7 +86,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onCommunity(TextView community, int position) {
                 Intent intent = new Intent(activity, CtyAcitivity.class);
 
-                intent.putExtra("ctyId",community.getText().toString());
+                intent.putExtra("ctyId", community.getText().toString());
 
                 activity.startActivity(intent);
             }
@@ -229,7 +229,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         holder.imageViewContainer.removeAllViews();
         if (item.getAtyAlbum() != null) {
-            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers")|| "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
+            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers") || "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
                 ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
                 WindowManager windowManager = activity.getWindowManager();
                 DisplayMetrics dm = new DisplayMetrics();
@@ -242,7 +242,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 holder.imageViewContainer.addView(imageView);
 
-            } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers")||item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
+            } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers") || item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
                 for (int i = 0; i < item.getAtyAlbum().size(); i++) {
                     ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
                     WindowManager windowManager = activity.getWindowManager();
@@ -477,8 +477,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 mListener.onCard((CardView) v, getLayoutPosition());
             } else if (v instanceof Button) {
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
-            }else if(v instanceof TextView && (v.getId() == R.id.tag)){
-                mListener.onCommunity((TextView)v,getAdapterPosition());
+            } else if (v instanceof TextView && (v.getId() == R.id.tag)) {
+                mListener.onCommunity((TextView) v, getAdapterPosition());
 
             }
         }
@@ -486,22 +486,26 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         @OnClick(R.id.fab_share)
         public void onShare() {
-            final String imgPath = null;
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            if (imgPath != null && !imgPath.equals("")) {
-                File f = new File(imgPath);
-                if (f != null && f.exists() && f.isFile()) {
-                    intent.setType("image/*");
-                    Uri u = Uri.fromFile(f);
-                    intent.putExtra(Intent.EXTRA_STREAM, u);
+            if ("001".equals(MyUser.userId)) {
+                Toast.makeText(activity, "请登录后分享", Toast.LENGTH_SHORT).show();
+            } else {
+                final String imgPath = null;
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                if (imgPath != null && !imgPath.equals("")) {
+                    File f = new File(imgPath);
+                    if (f != null && f.exists() && f.isFile()) {
+                        intent.setType("image/*");
+                        Uri u = Uri.fromFile(f);
+                        intent.putExtra(Intent.EXTRA_STREAM, u);
+                    }
                 }
+                intent.putExtra(Intent.EXTRA_TITLE, "Title");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+                intent.putExtra(Intent.EXTRA_TEXT, "You are sharing text!");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(Intent.createChooser(intent, "Share"));
             }
-            intent.putExtra(Intent.EXTRA_TITLE, "Title");
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-            intent.putExtra(Intent.EXTRA_TEXT, "You are sharing text!");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            activity.startActivity(Intent.createChooser(intent, "Share"));
         }
 
 

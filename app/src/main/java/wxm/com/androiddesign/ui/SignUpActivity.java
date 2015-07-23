@@ -140,7 +140,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @OnClick(R.id.signup_btn)
     public void signup() {
         String checkEmail = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-        String checkPhoto = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+        String checkPhone = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
 //        if(password.getText().toString().length()<6){
 //            passwordInput.setErrorEnabled(true);
 //            passwordInput.setError("密码不得少于六位");
@@ -155,7 +155,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //                passwordInput.setErrorEnabled(false);
 //            }
 //        }
-//        if(!phone.getText().toString().matches(checkPhoto)){
+//        if(!phone.getText().toString().matches(checkPhone)){
 //            photoInput.setErrorEnabled(true);
 //            photoInput.setError("电话号码错误");
 //            return;

@@ -59,7 +59,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new MultpleiProfileAdapter(user));
+        recyclerView.setAdapter(new MultpleiProfileAdapter(user,getActivity()));
     }
 
     private class GetProfile extends AsyncTask<String, Void, Boolean> {

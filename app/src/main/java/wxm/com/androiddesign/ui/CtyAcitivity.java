@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -76,9 +77,13 @@ public class CtyAcitivity extends AppCompatActivity {
                 Picasso.with(context).load(ctyItem.getCtyIcon()).into(cmt_photo);
 
                 if(ctyItem.getCtyIsAttention().equals("true")){
+                    flag = true;
+                    joinbtn.setText("已订阅");
                     joinbtn.setTextColor(getResources().getColor(R.color.gray));
                     joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
                 }else{
+                    flag = false;
+                    joinbtn.setText("+订阅");
                     joinbtn.setTextColor(getResources().getColor(R.color.primary));
                     joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
                 }
@@ -103,20 +108,24 @@ public class CtyAcitivity extends AppCompatActivity {
 
     @OnClick(R.id.join)
     public void joinCmt(){
-        if (!flag){
-            joinbtn.setText("已订阅");
-            cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString())+1));
-            joinbtn.setTextColor(getResources().getColor(R.color.gray));
-            joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
-            flag=true;
+        if(MyUser.userId.equals("001")){
+            Toast.makeText(this,"请登录后订阅",Toast.LENGTH_SHORT).show();
         }else {
-            joinbtn.setText("+订阅");
-            cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString())-1));
-            joinbtn.setTextColor(getResources().getColor(R.color.primary));
-            joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
-            flag=false;
+            if (!flag) {
+                joinbtn.setText("已订阅");
+                cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString()) + 1));
+                joinbtn.setTextColor(getResources().getColor(R.color.gray));
+                joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
+                flag = true;
+            } else {
+                joinbtn.setText("+订阅");
+                cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString()) - 1));
+                joinbtn.setTextColor(getResources().getColor(R.color.primary));
+                joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
+                flag = false;
+            }
+            new joinCmtTask().execute();
         }
-        new joinCmtTask().execute();
     }
 
     private class joinCmtTask extends AsyncTask<Void, Void, Void> {
