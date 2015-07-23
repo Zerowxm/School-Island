@@ -124,6 +124,9 @@ public class UserActivityFragment extends Fragment {
                 //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
+                if(activityItems==null){
+                    return false;
+                }
                 if (activityItems.size() == 0)
                     return false;
                 for (int i = 0; i < activityItems.size(); i++) {

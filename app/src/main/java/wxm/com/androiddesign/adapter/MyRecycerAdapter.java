@@ -1,6 +1,8 @@
 package wxm.com.androiddesign.adapter;
 
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
@@ -26,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 
@@ -58,6 +62,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     protected List<AtyItem> activityItems;
     private int lastPosition = -1;
     private static AppCompatActivity activity;
+    Context context;
     AtyItem item;
     String fragment;
     String userId;
@@ -124,24 +129,61 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             }
 
             @Override
-            public void onJoinBtn(Button button, int adapterPosition) {
+            public void onJoinBtn(final Button button,final int adapterPosition) {
+
                 if (!"001".equals(MyUser.userId)) {
-                    AtyItem atyItem = activityItems.get(adapterPosition);
-                    item = atyItem;
+
+                    //item = atyItem;
                     if ("加入".equals(button.getText().toString())) {
-                        button.setText("已加入");
-                        atyItem.setAtyJoined("true");
-                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
-                        button.setTextColor(activity.getResources().getColor(R.color.primary));
-                        notifyDataSetChanged();
-                        new UpDateTask().execute("join");
+                        new MaterialDialog.Builder(activity)
+                                .title(R.string.add_title)
+                                .content(activityItems.get(adapterPosition).getAtyName())
+                                .positiveText(R.string.OK)
+                                .negativeText(R.string.cancel)
+                                .callback(new MaterialDialog.ButtonCallback() {
+                                    AtyItem atyItem = activityItems.get(adapterPosition);
+                                    @Override
+                                    public void onPositive(MaterialDialog dialog) {
+                                        button.setText("已加入");
+                                        atyItem.setAtyJoined("true");
+                                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
+                                        button.setTextColor(activity.getResources().getColor(R.color.primary));
+                                        notifyDataSetChanged();
+                                        new UpDateTask().execute("join");
+                                    }
+
+                                    @Override
+                                    public void onNegative(MaterialDialog dialog) {
+
+                                    }
+                                })
+                                .show();
+
                     } else {
-                        button.setText("加入");
-                        atyItem.setAtyJoined("false");
-                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
-                        button.setTextColor(activity.getResources().getColor(R.color.black));
-                        notifyDataSetChanged();
-                        new UpDateTask().execute("notJoin");
+                        new MaterialDialog.Builder(activity)
+                                .title("主人你真的要退出瞄(´c_`)")
+                                .content(activityItems.get(adapterPosition).getAtyName())
+                                .positiveText("是的")
+                                .negativeText(R.string.cancel)
+                                .callback(new MaterialDialog.ButtonCallback() {
+                                    AtyItem atyItem = activityItems.get(adapterPosition);
+                                    @Override
+                                    public void onPositive(MaterialDialog dialog) {
+                                        button.setText("加入");
+                                        atyItem.setAtyJoined("false");
+                                        atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
+                                        button.setTextColor(activity.getResources().getColor(R.color.black));
+                                        notifyDataSetChanged();
+                                        new UpDateTask().execute("notJoin");
+                                    }
+
+                                    @Override
+                                    public void onNegative(MaterialDialog dialog) {
+
+                                    }
+                                })
+                                .show();
+
                     }
                 } else {
                     Toast.makeText(activity, "请登录加入", Toast.LENGTH_SHORT).show();
@@ -244,7 +286,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers") || item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
                 for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+                    Log.d("imageuri",""+ item.getAtyAlbum().size());
+                    ImageView imageView=new ImageView(activity);
+                    //ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
                     WindowManager windowManager = activity.getWindowManager();
                     DisplayMetrics dm = new DisplayMetrics();
                     Display display = windowManager.getDefaultDisplay();
@@ -255,13 +299,15 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
                     imageView.setLayoutParams(layoutParams);
                     imageView.setTag(i);
+                    final List<String> album=item.getAtyAlbum();
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
                             new Handler().post(new Runnable() {
                                 public void run() {
-                                    MyDialog dialog = new MyDialog();
-                                    dialog.setUri(item.getAtyAlbum().get((Integer) v.getTag()));
+                                    Log.d("imageuri",""+ album.size());
+                                    Log.d("imageuri", item.getAtyAlbum().get((Integer) v.getTag()));
+                                    MyDialog dialog = MyDialog.newInstance(item.getAtyAlbum().get((Integer) v.getTag()));
                                     dialog.show(activity.getSupportFragmentManager(), "showPicture");
                                 }
                             });
@@ -276,34 +322,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
 
         }
-//        for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-//                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-//                    WindowManager windowManager = activity.getWindowManager();
-//                    DisplayMetrics dm = new DisplayMetrics();
-//                    Display display = windowManager.getDefaultDisplay();
-//                    int width = display.getWidth() - 7;
-//                    int height = display.getHeight();
-//                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-//                    Log.d("image", item.getAtyAlbum().get(i));
-//                    Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-//                    imageView.setLayoutParams(layoutParams);
-//                    imageView.setTag(i);
-//                    imageView.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(final View v) {
-//                            new Handler().post(new Runnable() {
-//                                public void run() {
-//                                    Log.d("imageuri",item.getAtyAlbum().get((Integer) v.getTag()));
-//                                    MyDialog dialog =MyDialog.newInstance(item.getAtyAlbum().get((Integer) v.getTag()));
-//                                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
-//                                }
-//                            });
 //
-//                        }
-//                    });
-//                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                    holder.imageViewContainer.addView(imageView);
-//        }
         if (item.getAtyPlused().equals("false")) {
             holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
             holder.plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
@@ -313,6 +332,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         }
 
         if (item.getAtyJoined().equals("true")) {
+
             holder.mjoinBtn.setText("已加入");
             holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
         } else if (item.getAtyJoined().equals("false")) {

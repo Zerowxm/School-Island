@@ -33,7 +33,7 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        int left = parent.getPaddingLeft();
+        int left = parent.getPaddingLeft()+100;
         int right = parent.getWidth() - parent.getPaddingRight();
 
         int childCount = parent.getChildCount();

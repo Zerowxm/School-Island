@@ -65,6 +65,7 @@ public class MsgListFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setTitle("系统消息");
         setupRecyclerView(recyclerView);
         return v;
     }

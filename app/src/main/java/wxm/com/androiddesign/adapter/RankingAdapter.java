@@ -55,6 +55,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.MyViewHo
 
         }else {
             holder.count.setTextColor(context.getResources().getColor(R.color.secondary_text));
+            holder.count.setTextSize(25);
         }
         holder.user_name.setText(item.getUserName());
         Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);

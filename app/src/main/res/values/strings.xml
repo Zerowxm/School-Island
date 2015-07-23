@@ -10,7 +10,9 @@
     <string name="navigation_sub_item_2">sub_item2</string>
     <string name="title_activity_main2">Main2Activity</string>
 
-
+    <string name="OK">确定</string>
+    <string name="add_title">确认加入活动吗？</string>
+    <string name="cancel">手滑了╮(╯_╰)╭</string>
 
     <string name="checkin">Checkin</string>
     <string name="title_activity_login">登录</string>
@@ -53,8 +55,11 @@
     </array>
     <array name="communities">
         <item>音乐</item>
-        <item>运动</item>
-        <item>dota</item>
+        <item>体育</item>
+        <item>科学</item>
+        <item>绘画</item>
+        <item>环保</item>
+        <item>读书</item>
     </array>
     <string name="choose">选择</string>
     <string name="title_activity_setting">SettingActivity</string>

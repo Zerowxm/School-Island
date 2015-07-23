@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.ui.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -33,6 +34,7 @@ import wxm.com.androiddesign.module.CtyItem;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.services.LocationServices;
+import wxm.com.androiddesign.ui.CtyAcitivity;
 
 /**
  * Created by zero on 2015/7/8.
@@ -41,8 +43,8 @@ public class CmtListFragment extends Fragment {
     RecyclerView recyclerView;
     List<CtyItem> ctyItems = new ArrayList<>();
     String userId;
-    public static UserActivityFragment newInstance(String muserId) {
-        UserActivityFragment fragment = new UserActivityFragment();
+    public static CmtListFragment newInstance(String muserId) {
+        CmtListFragment fragment = new CmtListFragment();
         Bundle args = new Bundle();
         args.putString("UserId", muserId);
         fragment.setArguments(args);
@@ -58,24 +60,27 @@ public class CmtListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.cmt_layout, viewGroup, false);
         recyclerView = (RecyclerView) v;
-        new GetAtyTask().execute();
+        setupRecyclerView(recyclerView);
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new CmyAdapter(ctyItems,getActivity()));
+        new GetAtyTask().execute();
+        //recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(getActivity(), CtyAcitivity.class);
+                intent.putExtra("ctyId",ctyItems.get(position).getCtyId());
+                startActivity(intent);
             }
         }));
     }
 
-    private class GetAtyTask extends AsyncTask<String,Void,Boolean> {
+    private class GetAtyTask extends AsyncTask<Void,Void,Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -86,26 +91,27 @@ public class CmtListFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            setupRecyclerView(recyclerView);
+            recyclerView.setAdapter(new CmyAdapter(ctyItems, getActivity()));
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(Void... params) {
             JSONObject object=new JSONObject();
             try {
                 object.put("action","showAllCommunities");
                 object.put("userId", userId);
+                Log.d("jsonarray1", object.toString());
                 String jsonarrys = JsonConnection.getJSON(object.toString());
-                Log.i("jsonarray",jsonarrys.toString());
+                Log.d("jsonarray1",jsonarrys.toString());
                 ctyItems = new Gson().fromJson(jsonarrys, new TypeToken<List<CtyItem>>() {
                 }.getType());
 
-               // if(ctyItems==null)
-                  //  return false;
+                if(ctyItems==null)
+                    return false;
                 for (int i=0;i<ctyItems.size();i++){
-                    Log.d("Task", ctyItems.get(i).toString());
+                    Log.d("Task1", ctyItems.get(i).toString());
                 }
-                Log.d("Task",jsonarrys);
+                Log.d("Task1",jsonarrys);
                 return true;
 
             } catch (JSONException e) {

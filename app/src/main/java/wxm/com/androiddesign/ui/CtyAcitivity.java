@@ -52,8 +52,9 @@ public class CtyAcitivity extends AppCompatActivity {
         setContentView(R.layout.community_detail);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
-        //cmtId = bundle.getString("ctyId");
-        cmtId="科学";
+        cmtId = bundle.getString("ctyId");
+        //cmtId="科学";
+
         new GetUserInfo(this).execute();
        // if(ctyItem)
     }
@@ -94,13 +95,19 @@ public class CtyAcitivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             JSONObject object=new JSONObject();
             try {
-                object.put("action","showCommunity");
+                Log.d("Task2","doInBackground");
+                object.put("action", "showCommunity");
                 object.put("ctyId",cmtId);
                 object.put("userId", MyUser.userId);
+                Log.d("Task2", object.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ctyItem =new Gson().fromJson(JsonConnection.getJSON(object.toString()),CtyItem.class);
+            String json=JsonConnection.getJSON(object.toString());
+            Log.d("Task2",json);
+            ctyItem =new Gson().fromJson(json,CtyItem.class);
+
+
             //cmtItem.setCtyId(cmtId);
             return true;
         }

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -70,7 +71,7 @@ public class UserAcitivity extends AppCompatActivity {
                 setupViewPager();
                 setupTabLayout();
                 user_id.setText(user.getUserId());
-                score.setText(user.getUserCredit());
+                score.setText("积分："+user.getUserCredit());
                 Picasso.with(context).load(user.getUserIcon()).into(user_photo);
             }
         }
@@ -107,9 +108,15 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release,userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
 
-        //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+
+//adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+        //adapter.addFragment(new CmtListFragment(), "社区");
         adapter.addFragment(CmtListFragment.newInstance(userId), "社区");
         if(user.getUserAlbumIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
+
+        //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+
+
         Log.i("publicuser",user.getUserId());
         Log.i("publicuser", MyUser.userId);
 

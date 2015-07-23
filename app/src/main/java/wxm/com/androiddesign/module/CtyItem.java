@@ -10,26 +10,21 @@ public class CtyItem {
     String ctyIcon;
     String ctyIsAttention;
 
-    public String getCtyIsAttention() {
-        return ctyIsAttention;
-    }
-
-    public void setCtyIsAttention(String ctyIsAttention) {
-        this.ctyIsAttention = ctyIsAttention;
-    }
-
-    public CtyItem(String action, String ctyId, String ctyMembers) {
+    public CtyItem(String action, String ctyId, String ctyMembers, String ctyIcon, String ctyIsAttention) {
         this.action = action;
         this.ctyId = ctyId;
         this.ctyMembers = ctyMembers;
+        this.ctyIcon = ctyIcon;
+        this.ctyIsAttention = ctyIsAttention;
     }
 
     @Override
     public String toString() {
-        return "CmtItem{" +
+        return "CtyItem{" +
                 "action='" + action + '\'' +
                 ", ctyId='" + ctyId + '\'' +
                 ", ctyMembers='" + ctyMembers + '\'' +
+                ", ctyIcon='" + ctyIcon + '\'' +
                 ", ctyIsAttention='" + ctyIsAttention + '\'' +
                 '}';
     }
@@ -50,6 +45,14 @@ public class CtyItem {
         this.ctyId = ctyId;
     }
 
+    public String getCtyMembers() {
+        return ctyMembers;
+    }
+
+    public void setCtyMembers(String ctyMembers) {
+        this.ctyMembers = ctyMembers;
+    }
+
     public String getCtyIcon() {
         return ctyIcon;
     }
@@ -58,11 +61,11 @@ public class CtyItem {
         this.ctyIcon = ctyIcon;
     }
 
-    public String getCtyMembers() {
-        return ctyMembers;
+    public String getCtyIsAttention() {
+        return ctyIsAttention;
     }
 
-    public void setCtyMembers(String ctyMembers) {
-        this.ctyMembers = ctyMembers;
+    public void setCtyIsAttention(String ctyIsAttention) {
+        this.ctyIsAttention = ctyIsAttention;
     }
 }

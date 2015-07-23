@@ -56,6 +56,7 @@ public class RankingFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setTitle("积分排行");
         setupRecyclerView(recyclerView);
         return v;
     }

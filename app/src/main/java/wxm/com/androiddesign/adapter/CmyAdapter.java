@@ -44,7 +44,7 @@ public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         CtyItem ctyItem=ctyItems.get(position);
         holder.community_name.setText(ctyItem.getCtyId());
-        holder.member_num.setText(ctyItem.getCtyMembers());
+        holder.member_num.setText("成员数"+ctyItem.getCtyMembers());
         Picasso.with(context).load(ctyItem.getCtyIcon()).into(holder.community_img);
     }
 
@@ -68,9 +68,7 @@ public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder> {
             community_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, CtyAcitivity.class);
-                    intent.putExtra("cmtId",community_name.getText().toString());
-                    context.startActivity(intent);
+
                 }
             });
         }

@@ -68,6 +68,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     String Location;
     private Uri selectedImgUri;
     private String userId;
+    AtyItem atyItem;
 
 
     @Bind(R.id.sendButton)
@@ -169,19 +170,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                         e.printStackTrace();
                     }
                 }
-//                for (int i=0;i<uriList.size();i++){
-//                    RelativeLayout imageItem1 = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
-//                    ImageView imageView1 = (ImageView) imageItem1.getChildAt(0);
-//                    ImageView removeImage1 = (ImageView) imageItem1.getChildAt(1);
-//                    removeImage1.setTag(imageContains.getChildCount());
-//                    Log.d("image", "" + imageView1.toString());
-//                    imageView.setLayoutParams(layoutParams);
-//                    Log.d("image", "" + imageView1.toString());
-//                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                    Log.d("image", "" + imageView1.toString());
-//                    imageView1.setImageBitmap(MyBitmapFactory.StringToBitmap(uriList.get(i)));
-//                    imageContains.addView(imageItem1);
-//                }
 
             }
             if (requestCode == TAKE_PHOTO) {
@@ -197,7 +185,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Picasso.with(this).load(selectedImgUri).into(imageView);
 
                 Log.d("image", "" + imageView.toString());
-
                 if (selectedImgUri != null) {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
@@ -259,13 +246,13 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                                 } else if (locaton.getText().toString().equals("add your location")) {
                                     Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    AtyItem atyItem = new AtyItem("release", MyUser.userId,atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
+                                     atyItem= new AtyItem("release", MyUser.userId,atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
                                             endTime.getText().toString(), locaton.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
                                             "true", "false", "0",temp, uriList);
                                     new UpDateTask().execute(atyItem);
-                                    atyItem.setUserName(MyUser.userName);
-                                    HomeFragment.addActivity(atyItem);
+
+
                                 }
                             }
                         } catch (Exception e) {
@@ -282,6 +269,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     }
 
     private class UpDateTask extends AsyncTask<AtyItem, Void, Void> {
+        String id="";
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -290,6 +278,9 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            atyItem.setUserName(MyUser.userName);
+            atyItem.setAtyId(id);
+            HomeFragment.addActivity(atyItem);
             finish();
         }
 
@@ -308,7 +299,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            JsonConnection.getJSON(object.toString());
+            id=JsonConnection.getJSON(object.toString());
             return null;
         }
     }

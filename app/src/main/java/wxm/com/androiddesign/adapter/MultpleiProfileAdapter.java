@@ -72,6 +72,7 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         changeEditState(list, isEdit);
 
                     } else if (isEdit) {
+
                         if(!list.get(0).getText().toString().matches(checkGender)){
                             Toast.makeText(context,"unavailable gender!",Toast.LENGTH_SHORT).show();
                         }else if(!list.get(2).getText().toString().matches(checkQq)){
@@ -81,10 +82,11 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             isEdit = false;
                             changeEditState(list, isEdit);
                             user.setUserGender(list.get(0).getText().toString());
-                            user.setUserAddress(list.get(1).getText().toString());
+                            user.setUserLocation(list.get(1).getText().toString());
                             user.setQq(list.get(2).getText().toString());
                             new UpDateProfile().execute();
                         }
+
                     }
                 }
             });

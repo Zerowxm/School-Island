@@ -290,8 +290,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @OnClick(R.id.logout)
     public void Logout(){
-        new LoginTask(this).execute(true);
-        drawerLayout.closeDrawers();
+
+        new MaterialDialog.Builder(this)
+                .title("乃确定不是手滑了么")
+                .positiveText("LOGOUT")
+                .negativeText("是我手滑了")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        new LoginTask(MainActivity.this).execute(true);
+                        drawerLayout.closeDrawers();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+
+                    }
+                })
+                .show();
+
     }
 
 

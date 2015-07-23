@@ -103,7 +103,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         if (holder instanceof AtyViewHolder) {
-            //Picasso.with(activity).load(atyItem.getUserIcon()).into(((AtyViewHolder) holder).user_photo);
+            Picasso.with(activity).load(atyItem.getUserIcon()).into(((AtyViewHolder) holder).user_photo);
             ((AtyViewHolder) holder).user_name.setText(atyItem.getUserName());
             ((AtyViewHolder) holder).aty_name.setText(atyItem.getAtyName());
             ((AtyViewHolder) holder).aty_content.setText(atyItem.getAtyContent());
@@ -114,28 +114,28 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
             ((AtyViewHolder) holder).atyPlace.setText(atyItem.getAtyPlace());
             ((AtyViewHolder) holder).total_member.setText(atyItem.getAtyMembers());
-            if (atyItem.getAtyPlused().equals("false")) {
+            if ("false".equals(atyItem.getAtyPlused())) {
                 ((AtyViewHolder) holder).plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray)));
                 ((AtyViewHolder) holder).plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one));
-            } else if (atyItem.getAtyPlused().equals("true")) {
+            } else if ("true".equals(atyItem.getAtyPlused())) {
                 ((AtyViewHolder) holder).plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary)));
                 ((AtyViewHolder) holder).plus_fab.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_action_plus_one_white));
             }
-            if (atyItem.getAtyJoined().equals("true")) {
+            if ("true".equals(atyItem.getAtyJoined())) {
                 ((AtyViewHolder) holder).mjoinBtn.setText("已加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary));
-            } else if (atyItem.getAtyJoined().equals("false")) {
+            } else if ("false".equals(atyItem.getAtyJoined())) {
                 ((AtyViewHolder) holder).mjoinBtn.setText("加入");
                 ((AtyViewHolder) holder).mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black));
             }
 
-            if (atyItem.getAtyIsJoined().equals("false") && atyItem.getAtyIsPublic().equals("")) {
+            if ("false".equals(atyItem.getAtyJoined()) && "".equals(atyItem.getAtyIsPublic())) {
                 ((AtyViewHolder) holder).imageViewContainer.setVisibility(View.GONE);
             }
 
             ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
             if (atyItem.getAtyAlbum() != null) {
-                if (atyItem.getAtyIsJoined().equals("false") && atyItem.getAtyIsPublic().equals("toMembers")) {
+                if ("false".equals(atyItem.getAtyJoined()) && "toMembers".equals(atyItem.getAtyIsPublic())) {
                     ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
                     WindowManager windowManager = activity.getWindowManager();
                     DisplayMetrics dm = new DisplayMetrics();
@@ -148,16 +148,16 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     ((AtyViewHolder) holder).imageViewContainer.addView(imageView);
 
-                } else if (atyItem.getAtyIsJoined().equals("true") && atyItem.getAtyIsPublic().equals("toMembers") || atyItem.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && atyItem.getAtyIsPublic().equals("toUsers")) {
+                } else if ("true".equals(atyItem.getAtyIsJoined()) &&  "toMembers".equals(atyItem.getAtyIsPublic()) || "toVisitors".equals(atyItem.getAtyIsPublic()) || !"001".equals(MyUser.userId) && "toUsers".equals(atyItem.getAtyIsPublic())) {
                     for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
-                        ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.image, null);
+                        ImageView imageView =new ImageView(activity);
                         WindowManager windowManager = activity.getWindowManager();
                         DisplayMetrics dm = new DisplayMetrics();
                         Display display = windowManager.getDefaultDisplay();
                         int width = display.getWidth() - 7;
                         int height = display.getHeight();
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 2 / 5);
-                        Glide.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
+                        Picasso.with(activity).load(atyItem.getAtyAlbum().get(i)).into(imageView);
                         imageView.setLayoutParams(layoutParams);
                         imageView.setTag(i);
                         imageView.setOnClickListener(new View.OnClickListener() {
@@ -190,8 +190,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-            ((CommentViewHolder) holder).user_comment.setText(item.getComment());
+            Picasso.with(activity).load(item.getUserIcon()).into(  ((CommentViewHolder) holder).user_photo);
+                    ((CommentViewHolder) holder).user_comment.setText(item.getComment());
             ((CommentViewHolder) holder).user_name.setText(item.getUserName());
             setAnimation(((CommentViewHolder) holder).relativeLayout, position);
         }
