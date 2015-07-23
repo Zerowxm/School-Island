@@ -36,7 +36,7 @@
                     android:layout_width="111dp"
                     android:layout_height="111dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/miao"
+                    android:src="@drawable/wu"
                     android:transitionName="@string/transition_user_photo"/>
                 <wxm.com.androiddesign.widget.MyTextView
                     android:layout_marginTop="55dp"

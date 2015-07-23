@@ -143,7 +143,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     int width = display.getWidth() - 7;
                     int height = display.getHeight();
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
-                    Picasso.with(activity).load(R.drawable.miao).into(imageView);
+                    Picasso.with(activity).load(R.drawable.wu).into(imageView);
                     imageView.setLayoutParams(layoutParams);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     ((AtyViewHolder) holder).imageViewContainer.addView(imageView);

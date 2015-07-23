@@ -30,7 +30,7 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:id="@+id/user_photo"
-            android:src="@drawable/miao"
+            android:src="@drawable/wu"
             android:padding="2dp"
             android:layout_margin="2dp"
             android:clickable="true"/>

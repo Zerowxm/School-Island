@@ -21,7 +21,7 @@
         android:layout_marginLeft="10dp"
         android:layout_width="88dp"
         android:layout_height="88dp"
-        android:src="@drawable/miao"
+        android:src="@drawable/wu"
         android:id="@id/user_photo"
         android:layout_toRightOf="@id/count"
         />

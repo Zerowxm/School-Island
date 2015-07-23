@@ -9,7 +9,7 @@
     android:id="@+id/acitivity_image"
     android:layout_width="match_parent"
     android:layout_height="270dp"
-    android:src="@drawable/miao"
+    android:src="@drawable/wu"
     android:clickable="true"
     android:background="?android:attr/selectableItemBackground"
     android:foreground="?android:attr/selectableItemBackground"
