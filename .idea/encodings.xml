@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+<<<<<<< Updated upstream
     <file url="file://$PROJECT_DIR$/app/src/main/java/wxm/com/androiddesign/adapter/MultpleiProfileAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/wxm/com/androiddesign/services/FetchItems.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/wxm/com/androiddesign/services/LocationServices.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/wxm/com/androiddesign/services/Message.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/wxm/com/androiddesign/services/MessageService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/wxm/com/androiddesign/ui/fragment/ProfileFragment.java" charset="UTF-8" />
+=======
+    <file url="file://$PROJECT_DIR$/build.gradle" charset="UTF-8" />
+>>>>>>> Stashed changes
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
