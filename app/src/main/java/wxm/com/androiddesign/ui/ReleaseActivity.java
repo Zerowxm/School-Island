@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import android.view.Display;
@@ -68,6 +69,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     String Location;
     private Uri selectedImgUri;
     private String userId;
+    AtyItem atyItem;
 
 
     @Bind(R.id.sendButton)
@@ -106,15 +108,15 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         userName.setText(MyUser.userName);
         Intent intent = getIntent();
         userId = intent.getExtras().getString("userId");
-        WindowManager windowManager = this.getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        int width = display.getWidth() - 7;
-        int height = display.getHeight();
-        layoutParams = new RelativeLayout.LayoutParams(width, height * 2 / 5);
-        //layoutParams = new RelativeLayout.LayoutParams(width, height * 2 / 5);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int screenWidth = displaymetrics.widthPixels - 7;
+        int screenHeight = displaymetrics.heightPixels;
+        layoutParams = new RelativeLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
     }
+
     @OnClick(R.id.community_name)
-    public void chooseCmt(){
+    public void chooseCmt() {
         new MaterialDialog.Builder(this)
                 .title(R.string.community)
                 .items(R.array.communities)
@@ -142,7 +144,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 String address = data.getStringExtra(LocationActivity.Address);
                 Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
                 Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
-                Location=address+" "+lattitute+" "+Longtitute;
+                Location = address + " " + lattitute + " " + Longtitute;
                 locaton.setText(address);
             }
 
@@ -169,19 +171,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                         e.printStackTrace();
                     }
                 }
-//                for (int i=0;i<uriList.size();i++){
-//                    RelativeLayout imageItem1 = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
-//                    ImageView imageView1 = (ImageView) imageItem1.getChildAt(0);
-//                    ImageView removeImage1 = (ImageView) imageItem1.getChildAt(1);
-//                    removeImage1.setTag(imageContains.getChildCount());
-//                    Log.d("image", "" + imageView1.toString());
-//                    imageView.setLayoutParams(layoutParams);
-//                    Log.d("image", "" + imageView1.toString());
-//                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                    Log.d("image", "" + imageView1.toString());
-//                    imageView1.setImageBitmap(MyBitmapFactory.StringToBitmap(uriList.get(i)));
-//                    imageContains.addView(imageItem1);
-//                }
 
             }
             if (requestCode == TAKE_PHOTO) {
@@ -197,7 +186,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 Picasso.with(this).load(selectedImgUri).into(imageView);
 
                 Log.d("image", "" + imageView.toString());
-
                 if (selectedImgUri != null) {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
@@ -231,14 +219,14 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-                        String temp="toVisitors";
+                        String temp = "toVisitors";
                         try {
-                            if (which==0){
-                                temp="toMembers";
-                            }else if(which==1){
-                                temp="toUsers";
-                            }else if (which==2){
-                                temp="toVisitors";
+                            if (which == 0) {
+                                temp = "toMembers";
+                            } else if (which == 1) {
+                                temp = "toUsers";
+                            } else if (which == 2) {
+                                temp = "toVisitors";
                             }
                             if (startTime.getText().toString().equals("开始时间")) {
                                 Toast.makeText(getApplicationContext(), "set your start time", Toast.LENGTH_SHORT).show();
@@ -250,22 +238,22 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                                 long diff = d1.getTime() - d2.getTime();
                                 if (diff >= 0) {
                                     Toast.makeText(getApplicationContext(), "end time must be later than start time", Toast.LENGTH_SHORT).show();
-                                }else if(community_name.getText().toString().equals("choose community")){
+                                } else if (community_name.getText().toString().equals("choose community")) {
                                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
-                                }else if (atyName.getText().toString().equals("")) {
+                                } else if (atyName.getText().toString().equals("")) {
                                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
                                 } else if (atyContent.getText().toString().equals("")) {
                                     Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
                                 } else if (locaton.getText().toString().equals("add your location")) {
                                     Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    AtyItem atyItem = new AtyItem("release", MyUser.userId,atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
+                                    atyItem = new AtyItem("release", MyUser.userId, atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
                                             endTime.getText().toString(), locaton.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
-                                            "true", "false", "0",temp, uriList);
+                                            "true", "false", "0", temp, uriList);
                                     new UpDateTask().execute(atyItem);
-                                    atyItem.setUserName(MyUser.userName);
-                                    HomeFragment.addActivity(atyItem);
+
+
                                 }
                             }
                         } catch (Exception e) {
@@ -282,6 +270,8 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     }
 
     private class UpDateTask extends AsyncTask<AtyItem, Void, Void> {
+        String id = "";
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -290,6 +280,9 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            atyItem.setUserName(MyUser.userName);
+            atyItem.setAtyId(id);
+            HomeFragment.addActivity(atyItem);
             finish();
         }
 
@@ -303,12 +296,12 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
                 object = new JSONObject(new Gson().toJson(params[0]));
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
-                object.put("longitude",Location.split(" ")[2]);
-                object.put("latitude",Location.split(" ")[1]);
+                object.put("longitude", Location.split(" ")[2]);
+                object.put("latitude", Location.split(" ")[1]);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            JsonConnection.getJSON(object.toString());
+            id = JsonConnection.getJSON(object.toString());
             return null;
         }
     }

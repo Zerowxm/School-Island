@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-
-<ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/acitivity_image"
     android:layout_width="match_parent"
-    android:layout_height="270dp"
-    android:src="@drawable/miao"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:scaleType="centerCrop" />
+    android:layout_height="wrap_content">
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/acitivity_image"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wu" />
+
     <ImageView
-        android:onClick="removePicture"
         android:id="@+id/remove_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_clear"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:onClick="removePicture"
+        android:src="@drawable/ic_action_clear" />
 </RelativeLayout>

@@ -14,7 +14,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -47,7 +46,7 @@ public class JsonConnection {
         if (networkInfo != null && networkInfo.isConnected()) {
             //do some thing
             try {
-                URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
+                URL murl = new URL("http://10.0.2.2:8081/bootStrap/ClientPostServlet");
                 HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                 connection.setRequestProperty("Content-type", "application/json");
                 if(Build.VERSION.SDK_INT>13){
@@ -70,14 +69,14 @@ public class JsonConnection {
                 InputStream ins;
 
                 int status = connection.getResponseCode();
-                if (status >= HttpStatus.SC_BAD_REQUEST) {
-                    ins = connection.getErrorStream();
-                    Log.d("connection", "失败 " + status);
-                    return mResult;
-                } else {
+//                if (status >= HttpStatus.SC_BAD_REQUEST) {
+//                    ins = connection.getErrorStream();
+//                    Log.d("connection", "失败 " + status);
+//                    return mResult;
+//                } else {
                     ins = connection.getInputStream();
-                    Log.d("connection", "成功 " + status);
-                }
+//                    Log.d("connection", "成功 " + status);
+//                }
                 Log.d("connection", "ObjectInputStream");
                 ObjectInputStream objinput = new ObjectInputStream(ins);
 
@@ -112,7 +111,7 @@ public class JsonConnection {
                 StringBuffer stringBuffer;
                 String line;
                 try {
-                    URL murl = new URL("http://101.200.191.149:8080/FirstWeb/ClientPostServlet");
+                    URL murl = new URL("http://192.168.0.101:8087/bootstrapRepository/ClientPostServlet");
                     HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);

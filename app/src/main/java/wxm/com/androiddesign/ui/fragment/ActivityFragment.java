@@ -76,7 +76,7 @@ public class ActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type");
-        Log.d("wxm123",""+type);
+        Log.d("wxm123", "" + type);
         userId = getArguments().getString("userId");
 
     }
@@ -85,18 +85,18 @@ public class ActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v;
-            v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
-            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-            Log.d("wxm123",""+recyclerView.toString());
-            mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
-            setupSwipeRefreshLayout(mSwipeRefreshLayout);
-            setupRecyclerView(recyclerView);
+        v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+        Log.d("wxm123", "" + recyclerView.toString());
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        setupSwipeRefreshLayout(mSwipeRefreshLayout);
+        setupRecyclerView(recyclerView);
         Log.d("wxm123", "" + recyclerView.toString());
         return v;
     }
 
     private void setupSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
-        swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -110,19 +110,23 @@ public class ActivityFragment extends Fragment {
     }
 
     private void refreshContent() {
-        //load content
-        mSwipeRefreshLayout.setRefreshing(true);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        if (myRecycerAdapter != null) {
 
-                myRecycerAdapter.notifyDataSetChanged();
 
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 5000);
+            //load content
+            mSwipeRefreshLayout.setRefreshing(true);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    myRecycerAdapter.notifyDataSetChanged();
+
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }, 5000);
+
+        }
         //load complete
-
         onContentLoadComplete();
     }
 
@@ -141,16 +145,10 @@ public class ActivityFragment extends Fragment {
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         new GetAtyTask().execute(type);
 
-
-
-        //activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
-        // }.getType());
-//        myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
-//        recyclerView.setAdapter(myRecycerAdapter);
     }
 
 
-    private class GetAtyTask extends AsyncTask<Integer,Void,Boolean> {
+    private class GetAtyTask extends AsyncTask<Integer, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -161,14 +159,14 @@ public class ActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if (aBoolean==true){
-                if (activityItems==null){
+            if (aBoolean == true) {
+                if (activityItems == null) {
                     return;
                 }
-                for (int i=0;i<activityItems.size();i++){
-                    Log.d("Task",activityItems.get(i).toString());
+                for (int i = 0; i < activityItems.size(); i++) {
+                    Log.d("Task", activityItems.get(i).toString());
                 }
-                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
                 //mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -176,21 +174,24 @@ public class ActivityFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Integer... params) {
-            JSONObject object=new JSONObject();
+            JSONObject object = new JSONObject();
             try {
                 switch (params[0]) {
-                    case Hot:object.put("action","showHotAty");
+                    case Hot:
+                        object.put("action", "showHotAty");
                         break;
-                    case Nearby:object.put("action","showNearbyAty");
+                    case Nearby:
+                        object.put("action", "showNearbyAty");
                         object.put("latitude", LocationServices.Latitude);
-                        object.put("longitude",LocationServices.Longitude);
+                        object.put("longitude", LocationServices.Longitude);
                         break;
-                    case Hight:object.put("action","showHightAty");
+                    case Hight:
+                        object.put("action", "showHightAty");
                         break;
                 }
-                object.put("userId",userId);
+                object.put("userId", userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
-                  Log.i("jsonarray",jsonarrys.toString());
+                Log.i("jsonarray", jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
                 return true;

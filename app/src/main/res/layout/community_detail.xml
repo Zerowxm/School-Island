@@ -28,58 +28,60 @@
                 android:background="@android:color/white"
                 app:layout_collapseMode="parallax">
 
-
-
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_marginTop="33dp"
                     android:id="@+id/cmt_photo"
                     android:layout_width="111dp"
                     android:layout_height="111dp"
+                    android:layout_marginTop="33dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/miao"
-                    android:transitionName="@string/transition_user_photo"/>
+                    android:src="@drawable/wu"
+                    android:transitionName="@string/transition_user_photo" />
+
                 <wxm.com.androiddesign.widget.MyTextView
-                    android:layout_marginTop="55dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@id/cmt_photo"
                     android:id="@+id/cmt_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fonts:typeface="Roboto-Bold.ttf"
-                    android:textSize="17sp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="55dp"
+                    android:layout_toRightOf="@id/cmt_photo"
+                    android:text="社区名"
                     android:textColor="@color/primary_text_default_material_light"
-                    android:text="社区名"/>
+                    android:textSize="17sp"
+                    fonts:typeface="Roboto-Bold.ttf" />
+
                 <TextView
-                    android:textColor="@color/secondary_text_default_material_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cmt_name"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_toRightOf="@id/cmt_photo"
-                    android:layout_below="@id/cmt_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="成员数"/>
+                    android:text="成员数"
+                    android:textColor="@color/secondary_text_default_material_light" />
+
                 <TextView
-                    android:textColor="@color/secondary_text_default_material_light"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@id/cmt_photo"
                     android:id="@+id/cmt_member"
-                    android:layout_below="@id/cmt_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="33"/>
+                    android:layout_below="@id/cmt_name"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_toRightOf="@id/cmt_photo"
+                    android:text="33"
+                    android:textColor="@color/secondary_text_default_material_light" />
+
                 <Button
-                    android:elevation="2dp"
-                    android:clickable="true"
-                    android:textColor="@color/primary"
+                    android:id="@+id/join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="55dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:background="@drawable/signup_button"
+                    android:clickable="true"
+                    android:elevation="2dp"
                     android:text="+订阅"
-                    android:id="@+id/join"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/signup_button"/>
+                    android:textColor="@color/primary" />
 
             </RelativeLayout>
 
@@ -103,16 +105,16 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:divider="@color/divider"
             android:elevation="5dp"
             app:cardElevation="5dp"
-            android:backgroundTint="@color/white"
+            app:tabGravity="fill"
             app:tabIndicatorColor="@color/primary_dark"
-            app:tabSelectedTextColor="@color/primary"
-            app:tabTextColor="@color/black"
             app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/primary"
 
-            app:tabGravity="fill"/>
+            app:tabTextColor="@color/black" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"

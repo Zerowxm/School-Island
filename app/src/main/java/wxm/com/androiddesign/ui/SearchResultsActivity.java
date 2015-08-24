@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import wxm.com.androiddesign.R;
 
-public class SearchResultsActivity extends AppCompatActivity implements  SearchView.OnQueryTextListener{
+public class SearchResultsActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class SearchResultsActivity extends AppCompatActivity implements  SearchV
             String query = intent.getStringExtra(SearchManager.QUERY);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -61,6 +62,7 @@ public class SearchResultsActivity extends AppCompatActivity implements  SearchV
         }
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

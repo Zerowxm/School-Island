@@ -31,20 +31,20 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public User user;
     Boolean isEdit = false;
     Context context;
-    static boolean flag=false;
+    static boolean flag = false;
     String checkEmail = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
     String checkPhone = "((\\d{11})|^((\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1})|(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1}))$)";
     String checkGender = "['男''女']";
     String checkQq = "[1-9][0-9]{4,}";
 
-    public MultpleiProfileAdapter(User user,Context context) {
+    public MultpleiProfileAdapter(User user, Context context) {
         Log.i("pro", "pro");
         this.user = user;
         this.context = context;
-        if(MyUser.userId.equals(user.getUserId())){
-            flag=true;
-        }else {
-            flag=false;
+        if (MyUser.userId.equals(user.getUserId())) {
+            flag = true;
+        } else {
+            flag = false;
         }
     }
 
@@ -72,58 +72,60 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         changeEditState(list, isEdit);
 
                     } else if (isEdit) {
-                        if(!list.get(0).getText().toString().matches(checkGender)){
-                            Toast.makeText(context,"unavailable gender!",Toast.LENGTH_SHORT).show();
-                        }else if(!list.get(2).getText().toString().matches(checkQq)){
-                            Toast.makeText(context,"unavailable qq!",Toast.LENGTH_SHORT).show();
-                        }else {
+
+                        if (!list.get(0).getText().toString().matches(checkGender)) {
+                            Toast.makeText(context, "unavailable gender!", Toast.LENGTH_SHORT).show();
+                        } else if (!list.get(2).getText().toString().matches(checkQq)) {
+                            Toast.makeText(context, "unavailable qq!", Toast.LENGTH_SHORT).show();
+                        } else {
                             edit.setImageResource(R.drawable.ic_action_mode_edit_black);
                             isEdit = false;
                             changeEditState(list, isEdit);
                             user.setUserGender(list.get(0).getText().toString());
-                            user.setUserAddress(list.get(1).getText().toString());
+                            user.setUserLocation(list.get(1).getText().toString());
                             user.setQq(list.get(2).getText().toString());
+                            new UpDateProfile().execute();
+                        }
+
+                    }
+                }
+            });
+        } else if (viewType == 1)
+            return new UserInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.user_base_info_1, parent, false
+            ), new UserInfoViewHolder.MyViewHolderClicks() {
+                @Override
+                public void mEditProfile(ImageView edit, List<EditText> list) {
+                    if (!isEdit) {
+                        edit.setImageResource(R.drawable.ic_action_done_black);
+                        isEdit = true;
+                        changeEditState(list, isEdit);
+
+                    } else if (isEdit) {
+                        if (!list.get(1).getText().toString().matches(checkEmail)) {
+                            Toast.makeText(context, "unavailable email!", Toast.LENGTH_SHORT).show();
+                        } else if (!list.get(2).getText().toString().matches(checkPhone)) {
+                            Toast.makeText(context, "unavailable phone!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            edit.setImageResource(R.drawable.ic_action_mode_edit_black);
+                            isEdit = false;
+                            changeEditState(list, isEdit);
+                            user.setUserName(list.get(0).getText().toString());
+                            user.setUserEmail(list.get(1).getText().toString());
+                            user.setUserPhone(list.get(2).getText().toString());
+
                             new UpDateProfile().execute();
                         }
                     }
                 }
             });
-        } else if(viewType==1)
-            return new UserInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.user_base_info_1, parent, false
-        ), new UserInfoViewHolder.MyViewHolderClicks() {
-            @Override
-            public void mEditProfile(ImageView edit, List<EditText> list) {
-                if (!isEdit) {
-                    edit.setImageResource(R.drawable.ic_action_done_black);
-                    isEdit = true;
-                    changeEditState(list, isEdit);
-
-                } else if (isEdit) {
-                    if(!list.get(1).getText().toString().matches(checkEmail)){
-                        Toast.makeText(context,"unavailable email!",Toast.LENGTH_SHORT).show();
-                    }else if(!list.get(2).getText().toString().matches(checkPhone)){
-                        Toast.makeText(context,"unavailable phone!",Toast.LENGTH_SHORT).show();
-                    }else {
-                        edit.setImageResource(R.drawable.ic_action_mode_edit_black);
-                        isEdit = false;
-                        changeEditState(list, isEdit);
-                        user.setUserName(list.get(0).getText().toString());
-                        user.setUserEmail(list.get(1).getText().toString());
-                        user.setUserPhone(list.get(2).getText().toString());
-
-                        new UpDateProfile().execute();
-                    }
-                }
-            }
-        });
 
         else return new FooViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.foo_item, parent, false
             ));
     }
 
-    private class UpDateProfile extends AsyncTask{
+    private class UpDateProfile extends AsyncTask {
 
         @Override
         protected Object doInBackground(Object[] params) {
@@ -136,20 +138,20 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof UserInfoViewHolder) {
-            ((UserInfoViewHolder)holder).user_email.setText(user.getUserEmail());
+            ((UserInfoViewHolder) holder).user_email.setText(user.getUserEmail());
             ((UserInfoViewHolder) holder).user_name.setText(user.getUserName());
             ((UserInfoViewHolder) holder).user_phone.setText(user.getUserPhone());
 
 
         } else if (holder instanceof BaseInfoViewHolder) {
-            ((BaseInfoViewHolder)holder).user_gender.setText(user.getUserGender());
-            ((BaseInfoViewHolder)holder).user_place.setText(user.getUserLocation());
-            ((BaseInfoViewHolder)holder).user_qq.setText(user.getQq());
+            ((BaseInfoViewHolder) holder).user_gender.setText(user.getUserGender());
+            ((BaseInfoViewHolder) holder).user_place.setText(user.getUserLocation());
+            ((BaseInfoViewHolder) holder).user_qq.setText(user.getQq());
 
         }
     }
 
-    public void setText(EditText v,String text){
+    public void setText(EditText v, String text) {
         v.setText(text);
     }
 
@@ -162,7 +164,7 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public int getItemViewType(int position) {
         if (position == 0)
             return 0;
-        else if(position==1)return 1;
+        else if (position == 1) return 1;
         else return 2;
     }
 
@@ -183,9 +185,9 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             this.mListener = mListener;
             ButterKnife.bind(this, itemView);
-            if(flag){
+            if (flag) {
                 edit.setVisibility(View.VISIBLE);
-            }else edit.setVisibility(View.GONE);
+            } else edit.setVisibility(View.GONE);
             editTextList.add(user_gender);
             editTextList.add(user_place);
             editTextList.add(user_qq);
@@ -225,9 +227,9 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             this.mListener = mListener;
             ButterKnife.bind(this, itemView);
-            if(flag){
+            if (flag) {
                 edit.setVisibility(View.VISIBLE);
-            }else edit.setVisibility(View.GONE);
+            } else edit.setVisibility(View.GONE);
             editTextList.add(user_name);
             editTextList.add(user_email);
             editTextList.add(user_phone);
@@ -246,7 +248,7 @@ public class MultpleiProfileAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
 
-    public static class FooViewHolder extends RecyclerView.ViewHolder{
+    public static class FooViewHolder extends RecyclerView.ViewHolder {
 
         public FooViewHolder(View itemView) {
             super(itemView);

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <wxm.com.androiddesign.widget.MyTextView
-        android:textSize="22sp"
-        font:typeface="Roboto-MediumItalic.ttf"
-        android:gravity="center"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="没有查看权限(´・Å・`)"/>
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="没有查看权限(´・Å・`)"
+        android:textSize="22sp"
+        font:typeface="Roboto-MediumItalic.ttf" />
 </RelativeLayout>

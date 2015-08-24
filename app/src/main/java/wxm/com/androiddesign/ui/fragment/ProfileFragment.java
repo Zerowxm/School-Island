@@ -35,7 +35,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     private String userId;
-    User user=new User();
+    User user = new User();
     GetProfile getProfile;
 
 
@@ -59,7 +59,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new MultpleiProfileAdapter(user,getActivity()));
+        recyclerView.setAdapter(new MultpleiProfileAdapter(user, getActivity()));
     }
 
     private class GetProfile extends AsyncTask<String, Void, Boolean> {

@@ -33,18 +33,18 @@ import wxm.com.androiddesign.ui.DetailActivity;
 /**
  * Created by zero on 2015/7/22.
  */
-public class CtyAtyFragment extends Fragment {
+public class CmtAtyFragment extends Fragment {
 
     RecyclerView recyclerView;
     List<AtyItem> atyItemList= new ArrayList<>();
     String cmtId="";
 
-    public static CtyAtyFragment newInstance(String cmtId){
-        CtyAtyFragment ctyAtyFragment =new CtyAtyFragment();
+    public static CmtAtyFragment newInstance(String cmtId){
+        CmtAtyFragment cmtAtyFragment =new CmtAtyFragment();
         Bundle args= new Bundle();
         args.putString("cmtId",cmtId);
-        ctyAtyFragment.setArguments(args);
-        return ctyAtyFragment;
+        cmtAtyFragment.setArguments(args);
+        return cmtAtyFragment;
     }
 
     @Override

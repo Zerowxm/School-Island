@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -39,10 +41,9 @@ public class MyDialog extends DialogFragment {
     private String uri;
 
 
-
-    public static MyDialog newInstance(String uri){
-        MyDialog myDialog=new MyDialog();
-        Bundle bundle=new Bundle();
+    public static MyDialog newInstance(String uri) {
+        MyDialog myDialog = new MyDialog();
+        Bundle bundle = new Bundle();
         bundle.putString("uri", uri);
         myDialog.setArguments(bundle);
         return myDialog;
@@ -55,8 +56,17 @@ public class MyDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_layout, null);
         imageView = (MatrixImageView) view.findViewById(R.id.image_show);
         savebutton = (Button) view.findViewById(R.id.savaImage);
-        Log.d("dialog",uri+"onCreateView");
+        Log.d("dialog", uri + "onCreateView");
         Picasso.with(getActivity()).load(uri).into(imageView);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int screenWidth = displaymetrics.widthPixels - 2;
+        int screenHeight = displaymetrics.heightPixels;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                screenWidth, screenHeight * 2 / 3);
+        imageView.setLayoutParams(layoutParams);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -139,8 +149,8 @@ public class MyDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        uri=getArguments().getString("uri");
-        Log.d("dialog",uri);
+        uri = getArguments().getString("uri");
+        Log.d("dialog", uri);
     }
 
     private String getPhotoFileName() {

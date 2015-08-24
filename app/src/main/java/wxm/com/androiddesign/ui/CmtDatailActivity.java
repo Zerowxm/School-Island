@@ -18,7 +18,7 @@ import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 
-public class CtyDatailActivity extends AppCompatActivity {
+public class CmtDatailActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
@@ -32,7 +32,7 @@ public class CtyDatailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
 
-        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList,userId, this, "CmtDatailActivity"));
+        recyclerView.setAdapter(new MyRecycerAdapter(atyItemList, userId, this, "CmtDatailActivity"));
 
     }
 

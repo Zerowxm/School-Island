@@ -41,7 +41,7 @@ public class CommentData {
         this.cmtContent = cmtContent;
     }
 
-    public CommentData(String action, String userId,String atyId, String time, String comment) {
+    public CommentData(String action, String userId, String atyId, String time, String comment) {
         this.action = action;
         this.userId = userId;
         this.cmtTime = time;

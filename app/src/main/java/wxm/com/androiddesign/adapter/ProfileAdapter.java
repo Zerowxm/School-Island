@@ -22,17 +22,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.BaseInfo
     public User user;
 
     public ProfileAdapter(User user) {
-        Log.i("pro","pro");
+        Log.i("pro", "pro");
         this.user = user;
     }
 
 
-
     public ProfileAdapter.BaseInfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            return new BaseInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.user_base_info, parent, false
-            ));
+        return new BaseInfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.user_base_info, parent, false
+        ));
 
     }
 
@@ -64,7 +63,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.BaseInfo
         EditText user_place;
         @Bind(R.id.user_qq)
         EditText user_qq;
-
 
 
         public BaseInfoViewHolder(View itemView) {

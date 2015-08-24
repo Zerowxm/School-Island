@@ -33,8 +33,7 @@ public class User {
     public String userLocation;
     @Expose
     public String userCredit;
-    @Expose
-    public String userAddress;
+
     @Expose
     List<String> userAlbum = new ArrayList<String>();
     @Expose
@@ -93,7 +92,6 @@ public class User {
         this.qq = qq;
         this.userLocation = userLocation;
         this.userCredit = userCredit;
-        this.userAddress = userAddress;
         this.userAlbum = userAlbum;
     }
 
@@ -194,13 +192,6 @@ public class User {
         this.userCredit = userCredit;
     }
 
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
 
     public List<String> getUserAlbum() {
         return userAlbum;

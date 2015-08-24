@@ -30,9 +30,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
     List<String> ablum = new ArrayList<String>();
     Activity context;
 
-    public PhotoAdapter(List<String> ablum,Activity context) {
+    public PhotoAdapter(List<String> ablum, Activity context) {
         this.ablum = ablum;
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -45,14 +45,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
 
     @Override
     public void onBindViewHolder(MyPhotoViewHolder holder, int position) {
-        String uri=ablum.get(position);
+        String uri = ablum.get(position);
         Picasso.with(context).load(uri).into(holder.photo);
         WindowManager windowManager = context.getWindowManager();
         DisplayMetrics dm = new DisplayMetrics();
         Display display = windowManager.getDefaultDisplay();
         int width = display.getWidth() - 7;
         int height = display.getHeight();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/3-2, height * 1 / 3);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width / 3 - 2, height * 1 / 3);
         holder.photo.setLayoutParams(layoutParams);
         //Picasso.with(context).load(R.drawable.test);
     }
@@ -64,10 +64,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
 
     public static class MyPhotoViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.photo)ImageView photo;
+        @Bind(R.id.photo)
+        ImageView photo;
+
         public MyPhotoViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wxm.com.androiddesign.widget.MyTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<wxm.com.androiddesign.widget.MyTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fonts="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="22sp"
     android:textColor="@color/white"
-    fonts:typeface="Roboto-Bold.ttf"
-     />
+    android:textSize="22sp"
+    fonts:typeface="Roboto-Bold.ttf" />

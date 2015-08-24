@@ -45,7 +45,7 @@ import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.CtyAcitivity;
+import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.DetailActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
 
@@ -96,7 +96,7 @@ public class MyHomeRecycerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             @Override
             public void onCommunity(TextView community,int position){
-                Intent intent = new Intent(activity, CtyAcitivity.class);
+                Intent intent = new Intent(activity, CmtAcitivity.class);
                 intent.putExtra("cmtId",community.getText().toString());
                 activity.startActivity(intent);
             }

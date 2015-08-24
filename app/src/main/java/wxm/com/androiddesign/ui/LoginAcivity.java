@@ -15,9 +15,12 @@ import wxm.com.androiddesign.R;
 
 public class LoginAcivity extends AppCompatActivity {
 
-    @Bind(R.id.login_image)ImageView login_image;
-    @Bind(R.id.login_btn)Button Login_button;
-    @Bind(R.id.signup_btn)Button signup_button;
+    @Bind(R.id.login_image)
+    ImageView login_image;
+    @Bind(R.id.login_btn)
+    Button Login_button;
+    @Bind(R.id.signup_btn)
+    Button signup_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,7 @@ public class LoginAcivity extends AppCompatActivity {
         setupToolBar();
     }
 
-    private void setupToolBar(){
+    private void setupToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
@@ -35,6 +38,7 @@ public class LoginAcivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

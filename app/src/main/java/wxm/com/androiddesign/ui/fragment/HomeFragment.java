@@ -71,7 +71,8 @@ public class HomeFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
     private String userId;
-    @Bind(R.id.country)TextView country;
+    @Bind(R.id.country)
+    TextView country;
 
     @Override
     public void setHasOptionsMenu(boolean hasMenu) {
@@ -86,14 +87,15 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         openMessageService();
     }
-    public void openMessageService()
-    {
+
+    public void openMessageService() {
         Intent i = new Intent();
         i.setClass(getActivity(), MessageService.class);
         i.putExtra("userId", MyUser.userId);
         getActivity().startService(i);
         Log.i("CJ", "openMessageService " + userId);
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -116,7 +118,8 @@ public class HomeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    private class GetAtyTask extends AsyncTask<String,Void,Boolean>{
+
+    private class GetAtyTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -128,32 +131,32 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if (aBoolean==true){
-                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId,(AppCompatActivity) getActivity(), "HomeFragment");
+            if (aBoolean == true) {
+                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "HomeFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
                 country.setText(LocationServices.City);
-            }else{
-                Snackbar.make(mSwipeRefreshLayout,"Error",Snackbar.LENGTH_SHORT).show();
+            } else {
+                Snackbar.make(mSwipeRefreshLayout, "Error", Snackbar.LENGTH_SHORT).show();
             }
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
-            JSONObject object=new JSONObject();
+            JSONObject object = new JSONObject();
             try {
-                object.put("action","showActivities");
+                object.put("action", "showActivities");
                 object.put("userId", MyUser.userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
 
-                if(activityItems==null)
+                if (activityItems == null)
                     return false;
-                for (int i=0;i<activityItems.size();i++){
-                    Log.d("Task",activityItems.get(i).toString());
+                for (int i = 0; i < activityItems.size(); i++) {
+                    Log.d("Task", activityItems.get(i).toString());
                 }
-                Log.d("Task",jsonarrys);
+                Log.d("Task", jsonarrys);
                 return true;
 
             } catch (JSONException e) {
@@ -168,7 +171,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, v);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -184,9 +187,10 @@ public class HomeFragment extends Fragment {
     }
 
     @OnClick(R.id.country)
-    public void chooseCountry(){
+    public void chooseCountry() {
 
     }
+
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
@@ -202,7 +206,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
-        swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);

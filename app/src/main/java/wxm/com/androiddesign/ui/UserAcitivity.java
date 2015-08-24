@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -37,12 +38,16 @@ import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
 public class UserAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
-    String userId="";
+    String userId = "";
     User user;
 
-    @Bind(R.id.user_id)TextView user_id;
-    @Bind(R.id.score)TextView score;
-    @Bind(R.id.user_photo)CircleImageView user_photo;
+    @Bind(R.id.user_id)
+    TextView user_id;
+    @Bind(R.id.score)
+    TextView score;
+    @Bind(R.id.user_photo)
+    CircleImageView user_photo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +60,7 @@ public class UserAcitivity extends AppCompatActivity {
 
     }
 
-    private class GetUserINfo extends AsyncTask<Void,Void,Boolean>{
+    private class GetUserINfo extends AsyncTask<Void, Void, Boolean> {
         Context context;
 
         public GetUserINfo(Context context) {
@@ -65,31 +70,32 @@ public class UserAcitivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean reslut) {
             super.onPostExecute(reslut);
-            if (reslut){
+            if (reslut) {
                 setupToolBar();
                 setupViewPager();
                 setupTabLayout();
                 user_id.setText(user.getUserId());
-                score.setText(user.getUserCredit());
+                score.setText("积分：" + user.getUserCredit());
                 Picasso.with(context).load(user.getUserIcon()).into(user_photo);
             }
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            JSONObject object=new JSONObject();
+            JSONObject object = new JSONObject();
             try {
-                object.put("action","showProfile");
-                object.put("userId",userId);
+                object.put("action", "showProfile");
+                object.put("userId", userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            user=new Gson().fromJson(JsonConnection.getJSON(object.toString()),User.class);
+            user = new Gson().fromJson(JsonConnection.getJSON(object.toString()), User.class);
             user.setUserId(userId);
 //            user.setUserIcon(MyUser.userIcon);
             return true;
         }
     }
+
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,30 +109,23 @@ public class UserAcitivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
-
-        adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release,userId), "已发布活动");
-        adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined,userId), "参与活动");
-
-        //adapter.addFragment(ScoreFragment.newInstance(userId), "积分");
+        adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release, userId), "已发布活动");
+        adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
         adapter.addFragment(CmtListFragment.newInstance(userId), "社区");
-        if(user.getUserAlbumIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
-        Log.i("publicuser",user.getUserId());
-        Log.i("publicuser", MyUser.userId);
-
+        if (user.getUserAlbumIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
+            Log.i("publicuser", user.getUserId());
+            Log.i("publicuser", MyUser.userId);
             adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
-        }
-        else{
-           adapter.addFragment(new FooFragment(), "相册");
+        } else {
+            adapter.addFragment(new FooFragment(), "相册");
         }
         viewPager.setAdapter(adapter);
     }
 
     private void setupTabLayout() {
         TabLayout tab = (TabLayout) findViewById(R.id.tabs);
-        //tab.setTabGravity(TabLayout.MODE_FIXED|TabLayout.MODE_SCROLLABLE);
         tab.setupWithViewPager(viewPager);
-        tab.setBackgroundColor(getResources().getColor(R.color.tab_color));
-        //tab.setTabTextColors(R.color.color_state_list);
+        tab.setBackgroundColor(getResources().getColor(R.color.tab_color,null));
 
     }
 

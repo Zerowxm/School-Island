@@ -47,7 +47,7 @@ import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 import wxm.com.androiddesign.ui.fragment.RankingFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack {
     DrawerLayout drawerLayout;
 
     public static int SIGNUP = 0x1;
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openLocationServices() {
         Log.e("CJ", "onpenLocationServices");
         Intent i = new Intent();
-        i.putExtra("userId",MyUser.userId);
+        i.putExtra("userId", MyUser.userId);
         i.setClass(getApplicationContext(), LocationServices.class);
         startService(i);
     }
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void closeLocationServices() {
         Log.e("CJ", "closeLocationServices");
         Intent i = new Intent();
-        i.putExtra("userId",MyUser.userId);
+        i.putExtra("userId", MyUser.userId);
         i.setClass(getApplicationContext(), LocationServices.class);
         stopService(i);
     }
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
-            if (user==null){
+            if (user == null) {
 
                 return;
             }
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("user", mUser.toString());
             user_name.setText(mUser.getUserName());
             if ("001".equals(mUser.getUserId())) {
-               user_email.setText("点击头像登录");
+                user_email.setText("点击头像登录");
                 logout.setText("");
                 logout.setClickable(false);
             } else {
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected User doInBackground(Boolean... params) {
-            if(params[0]){
+            if (params[0]) {
                 JSONObject object = new JSONObject();
                 try {
                     object.put("action", "login");
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 object.put("userPassword", password);
 
                 String userJson = JsonConnection.getJSON(object.toString());
-                if (userJson.contains("false")){
+                if (userJson.contains("false")) {
                     return null;
                 }
                 return new Gson().fromJson(userJson, User.class);
@@ -221,14 +221,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             JSONObject object = new JSONObject();
             try {
                 object = new JSONObject();
-                object.put("action","editAlbumRight");
-                object.put("userId",MyUser.userId);
-                object.put("userAlbumIsPublic",params[0]);
+                object.put("action", "editAlbumRight");
+                object.put("userId", MyUser.userId);
+                object.put("userAlbumIsPublic", params[0]);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            Log.i("mjson",json);
+            Log.i("mjson", json);
             return null;
         }
     }
@@ -266,20 +266,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                                             @Override
                                             public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                                if (which==0){
+                                                if (which == 0) {
                                                     new UpDateTask().execute("true");
-                                                }else if (which==1){
+                                                } else if (which == 1) {
                                                     new UpDateTask().execute("false");
-                                                }else
-                                                {
-                                                    Log.d("userwxm","countA"+which+text);
+                                                } else {
+                                                    Log.d("userwxm", "countA" + which + text);
                                                     return false;
                                                 }
-                                                Log.d("userwxm","countB"+which+text);
+                                                Log.d("userwxm", "countB" + which + text);
                                                 return true;
                                             }
                                         }).positiveText(R.string.choose)
-                                            .show();
+                                        .show();
                                 return true;
                             default:
                                 return true;
@@ -289,9 +288,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @OnClick(R.id.logout)
-    public void Logout(){
-        new LoginTask(this).execute(true);
-        drawerLayout.closeDrawers();
+    public void Logout() {
+
+        new MaterialDialog.Builder(this)
+                .title("乃确定不是手滑了么")
+                .positiveText("LOGOUT")
+                .negativeText("是我手滑了")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        new LoginTask(MainActivity.this).execute(true);
+                        drawerLayout.closeDrawers();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+
+                    }
+                })
+                .show();
+
     }
 
 
@@ -300,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {
-            setupDrawerContent(navigationView,this);
+            setupDrawerContent(navigationView, this);
         }
         View header = findViewById(R.id.header);
         header.setClickable(true);
@@ -350,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 return true;
             case R.id.action_serch:
-                Intent intent=new Intent(MainActivity.this,SearchResultsActivity.class);
+                Intent intent = new Intent(MainActivity.this, SearchResultsActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -368,13 +384,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(!MyUser.userId.equals("001")) {
+        if (!MyUser.userId.equals("001")) {
             Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
             intent.putExtra("userId", mUser.getUserId());
             startActivity(intent);
-        }
-        else{
-            Toast.makeText(this,"请登录后发布",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "请登录后发布", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -383,7 +398,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LoginFragment releaseFragment = new LoginFragment();
         releaseFragment.show(fm, "login");
     }
-
 
 
 }

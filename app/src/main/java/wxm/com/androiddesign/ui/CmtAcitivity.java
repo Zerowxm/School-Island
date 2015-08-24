@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,38 +28,44 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
-import wxm.com.androiddesign.module.CtyItem;
+import wxm.com.androiddesign.module.CmtItem;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.CtyAtyFragment;
+import wxm.com.androiddesign.ui.fragment.CmtAtyFragment;
 import wxm.com.androiddesign.ui.fragment.UserListFragment;
 
 
-public class CtyAcitivity extends AppCompatActivity {
+public class CmtAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
-    String cmtId="";
-    CtyItem ctyItem;
-    Boolean flag=false;
+    String cmtId = "";
+    CmtItem cmtItem;
+    Boolean flag = false;
 
 
-    @Bind(R.id.cmt_name)TextView cmt_name;
-    @Bind(R.id.cmt_member)TextView cmt_member;
-    @Bind(R.id.cmt_photo)CircleImageView cmt_photo;
-    @Bind(R.id.join)Button joinbtn;
+    @Bind(R.id.cmt_name)
+    TextView cmt_name;
+    @Bind(R.id.cmt_member)
+    TextView cmt_member;
+    @Bind(R.id.cmt_photo)
+    CircleImageView cmt_photo;
+    @Bind(R.id.join)
+    Button joinbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_detail);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
-        //cmtId = bundle.getString("ctyId");
-        cmtId="科学";
+        cmtId = bundle.getString("ctyId");
+        //cmtId="科学";
+
         new GetUserInfo(this).execute();
-       // if(ctyItem)
+
     }
 
-    private class GetUserInfo extends AsyncTask<Void,Void,Boolean>{
+    private class GetUserInfo extends AsyncTask<Void, Void, Boolean> {
         Context context;
 
         public GetUserInfo(Context context) {
@@ -71,57 +78,61 @@ public class CtyAcitivity extends AppCompatActivity {
             setupToolBar();
             setupViewPager();
             setupTabLayout();
-            if (reslut){
-                cmt_name.setText(ctyItem.getCtyId());
-                cmt_member.setText(ctyItem.getCtyMembers());
-                Picasso.with(context).load(ctyItem.getCtyIcon()).into(cmt_photo);
+            if (reslut) {
+                cmt_name.setText(cmtItem.getCtyId());
+                cmt_member.setText(cmtItem.getCtyMembers());
+                Picasso.with(context).load(cmtItem.getCtyIcon()).into(cmt_photo);
 
-                if(ctyItem.getCtyIsAttention().equals("true")){
+                if (cmtItem.getCtyIsAttention().equals("true")) {
                     flag = true;
                     joinbtn.setText("已订阅");
-                    joinbtn.setTextColor(getResources().getColor(R.color.gray));
-                    joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
-                }else{
+                    joinbtn.setTextColor(getResources().getColor(R.color.gray, null));
+                    joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.material_join_button));
+                } else {
                     flag = false;
                     joinbtn.setText("+订阅");
-                    joinbtn.setTextColor(getResources().getColor(R.color.primary));
-                    joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
+                    joinbtn.setTextColor(getResources().getColor(R.color.primary, null));
+                    joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.signup_button));
                 }
             }
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            JSONObject object=new JSONObject();
+            JSONObject object = new JSONObject();
             try {
-                object.put("action","showCommunity");
-                object.put("ctyId",cmtId);
+                Log.d("Task2", "doInBackground");
+                object.put("action", "showCommunity");
+                object.put("ctyId", cmtId);
                 object.put("userId", MyUser.userId);
+                Log.d("Task2", object.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ctyItem =new Gson().fromJson(JsonConnection.getJSON(object.toString()),CtyItem.class);
-            //cmtItem.setCtyId(cmtId);
+            String json = JsonConnection.getJSON(object.toString());
+            Log.d("Task2", json);
+            cmtItem = new Gson().fromJson(json, CmtItem.class);
+
             return true;
         }
     }
 
     @OnClick(R.id.join)
-    public void joinCmt(){
-        if(MyUser.userId.equals("001")){
-            Toast.makeText(this,"请登录后订阅",Toast.LENGTH_SHORT).show();
-        }else {
+    public void joinCmt() {
+        if (MyUser.userId.equals("001")) {
+            Toast.makeText(this, "请登录后订阅", Toast.LENGTH_SHORT).show();
+        } else {
             if (!flag) {
                 joinbtn.setText("已订阅");
                 cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString()) + 1));
-                joinbtn.setTextColor(getResources().getColor(R.color.gray));
-                joinbtn.setBackground(getResources().getDrawable(R.drawable.material_join_button));
+                joinbtn.setTextColor(getResources().getColor(R.color.gray, null));
+                joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.material_join_button));
                 flag = true;
             } else {
                 joinbtn.setText("+订阅");
                 cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString()) - 1));
-                joinbtn.setTextColor(getResources().getColor(R.color.primary));
-                joinbtn.setBackground(getResources().getDrawable(R.drawable.signup_button));
+                joinbtn.setTextColor(getResources().getColor(R.color.primary, null));
+                joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.signup_button));
                 flag = false;
             }
             new joinCmtTask().execute();
@@ -145,16 +156,15 @@ public class CtyAcitivity extends AppCompatActivity {
             JSONObject object = new JSONObject();
             try {
                 object = new JSONObject();
-                if (flag){
-                    object.put("action","joinCty");
-                    object.put("userId",MyUser.userId);
-                    object.put("ctyId",cmtId);
-                }else {
-                    object.put("action","notJoinCty");
-                    object.put("userId",MyUser.userId);
-                    object.put("ctyId",cmtId);
+                if (flag) {
+                    object.put("action", "joinCty");
+                    object.put("userId", MyUser.userId);
+                    object.put("ctyId", cmtId);
+                } else {
+                    object.put("action", "notJoinCty");
+                    object.put("userId", MyUser.userId);
+                    object.put("ctyId", cmtId);
                 }
-
 
 
             } catch (JSONException e) {
@@ -180,9 +190,9 @@ public class CtyAcitivity extends AppCompatActivity {
 
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(CtyAtyFragment.newInstance(cmtId),"活动");
+        adapter.addFragment(CmtAtyFragment.newInstance(cmtId), "活动");
 
-        adapter.addFragment(UserListFragment.newInstance(cmtId),"用户");
+        adapter.addFragment(UserListFragment.newInstance(cmtId), "用户");
 
         viewPager.setAdapter(adapter);
     }
@@ -191,7 +201,7 @@ public class CtyAcitivity extends AppCompatActivity {
         TabLayout tab = (TabLayout) findViewById(R.id.tabs);
         //tab.setTabGravity(TabLayout.MODE_FIXED|TabLayout.MODE_SCROLLABLE);
         tab.setupWithViewPager(viewPager);
-        tab.setBackgroundColor(getResources().getColor(R.color.tab_color));
+        tab.setBackgroundColor(getResources().getColor(R.color.tab_color, null));
         //tab.setTabTextColors(R.color.color_state_list);
 
     }
@@ -211,7 +221,7 @@ public class CtyAcitivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (item.getItemId()) {
             case android.R.id.home:
-               // new joinCmtTask().execute();
+                // new joinCmtTask().execute();
                 finish();
                 return true;
         }

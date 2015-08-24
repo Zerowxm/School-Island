@@ -229,7 +229,7 @@ public class AtyItem implements Parcelable {
                    String atyName, String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
-                   String atyIsPublic,List<String> atyAlbum) {
+                   String atyIsPublic, List<String> atyAlbum) {
         this.action = action;
         this.userId = userId;
         this.atyType = atyType;
@@ -261,8 +261,8 @@ public class AtyItem implements Parcelable {
     public AtyItem(String action, String userId, String atyName,
                    String atyType, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent,
-                   String atyPlus, String atyComment, String atyJoined,String atyIsLiked,
-                   String atyShare,String atyIsPublic, List<String> atyAlbum) {
+                   String atyPlus, String atyComment, String atyJoined, String atyIsLiked,
+                   String atyShare, String atyIsPublic, List<String> atyAlbum) {
         this.action = action;
         this.userId = userId;
         this.atyName = atyName;

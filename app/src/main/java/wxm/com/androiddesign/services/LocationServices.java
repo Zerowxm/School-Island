@@ -22,6 +22,7 @@ public class LocationServices extends Service {
     public static String City = "厦门市";
     public static String Address;
     MyLocationListenner myListener = new MyLocationListenner();
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -36,7 +37,7 @@ public class LocationServices extends Service {
         option.setCoorType("bd09ll");
         option.setScanSpan(0);
         option.setIsNeedAddress(true);
-         option.setIgnoreKillProcess(false);
+        option.setIgnoreKillProcess(false);
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
@@ -66,7 +67,7 @@ public class LocationServices extends Service {
             Longitude = location.getLongitude();
             City = location.getCity();
             Address = location.getAddrStr();
-            Log.i("CJ","Latitude, Longitude, City, Address" + Latitude + " " + Longitude + " " +City + " " +Address);
+            Log.i("CJ", "Latitude, Longitude, City, Address" + Latitude + " " + Longitude + " " + City + " " + Address);
         }
     }
 }

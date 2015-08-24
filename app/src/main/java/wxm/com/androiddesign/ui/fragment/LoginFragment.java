@@ -20,8 +20,6 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
-import org.apache.http.HttpStatus;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -35,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.SignUpActivity;
@@ -115,7 +114,7 @@ public class LoginFragment extends DialogFragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            getJSON(params[0]);
+            mResult = JsonConnection.getJSON(params[0]);
             if (mResult != "") {
                 if (mResult.contains("false")) {
                     return false;
@@ -130,7 +129,7 @@ public class LoginFragment extends DialogFragment {
             super.onPostExecute(result);
             if (result == true) {
                 materialDialog.dismiss();
-                User mUser=new Gson().fromJson(mResult, User.class);
+                User mUser = new Gson().fromJson(mResult, User.class);
                 mUser.setUserPassword(user.getUserPassword());
                 loginCallBack.onLongin(mUser);
 
@@ -150,60 +149,12 @@ public class LoginFragment extends DialogFragment {
         }
     }
 
-    public void getJSON(String json) {
-        try {
-            URL murl = new URL("http://101.200.191.149:8080/bootstrapRepository/ClientPostServlet");
-
-            HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
-            connection.setRequestProperty("Content-type", "application/json");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            connection.setUseCaches(false);
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
-            connection.connect();
-            OutputStream outStrm = connection.getOutputStream();
-
-
-            //HttpURLconnection写数据与发送数据
-            ObjectOutputStream objOutputStrm = new ObjectOutputStream(outStrm);
-            objOutputStrm.writeObject(json);
-            objOutputStrm.flush();                              //数据输出
-            objOutputStrm.close();
-
-            Log.d("connection", json);
-
-            InputStream ins;
-
-            int status = connection.getResponseCode();
-            if (status >= HttpStatus.SC_BAD_REQUEST) {
-                ins = connection.getErrorStream();
-                Log.d("connection", "" + status);
-            } else {
-                ins = connection.getInputStream();
-                Log.d("connection", "" + status);
-
-                ObjectInputStream objinput = new ObjectInputStream(ins);
-                mResult = (String) objinput.readObject();
-
-                Log.d("connection", mResult);
-            }
-
-
-        } catch (IOException e) {
-            Log.d("Exception", e.toString());
-            Log.d("connection", "Excption");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     @OnClick(R.id.signup_btn)
     public void SignUp() {
         dismiss();
         Intent intent = new Intent(getActivity(), SignUpActivity.class);
-        getActivity().startActivityForResult(intent,MainActivity.SIGNUP);
+        getActivity().startActivityForResult(intent, MainActivity.SIGNUP);
     }
 
 

@@ -17,7 +17,8 @@ public class Message {
         Type = type;
     }
 
-    public Message(){}
+    public Message() {
+    }
 
     public String getTitle() {
         return Title;
@@ -27,8 +28,7 @@ public class Message {
         Title = title;
     }
 
-    public Message(String content, String time)
-    {
+    public Message(String content, String time) {
         this.content = content;
         this.Time = time;
     }

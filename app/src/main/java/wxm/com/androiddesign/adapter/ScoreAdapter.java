@@ -22,7 +22,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyScoreViewH
     List<Score> scores = new ArrayList<Score>();
 
 
-    public ScoreAdapter(List<Score> scores){
+    public ScoreAdapter(List<Score> scores) {
         this.scores = scores;
     }
 
@@ -36,7 +36,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyScoreViewH
 
     @Override
     public void onBindViewHolder(MyScoreViewHolder holder, int position) {
-        Score score=scores.get(position);
+        Score score = scores.get(position);
         holder.score.setText(score.getCreditNumbers());
         holder.op.setText(score.getCreditContent());
     }
@@ -48,11 +48,14 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyScoreViewH
 
     public static class MyScoreViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.score)TextView score;
-        @Bind(R.id.op)TextView op;
+        @Bind(R.id.score)
+        TextView score;
+        @Bind(R.id.op)
+        TextView op;
+
         public MyScoreViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

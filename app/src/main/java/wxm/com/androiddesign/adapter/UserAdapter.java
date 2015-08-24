@@ -27,7 +27,7 @@ import wxm.com.androiddesign.ui.UserAcitivity;
  */
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
-    List<User> userList=new ArrayList<>();
+    List<User> userList = new ArrayList<>();
     Context context;
 
     public UserAdapter(List<User> userList, Context context) {
@@ -46,7 +46,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        User item=userList.get(position);
+        User item = userList.get(position);
         holder.user_name.setText(item.getUserName());
         Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
     }
@@ -70,7 +70,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, UserAcitivity.class);
-                    intent.putExtra("userId",userList.get(getAdapterPosition()).getUserId());
+                    intent.putExtra("userId", userList.get(getAdapterPosition()).getUserId());
                     Log.d("user", "user:" + userList.get(getAdapterPosition()).getUserId());
                     context.startActivity(intent);
                 }

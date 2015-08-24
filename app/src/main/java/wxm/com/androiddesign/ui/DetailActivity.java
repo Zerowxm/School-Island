@@ -94,11 +94,6 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            materialDialog = new MaterialDialog.Builder(context)
-//                    .title("Loading")
-//                    .progress(true, 0)
-//                    .progressIndeterminateStyle(true)
-//                    .show();
         }
 
         @Override
@@ -109,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
             recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
             setupRecyclerView(recyclerView);
             multipleItemAdapter.notifyDataSetChanged();
-            if (result){
+            if (result) {
                 recyclerView.scrollToPosition(commentDatas.size());
             }
 
@@ -125,14 +120,14 @@ public class DetailActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String json= JsonConnection.getJSON(object.toString());
+                String json = JsonConnection.getJSON(object.toString());
                 commentDatas = new Gson().fromJson(json, new TypeToken<ArrayList<CommentData>>() {
                 }.getType());
                 return false;
             } else {
                 String json = JsonConnection.getJSON(new Gson().toJson(params[0]));
-                CommentData commentData = new Gson().fromJson(json,CommentData.class);
-                Log.d("comment",commentData.toString());
+                CommentData commentData = new Gson().fromJson(json, CommentData.class);
+                Log.d("comment", commentData.toString());
                 commentDatas.add(commentData);
                 return true;
             }
@@ -150,7 +145,7 @@ public class DetailActivity extends AppCompatActivity {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date nowDate = new Date(System.currentTimeMillis());
                     String time = formatter.format(nowDate);
-                    CommentData mcommentData = new CommentData("comment", userId,atyItem.getAtyId(), time, cmt_text.getText().toString());
+                    CommentData mcommentData = new CommentData("comment", userId, atyItem.getAtyId(), time, cmt_text.getText().toString());
                     new getCommentTask(getApplicationContext()).execute(mcommentData);
                     //commentDatas.add(mcommentData);
                     cmt_text.setText(null);
@@ -171,7 +166,6 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(multipleItemAdapter);
 
     }
-
 
 
     @Override

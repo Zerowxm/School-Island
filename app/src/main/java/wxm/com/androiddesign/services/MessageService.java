@@ -63,10 +63,9 @@ public class MessageService extends Service {
             while (isRunning) {
                 try {
                     Thread.sleep(6000);
-                   messagesList = getServerMessage();
+                    messagesList = getServerMessage();
                     if (messagesList != null) {
-                        for(Message message : messagesList)
-                        {
+                        for (Message message : messagesList) {
                             sendMessage(message, messageNotificationID);
                             messageNotificationID++;
                         }
@@ -122,8 +121,7 @@ public class MessageService extends Service {
         try {
             JSONArray jsonArray = new JSONArray(result);
             ArrayList<Message> netWorkmessagesList = new ArrayList<Message>();
-            for(int i = 0; i < jsonArray.length(); i++)
-            {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 Message message = new Message();
                 message.setTime(jsonArray.getJSONObject(i).getString("msgTime"));
                 message.setContent(jsonArray.getJSONObject(i).getString("msgContent"));
@@ -132,8 +130,7 @@ public class MessageService extends Service {
                 netWorkmessagesList.add(message);
             }
             return netWorkmessagesList;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }

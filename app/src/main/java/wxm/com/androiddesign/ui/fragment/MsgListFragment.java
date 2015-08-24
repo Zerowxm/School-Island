@@ -39,7 +39,7 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
 public class MsgListFragment extends Fragment {
     RecyclerView recyclerView;
 
-    List<Message> MsgList=new ArrayList<>();
+    List<Message> MsgList = new ArrayList<>();
 
     String userId;
 
@@ -65,6 +65,7 @@ public class MsgListFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setTitle("系统消息");
         setupRecyclerView(recyclerView);
         return v;
     }

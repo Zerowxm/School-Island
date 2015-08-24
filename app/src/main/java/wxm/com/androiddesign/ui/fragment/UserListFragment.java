@@ -40,7 +40,7 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
 public class UserListFragment extends Fragment {
     RecyclerView recyclerView;
 
-    List<User> UserList=new ArrayList<>();
+    List<User> UserList = new ArrayList<>();
 
     String cmtId;
 
@@ -48,7 +48,7 @@ public class UserListFragment extends Fragment {
     public static Fragment newInstance(String cmtId) {
         Fragment fragment = new UserListFragment();
         Bundle args = new Bundle();
-        args.putString("cmtId",cmtId );
+        args.putString("cmtId", cmtId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,7 +75,7 @@ public class UserListFragment extends Fragment {
             }
         }));
 
-        recyclerView.setAdapter(new UserAdapter(UserList,getActivity()));
+        recyclerView.setAdapter(new UserAdapter(UserList, getActivity()));
     }
 
     private class GetMembers extends AsyncTask<User, Void, Boolean> {
@@ -109,7 +109,7 @@ public class UserListFragment extends Fragment {
             JSONObject object = new JSONObject();
             try {
                 object.put("action", "showMembersInCommunity");
-                object.put("ctyId",cmtId);
+                object.put("ctyId", cmtId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

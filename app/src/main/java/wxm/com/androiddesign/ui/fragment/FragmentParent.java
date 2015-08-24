@@ -36,6 +36,7 @@ import wxm.com.androiddesign.module.MyUser;
 public class FragmentParent extends Fragment {
 
     String userId;
+
     public static Fragment newInstance(String muserId) {
         Fragment fragment = new FragmentParent();
         Bundle args = new Bundle();
@@ -68,7 +69,7 @@ public class FragmentParent extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        Log.d("user","setupViewPager"+userId);
+        Log.d("user", "setupViewPager" + userId);
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot, MyUser.userId), "热门活动");
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hight, MyUser.userId), "评价最高");

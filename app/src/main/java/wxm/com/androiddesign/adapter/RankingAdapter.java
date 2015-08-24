@@ -28,7 +28,7 @@ import wxm.com.androiddesign.widget.MyTextView;
  */
 public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.MyViewHolder> {
 
-    List<User> userList=new ArrayList<>();
+    List<User> userList = new ArrayList<>();
     Context context;
 
     public RankingAdapter(List<User> userList, Context context) {
@@ -47,14 +47,15 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        User item=userList.get(position);
-        int count=position+1;
-        holder.count.setText(""+count);
-        if (count<4){
-            holder.count.setTextColor(context.getResources().getColor(R.color.primary));
+        User item = userList.get(position);
+        int count = position + 1;
+        holder.count.setText("" + count);
+        if (count < 4) {
+            holder.count.setTextColor(context.getResources().getColor(R.color.primary,null));
 
-        }else {
-            holder.count.setTextColor(context.getResources().getColor(R.color.secondary_text));
+        } else {
+            holder.count.setTextColor(context.getResources().getColor(R.color.secondary_text,null));
+            holder.count.setTextSize(25);
         }
         holder.user_name.setText(item.getUserName());
         Picasso.with(context).load(item.getUserIcon()).into(holder.user_photo);
@@ -70,7 +71,8 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.MyViewHo
         ImageView user_photo;
         @Bind(R.id.user_name)
         TextView user_name;
-        @Bind(R.id.count)MyTextView count;
+        @Bind(R.id.count)
+        MyTextView count;
 
 
         public MyViewHolder(View itemView) {

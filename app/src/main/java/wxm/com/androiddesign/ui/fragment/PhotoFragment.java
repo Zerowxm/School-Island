@@ -42,7 +42,7 @@ public class PhotoFragment extends Fragment {
     PhotoAdapter myRecycerAdapter;
     RecyclerView recyclerView;
     private String userId;
-    public List<String> photoList=new ArrayList<>();
+    public List<String> photoList = new ArrayList<>();
 
     public static PhotoFragment newInstance(String muserId) {
         PhotoFragment fragment = new PhotoFragment();
@@ -67,18 +67,19 @@ public class PhotoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.photos_layout, container, false);
-        recyclerView=(RecyclerView)v;
+        recyclerView = (RecyclerView) v;
         //new getPhoto(getActivity()).execute(userId);
         setupRecyclerView(recyclerView);
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setHasFixedSize(true);
         new getPhoto(getActivity()).execute();
 
     }
+
     private class getPhoto extends AsyncTask<Void, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
@@ -101,25 +102,25 @@ public class PhotoFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             materialDialog.dismiss();
-            myRecycerAdapter = new PhotoAdapter(photoList,getActivity());
+            myRecycerAdapter = new PhotoAdapter(photoList, getActivity());
             recyclerView.setAdapter(myRecycerAdapter);
 
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("action", "showUserAlbum");
-                    object.put("userId",userId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String json = JsonConnection.getJSON(object.toString());
-                photoList = new Gson().fromJson(json, new TypeToken<List<String>>() {
-                }.getType());
-            for(String i:photoList){
-                Log.d("list",i);
+            JSONObject object = new JSONObject();
+            try {
+                object.put("action", "showUserAlbum");
+                object.put("userId", userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            photoList = new Gson().fromJson(json, new TypeToken<List<String>>() {
+            }.getType());
+            for (String i : photoList) {
+                Log.d("list", i);
             }
 
             return null;

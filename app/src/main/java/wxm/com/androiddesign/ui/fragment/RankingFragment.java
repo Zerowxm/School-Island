@@ -42,7 +42,7 @@ import wxm.com.androiddesign.utils.SpacesItemDecoration;
 public class RankingFragment extends Fragment {
     RecyclerView recyclerView;
 
-    List<User> userList=new ArrayList<>();
+    List<User> userList = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.msg_layout, viewGroup, false);
@@ -56,6 +56,7 @@ public class RankingFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setTitle("积分排行");
         setupRecyclerView(recyclerView);
         return v;
     }
@@ -89,8 +90,6 @@ public class RankingFragment extends Fragment {
     private class GetRanking extends AsyncTask<Void, Void, Boolean> {
 
 
-
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -100,7 +99,7 @@ public class RankingFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
-            recyclerView.setAdapter(new RankingAdapter(userList,getActivity()));
+            recyclerView.setAdapter(new RankingAdapter(userList, getActivity()));
         }
 
         @Override

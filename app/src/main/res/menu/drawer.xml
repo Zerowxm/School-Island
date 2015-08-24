@@ -13,7 +13,7 @@
             android:title="发现" />
         <item
             android:id="@+id/nav_attention"
-            android:icon="@drawable/ic_headset"
+            android:icon="@drawable/ic_action_star"
             android:title="积分排行" />
         <item
             android:id="@+id/nav_messages"

@@ -6,6 +6,7 @@ package wxm.com.androiddesign.module;
 public class Score {
     private String creditNumbers;
     private String creditContent;
+
     public String getCreditNumbers() {
         return creditNumbers;
     }

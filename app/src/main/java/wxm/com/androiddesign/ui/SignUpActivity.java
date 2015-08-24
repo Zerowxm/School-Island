@@ -72,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     EditText user_id;
     @Bind(R.id.friend_edit_text)
     EditText friend;
-    private Uri selectedImgUri=null;
+    private Uri selectedImgUri = null;
     String gender;
     User user;
     Bitmap bitmap = null;
@@ -141,43 +141,40 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void signup() {
         String checkEmail = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
         String checkPhone = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-//        if(password.getText().toString().length()<6){
-//            passwordInput.setErrorEnabled(true);
-//            passwordInput.setError("密码不得少于六位");
-//            return;
-//        }else {
-//            passwordInput.setErrorEnabled(false);
-//            if(!password.getText().toString().equals(password_again.getText().toString())){
-//                passwordInput.setErrorEnabled(true);
-//                passwordInput.setError("密码输入不一致");
-//                return;
-//            }else {
-//                passwordInput.setErrorEnabled(false);
-//            }
-//        }
-//        if(!phone.getText().toString().matches(checkPhone)){
-//            photoInput.setErrorEnabled(true);
-//            photoInput.setError("电话号码错误");
-//            return;
-//        }else {
-//            photoInput.setErrorEnabled(false);
-//        }if(!emial.getText().toString().matches(checkEmail)){
-//            emailInput.setErrorEnabled(true);
-//            emailInput.setError("邮箱格式错误");
-//            return;
-//        }else {
-//            emailInput.setErrorEnabled(false);
-//        }
-//        if(bitmap==null){
-//            Snackbar.make(user_photo,"photo",Snackbar.LENGTH_SHORT).show();
-//            return;
-//        }
-
+        if(password.getText().toString().length()<6){
+            passwordInput.setErrorEnabled(true);
+            passwordInput.setError("密码不得少于六位");
+            return;
+        }else {
+            passwordInput.setErrorEnabled(false);
+            if(!password.getText().toString().equals(password_again.getText().toString())){
+                passwordInput.setErrorEnabled(true);
+                passwordInput.setError("密码输入不一致");
+                return;
+            }else {
+                passwordInput.setErrorEnabled(false);
+            }
+        }
+        if(!phone.getText().toString().matches(checkPhone)){
+            photoInput.setErrorEnabled(true);
+            photoInput.setError("电话号码错误");
+            return;
+        }else {
+            photoInput.setErrorEnabled(false);
+        }if(!emial.getText().toString().matches(checkEmail)){
+            emailInput.setErrorEnabled(true);
+            emailInput.setError("邮箱格式错误");
+            return;
+        }else {
+            emailInput.setErrorEnabled(false);
+        }
+        if(bitmap==null){
+            Snackbar.make(user_photo,"photo",Snackbar.LENGTH_SHORT).show();
+            return;
+        }
 
         user = new User("signup", get(user_id), get(user_name), get(password), get(emial), get(phone),
-                gender,"", "true","0",get(friend));
-//        user = new User("signup", get(user_id), get(user_name), get(password), get(emial), get(phone),
-//                gender,"", "true","0");
+                gender, "", "true", "0", get(friend));
 
         BackgroundTask task = new BackgroundTask(this);
         task.execute(user);
@@ -210,19 +207,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             Log.d("Task", "onPostExecute");
             if (integer == 0) {
                 materialDialog.dismiss();
-                Intent intent=new Intent();
-                intent.putExtra("userId",user.getUserId());
-                intent.putExtra("userPassword",user.getUserPassword());
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("userId", user.getUserId());
+                intent.putExtra("userPassword", user.getUserPassword());
+                setResult(RESULT_OK, intent);
                 finish();
-            } else if (integer==1){
+            } else if (integer == 1) {
                 materialDialog.dismiss();
                 new MaterialDialog.Builder(activity)
                         .title("注册失败")
                         .content("请设置头像")
                         .positiveText("确定")
                         .show();
-            }else if(integer==2){
+            } else if (integer == 2) {
                 materialDialog.dismiss();
                 new MaterialDialog.Builder(activity)
                         .title("注册失败")
@@ -238,15 +235,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         protected Integer doInBackground(User... params) {
             Log.d("Task", "doInBackground");
             try {
-                Log.d("Task","Image");
-                if (selectedImgUri==null){
+                Log.d("Task", "Image");
+                if (selectedImgUri == null) {
                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test);
                     //return 1;
-                }else
-                bitmap =MediaStore.Images.Media.getBitmap(activity.getContentResolver(),selectedImgUri);
+                } else
+                    bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), selectedImgUri);
 
             } catch (IOException e) {
-                Log.d("Task","IOException");
+                Log.d("Task", "IOException");
                 e.printStackTrace();
             }
 

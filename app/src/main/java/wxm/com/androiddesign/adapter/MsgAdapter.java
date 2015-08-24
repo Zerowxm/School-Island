@@ -21,7 +21,7 @@ import wxm.com.androiddesign.module.User;
  */
 public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
-    List<Message> msgList=new ArrayList<>();
+    List<Message> msgList = new ArrayList<>();
 
     public MsgAdapter(List<Message> msgList) {
         this.msgList = msgList;
@@ -37,7 +37,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Message item=msgList.get(position);
+        Message item = msgList.get(position);
         holder.msg.setText(item.getMsgContent());
         holder.id.setText(item.getMsgId());
         holder.time.setText(item.getMsgTime());
@@ -50,10 +50,14 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.msg_type)TextView type;
-        @Bind(R.id.msg_id)TextView id;
-        @Bind(R.id.msg_time)TextView time;
-        @Bind(R.id.msg_content)TextView msg;
+        @Bind(R.id.msg_type)
+        TextView type;
+        @Bind(R.id.msg_id)
+        TextView id;
+        @Bind(R.id.msg_time)
+        TextView time;
+        @Bind(R.id.msg_content)
+        TextView msg;
 
 
         public MyViewHolder(View itemView) {

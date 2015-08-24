@@ -90,7 +90,6 @@ public class UserActivityFragment extends Fragment {
     }
 
 
-
     private class GetAtyTask extends AsyncTask<Integer, Void, Boolean> {
 
         @Override
@@ -103,7 +102,7 @@ public class UserActivityFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean == true) {
-                myRecycerAdapter = new MyRecycerAdapter(activityItems,userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
             }
         }
@@ -113,9 +112,11 @@ public class UserActivityFragment extends Fragment {
             JSONObject object = new JSONObject();
             try {
                 switch (params[0]) {
-                    case Joined:object.put("action","showJoinedAty");
+                    case Joined:
+                        object.put("action", "showJoinedAty");
                         break;
-                    case Release:object.put("action","showDistributedAty");
+                    case Release:
+                        object.put("action", "showDistributedAty");
                         break;
 
                 }
@@ -124,6 +125,9 @@ public class UserActivityFragment extends Fragment {
                 //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
+                if (activityItems == null) {
+                    return false;
+                }
                 if (activityItems.size() == 0)
                     return false;
                 for (int i = 0; i < activityItems.size(); i++) {

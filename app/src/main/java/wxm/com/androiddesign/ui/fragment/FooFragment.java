@@ -21,8 +21,8 @@ public class FooFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.list_layout,container,false);
-        recyclerView=(RecyclerView)v;
+        View v = inflater.inflate(R.layout.list_layout, container, false);
+        recyclerView = (RecyclerView) v;
         setupRecyclerView(recyclerView);
         return v;
     }

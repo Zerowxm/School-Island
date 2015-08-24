@@ -22,7 +22,7 @@ import wxm.com.androiddesign.module.AtyItem;
  * Created by zero on 2015/7/22.
  */
 public class CtyAtyAdapter extends RecyclerView.Adapter<CtyAtyAdapter.CmtAtyViewHodler> {
-    List<AtyItem> atyItemList= new ArrayList<>();
+    List<AtyItem> atyItemList = new ArrayList<>();
     Context context;
 
     public CtyAtyAdapter(List<AtyItem> atyItemList, Context context) {
@@ -40,7 +40,7 @@ public class CtyAtyAdapter extends RecyclerView.Adapter<CtyAtyAdapter.CmtAtyView
 
     @Override
     public void onBindViewHolder(CmtAtyViewHodler holder, int position) {
-        AtyItem atyItem=atyItemList.get(position);
+        AtyItem atyItem = atyItemList.get(position);
         holder.aty_name.setText(atyItem.getAtyName());
         Picasso.with(context).load(atyItem.getUserIcon()).into(holder.user_photo);
     }
@@ -50,13 +50,15 @@ public class CtyAtyAdapter extends RecyclerView.Adapter<CtyAtyAdapter.CmtAtyView
         return atyItemList.size();
     }
 
-    class CmtAtyViewHodler extends RecyclerView.ViewHolder{
-        @Bind(R.id.user_photo)ImageView user_photo;
-        @Bind(R.id.aty_name)TextView aty_name;
-        public CmtAtyViewHodler(View itemView)
-        {
+    class CmtAtyViewHodler extends RecyclerView.ViewHolder {
+        @Bind(R.id.user_photo)
+        ImageView user_photo;
+        @Bind(R.id.aty_name)
+        TextView aty_name;
+
+        public CmtAtyViewHodler(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
