@@ -1,65 +1,56 @@
 package wxm.com.androiddesign.ui;
 
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.MyUser;
-import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
-import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.utils.MyBitmapFactory;
 
-public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack {
+public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack,TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
 
     private int timeType;
-    public static final int STARTTIME = 0x1;
-    public static final int ENDTIME = 0x2;
+    public static final int START_TIME = 0x1;
+    public static final int END_TIME = 0x2;
 
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
@@ -67,6 +58,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     private List<String> uriList = new ArrayList<>();
     String Location;
+    String mTime;
     private Uri selectedImgUri;
     private String userId;
     AtyItem atyItem;
@@ -306,19 +298,75 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         }
     }
 
+    @Override
+    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
+        mTime+=" "+hourOfDay+":"+minute;
+        if (timeType == START_TIME) {
+            startTime.setText(mTime);
+        } else {
+            endTime.setText(mTime);
+        }
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
+        mTime=year+"."+monthOfYear+"."+dayOfMonth;
+        setTime();
+
+    }
+
+    private void setTime(){
+        Calendar mNowTime=Calendar.getInstance();
+        TimePickerDialog timePickerDialog= TimePickerDialog.newInstance(
+                ReleaseActivity.this,
+                mNowTime.get(Calendar.HOUR_OF_DAY),
+                mNowTime.get(Calendar.MINUTE),
+                false
+        );
+        timePickerDialog.setThemeDark(false);
+        timePickerDialog.vibrate(true);
+        timePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+        timePickerDialog.show(getFragmentManager(),"Timepickerdialog");
+    }
+
+    private void setDate(){
+        Calendar mNowTime=Calendar.getInstance();
+        DatePickerDialog datePickerDialog= DatePickerDialog.newInstance(
+                ReleaseActivity.this,
+                mNowTime.get(Calendar.YEAR),
+                mNowTime.get(Calendar.MONTH),
+                mNowTime.get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.setThemeDark(false);
+        datePickerDialog.vibrate(true);
+        datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+        datePickerDialog.show(getFragmentManager(),"Datepickerdialog");
+    }
 
     @OnClick(R.id.add_start_time)
     public void addStartTime() {
-        timeType = STARTTIME;
-        DatePickerFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.show(getSupportFragmentManager(), "date");
+        timeType = START_TIME;
+        setDate();
+        //DatePickerFragment datePickerFragment = new DatePickerFragment();
+        //datePickerFragment.show(getSupportFragmentManager(), "date");
     }
 
     @OnClick(R.id.add_end_time)
     public void addEndTime() {
-        timeType = ENDTIME;
-        DatePickerFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.show(getSupportFragmentManager(), "date");
+        timeType = END_TIME;
+        setDate();
+        //DatePickerFragment datePickerFragment = new DatePickerFragment();
+        //datePickerFragment.show(getSupportFragmentManager(), "date");
     }
 
     @OnClick(R.id.add_location)
@@ -365,11 +413,7 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
     @Override
     public void addTime(String time) {
-        if (timeType == STARTTIME) {
-            startTime.setText(time);
-        } else {
-            endTime.setText(time);
-        }
+
     }
 
 

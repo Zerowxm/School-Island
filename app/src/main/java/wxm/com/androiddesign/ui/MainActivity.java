@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 
 
@@ -31,6 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.logging.LogRecord;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,7 +50,7 @@ import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 import wxm.com.androiddesign.ui.fragment.RankingFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService {
     DrawerLayout drawerLayout;
 
     public static int SIGNUP = 0x1;
@@ -68,10 +71,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView user_email;
 
     @Override
+    public void close() {
+        closeLocationServices();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         closeLocationServices();
     }
+
+    private Handler mHandler=new Handler(){
+       public void handleMeaasage(){
+
+       }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +99,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new LoginTask(this).execute(false);
         setupNavigationView();
         openLocationServices();
+//        Thread thread=new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                openLocationServices();
+//            }
+//        });
+//        thread.start();
     }
 
     private void openLocationServices() {
@@ -148,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected User doInBackground(Boolean... params) {
+
             if (params[0]) {
                 JSONObject object = new JSONObject();
                 try {

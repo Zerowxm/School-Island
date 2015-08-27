@@ -71,11 +71,11 @@
                 android:text="地址" />
 
             <EditText
-                android:id="@+id/user_false"
-                android:layout_width="match_p@null"
-                android:layout_height="wrap_coplace"
-                android:background="arent"
-                android:enabled="ntent"
+                android:id="@+id/user_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:enabled="false"
                 android:text="2" />
         </LinearLayout>
 
@@ -91,11 +91,11 @@
                 android:text="QQ" />
 
             <EditText
-                android:id="@+id/usfalse"
-                android:layout_width="match_p@null"
-                android:layout_height="wrap_coer_qq"
-                android:background="arent"
-                android:enabled="ntent"
+                android:id="@+id/user_qq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:enabled="false"
                 android:text="2" />
         </LinearLayout>
     </LinearLayout>

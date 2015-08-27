@@ -315,20 +315,20 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         }
 //
         if (item.getAtyPlused().equals("false")) {
-            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray,null)));
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity,R.color.fab_gray)));
             holder.plus_fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one));
         } else if (item.getAtyPlused().equals("true")) {
-            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary,null)));
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
             holder.plus_fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one_white));
         }
 
         if (item.getAtyJoined().equals("true")) {
 
             holder.mjoinBtn.setText("已加入");
-            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.primary,null));
+            holder.mjoinBtn.setTextColor(ContextCompat.getColor(activity, R.color.primary));
         } else if (item.getAtyJoined().equals("false")) {
             holder.mjoinBtn.setText("加入");
-            holder.mjoinBtn.setTextColor(activity.getResources().getColor(R.color.black,null));
+            holder.mjoinBtn.setTextColor(ContextCompat.getColor(activity, R.color.black));
         }
 
         setAnimation(holder.cardView, position);

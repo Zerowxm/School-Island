@@ -34,7 +34,6 @@ import butterknife.OnClick;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.SignUpActivity;
 

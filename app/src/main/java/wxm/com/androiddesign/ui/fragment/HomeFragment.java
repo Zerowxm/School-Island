@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -63,10 +64,11 @@ import wxm.com.androiddesign.utils.TransparentToolBar;
 /**
  * Created by zero on 2015/6/26.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
 
     RecyclerView recyclerView;
     Toolbar toolbar;
+    private AppBarLayout appBarLayout;
     static MyRecycerAdapter myRecycerAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
@@ -85,7 +87,7 @@ public class HomeFragment extends Fragment {
 
         userId = getArguments().getString("UserId");
         setHasOptionsMenu(true);
-        openMessageService();
+        //openMessageService();
     }
 
     public void openMessageService() {
@@ -119,6 +121,44 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        mSwipeRefreshLayout.setEnabled(i == 0);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        appBarLayout.removeOnOffsetChangedListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        appBarLayout.addOnOffsetChangedListener(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+        ButterKnife.bind(this, v);
+        toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        appBarLayout=(AppBarLayout)v.findViewById(R.id.appbar);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+        setupSwipeRefreshLayout(mSwipeRefreshLayout);
+        setupRecyclerView(recyclerView);
+        return v;
+    }
+
     private class GetAtyTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -136,6 +176,7 @@ public class HomeFragment extends Fragment {
                 recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
                 country.setText(LocationServices.City);
+
             } else {
                 Snackbar.make(mSwipeRefreshLayout, "Error", Snackbar.LENGTH_SHORT).show();
             }
@@ -166,31 +207,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-        ButterKnife.bind(this, v);
-        toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayShowCustomEnabled(true);
-        setupSwipeRefreshLayout(mSwipeRefreshLayout);
-        setupRecyclerView(recyclerView);
-        return v;
-    }
-
-    @OnClick(R.id.country)
-    public void chooseCountry() {
-
-    }
-
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
 
@@ -210,7 +226,7 @@ public class HomeFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeRefreshLayout.setProgressViewOffset(false, 0, 200);
+        //swipeRefreshLayout.setProgressViewOffset(false, 0, 200);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -252,5 +268,9 @@ public class HomeFragment extends Fragment {
         activityItems.add(position, atyItem);
         myRecycerAdapter.notifyDataSetChanged();
     }
+
+    public interface CloseLocService{
+        public void close();
+    };
 
 }
