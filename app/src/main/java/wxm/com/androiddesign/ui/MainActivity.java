@@ -188,13 +188,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+            String type=prefs.getString("LoginType", "email");
             String name = prefs.getString("UserId", "001");
+            String email=prefs.getString("UserEMail","");
             String password = prefs.getString("UserPassword", "001");
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "login");
-                object.put("userId", name);
-                object.put("userPassword", password);
+                if(type==MyUser.EMAIL){
+                    object.put("action", "loginemail");
+                    object.put("userEmail", email);
+                    object.put("userPassword", password);
+                }else if (type==MyUser.SINA){
+                    object.put("action","loginsina");
+                    object.put("userId",MyUser.userId);
+                }else if(type==MyUser.QQ){
+                    object.put("action","loginqq");
+                    object.put("userId",MyUser.userId);
+                }
+
 
                 String userJson = JsonConnection.getJSON(object.toString());
                 if (userJson.contains("false")) {
@@ -211,20 +222,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onLongin(User user) {
         mUser = user;
-        MyUser.userId = user.getUserId();
-        MyUser.userName = user.getUserName();
-        Log.d("user", user.toString());
-        SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("UserId", user.getUserId());
-        editor.putString("UserPassword", user.getUserPassword());
-        editor.apply();
-        user_name.setText(user.getUserName());
-        user_email.setText(user.getUserEmail());
-        Picasso.with(this).load(user.getUserIcon()).into(user_photo);
-        logout.setText("Logout");
-        logout.setClickable(true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+        new LoginTask(this).execute(false);
+//        MyUser.userId = user.getUserId();
+//        MyUser.userName = user.getUserName();
+//        Log.d("user", user.toString());
+//        SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putString("UserId", user.getUserId());
+//        editor.putString("UserPassword", user.getUserPassword());
+//        editor.apply();
+//        user_name.setText(user.getUserName());
+//        user_email.setText(user.getUserEmail());
+//        Picasso.with(this).load(user.getUserIcon()).into(user_photo);
+//        logout.setText("Logout");
+//        logout.setClickable(true);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
     }
 
     private class UpDateTask extends AsyncTask<String, Void, Void> {
@@ -367,16 +379,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SIGNUP && resultCode == RESULT_OK) {
-            String userId = data.getStringExtra("userId");
-            String password = data.getStringExtra("userPassword");
-            SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("UserId", userId);
-            editor.putString("UserPassword", password);
-            editor.apply();
-            new LoginTask(this).execute(false);
-        }
+//        if (requestCode == SIGNUP && resultCode == RESULT_OK) {
+//            String userId = data.getStringExtra("userId");
+//            String password = data.getStringExtra("userPassword");
+//            SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putString("UserId", userId);
+//            editor.putString("UserPassword", password);
+//            editor.apply();
+//            new LoginTask(this).execute(false);
+//        }
 
     }
 
@@ -417,8 +429,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showLoginDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        LoginFragment releaseFragment = new LoginFragment();
-        releaseFragment.show(fm, "login");
+        LoginFragment loginFragment = LoginFragment.newInstance(LoginFragment.MAIN);
+        loginFragment.show(fm, "login");
     }
 
 

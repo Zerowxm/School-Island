@@ -1,6 +1,7 @@
 package wxm.com.androiddesign.network;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -35,18 +36,18 @@ import wxm.com.androiddesign.ui.MainActivity;
  * Created by zero on 2015/7/9.
  */
 public class JsonConnection {
-    private static Context context = MainActivity.context;
+    //private static Context context = ;
 
 
     public static String getJSON(String json) {
         String mResult = "";
 
-        ConnectivityManager check = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = check.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+//        ConnectivityManager check = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo networkInfo = check.getActiveNetworkInfo();
+        if (true) {
             //do some thing
             try {
-                URL murl = new URL("http://192.168.0.100:8087/bootStrap/ClientPostServlet");
+                URL murl = new URL("http://192.168.0.106:8081/bootStrap/ClientPostServlet");
                 HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                 connection.setRequestProperty("Content-type", "application/json");
                 if (Build.VERSION.SDK_INT > 13) {

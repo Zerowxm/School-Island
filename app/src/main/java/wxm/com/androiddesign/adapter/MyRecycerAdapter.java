@@ -144,7 +144,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                                         button.setText("已加入");
                                         atyItem.setAtyJoined("true");
                                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
-                                        button.setTextColor(activity.getResources().getColor(R.color.primary));
+                                        button.setTextColor(ContextCompat.getColor(activity, R.color.primary));
                                         notifyDataSetChanged();
                                         new UpDateTask().execute("join");
                                     }
@@ -169,7 +169,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                                         button.setText("加入");
                                         atyItem.setAtyJoined("false");
                                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
-                                        button.setTextColor(activity.getResources().getColor(R.color.black));
+                                        button.setTextColor(ContextCompat.getColor(activity, R.color.black));
                                         notifyDataSetChanged();
                                         new UpDateTask().execute("notJoin");
                                     }
@@ -193,14 +193,14 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     AtyItem atyItem = activityItems.get(adapterPosition);
                     item = atyItem;
                     if (atyItem.getAtyPlused().equals("true")) {
-                        fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.fab_gray, null)));
+                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
                         fab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_plus_one));
                         atyItem.setAtyPlused("false");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
                         notifyDataSetChanged();
                         new UpDateTask().execute("notLike");
                     } else {
-                        fab.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.primary,null)));
+                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
                         fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one_white));
                         atyItem.setAtyPlused("true");
                         atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -125,7 +126,7 @@ public class UserAcitivity extends AppCompatActivity {
     private void setupTabLayout() {
         TabLayout tab = (TabLayout) findViewById(R.id.tabs);
         tab.setupWithViewPager(viewPager);
-        tab.setBackgroundColor(getResources().getColor(R.color.tab_color,null));
+        tab.setBackgroundColor(ContextCompat.getColor(this,R.color.tab_color));
 
     }
 
