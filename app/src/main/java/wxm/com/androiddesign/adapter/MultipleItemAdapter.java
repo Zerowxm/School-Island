@@ -88,7 +88,8 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE.ATY_TYPE.ordinal()) {
-            return new AtyViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+            return new AtyViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(
                     R.layout.activity_item, parent, false
             ));
         } else if (viewType == ITEM_TYPE.COMMENT_TYPE.ordinal()) {

@@ -4,6 +4,7 @@ package wxm.com.androiddesign.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -49,7 +50,9 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.DetailActivity;
 
+import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.utils.MyUtils;
 
 
 /**
@@ -58,13 +61,13 @@ import wxm.com.androiddesign.ui.UserAcitivity;
 public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyViewHolder> {
     protected List<AtyItem> activityItems;
     private int lastPosition = -1;
-    private static AppCompatActivity activity;
+    private static Context activity;
     Context context;
     AtyItem item;
     String fragment;
     String userId;
 
-    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, String userId, AppCompatActivity activity, String fragment) {
+    public MyRecycerAdapter(List<AtyItem> activityItemArrayList, String userId, Context activity, String fragment) {
         activityItems = activityItemArrayList;
         this.activity = activity;
         this.fragment = fragment;
@@ -132,7 +135,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
                     //item = atyItem;
                     if ("加入".equals(button.getText().toString())) {
-                        new MaterialDialog.Builder(activity)
+                        new MaterialDialog.Builder(MainActivity.instance)
                                 .title(R.string.add_title)
                                 .content(activityItems.get(adapterPosition).getAtyName())
                                 .positiveText(R.string.OK)
@@ -157,7 +160,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                                 .show();
 
                     } else {
-                        new MaterialDialog.Builder(activity)
+                        new MaterialDialog.Builder(MainActivity.instance)
                                 .title("主人你真的要退出瞄(´c_`)")
                                 .content(activityItems.get(adapterPosition).getAtyName())
                                 .positiveText("是的")
@@ -265,13 +268,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.user_name.setText(item.getUserName());
         Picasso.with(activity).load(item.getUserIcon()).into(holder.user_photo);
 
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int screenWidth = displaymetrics.widthPixels - 7;
-        int screenHeight = displaymetrics.heightPixels;
-
+        Point size=MyUtils.getScreenSize(activity);
+        //DisplayMetrics displaymetrics = new DisplayMetrics();
+        //activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int screenWidth = size.x - 7;
+        int screenHeight = size.y;
         holder.imageViewContainer.removeAllViews();
-        if (item.getAtyAlbum() != null) {
+        if (item.getAtyAlbum() != null&&item.getAtyAlbum().size()!=0) {
             if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers") || "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
                 ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
@@ -298,9 +301,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                             new Handler().post(new Runnable() {
                                 public void run() {
                                     Log.d("imageuri",""+ album.size());
-                                    Log.d("imageuri", item.getAtyAlbum().get((Integer) v.getTag()));
-                                    MyDialog dialog = MyDialog.newInstance(item.getAtyAlbum().get((Integer) v.getTag()));
-                                    dialog.show(activity.getSupportFragmentManager(), "showPicture");
+                                    //Log.d("imageuri", item.getAtyAlbum().get((Integer) v.getTag()));
+                                    MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
+                                    dialog.show(((AppCompatActivity)activity).getSupportFragmentManager(), "showPicture");
                                 }
                             });
                         }
@@ -321,7 +324,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
             holder.plus_fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one_white));
         }
-
         if (item.getAtyJoined().equals("true")) {
 
             holder.mjoinBtn.setText("已加入");

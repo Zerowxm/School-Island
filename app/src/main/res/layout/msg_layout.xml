@@ -27,7 +27,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentInsetLeft="72dp"
             app:contentInsetStart="72dp"
-            app:layout_scrollFlags="scroll|enterAlways"
+            
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

@@ -2,6 +2,7 @@ package wxm.com.androiddesign.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,10 +52,10 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.MyViewHo
         int count = position + 1;
         holder.count.setText("" + count);
         if (count < 4) {
-            holder.count.setTextColor(context.getResources().getColor(R.color.primary,null));
+            holder.count.setTextColor(ContextCompat.getColor(context,R.color.primary));
 
         } else {
-            holder.count.setTextColor(context.getResources().getColor(R.color.secondary_text,null));
+            holder.count.setTextColor(ContextCompat.getColor(context, R.color.secondary_text));
             holder.count.setTextSize(25);
         }
         holder.user_name.setText(item.getUserName());

@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
     @Bind(R.id.country)
     TextView country;
 
+
     @Override
     public void setHasOptionsMenu(boolean hasMenu) {
         super.setHasOptionsMenu(true);
@@ -156,6 +157,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         actionBar.setDisplayShowCustomEnabled(true);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         setupRecyclerView(recyclerView);
+        setRetainInstance(true);
         return v;
     }
 
@@ -172,7 +174,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean == true) {
-                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "HomeFragment");
+                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, getContext(), "HomeFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
                 mSwipeRefreshLayout.setRefreshing(false);
                 country.setText(LocationServices.City);

@@ -29,7 +29,6 @@ import android.os.Build;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 
-import com.easemob.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.EMLog;
@@ -136,7 +135,7 @@ public class HXNotifier {
 
         }
         
-        viberateAndPlayTone(message);
+        //viberateAndPlayTone(message);
     }
     
     public synchronized void onNewMesg(List<EMMessage> messages) {
@@ -150,7 +149,7 @@ public class HXNotifier {
         } else {
             sendNotification(messages, true);
         }
-        viberateAndPlayTone(messages.get(messages.size()-1));
+        //viberateAndPlayTone(messages.get(messages.size()-1));
     }
 
     /**
@@ -284,76 +283,76 @@ public class HXNotifier {
     /**
      * 手机震动和声音提示
      */
-    public void viberateAndPlayTone(EMMessage message) {
-        if(message != null){
-            if(EMChatManager.getInstance().isSlientMessage(message)){
-                return;
-            } 
-        }
-        
-        HXSDKModel model = HXSDKHelper.getInstance().getModel();
-        if(!model.getSettingMsgNotification()){
-            return;
-        }
-        
-        if (System.currentTimeMillis() - lastNotifiyTime < 1000) {
-            // received new messages within 2 seconds, skip play ringtone
-            return;
-        }
-        
-        try {
-            lastNotifiyTime = System.currentTimeMillis();
-            
-            // 判断是否处于静音模式
-            if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
-                EMLog.e(TAG, "in slient mode now");
-                return;
-            }
-            
-            if(model.getSettingMsgVibrate()){
-                long[] pattern = new long[] { 0, 180, 80, 120 };
-                vibrator.vibrate(pattern, -1);
-            }
-
-            if(model.getSettingMsgSound()){
-                if (ringtone == null) {
-                    Uri notificationUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-                    ringtone = RingtoneManager.getRingtone(appContext, notificationUri);
-                    if (ringtone == null) {
-                        EMLog.d(TAG, "cant find ringtone at:" + notificationUri.getPath());
-                        return;
-                    }
-                }
-                
-                if (!ringtone.isPlaying()) {
-                    String vendor = Build.MANUFACTURER;
-                    
-                    ringtone.play();
-                    // for samsung S3, we meet a bug that the phone will
-                    // continue ringtone without stop
-                    // so add below special handler to stop it after 3s if
-                    // needed
-                    if (vendor != null && vendor.toLowerCase().contains("samsung")) {
-                        Thread ctlThread = new Thread() {
-                            public void run() {
-                                try {
-                                    Thread.sleep(3000);
-                                    if (ringtone.isPlaying()) {
-                                        ringtone.stop();
-                                    }
-                                } catch (Exception e) {
-                                }
-                            }
-                        };
-                        ctlThread.run();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void viberateAndPlayTone(EMMessage message) {
+//        if(message != null){
+//            if(EMChatManager.getInstance().isSlientMessage(message)){
+//                return;
+//            }
+//        }
+//
+//        HXSDKModel model = HXSDKHelper.getInstance().getModel();
+//        if(!model.getSettingMsgNotification()){
+//            return;
+//        }
+//
+//        if (System.currentTimeMillis() - lastNotifiyTime < 1000) {
+//            // received new messages within 2 seconds, skip play ringtone
+//            return;
+//        }
+//
+//        try {
+//            lastNotifiyTime = System.currentTimeMillis();
+//
+//            // 判断是否处于静音模式
+//            if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
+//                EMLog.e(TAG, "in slient mode now");
+//                return;
+//            }
+//
+//            if(model.getSettingMsgVibrate()){
+//                long[] pattern = new long[] { 0, 180, 80, 120 };
+//                vibrator.vibrate(pattern, -1);
+//            }
+//
+//            if(model.getSettingMsgSound()){
+//                if (ringtone == null) {
+//                    Uri notificationUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//
+//                    ringtone = RingtoneManager.getRingtone(appContext, notificationUri);
+//                    if (ringtone == null) {
+//                        EMLog.d(TAG, "cant find ringtone at:" + notificationUri.getPath());
+//                        return;
+//                    }
+//                }
+//
+//                if (!ringtone.isPlaying()) {
+//                    String vendor = Build.MANUFACTURER;
+//
+//                    ringtone.play();
+//                    // for samsung S3, we meet a bug that the phone will
+//                    // continue ringtone without stop
+//                    // so add below special handler to stop it after 3s if
+//                    // needed
+//                    if (vendor != null && vendor.toLowerCase().contains("samsung")) {
+//                        Thread ctlThread = new Thread() {
+//                            public void run() {
+//                                try {
+//                                    Thread.sleep(3000);
+//                                    if (ringtone.isPlaying()) {
+//                                        ringtone.stop();
+//                                    }
+//                                } catch (Exception e) {
+//                                }
+//                            }
+//                        };
+//                        ctlThread.run();
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     /**

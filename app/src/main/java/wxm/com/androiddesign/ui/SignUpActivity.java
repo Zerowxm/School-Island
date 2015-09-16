@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
@@ -46,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Handler handler;
     private String mType;
     MaterialDialog materialDialog;
+    User user;
 
 
     @Override
@@ -59,6 +63,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         handler=new Handler(this);
     }
 
+
+
     @OnClick(R.id.login_btn)
     public void onLogin(){
         showLoginDialog();
@@ -70,12 +76,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
         Log.i(TAG,"authorize");
-        materialDialog = new MaterialDialog.Builder(this)
-                .title(R.string.signup_title)
-                .content(R.string.please_wait)
-                .progress(true, 0)
-                .progressIndeterminateStyle(false)
-                .show();
         platform.setPlatformActionListener(this);
         platform.authorize();
         platform.SSOSetting(true);
@@ -110,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         loginFragment.show(fm, "login");
     }
 
-    private class BackgroundTask extends AsyncTask<User, Void, String> {
+    private class BackgroundTask extends AsyncTask<Void, Void, Boolean> {
 
         AppCompatActivity activity;
         String mResult;
@@ -120,34 +120,45 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected void onPostExecute(String Id) {
-            super.onPostExecute(Id);
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
             materialDialog.dismiss();
-            if (Id!=null) {
+            if (result) {
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 MyUser.setLoginType(mType);
-                MyUser.setUserId(Id);
+                MyUser.setUserId(user.getUserId());
                 SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("UserId", Id);
-                editor.putBoolean("isSignup",true);
+                editor.putString("UserId", user.getUserId());
+                editor.putBoolean("isSignup", true);
                 editor.putString("LoginType", mType);
                 editor.apply();
                 startActivity(intent);
                 finish();
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }else {
                 Toast.makeText(activity,"注册失败",Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
-        protected String doInBackground(User... params) {
-            mResult=JsonConnection.getJSON(new Gson().toJson(params[0]));
-            if (mResult.contains("true")) {
-                return params[0].getUserId();
+        protected Boolean doInBackground(Void... params) {
+            try {
+                JSONObject jsonObject=new JSONObject(JsonConnection.getJSON(new Gson().toJson(user)));
+                mResult=jsonObject.getString("result");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if (!mResult.contains("false")) {
+                SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("easemobId",mResult);
+                MyUtils.signupHX(mResult,"7777777");
+                return true;
             }
             else
-                return null;
+                return false;
         }
 
         @Override
@@ -210,13 +221,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 String icon=platform.getDb().getUserIcon();
                 String gender=platform.getDb().getUserGender();
                 Log.i(TAG, accessToken + ":" + openId + ":" + nickName + ":" + icon + ":" + gender);
-                User user =new User();
+                user =new User();
                 user.setUserId(openId);
                 user.setUserName(nickName);
                 user.setUserIcon(icon);
                 user.setUserGender(gender);
                 user.setAction("signup"+mType);
-                new BackgroundTask(this).execute(user);
+                new BackgroundTask(this).execute();
             } break;
         }
         return false;

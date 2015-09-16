@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,10 +26,13 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
@@ -43,11 +47,11 @@ import wxm.com.androiddesign.utils.MyUtils;
 /**
  * Created by zero on 2015/6/29.
  */
-public class LoginFragment extends DialogFragment {
+public class LoginFragment extends DialogFragment implements PlatformActionListener {
 
     private static final String TAG="LoginFragment";
-    public static final int MAIN=0x1;
-    public static final int SIGN=0x2;
+    public static final int MAIN=1;
+    public static final int SIGN=2;
     LoginCallBack loginCallBack;
     @Bind(R.id.email_edit_text)
     EditText user_email;
@@ -55,6 +59,8 @@ public class LoginFragment extends DialogFragment {
     EditText password;
 
     AppCompatActivity activity;
+    String mPassword;
+    String mId;
 
     @Override
     public void onAttach(Context context) {
@@ -94,8 +100,6 @@ public class LoginFragment extends DialogFragment {
         ButterKnife.bind(this, view);
         Point size= MyUtils.getScreenSize(getActivity());
         getDialog().getWindow().setLayout(size.x-30, WindowManager.LayoutParams.WRAP_CONTENT);
-
-        //getDialog().getWindow().get
         return view;
     }
 
@@ -110,9 +114,11 @@ public class LoginFragment extends DialogFragment {
         Platform sina= ShareSDK.getPlatform(SinaWeibo.NAME);
         if(sina.isValid()){
             Log.v(TAG, "已授权");
-            MyUser.setLoginType(MyUser.SINA);
+            //MyUser.setLoginType(MyUser.SINA);
+            mLoginType=MyUser.SINA;
             getInfo(sina);
-        }
+        }else
+            authorize(sina);
     }
 
     @OnClick(R.id.qq_login_btn)
@@ -121,26 +127,33 @@ public class LoginFragment extends DialogFragment {
         Platform qq= ShareSDK.getPlatform(QQ.NAME);
         if(qq.isValid()){
             Log.v(TAG, "已授权");
-            MyUser.setLoginType(MyUser.QQ);
+//            MyUser.setLoginType(MyUser.QQ);
+            mLoginType=MyUser.QQ;
             getInfo(qq);
+        }else
+            authorize(qq);
+    }
+    private void authorize(Platform platform){
+        if (platform==null){
+            Log.w(TAG,"platform is null");
+            return;
         }
+        Log.i(TAG,"authorize");
+        platform.setPlatformActionListener(this);
+        platform.authorize();
+        platform.SSOSetting(true);
+        platform.showUser(null);
     }
 
     public void getInfo(Platform platform){
         PlatformDb db=platform.getDb();
-        String mId=db.getUserId();
-        MyUser.setUserId(mId);
+        mId=db.getUserId();
+        //MyUser.setUserId(mId);
         JSONObject jsonObject=new JSONObject();
-
         try {
-            jsonObject.put("action","login"+MyUser.loginType);
+            jsonObject.put("action", "login" +mLoginType);
             jsonObject.put("userId", mId);
             Log.d(TAG, jsonObject.toString());
-            SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("UserId", mId);
-            editor.putString("LoginType", MyUser.loginType);
-            editor.apply();
             new LoginTask(getActivity()).execute(jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -152,21 +165,46 @@ public class LoginFragment extends DialogFragment {
         NetworkInfo networkInfo = check.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             //do some thing
-
             user.setAction("loginemail");
             user.setUserEmail(user_email.getText().toString());
-            user.setUserPassword(password.getText().toString());
-            MyUser.setLoginType(MyUser.EMAIL);
+            mPassword=password.getText().toString();
+            user.setUserPassword(mPassword);
+            //MyUser.setLoginType(MyUser.EMAIL);
+            mLoginType=MyUser.EMAIL;
+            //mType=SIGN;
             new LoginTask(getActivity()).execute(new Gson().toJson(user));
 
         } else {
         }
     }
 
+    @Override
+    public void onComplete(Platform platform, int action, HashMap<String, Object> res) {
+        if (action==Platform.ACTION_USER_INFOR){
+            Log.i(TAG,"onComplete");
+            getInfo(platform);
+        }
+    }
+
+    @Override
+    public void onError(Platform platform, int action, Throwable throwable) {
+        if(action==Platform.ACTION_USER_INFOR){
+            Log.i(TAG, "onError:" + throwable.getMessage() + "|" + throwable.toString());
+        }
+        throwable.printStackTrace();
+    }
+
+    @Override
+    public void onCancel(Platform platform, int action) {
+        if (action==Platform.ACTION_USER_INFOR){
+            Log.i(TAG, "onCancel");
+        }
+    }
+
     private class LoginTask extends AsyncTask<String, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
-
+        User mUser;
         public LoginTask(Context context) {
             this.context = context;
         }
@@ -190,8 +228,33 @@ public class LoginFragment extends DialogFragment {
             if (mResult != "") {
                 if (mResult.contains("false")) {
                     return false;
-                } else if (mResult.contains("true"))
+                } else if (mResult.contains("true")){
+                    mUser= new Gson().fromJson(mResult, User.class);
+                    if(mLoginType==MyUser.EMAIL){
+                        MyUser.setUserEmail(mUser.getUserEmail());
+                        MyUser.setUserPassword(mUser.getUserPassword());
+                        SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("UserEmail",mUser.getUserEmail());
+                        editor.putString("UserPassword",mPassword);
+                        editor.putBoolean("isSignup", true);
+                        editor.putString("LoginType", mLoginType);
+                        editor.putString("easemobId",mUser.getEasemobId());
+                        editor.apply();
+                    }else {
+                        SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        MyUser.setUserId(mId);
+                        MyUser.setLoginType(mLoginType);
+                        editor.putString("UserId", mId);
+                        editor.putString("LoginType",mLoginType);
+                        editor.putBoolean("isSignup", true);
+                        editor.putString("easemobId", mUser.getEasemobId());
+                        editor.apply();
+                    }
                     return true;
+                }
+
             }
             return false;
         }
@@ -201,22 +264,12 @@ public class LoginFragment extends DialogFragment {
             super.onPostExecute(result);
             if (result == true) {
                 materialDialog.dismiss();
-                User mUser = new Gson().fromJson(mResult, User.class);
-                if(MyUser.loginType==MyUser.EMAIL){
-                    MyUser.setUserEmail(mUser.getUserEmail());
-                    MyUser.setUserPassword(mUser.getUserPassword());
-                    SharedPreferences prefs = activity.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("UserEmail",mUser.getUserEmail());
-                    editor.putString("UserPassword", mUser.getUserPassword());
-                    editor.apply();
-                }
-
-                //mUser.setUserPassword(user.getUserPassword());
                 if (mType==SIGN){
                     Intent intent = new Intent(activity,MainActivity.class);
                     activity.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                     activity.finish();
+                    activity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 }
                 else if(mType==MAIN){
                     loginCallBack.onLongin(mUser);

@@ -58,10 +58,6 @@ public class PhotoFragment extends Fragment {
         userId = getArguments().getString("UserId");
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
 
     @Nullable
     @Override
@@ -81,7 +77,6 @@ public class PhotoFragment extends Fragment {
     }
 
     private class getPhoto extends AsyncTask<Void, Void, Boolean> {
-        MaterialDialog materialDialog;
         Context context;
 
         public getPhoto(Context context) {
@@ -91,17 +86,12 @@ public class PhotoFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            materialDialog = new MaterialDialog.Builder(context)
-                    .title("Loading")
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(true)
-                    .show();
+
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            materialDialog.dismiss();
             myRecycerAdapter = new PhotoAdapter(photoList, getActivity());
             recyclerView.setAdapter(myRecycerAdapter);
 

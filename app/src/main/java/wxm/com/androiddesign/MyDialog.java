@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +35,8 @@ import java.util.Date;
  * Created by hdchen on 2015/6/30.
  */
 public class MyDialog extends DialogFragment {
+
+    private static final String TAG="MyDialog";
 
     private ImageView imageView;
     private Button savebutton;
@@ -63,9 +66,10 @@ public class MyDialog extends DialogFragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels - 2;
         int screenHeight = displaymetrics.heightPixels;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 screenWidth, screenHeight * 2 / 3);
         imageView.setLayoutParams(layoutParams);
+        Log.d(TAG,layoutParams.width+"/"+layoutParams.height);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         view.setOnTouchListener(new View.OnTouchListener() {

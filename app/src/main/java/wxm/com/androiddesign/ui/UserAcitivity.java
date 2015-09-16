@@ -1,21 +1,27 @@
 package wxm.com.androiddesign.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -48,6 +54,8 @@ public class UserAcitivity extends AppCompatActivity {
     TextView score;
     @Bind(R.id.user_photo)
     CircleImageView user_photo;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +64,14 @@ public class UserAcitivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("userId");
-        new GetUserINfo(this).execute();
-
+        new GetUserInfo(this).execute();
 
     }
 
-    private class GetUserINfo extends AsyncTask<Void, Void, Boolean> {
+    private class GetUserInfo extends AsyncTask<Void, Void, Boolean> {
         Context context;
 
-        public GetUserINfo(Context context) {
+        public GetUserInfo(Context context) {
             this.context = context;
         }
 
@@ -75,9 +82,28 @@ public class UserAcitivity extends AppCompatActivity {
                 setupToolBar();
                 setupViewPager();
                 setupTabLayout();
-                user_id.setText(user.getUserId());
+                user_id.setText(user.getUserName());
                 score.setText("积分：" + user.getUserCredit());
-                Picasso.with(context).load(user.getUserIcon()).into(user_photo);
+                user_photo.setVisibility(View.VISIBLE);
+                Picasso.with(context).load(user.getUserIcon()).into(user_photo, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) user_photo.getDrawable()).getBitmap();
+                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                            public void onGenerated(Palette palette) {
+                                user_photo.animate().alpha(1f).setDuration(1000).start();
+                                score.animate().alpha(1f).setDuration(1000).start();
+                                user_id.animate().alpha(1f).setDuration(1000).start();
+                                applyPalette(palette);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
             }
         }
 
@@ -92,9 +118,17 @@ public class UserAcitivity extends AppCompatActivity {
             }
             user = new Gson().fromJson(JsonConnection.getJSON(object.toString()), User.class);
             user.setUserId(userId);
-//            user.setUserIcon(MyUser.userIcon);
             return true;
         }
+    }
+
+    private void applyPalette(Palette palette) {
+        int primaryDark = ContextCompat.getColor(this,R.color.primary_dark);
+        int primary =ContextCompat.getColor(this, R.color.primary);
+        collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(primary));
+        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(primaryDark));
+        //updateBackground((FloatingActionButton) findViewById(R.id.fab), palette);
+        supportStartPostponedEnterTransition();
     }
 
     private void setupToolBar() {
@@ -103,7 +137,8 @@ public class UserAcitivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("");
+        collapsingToolbar.setTitle(user.getUserName());
+        collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this,android.R.color.transparent));
     }
 
     private void setupViewPager() {
@@ -134,6 +169,10 @@ public class UserAcitivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_acitivity, menu);
+        if (userId.equals(MyUser.userId)){
+            MenuItem menuItem=menu.findItem(R.id.action_send);
+            menuItem.setVisible(false);
+        }
         return true;
     }
 
@@ -146,13 +185,19 @@ public class UserAcitivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return true;
-        }
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+                break;
+            case R.id.action_send:
+                //打开聊天
+                Intent chatIntent=new Intent(this,ChatActivity.class);
+                chatIntent.putExtra("toChatUserId",user.getEasemobId());
+                chatIntent.putExtra("userIcon",user.getUserIcon());
+                startActivity(chatIntent);
+                break;
+            case R.id.action_settings:
+                Snackbar.make(user_photo,"举报",Snackbar.LENGTH_SHORT).show();
+                break;
 
+        }
         return super.onOptionsItemSelected(item);
     }
 }

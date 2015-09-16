@@ -47,6 +47,7 @@ public class MatrixImageView extends ImageView {
         mMatrix.getValues(values);
         mImageWidth = getWidth() / values[Matrix.MSCALE_X];
         mImageHeight = (getHeight() - values[Matrix.MTRANS_Y] * 2) / values[Matrix.MSCALE_Y];
+        Log.d(TAG,""+mImageWidth+"/"+mImageHeight);
     }
 
     public class MatrixTouchListener implements OnTouchListener {
@@ -185,6 +186,8 @@ public class MatrixImageView extends ImageView {
                 mCurrentMatrix.set(mMatrix);
                 setImageMatrix(mCurrentMatrix);
             }
+            Log.d(TAG,""+getWidth()+"/"+getHeight());
+            Log.d(TAG,""+mCurrentMatrix.toString());
         }
 
         private boolean checkRest() {
@@ -212,8 +215,8 @@ public class MatrixImageView extends ImageView {
 
         public void onDoubleClick() {
             float scale = isZoomChanged() ? 1 : mDobleClickScale;
-            mCurrentMatrix.set(mMatrix);//��ʼ��Matrix
-            mCurrentMatrix.postScale(scale, scale, getWidth() / 2, getHeight() / 2);
+            mCurrentMatrix.set(mMatrix);
+            mCurrentMatrix.postScale(scale, scale, getWidth(), getHeight());
             setImageMatrix(mCurrentMatrix);
         }
     }

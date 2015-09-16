@@ -1,41 +1,44 @@
 package wxm.com.androiddesign.ui.fragment;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.MyUser;
+import wxm.com.androiddesign.ui.MainActivity;
 
 
 /**
  * Created by Wu on 2015/4/16.
  */
-public class FragmentParent extends Fragment {
+public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetChangedListener{
 
     String userId;
+    @Bind(R.id.appbar)
+    AppBarLayout appBarLayout;
+    MainActivity.MyOnTouchListener onTouchListener;
+    private TabPagerAdapter adapter;
+    @Bind(R.id.viewpager)
+    ViewPager viewPager;
+    @Bind(R.id.tabs)
+    TabLayout tabLayout;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     public static Fragment newInstance(String muserId) {
         Fragment fragment = new FragmentParent();
@@ -45,36 +48,58 @@ public class FragmentParent extends Fragment {
         return fragment;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragmentparent, container, false);
-        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        ButterKnife.bind(this, rootView);
+        appBarLayout.addOnOffsetChangedListener(this);
         if (viewPager != null) {
-            setupViewPager(viewPager);
+            setupViewPager();
         }
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
 
+        setupToolBar();
+        registerListener();
+        return rootView;
+    }
+    private void registerListener(){
+        ((MainActivity)getActivity()).registerMyOnTouchEvent(new MainActivity.MyOnTouchListener() {
+            @Override
+            public void onTouch(MotionEvent event) {
+                final int action = MotionEventCompat.getActionMasked(event);
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        ActivityFragment activityFragment = (ActivityFragment) adapter.getItem(viewPager.getCurrentItem());
+                        if (index == 0) {
+                            activityFragment.getmSwipeRefreshLayout().setEnabled(true);
+                        } else {
+                            activityFragment.getmSwipeRefreshLayout().setEnabled(false);
+                        }
+                        break;
+                }
 
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-
+            }
+        });
+    }
+    private void setupToolBar(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-
-        return rootView;
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager() {
         Log.d("user", "setupViewPager" + userId);
-        TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hot, MyUser.userId), "热门活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Hight, MyUser.userId), "评价最高");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.Nearby, MyUser.userId), "附近活动");
+        adapter = new TabPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.HOT, MyUser.userId), "热门活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.HIGHT, MyUser.userId), "评价最高");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.NEARBY, MyUser.userId), "附近活动");
         viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
 
@@ -88,6 +113,36 @@ public class FragmentParent extends Fragment {
         super.onCreate(saveInstanceState);
         userId = getArguments().getString("userId");
         setHasOptionsMenu(true);
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        appBarLayout.removeOnOffsetChangedListener(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    //swipe to refresh fix
+    int index=0;
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        index=i;
     }
 
 

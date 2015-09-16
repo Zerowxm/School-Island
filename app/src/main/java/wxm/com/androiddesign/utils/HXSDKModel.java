@@ -13,7 +13,6 @@
  */
 package wxm.com.androiddesign.utils;
 
-import com.easemob.applib.utils.HXPreferenceUtils;
 
 /**
  * HX SDK app model which will manage the user data and preferences

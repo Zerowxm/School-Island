@@ -86,12 +86,12 @@ public class CmtAcitivity extends AppCompatActivity {
                 if (cmtItem.getCtyIsAttention().equals("true")) {
                     flag = true;
                     joinbtn.setText("已订阅");
-                    joinbtn.setTextColor(getResources().getColor(R.color.gray, null));
+                    joinbtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.gray));
                     joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.material_join_button));
                 } else {
                     flag = false;
                     joinbtn.setText("+订阅");
-                    joinbtn.setTextColor(getResources().getColor(R.color.primary, null));
+                    joinbtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
                     joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.signup_button));
                 }
             }
@@ -131,7 +131,7 @@ public class CmtAcitivity extends AppCompatActivity {
             } else {
                 joinbtn.setText("+订阅");
                 cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString()) - 1));
-                joinbtn.setTextColor(getResources().getColor(R.color.primary, null));
+                joinbtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
                 joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.signup_button));
                 flag = false;
             }
@@ -182,7 +182,8 @@ public class CmtAcitivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("");
+        collapsingToolbar.setTitle("社区名");
+        collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
     }
 
     private void setupViewPager() {
@@ -201,7 +202,7 @@ public class CmtAcitivity extends AppCompatActivity {
         TabLayout tab = (TabLayout) findViewById(R.id.tabs);
         //tab.setTabGravity(TabLayout.MODE_FIXED|TabLayout.MODE_SCROLLABLE);
         tab.setupWithViewPager(viewPager);
-        tab.setBackgroundColor(getResources().getColor(R.color.tab_color, null));
+        tab.setBackgroundColor(ContextCompat.getColor(this,R.color.tab_color));
         //tab.setTabTextColors(R.color.color_state_list);
 
     }
@@ -209,7 +210,7 @@ public class CmtAcitivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_acitivity, menu);
+        getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 

@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.ui;
 
+import com.bumptech.glide.Glide;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,7 +47,7 @@ import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.utils.MyBitmapFactory;
 
-public class ReleaseActivity extends AppCompatActivity implements DatePickerFragment.DatePickCallBack,TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
+public class ReleaseActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
 
     private int timeType;
     public static final int START_TIME = 0x1;
@@ -94,12 +95,12 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.release_activity_layout);
         ButterKnife.bind(this);
         userName.setText(MyUser.userName);
         Intent intent = getIntent();
         userId = intent.getExtras().getString("userId");
+        Picasso.with(this).load(intent.getExtras().getString("userIcon")).into(userPhoto);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels - 7;
@@ -126,11 +127,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (data == null) {
-//            return;
-//        }
-
-
         if (resultCode == RESULT_OK) {
             if (requestCode == GET_LOCATION) {
                 String address = data.getStringExtra(LocationActivity.Address);
@@ -283,8 +279,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
 
             JSONObject object = new JSONObject();
             try {
-//                object.put("atyItem",new Gson().toJson(params[0]));
-//                object.put("releaseTime", String.valueOf(System.currentTimeMillis()));
                 object = new JSONObject(new Gson().toJson(params[0]));
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
@@ -411,10 +405,6 @@ public class ReleaseActivity extends AppCompatActivity implements DatePickerFrag
         return dateFormat.format(date) + ".jpg";
     }
 
-    @Override
-    public void addTime(String time) {
-
-    }
 
 
 }

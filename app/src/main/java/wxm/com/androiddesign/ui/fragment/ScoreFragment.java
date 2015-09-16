@@ -60,10 +60,6 @@ public class ScoreFragment extends Fragment {
         userId = getArguments().getString("UserId");
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
 
     @Nullable
     @Override

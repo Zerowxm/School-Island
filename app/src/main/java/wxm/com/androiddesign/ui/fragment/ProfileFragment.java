@@ -63,7 +63,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private class GetProfile extends AsyncTask<String, Void, Boolean> {
-        MaterialDialog materialDialog;
         Context context;
 
         public GetProfile(Context context) {
@@ -73,19 +72,11 @@ public class ProfileFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            materialDialog = new MaterialDialog.Builder(context)
-                    .title("Loading")
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(true)
-                    .show();
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-
-            materialDialog.dismiss();
-
             setupRecyclerView(recyclerView);
         }
 
@@ -102,7 +93,6 @@ public class ProfileFragment extends Fragment {
             String json = JsonConnection.getJSON(object.toString());
             user = new Gson().fromJson(json, User.class);
             user.setUserId(params[0]);
-
             return null;
         }
     }

@@ -84,7 +84,7 @@ public class UserActivityFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new MyItemAnimator());
+        //recyclerView.setItemAnimator(new MyItemAnimator());
         new GetAtyTask().execute(type);
 
     }

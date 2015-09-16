@@ -1,22 +1,20 @@
 package wxm.com.androiddesign.ui.fragment;
 
-import android.net.Uri;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.support.design.widget.FloatingActionButton;
 
 
 import com.google.gson.Gson;
@@ -27,8 +25,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.SocketHandler;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import wxm.com.androiddesign.anim.MyItemAnimator;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
@@ -43,23 +42,25 @@ import wxm.com.androiddesign.utils.ScrollManager;
  * Created by zero on 2015/6/25.
  */
 public class ActivityFragment extends Fragment {
+    private static final String TAG="ActivityFragment";
 
-    public static final int Hot = 0x1;
-    public static final int Nearby = 0x2;
-    public static final int Hight = 0x3;
+    public static final int HOT = 0x1;
+    public static final int NEARBY = 0x2;
+    public static final int HIGHT = 0x3;
     private int type;
     private String userId;
 
+    @Bind(R.id.recyclerview_activity)
     RecyclerView recyclerView;
 
 
     static MyRecycerAdapter myRecycerAdapter;
+
+    @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     ScrollManager manager = new ScrollManager();
 
-    public ActivityFragment() {
 
-    }
 
     public static ActivityFragment newInstance(int type, String muserId) {
         ActivityFragment fragment = new ActivityFragment();
@@ -76,9 +77,8 @@ public class ActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type");
-        Log.d("wxm123", "" + type);
         userId = getArguments().getString("userId");
-
+//        setRetainInstance(true);
     }
 
 
@@ -86,12 +86,9 @@ public class ActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v;
         v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
-        Log.d("wxm123", "" + recyclerView.toString());
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        ButterKnife.bind(this, v);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         setupRecyclerView(recyclerView);
-        Log.d("wxm123", "" + recyclerView.toString());
         return v;
     }
 
@@ -111,8 +108,6 @@ public class ActivityFragment extends Fragment {
 
     private void refreshContent() {
         if (myRecycerAdapter != null) {
-
-
             //load content
             mSwipeRefreshLayout.setRefreshing(true);
             new Handler().postDelayed(new Runnable() {
@@ -138,9 +133,8 @@ public class ActivityFragment extends Fragment {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        //recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new MyItemAnimator());
-
+        recyclerView.setHasFixedSize(true);
+        //recyclerView.setItemAnimator(new MyItemAnimator());
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         new GetAtyTask().execute(type);
@@ -153,22 +147,17 @@ public class ActivityFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //mSwipeRefreshLayout.setRefreshing(true);
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (aBoolean == true) {
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result == true) {
                 if (activityItems == null) {
                     return;
                 }
-                for (int i = 0; i < activityItems.size(); i++) {
-                    Log.d("Task", activityItems.get(i).toString());
-                }
                 myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
-                //mSwipeRefreshLayout.setRefreshing(false);
             }
         }
 
@@ -177,15 +166,15 @@ public class ActivityFragment extends Fragment {
             JSONObject object = new JSONObject();
             try {
                 switch (params[0]) {
-                    case Hot:
+                    case HOT:
                         object.put("action", "showHotAty");
                         break;
-                    case Nearby:
+                    case NEARBY:
                         object.put("action", "showNearbyAty");
                         object.put("latitude", LocationServices.Latitude);
                         object.put("longitude", LocationServices.Longitude);
                         break;
-                    case Hight:
+                    case HIGHT:
                         object.put("action", "showHightAty");
                         break;
                 }
@@ -202,7 +191,6 @@ public class ActivityFragment extends Fragment {
             return null;
         }
 
-
     }
 
     public static void refresh(AtyItem atyItem, int position) {
@@ -212,4 +200,57 @@ public class ActivityFragment extends Fragment {
     }
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG,"onAttach"+type);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Log.d(TAG, "onViewCreated" + type);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart" + type);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume" + type);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //recyclerView.setItemAnimator(new DefaultItemAnimator());
+        Log.d(TAG, "onPause" + type);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop" + type);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy" + type);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "onDetach" + type);
+    }
+
+    public SwipeRefreshLayout getmSwipeRefreshLayout() {
+        return mSwipeRefreshLayout;
+    }
 }

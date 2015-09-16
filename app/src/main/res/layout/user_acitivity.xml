@@ -20,8 +20,9 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
-
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
+            <!--app:layout_scrollFlags="scroll|enterAlwaysCollapsed"-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -42,6 +43,8 @@
                     android:layout_marginTop="66dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/miao"
+                    android:visibility="invisible"
+                    android:alpha="0"
                     android:transitionName="@string/transition_user_photo" />
 
                 <wxm.com.androiddesign.widget.MyTextView
@@ -52,7 +55,8 @@
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="40dp"
                     android:layout_marginTop="13dp"
-                    android:text="昵称"
+                    android:text=""
+                    android:alpha="0"
                     android:textColor="@color/black"
                     android:textSize="22sp"
                     fonts:typeface="Roboto-Bold.ttf" />
@@ -63,19 +67,21 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/user_id"
                     android:layout_centerHorizontal="true"
-                    android:text="积分：20"
+                    android:text=""
+                    android:alpha="0"
                     android:textColor="@android:color/secondary_text_light"
                     fonts:typeface="Roboto-Light.ttf" />
 
 
             </RelativeLayout>
-
+            <!--app:layout_scrollFlags="scroll|enterAlways"-->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>

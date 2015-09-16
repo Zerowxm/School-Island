@@ -1,3 +1,4 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,14 +38,16 @@
             android:hint="" />
 
         <ImageView
+            android:layout_below="@id/imageView"
+            android:clickable="true"
             android:id="@+id/send_msg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignBottom="@+id/add_msg"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
-            android:layout_marginRight="16dp"
+            android:paddingRight="16dp"
             android:src="@drawable/ic_action_send" />
     </RelativeLayout>
 </RelativeLayout>

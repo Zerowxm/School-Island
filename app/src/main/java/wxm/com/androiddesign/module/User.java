@@ -33,6 +33,8 @@ public class User {
     public String userLocation;
     @Expose
     public String userCredit;
+    @Expose
+    public String easemobId;
 
     @Expose
     List<String> userAlbum = new ArrayList<String>();
@@ -50,33 +52,19 @@ public class User {
     public User() {
     }
 
-    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String userCredit, String userCode) {
+
+    public User(String action, String userName, String userPassword, String userEmail, String userGender, String userIcon, String userAlbumIsPublic, String userCredit) {
         this.action = action;
-        this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
-        this.userPhone = userPhone;
-        this.userGender = userGender;
-        this.userIcon = userIcon;
-        this.userAlbumIsPublic = userAlbumIsPublic;
-        this.userCredit = userCredit;
-        this.userCode = userCode;
-
-    }
-
-    public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String userCredit) {
-        this.action = action;
-        this.userId = userId;
-        this.userName = userName;
-        this.userPassword = userPassword;
-        this.userEmail = userEmail;
-        this.userPhone = userPhone;
         this.userGender = userGender;
         this.userIcon = userIcon;
         this.userAlbumIsPublic = userAlbumIsPublic;
         this.userCredit = userCredit;
     }
+
+
 
     public User(String action, String userId, String userName, String userPassword, String userEmail, String userPhone, String userGender, String userIcon, String userAlbumIsPublic, String qq, String userLocation, String userCredit, String userAddress, List<String> userAlbum) {
 
@@ -93,6 +81,14 @@ public class User {
         this.userLocation = userLocation;
         this.userCredit = userCredit;
         this.userAlbum = userAlbum;
+    }
+
+    public String getEasemobId() {
+        return easemobId;
+    }
+
+    public void setEasemobId(String easemobId) {
+        this.easemobId = easemobId;
     }
 
     public String getAction() {

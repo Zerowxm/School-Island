@@ -31,6 +31,22 @@
     <!-- 允许应用读取低级别的系统日志文件 -->
     <uses-permission android:name="android.permission.READ_LOGS" />
 
+    <!-- Required -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name=".ui.MyApplication"
         android:allowBackup="true"
@@ -38,6 +54,14 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
+
+        <!-- 设置环信应用的appkey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="xmethink-aplus#aplus" />
+        <!-- 声明sdk所需的service SDK核心功能 -->
+        <service android:name="com.easemob.chat.EMChatService" />
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="AN1K1V7t6tfjsXSscNzj8EnT" />
@@ -61,28 +85,11 @@
             android:launchMode="singleTop" >
         </activity>
         <activity android:name=".ui.CmtAcitivity" />
-        <activity
-            android:name=".ui.SignUpActivity"
-            android:label="@string/signup_title" >
-        </activity>
         <activity android:name=".ui.UserAcitivity" />
         <activity android:name=".ui.DetailActivity" />
         <activity
-            android:name=".LinkWebActivity"
-            android:label="@string/title_activity_link_web" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="app"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ui.ReleaseActivity"
-            android:label="@string/title_activity_release" />
+             />
         <activity android:name=".ui.CmtDatailActivity" />
         <activity android:name=".ui.LocationActivity" />
 
@@ -110,19 +117,18 @@
             <!-- android:resource="@xml/searchable"/> -->
         </activity>
         <activity
-            android:name=".ui.LoginAcivity"
-            android:label="@string/title_activity_login_acivity"
+            android:name=".ui.SignUpActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".ui.UserListActivity"
-            android:label="@string/title_activity_user_list" >
+            >
         </activity>
 
         <service
@@ -140,7 +146,26 @@
         </activity>
         <activity
             android:name=".ui.ChatActivity"
-            android:label="@string/title_activity_chat" >
+        >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".ui.FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/FullscreenTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
