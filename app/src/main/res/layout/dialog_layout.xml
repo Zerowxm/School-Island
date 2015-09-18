@@ -6,11 +6,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <wxm.com.androiddesign.MatrixImageView
+    <wxm.com.androiddesign.photoview.PhotoView
         android:id="@+id/image_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/miao" />
+        android:scaleType="fitCenter"/>
 
     <Button
         android:id="@+id/savaImage"

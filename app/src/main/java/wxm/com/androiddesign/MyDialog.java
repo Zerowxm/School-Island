@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import wxm.com.androiddesign.photoview.PhotoView;
+
 /**
  * Created by hdchen on 2015/6/30.
  */
@@ -54,7 +56,7 @@ public class MyDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.dialog_layout, null);
-        imageView = (MatrixImageView) view.findViewById(R.id.image_show);
+        imageView = (PhotoView) view.findViewById(R.id.image_show);
         savebutton = (Button) view.findViewById(R.id.savaImage);
         Log.d("dialog", uri + "onCreateView");
         Picasso.with(getActivity()).load(uri).into(imageView);

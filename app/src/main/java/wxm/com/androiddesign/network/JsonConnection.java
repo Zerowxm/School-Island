@@ -47,7 +47,7 @@ public class JsonConnection {
         if (true) {
             //do some thing
             try {
-                URL murl = new URL("http://192.168.0.106:8081/bootStrap/ClientPostServlet");
+                URL murl = new URL("http://192.168.199.217:8081/bootStrap/ClientPostServlet");
                 HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                 connection.setRequestProperty("Content-type", "application/json");
                 if (Build.VERSION.SDK_INT > 13) {
