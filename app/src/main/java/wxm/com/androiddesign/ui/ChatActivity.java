@@ -58,25 +58,30 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
     private int chatType;
     private EMConversation conversation;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
+
         Bundle bundle=getIntent().getExtras();
-        toChatUserId=bundle.getString("toChatUserId");
-        userIcon=bundle.getString("userIcon");
+        Boolean notification=bundle.getBoolean("notification");
+        if (notification){
+            toChatUserId=bundle.getString("easemobId");
+            onConversationInit();
+            new getHX().execute();
+        }else {
+            toChatUserId=bundle.getString("toChatUserId");
+            userIcon=bundle.getString("userIcon");
+            onConversationInit();
+            setupRecyclerview(recyclerView);
+            onConversationInit();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final ActionBar actionBar = getSupportActionBar();
-        //Login();
-        //toChatUserId = "wxmzero";
-        //MyUtils.Login(getApplicationContext());
-        onConversationInit();
-        setupRecyclerview(recyclerView);
-        onConversationInit();
     }
 
     @OnClick(R.id.send_msg)
@@ -95,7 +100,13 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             mChatAdapter.refresh();
         }
         EMChatManager.getInstance().registerEventListener(this);
+        MyApplication.activityResumed();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApplication.activityPaused();
     }
 
     @Override
@@ -103,6 +114,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         super.onStop();
         Log.d(TAG, "onStop");
         EMChatManager.getInstance().unregisterEventListener(this);
+        MyApplication.activityPaused();
 //        unregisterReceiver(receiver);
 
 
@@ -195,6 +207,8 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     public void onEvent(EMNotifierEvent event) {
         switch (event.getEvent()) {
@@ -252,29 +266,33 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
 
 
 
-//    private class getHX extends AsyncTask<Void,Void,Void>{
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            JSONObject object=new JSONObject();
-//            String mResult;
-//            try {
-//                object.put("action","huanxin");
-//                object.put("userId",)
-//                JSONObject object1=new JSONObject(JsonConnection.getJSON(object.toString()));
-//                mResult= object1.getString("easemobId");
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//
-//        }
-//
-//
-//    }
+    private class getHX extends AsyncTask<Void,Void,Boolean>{
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            JSONObject object=new JSONObject();
+            try {
+                object.put("action","huanxin");
+                object.put("easemobId",toChatUserId);
+                JSONObject object1=new JSONObject(JsonConnection.getJSON(object.toString()));
+                userIcon= object1.getString("userIcon");
+                return true;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (!result){
+
+            }
+            setupRecyclerview(recyclerView);
+            onConversationInit();
+        }
+
+
+    }
 }

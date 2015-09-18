@@ -31,6 +31,9 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import butterknife.Bind;
@@ -206,22 +209,6 @@ public class SignUpFragment extends DialogFragment{
             if (integer == 0) {
                 materialDialog.dismiss();
 
-//                try {
-//                    EMChatManager.getInstance().createAccountOnServer(getString(email),getString(password));
-//                } catch (final EaseMobException e) {
-//                    int errorCode = e.getErrorCode();
-//                    if (errorCode == EMError.NONETWORK_ERROR) {
-//                        Toast.makeText(activity.getApplicationContext(), "getResources().getString(R.string.network_anomalies)", Toast.LENGTH_SHORT).show();
-//                    } else if (errorCode == EMError.USER_ALREADY_EXISTS) {
-//                        Toast.makeText(activity.getApplicationContext(), "getResources().getString(R.string.User_already_exists)", Toast.LENGTH_SHORT).show();
-//                    } else if (errorCode == EMError.UNAUTHORIZED) {
-//                        Toast.makeText(activity.getApplicationContext(), "getResources().getString(R.string.registration_failed_without_permission)", Toast.LENGTH_SHORT).show();
-//                    } else if (errorCode == EMError.ILLEGAL_USER_NAME) {
-//                        Toast.makeText(activity.getApplicationContext(), "getResources().getString(R.string.illegal_user_name)", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        Toast.makeText(activity.getApplicationContext(), "getResources().getString(R.string.Registration_failed)" + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }
                 if (type==MyUtils.LOGIN){
                     Intent intent = new Intent(activity,MainActivity.class);
                     dismiss();
@@ -232,7 +219,6 @@ public class SignUpFragment extends DialogFragment{
                 materialDialog.dismiss();
                 new MaterialDialog.Builder(activity)
                         .title("注册失败")
-//                        .content("用户名重复")
                         .positiveText("确定")
                         .show();
             }
@@ -255,7 +241,14 @@ public class SignUpFragment extends DialogFragment{
             Gson gson = new Gson();
             Log.d("gson", gson.toJson(user));
             mResult = "";
-            mResult = JsonConnection.getJSON(gson.toJson(user));
+            JSONObject jsonObject= null;
+            try {
+                jsonObject = new JSONObject(JsonConnection.getJSON(new Gson().toJson(user)));
+                mResult=jsonObject.getString("result");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             Log.d("Task", "doConnection");
             if (mResult != "") {
                 if (!mResult.contains("false")) {

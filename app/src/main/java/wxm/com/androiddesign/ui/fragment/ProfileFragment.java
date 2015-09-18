@@ -36,7 +36,6 @@ public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     private String userId;
     User user = new User();
-    GetProfile getProfile;
 
 
     public static ProfileFragment newInstance(String muserId) {
@@ -51,9 +50,7 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.profile_layout, viewGroup, false);
         userId = getArguments().getString("UserId");
         recyclerView = (RecyclerView) v;
-        getProfile = new GetProfile(getActivity());
-        getProfile.execute(userId);
-
+        new GetProfile(getActivity()).execute(userId);
         return v;
     }
 

@@ -294,7 +294,10 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
 
     @Override
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
-        mTime+=" "+hourOfDay+":"+minute;
+        if (minute<10){
+            mTime+=" "+hourOfDay+":"+"0"+minute;
+        }else
+            mTime+=" "+hourOfDay+":"+minute;
         if (timeType == START_TIME) {
             startTime.setText(mTime);
         } else {
@@ -304,7 +307,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
-        mTime=year+"."+monthOfYear+"."+dayOfMonth;
+        mTime=year+"."+(monthOfYear+1)+"."+dayOfMonth;
         setTime();
 
     }

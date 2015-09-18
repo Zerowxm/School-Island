@@ -64,7 +64,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="AN1K1V7t6tfjsXSscNzj8EnT" />
+            android:value="4wikiYa0PXpmEYUpPUXNrqgs" />
         <meta-data
             android:name="android.app.default_searchable"
             android:value="wxm.com.androiddesign.ui.SearchResultsActivity" />

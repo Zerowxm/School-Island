@@ -125,7 +125,7 @@ public class CmtAcitivity extends AppCompatActivity {
             if (!flag) {
                 joinbtn.setText("已订阅");
                 cmt_member.setText(String.valueOf(Integer.parseInt(cmt_member.getText().toString()) + 1));
-                joinbtn.setTextColor(getResources().getColor(R.color.gray, null));
+                joinbtn.setTextColor(ContextCompat.getColor(this,R.color.gray));
                 joinbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.material_join_button));
                 flag = true;
             } else {

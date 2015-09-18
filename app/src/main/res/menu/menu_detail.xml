@@ -2,12 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <item
-        android:id="@+id/action_send"
-        android:icon="@drawable/ic_action_send"
-        android:title="发送消息"
-        android:orderInCategory="80"
-        app:showAsAction="always"/>
+
     <item
         android:id="@id/action_settings"
         android:title="举报"

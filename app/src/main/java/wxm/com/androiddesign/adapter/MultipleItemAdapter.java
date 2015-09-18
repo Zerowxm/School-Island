@@ -305,6 +305,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             ButterKnife.bind(this, itemView);
 
+
             mjoinBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -351,7 +352,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             plus_fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (atyItem.getAtyPlused().equals("true")) {
+                    if ("true".equals(atyItem.getAtyPlused())) {
                         plus_fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
                         plus_fab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_plus_one));
                         atyItem.setAtyPlused("false");

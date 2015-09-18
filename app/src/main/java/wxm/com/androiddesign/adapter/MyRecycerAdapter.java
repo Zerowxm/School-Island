@@ -129,11 +129,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             }
 
             @Override
-            public void onJoinBtn(final Button button,final int adapterPosition) {
+            public void onJoinBtn(final Button button,int adapterPosition) {
 
                 if (!"001".equals(MyUser.userId)) {
-
-                    //item = atyItem;
+                    final int index=adapterPosition;
+                    item = activityItems.get(index);
                     if ("加入".equals(button.getText().toString())) {
                         new MaterialDialog.Builder(MainActivity.instance)
                                 .title(R.string.add_title)
@@ -141,7 +141,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                                 .positiveText(R.string.OK)
                                 .negativeText(R.string.cancel)
                                 .callback(new MaterialDialog.ButtonCallback() {
-                                    AtyItem atyItem = activityItems.get(adapterPosition);
+                                    AtyItem atyItem = activityItems.get(index);
                                     @Override
                                     public void onPositive(MaterialDialog dialog) {
                                         button.setText("已加入");
@@ -149,6 +149,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                                         atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
                                         button.setTextColor(ContextCompat.getColor(activity, R.color.primary));
                                         notifyDataSetChanged();
+                                        Log.d("Test", "index" + index);
+                                        Log.d("Test",atyItem.toString());
                                         new UpDateTask().execute("join");
                                     }
 
@@ -166,7 +168,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                                 .positiveText("是的")
                                 .negativeText(R.string.cancel)
                                 .callback(new MaterialDialog.ButtonCallback() {
-                                    AtyItem atyItem = activityItems.get(adapterPosition);
+                                    AtyItem atyItem = activityItems.get(index);
                                     @Override
                                     public void onPositive(MaterialDialog dialog) {
                                         button.setText("加入");

@@ -122,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            materialDialog.dismiss();
+//            materialDialog.dismiss();
             if (result) {
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 MyUser.setLoginType(mType);
@@ -150,10 +150,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
 
-            if (!mResult.contains("false")) {
+            if (mResult!=null&&!mResult.contains("false")) {
                 SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("easemobId",mResult);
+                Log.d("Test","Sign:"+mResult);
+                editor.apply();
                 MyUtils.signupHX(mResult,"7777777");
                 return true;
             }
@@ -202,12 +204,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         switch(msg.what) {
             case MSG_AUTH_CANCEL: {
                 //取消授权
-                materialDialog.dismiss();
+                //materialDialog.dismiss();
                 Log.i(TAG, "MSG_AUTH_CANCEL");
             } break;
             case MSG_AUTH_ERROR: {
                 //授权失败
-                materialDialog.dismiss();
+//                materialDialog.dismiss();
                 Log.i(TAG, "MSG_AUTH_ERROR");
             } break;
             case MSG_AUTH_COMPLETE: {

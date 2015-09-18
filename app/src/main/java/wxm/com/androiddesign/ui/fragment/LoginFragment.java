@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -47,11 +48,15 @@ import wxm.com.androiddesign.utils.MyUtils;
 /**
  * Created by zero on 2015/6/29.
  */
-public class LoginFragment extends DialogFragment implements PlatformActionListener {
+public class LoginFragment extends DialogFragment implements PlatformActionListener,Handler.Callback {
 
     private static final String TAG="LoginFragment";
     public static final int MAIN=1;
     public static final int SIGN=2;
+    private static final int MSG_AUTH_CANCEL=0x2;
+    private static final int MSG_AUTH_ERROR=0x3;
+    private static final int MSG_AUTH_COMPLETE=0x4;
+
     LoginCallBack loginCallBack;
     @Bind(R.id.email_edit_text)
     EditText user_email;
@@ -61,6 +66,7 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
     AppCompatActivity activity;
     String mPassword;
     String mId;
+    Handler handler;
 
     @Override
     public void onAttach(Context context) {
@@ -84,12 +90,13 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mType=getArguments().getInt("Type");
+        handler=new Handler(this);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if(outState==null)
-            super.onSaveInstanceState(outState);
+//        if(outState==null)
+//            super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -99,7 +106,7 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
         View view = inflater.inflate(R.layout.fragment_login, container);
         ButterKnife.bind(this, view);
         Point size= MyUtils.getScreenSize(getActivity());
-        getDialog().getWindow().setLayout(size.x-30, WindowManager.LayoutParams.WRAP_CONTENT);
+        getDialog().getWindow().setLayout(size.x - 30, WindowManager.LayoutParams.WRAP_CONTENT);
         return view;
     }
 
@@ -111,28 +118,42 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
     @OnClick(R.id.sina_login_btn)
     public void onSinaLogin(){
         Log.v(TAG, "Sina");
-        Platform sina= ShareSDK.getPlatform(SinaWeibo.NAME);
+        final Platform sina= ShareSDK.getPlatform(SinaWeibo.NAME);
+        mLoginType=MyUser.SINA;
         if(sina.isValid()){
             Log.v(TAG, "已授权");
-            //MyUser.setLoginType(MyUser.SINA);
-            mLoginType=MyUser.SINA;
             getInfo(sina);
         }else
-            authorize(sina);
+        {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    authorize(sina);
+                }
+            });
+        }
+
     }
 
     @OnClick(R.id.qq_login_btn)
     public void onQQLogin(){
         Log.v(TAG, "QQ");
-        Platform qq= ShareSDK.getPlatform(QQ.NAME);
+        final Platform qq= ShareSDK.getPlatform(QQ.NAME);
+        mLoginType=MyUser.QQ;
         if(qq.isValid()){
             Log.v(TAG, "已授权");
-//            MyUser.setLoginType(MyUser.QQ);
-            mLoginType=MyUser.QQ;
             getInfo(qq);
-        }else
-            authorize(qq);
+        }else{
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    authorize(qq);
+                }
+            });
+        }
+
     }
+
     private void authorize(Platform platform){
         if (platform==null){
             Log.w(TAG,"platform is null");
@@ -148,13 +169,12 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
     public void getInfo(Platform platform){
         PlatformDb db=platform.getDb();
         mId=db.getUserId();
-        //MyUser.setUserId(mId);
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put("action", "login" +mLoginType);
             jsonObject.put("userId", mId);
             Log.d(TAG, jsonObject.toString());
-            new LoginTask(getActivity()).execute(jsonObject.toString());
+            new LoginTask(getContext()).execute(jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -164,14 +184,11 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
         ConnectivityManager check = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = check.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            //do some thing
             user.setAction("loginemail");
             user.setUserEmail(user_email.getText().toString());
             mPassword=password.getText().toString();
             user.setUserPassword(mPassword);
-            //MyUser.setLoginType(MyUser.EMAIL);
             mLoginType=MyUser.EMAIL;
-            //mType=SIGN;
             new LoginTask(getActivity()).execute(new Gson().toJson(user));
 
         } else {
@@ -182,7 +199,10 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
     public void onComplete(Platform platform, int action, HashMap<String, Object> res) {
         if (action==Platform.ACTION_USER_INFOR){
             Log.i(TAG,"onComplete");
-            getInfo(platform);
+            Message msg=new Message();
+            msg.what=MSG_AUTH_COMPLETE;
+            msg.obj=platform;
+            handler.sendMessage(msg);
         }
     }
 
@@ -190,6 +210,7 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
     public void onError(Platform platform, int action, Throwable throwable) {
         if(action==Platform.ACTION_USER_INFOR){
             Log.i(TAG, "onError:" + throwable.getMessage() + "|" + throwable.toString());
+            handler.sendEmptyMessage(MSG_AUTH_ERROR);
         }
         throwable.printStackTrace();
     }
@@ -198,8 +219,35 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
     public void onCancel(Platform platform, int action) {
         if (action==Platform.ACTION_USER_INFOR){
             Log.i(TAG, "onCancel");
+            handler.sendEmptyMessage(MSG_AUTH_CANCEL);
         }
     }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch(msg.what) {
+            case MSG_AUTH_CANCEL: {
+                //取消授权
+                //materialDialog.dismiss();
+                Log.i(TAG, "MSG_AUTH_CANCEL");
+            } break;
+            case MSG_AUTH_ERROR: {
+                //授权失败
+//                materialDialog.dismiss();
+                Log.i(TAG, "MSG_AUTH_ERROR");
+            } break;
+            case MSG_AUTH_COMPLETE: {
+                //授权成功
+
+                Log.i(TAG, "MSG_AUTH_COMPLETE");
+                Platform platform=(Platform)msg.obj;
+                getInfo(platform);
+            } break;
+        }
+        return false;
+    }
+
+
 
     private class LoginTask extends AsyncTask<String, Void, Boolean> {
         MaterialDialog materialDialog;
@@ -213,12 +261,12 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
         protected void onPreExecute() {
             super.onPreExecute();
             dismiss();
-            materialDialog = new MaterialDialog.Builder(context)
-                    .title(R.string.login_title)
-                    .content(R.string.please_wait)
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(false)
-                    .show();
+//            materialDialog = new MaterialDialog.Builder(context)
+//                    .title(R.string.login_title)
+//                    .content(R.string.please_wait)
+//                    .progress(true, 0)
+//                    .progressIndeterminateStyle(false)
+//                    .show();
         }
 
         @Override
@@ -263,7 +311,7 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if (result == true) {
-                materialDialog.dismiss();
+                //materialDialog.dismiss();
                 if (mType==SIGN){
                     Intent intent = new Intent(activity,MainActivity.class);
                     activity.startActivity(intent);
@@ -275,7 +323,7 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
                     loginCallBack.onLongin(mUser);
                 }
             } else {
-                materialDialog.dismiss();
+                //materialDialog.dismiss();
                 new MaterialDialog.Builder(context)
                         .title("登陆失败")
                         .content("请重新登陆")

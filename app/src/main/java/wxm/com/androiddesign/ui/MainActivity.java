@@ -1,6 +1,8 @@
 package wxm.com.androiddesign.ui;
 
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +17,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,7 +34,10 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.easemob.EMCallBack;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMMessage;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -52,9 +59,10 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 import wxm.com.androiddesign.ui.fragment.RankingFragment;
+import wxm.com.androiddesign.utils.Config;
 import wxm.com.androiddesign.utils.MyUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService,EMEventListener {
     private static final String TAG="MainActivity";
 
     DrawerLayout drawerLayout;
@@ -124,12 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         instance = this;
         ButterKnife.bind(this);
         setupFab();
-        //Boolean isSignUp=getIntent().getExtras().getBoolean("isSignUp");
-        //Log.d(TAG,""+isSignUp);
-//        if(isSignUp){
-//            new LoginTask(this).execute(true);
-//        }
-//        else
         new LoginTask(this).execute(false);
         setupNavigationView();
         openLocationServices();
@@ -153,6 +155,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupFab() {
         fab.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EMChatManager.getInstance().registerEventListener(this);
+    }
+
+    @Override
+    public void onEvent(EMNotifierEvent event) {
+        switch (event.getEvent()){
+            case EventNewMessage:
+            {
+                EMMessage message = (EMMessage) event.getData();
+                String userId = null;
+                userId = message.getFrom();
+
+                NotificationCompat.Builder mBuilder=
+                        new NotificationCompat.Builder(this)
+                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                        .setWhen(System.currentTimeMillis())
+                        .setContentTitle("有新消息了!")
+                        .setContentText("A+");
+                Intent resultIntent=new Intent(this,ChatActivity.class);
+                resultIntent.putExtra("notification",true);
+                resultIntent.putExtra("easemobId",userId);
+                TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
+                stackBuilder.addParentStack(ChatActivity.class);
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent=
+                        stackBuilder.getPendingIntent(0,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager=
+                        (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+                mNotificationManager.notify(0,mBuilder.build());
+            }
+        }
     }
 
 
@@ -189,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
             flag=1;
-
+            MyUtils.Login(getApplicationContext());
         }
 
         @Override
@@ -226,14 +267,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     object.put("userPassword", password);
                 }else if (MyUser.SINA.equals(type)){
                     object.put("action","loginsina");
-                    object.put("userId",MyUser.userId);
+                    object.put("userId",name);
                 }else if(MyUser.QQ.equals(type)){
                     object.put("action","loginqq");
-                    object.put("userId",MyUser.userId);
+                    object.put("userId",name);
                 }
-
+                Log.d(TAG,object.toString());
 
                 String userJson = JsonConnection.getJSON(object.toString());
+                Log.d(TAG,userJson);
                 if (userJson.contains("false")) {
                     return null;
                 }
@@ -418,9 +460,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(drawerLayout.isDrawerOpen(drawerLayout)){
-            drawerLayout.closeDrawer(GravityCompat.END);
-        }
+//        if(drawerLayout.isDrawerOpen(drawerLayout)){
+//            drawerLayout.closeDrawer(GravityCompat.END);
+//        }
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                EMChatManager.getInstance().logout(new EMCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//                        Log.d(Config.HX,"onSuccess");
+//                    }
+//
+//                    @Override
+//                    public void onError(int i, String s) {
+//                        Log.d(Config.HX,"onError");
+//                    }
+//
+//                    @Override
+//                    public void onProgress(int i, String s) {
+//                        Log.d(Config.HX,"onProgress"+i+s);
+//                    }
+//                });
+//            }
+//        }).start();
     }
 
     @Override

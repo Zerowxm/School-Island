@@ -148,7 +148,7 @@ public class UserAcitivity extends AppCompatActivity {
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release, userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
         adapter.addFragment(CmtListFragment.newInstance(userId), "社区");
-        if (user.getUserAlbumIsPublic().equals("true") || MyUser.userId.equals(user.getUserId())) {
+        if ("true".equals(user.getUserAlbumIsPublic()) || MyUser.userId.equals(user.getUserId())) {
             Log.i("publicuser", user.getUserId());
             Log.i("publicuser", MyUser.userId);
             adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
@@ -189,6 +189,7 @@ public class UserAcitivity extends AppCompatActivity {
             case R.id.action_send:
                 //打开聊天
                 Intent chatIntent=new Intent(this,ChatActivity.class);
+                chatIntent.putExtra("notification",false);
                 chatIntent.putExtra("toChatUserId",user.getEasemobId());
                 chatIntent.putExtra("userIcon",user.getUserIcon());
                 startActivity(chatIntent);

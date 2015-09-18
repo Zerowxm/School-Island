@@ -40,6 +40,7 @@ public class MyUtils{
     }
 
     public static void signupHX(final String userName, final String password){
+        Log.d(TAG,userName);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -64,29 +65,29 @@ public class MyUtils{
         }).start();
     }
 
-//    public static void Login(Context context) {
-//        Log.d(TAG,"LoginHX");
-//        SharedPreferences prefs = context.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-//        final String easemobId=prefs.getString("easemobId", "error");
-//        EMChatManager.getInstance().login(easemobId, "7777777", new EMCallBack() {
-//            @Override
-//            public void onSuccess() {
-//                Log.i(TAG, "LoginSuccess");
-//                Log.i(TAG,easemobId);
-//            }
-//
-//            @Override
-//            public void onError(int i, String s) {
-//                Log.e(TAG, "LoginError");
-//                Log.i(TAG, easemobId);
-//            }
-//
-//            @Override
-//            public void onProgress(int i, String s) {
-//                Log.i(TAG,easemobId+" "+i+" "+s);
-//            }
-//        });
-//    }
+    public static void Login(Context context) {
+        Log.d(Config.HX,"LoginHX");
+        SharedPreferences prefs = context.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+        final String easemobId=prefs.getString("easemobId", "error");
+        EMChatManager.getInstance().login(easemobId, "7777777", new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                Log.i(Config.HX, "LoginSuccess");
+                Log.i(Config.HX,easemobId);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.e(Config.HX, "LoginError");
+                Log.i(Config.HX, easemobId);
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+                Log.i(Config.HX,easemobId+" "+i+" "+s);
+            }
+        });
+    }
 
 
 }

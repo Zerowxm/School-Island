@@ -16,6 +16,7 @@ import com.easemob.chat.OnNotificationClickListener;
 
 import cn.sharesdk.framework.ShareSDK;
 import wxm.com.androiddesign.broadcastreceive.NewMessageBroadCastReceiver;
+import wxm.com.androiddesign.listener.MyConnectionListener;
 import wxm.com.androiddesign.utils.HXSDKHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
@@ -34,11 +35,14 @@ public class MyApplication extends Application {
         super.onCreate();
         applicationContext=this;
         instance=this;
+        EMChat.getInstance().setAutoLogin(false);
         SDKInitializer.initialize(applicationContext);
         EMChat.getInstance().init(applicationContext);
         EMChat.getInstance().setDebugMode(true);
         Log.d(TAG, "onCreate");
+
         initSDK(this);
+        addConnectionListener();
         //hxsdkHelper=new HXSDKHelper(applicationContext);
         //hxsdkHelper.initEventListener();
     }
@@ -94,6 +98,11 @@ public class MyApplication extends Application {
 //            }
 //        });
     }
+
+    private void addConnectionListener(){
+        EMChatManager.getInstance().addConnectionListener(new MyConnectionListener());
+    }
+
 
 
 

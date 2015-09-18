@@ -36,17 +36,13 @@ import wxm.com.androiddesign.utils.ScrollManager;
  */
 public class UserActivityFragment extends Fragment {
 
-    public static final int Joined = 0x4;
-    public static final int Release = 0x5;
+    public static final int Joined = 1;
+    public static final int Release = 2;
 
     private int type;
     private String userId;
     RecyclerView recyclerView;
     static MyRecycerAdapter myRecycerAdapter;
-
-    public UserActivityFragment() {
-
-    }
 
     public static UserActivityFragment newInstance(int type, String muserId) {
         UserActivityFragment fragment = new UserActivityFragment();
@@ -64,7 +60,6 @@ public class UserActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type");
         userId = getArguments().getString("UserId");
-        Log.d("wxm123", "" + type);
     }
 
 
@@ -74,14 +69,13 @@ public class UserActivityFragment extends Fragment {
         v = inflater.inflate(R.layout.activity_user_fragment, viewGroup, false);
         recyclerView = (RecyclerView) v;
         setupRecyclerView(recyclerView);
-        Log.d("wxm123", "" + recyclerView.toString());
         return v;
     }
 
 
     private void setupRecyclerView(RecyclerView recyclerView) {
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        //layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         //recyclerView.setItemAnimator(new MyItemAnimator());
@@ -101,10 +95,10 @@ public class UserActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if (aBoolean == true) {
+            //if (aBoolean == true) {
                 myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
-            }
+            //}
         }
 
         @Override
@@ -122,7 +116,6 @@ public class UserActivityFragment extends Fragment {
                 }
                 object.put("userId", userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
-                //  Log.i("jsonarray",jsonarrys.toString());
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
                 if (activityItems == null) {
