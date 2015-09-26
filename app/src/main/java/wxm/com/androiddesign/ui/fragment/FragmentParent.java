@@ -2,6 +2,7 @@ package wxm.com.androiddesign.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
@@ -21,6 +22,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.ui.MainActivity;
+import wxm.com.androiddesign.utils.Config;
 
 
 /**
@@ -39,6 +41,8 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
     TabLayout tabLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     public static Fragment newInstance(String muserId) {
         Fragment fragment = new FragmentParent();
@@ -143,7 +147,15 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         index=i;
+        Log.d(Config.appBar,"index:"+i);
+//        if (index<-100){
+//            resetAppBar();
+//        }
     }
 
-
+    private void resetAppBar(){
+        CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)appBarLayout.getLayoutParams();
+        AppBarLayout.Behavior behavior=(AppBarLayout.Behavior)params.getBehavior();
+        behavior.onNestedFling(coordinatorLayout,appBarLayout,null,0,-1000,true);
+    }
 }

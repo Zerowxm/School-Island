@@ -75,11 +75,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             Log.w(TAG,"platform is null");
             return;
         }
-        Log.i(TAG,"authorize");
+        Log.i(TAG, "authorize");
         platform.setPlatformActionListener(this);
-        platform.authorize();
-        platform.SSOSetting(true);
+        platform.SSOSetting(false);
         platform.showUser(null);
+        platform.authorize();
+
     }
 
     @Override
@@ -122,7 +123,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-//            materialDialog.dismiss();
             if (result) {
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 MyUser.setLoginType(mType);

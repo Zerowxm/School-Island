@@ -107,6 +107,10 @@ public class MyApplication extends Application {
 
 
     private static boolean activityVisible;
+    private static String id="";
+    public static String getId(){
+        return id;
+    }
     public static boolean isActivityVisible(){
         return activityVisible;
     }
@@ -115,5 +119,10 @@ public class MyApplication extends Application {
     }
     public static void activityPaused(){
         activityVisible=false;
+        id="";
+    }
+    public static void setId(String chatId){
+        Log.d("activityBD",""+chatId);
+        id=chatId;
     }
 }

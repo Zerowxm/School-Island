@@ -5,4 +5,5 @@ package wxm.com.androiddesign.utils;
  */
 public class Config {
     public static String HX="huanxin";
+    public static String appBar="appBar";
 }

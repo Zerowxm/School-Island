@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/details_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:paddingTop="16dp"
+    android:paddingBottom="48dp"
+    android:paddingRight="16dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/toolbar"/>
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="16dp"
+        android:text="Tile"
+        android:id="@+id/session_title"
+        android:maxLines="4"
+        android:ellipsize="end"
+        android:textSize="18sp"
+        android:lineSpacingMultiplier="1.1"
+        android:fontFamily="@string/mdtp_sans_serif"
+        android:textColor="#deffff"
+        />
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="16dp"
+        android:text="Tile"
+        android:id="@+id/session_subtitle"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:textColor="#8affff"
+        />
+</LinearLayout>

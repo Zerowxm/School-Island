@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +31,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import wxm.com.androiddesign.photoview.PhotoView;
 
 /**
  * Created by hdchen on 2015/6/30.
@@ -57,7 +60,7 @@ public class MyDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.dialog_layout, null);
-        imageView = (MatrixImageView) view.findViewById(R.id.image_show);
+        imageView = (PhotoView) view.findViewById(R.id.image_show);
         savebutton = (Button) view.findViewById(R.id.savaImage);
         Log.d("dialog", uri + "onCreateView");
         Picasso.with(getActivity()).load(uri).into(imageView);
@@ -69,9 +72,16 @@ public class MyDialog extends DialogFragment {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 screenWidth, screenHeight * 2 / 3);
         imageView.setLayoutParams(layoutParams);
-        Log.d(TAG,layoutParams.width+"/"+layoutParams.height);
+        Log.d(TAG, layoutParams.width + "/" + layoutParams.height);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+//        ViewTreeObserver vto=imageView.getViewTreeObserver();
+//        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+//            @Override
+//            public boolean onPreDraw() {
+//                Log.d(TAG, "imageviewwidth:"+imageView.getMeasuredWidth());
+//                return true;
+//            }
+//        });
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -146,7 +156,8 @@ public class MyDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        Glide.with(this).load(uri).into(imageView);
+
+        Log.d(TAG, "imageviewwidth:" + imageView.getWidth());
     }
 
     @Override
@@ -169,8 +180,8 @@ public class MyDialog extends DialogFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
-        super.onSaveInstanceState(outState);
+        //outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+        //super.onSaveInstanceState(outState);
     }
 
     public void setUri(String uri) {

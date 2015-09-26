@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -62,6 +63,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.ui.UserListActivity;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
+import wxm.com.androiddesign.utils.MyUtils;
 
 /**
  * Created by zero on 2015/6/26.
@@ -139,12 +141,10 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (atyItem.getAtyAlbum() != null) {
                 if ("false".equals(atyItem.getAtyJoined()) && "toMembers".equals(atyItem.getAtyIsPublic())) {
                     ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-                    WindowManager windowManager = activity.getWindowManager();
-                    DisplayMetrics dm = new DisplayMetrics();
-                    Display display = windowManager.getDefaultDisplay();
-                    int width = display.getWidth() - 7;
-                    int height = display.getHeight();
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height * 1 / 3);
+                    Point size= MyUtils.getScreenSize(activity);
+                    int screenWidth = size.x - 7;
+                    int screenHeight = size.y;
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
                     Picasso.with(activity).load(R.drawable.wu).into(imageView);
                     imageView.setLayoutParams(layoutParams);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -255,10 +255,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, UserAcitivity.class);
                     intent.putExtra("userId", atyItem.getUserId());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))
-                    );
-                    ActivityCompat.startActivity(activity, intent, options.toBundle());
+                    activity.startActivity(intent);
                 }
             });
         }

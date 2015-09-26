@@ -57,6 +57,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.services.LocationServices;
 import wxm.com.androiddesign.services.MessageService;
+import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.ReleaseActivity;
 import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.TransparentToolBar;
@@ -139,6 +140,11 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         appBarLayout.addOnOffsetChangedListener(this);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -174,9 +180,13 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean == true) {
-                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, getContext(), "HomeFragment");
-                recyclerView.setAdapter(myRecycerAdapter);
-                mSwipeRefreshLayout.setRefreshing(false);
+                AppCompatActivity appCompatActivity=MainActivity.activityWeakReference.get();
+                if (appCompatActivity!=null&&!appCompatActivity.isFinishing()){
+                    myRecycerAdapter = new MyRecycerAdapter(activityItems, userId,appCompatActivity, "HomeFragment");
+                    recyclerView.setAdapter(myRecycerAdapter);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+
                 country.setText(LocationServices.City);
 
             } else {

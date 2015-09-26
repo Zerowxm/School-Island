@@ -43,6 +43,8 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 import java.util.logging.LogRecord;
 
 import butterknife.Bind;
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int SIGNUP = 0x1;
 
     public static MainActivity instance = null;
+    public static WeakReference<AppCompatActivity> activityWeakReference=null;
     public static Context context;
 
     int flag;
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         closeLocationServices();
+        Log.d(TAG, "onCreate");
     }
 
     private Handler mHandler=new Handler(){
@@ -129,13 +133,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        instance = this;
         ButterKnife.bind(this);
         setupFab();
         new LoginTask(this).execute(false);
         setupNavigationView();
         openLocationServices();
-
+        Log.d(TAG + 1, "onCreate:" + this.toString());
+        activityWeakReference=new WeakReference<AppCompatActivity>(this);
     }
 
     private void openLocationServices() {
@@ -161,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         EMChatManager.getInstance().registerEventListener(this);
+        Log.d(TAG, "onResume");
     }
 
     @Override
@@ -171,27 +176,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EMMessage message = (EMMessage) event.getData();
                 String userId = null;
                 userId = message.getFrom();
+                Log.d("activityBD",""+MyApplication.isActivityVisible()+userId+"/"+MyApplication.getId());
 
-                NotificationCompat.Builder mBuilder=
-                        new NotificationCompat.Builder(this)
-                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
-                        .setWhen(System.currentTimeMillis())
-                        .setContentTitle("有新消息了!")
-                        .setContentText("A+");
-                Intent resultIntent=new Intent(this,ChatActivity.class);
-                resultIntent.putExtra("notification",true);
-                resultIntent.putExtra("easemobId",userId);
-                TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
-                stackBuilder.addParentStack(ChatActivity.class);
-                stackBuilder.addNextIntent(resultIntent);
-                PendingIntent resultPendingIntent=
-                        stackBuilder.getPendingIntent(0,
-                                PendingIntent.FLAG_UPDATE_CURRENT);
-                mBuilder.setContentIntent(resultPendingIntent);
-                NotificationManager mNotificationManager=
-                        (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                if(!MyApplication.isActivityVisible()||MyApplication.isActivityVisible()&&!MyApplication.getId().equals(userId)){
+                    NotificationCompat.Builder mBuilder=
+                            new NotificationCompat.Builder(this)
+                                    .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                                    .setWhen(System.currentTimeMillis())
+                                    .setContentTitle("有新消息了!")
+                                    .setContentText("A+").setAutoCancel(true);
+                    Intent resultIntent=new Intent(this,ChatActivity.class);
+                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    resultIntent.putExtra("notification",true);
+                    resultIntent.putExtra("easemobId",userId);
+                    TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
+                    stackBuilder.addParentStack(ChatActivity.class);
+                    stackBuilder.addNextIntent(resultIntent);
+                    PendingIntent resultPendingIntent=
+                            stackBuilder.getPendingIntent(0,
+                                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    mBuilder.setContentIntent(resultPendingIntent);
+                    NotificationManager mNotificationManager=
+                            (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
-                mNotificationManager.notify(0,mBuilder.build());
+                    mNotificationManager.notify(0,mBuilder.build());
+                }
+
             }
         }
     }
@@ -427,10 +437,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
                     intent.putExtra("userId", mUser.getUserId());
                     startActivity(intent);
-//                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                            MainActivity.this, new Pair<View, String>(userPhoto, getResources().getString(R.string.transition_user_photo))
-//                    );
-//                    ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
                 }
             }
         });
@@ -460,30 +466,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        if(drawerLayout.isDrawerOpen(drawerLayout)){
-//            drawerLayout.closeDrawer(GravityCompat.END);
-//        }
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                EMChatManager.getInstance().logout(new EMCallBack() {
-//                    @Override
-//                    public void onSuccess() {
-//                        Log.d(Config.HX,"onSuccess");
-//                    }
-//
-//                    @Override
-//                    public void onError(int i, String s) {
-//                        Log.d(Config.HX,"onError");
-//                    }
-//
-//                    @Override
-//                    public void onProgress(int i, String s) {
-//                        Log.d(Config.HX,"onProgress"+i+s);
-//                    }
-//                });
-//            }
-//        }).start();
     }
 
     @Override

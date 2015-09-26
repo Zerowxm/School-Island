@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -61,8 +62,8 @@ import wxm.com.androiddesign.utils.MyUtils;
 public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyViewHolder> {
     protected List<AtyItem> activityItems;
     private int lastPosition = -1;
-    private static Context activity;
-    Context context;
+    private Context activity;
+    static Context context;
     AtyItem item;
     String fragment;
     String userId;
@@ -72,6 +73,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         this.activity = activity;
         this.fragment = fragment;
         this.userId = userId;
+        context=activity;
     }
 
     @Override
@@ -135,7 +137,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     final int index=adapterPosition;
                     item = activityItems.get(index);
                     if ("加入".equals(button.getText().toString())) {
-                        new MaterialDialog.Builder(MainActivity.instance)
+                        new MaterialDialog.Builder(activity)
                                 .title(R.string.add_title)
                                 .content(activityItems.get(adapterPosition).getAtyName())
                                 .positiveText(R.string.OK)
@@ -162,7 +164,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                                 .show();
 
                     } else {
-                        new MaterialDialog.Builder(MainActivity.instance)
+                        new MaterialDialog.Builder(activity)
                                 .title("主人你真的要退出瞄(´c_`)")
                                 .content(activityItems.get(adapterPosition).getAtyName())
                                 .positiveText("是的")
@@ -300,14 +302,21 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
-                            new Handler().post(new Runnable() {
-                                public void run() {
-                                    Log.d("imageuri",""+ album.size());
-                                    //Log.d("imageuri", item.getAtyAlbum().get((Integer) v.getTag()));
-                                    MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
-                                    dialog.show(((AppCompatActivity)activity).getSupportFragmentManager(), "showPicture");
-                                }
-                            });
+                           // new Handler().post(new Runnable() {
+                           //     public void run() {
+                            if (activity!=null&&!((AppCompatActivity)activity).isFinishing()){
+                                MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
+                                FragmentTransaction ft = ((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction();
+                                ft.add(dialog,"showPic");
+                                ft.commitAllowingStateLoss();
+                            }else {
+                                Log.e("Error",activity.toString()+((AppCompatActivity)activity).isFinishing()+((AppCompatActivity)activity).isFinishing());
+                            }
+
+
+                                    //dialog.show(((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction(), "showPicture");
+                            //    }
+                          //  });
                         }
                     });
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -335,7 +344,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             holder.mjoinBtn.setTextColor(ContextCompat.getColor(activity, R.color.black));
         }
 
-        setAnimation(holder.cardView, position);
+        //setAnimation(holder.cardView, position);
 
     }
 
@@ -502,7 +511,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         @OnClick(R.id.fab_share)
         public void onShare() {
             if ("001".equals(MyUser.userId)) {
-                Toast.makeText(activity, "请登录后分享", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, "请登录后分享", Toast.LENGTH_SHORT).show();
             } else {
                 final String imgPath = null;
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -519,7 +528,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
                 intent.putExtra(Intent.EXTRA_TEXT, "You are sharing text!");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(Intent.createChooser(intent, "Share"));
+                context.startActivity(Intent.createChooser(intent, "Share"));
             }
         }
 

@@ -1,10 +1,15 @@
 package wxm.com.androiddesign.ui;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -77,7 +82,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             setupRecyclerview(recyclerView);
             onConversationInit();
         }
-
+        MyApplication.setId(toChatUserId);
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -101,12 +106,14 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         }
         EMChatManager.getInstance().registerEventListener(this);
         MyApplication.activityResumed();
+        Log.d("activityBD",""+MyApplication.isActivityVisible());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MyApplication.activityPaused();
+        Log.d("activityBD", "" + MyApplication.isActivityVisible());
     }
 
     @Override
@@ -115,6 +122,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         Log.d(TAG, "onStop");
         EMChatManager.getInstance().unregisterEventListener(this);
         MyApplication.activityPaused();
+        MyApplication.setId("");
 //        unregisterReceiver(receiver);
 
 
@@ -219,6 +227,28 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
                 Log.d(TAG,"EventNewMessage");
                 if (userId.equals(toChatUserId)) {
                     refreshUIWithNewMessage();
+                }else {
+                    NotificationCompat.Builder mBuilder=
+                            new NotificationCompat.Builder(this)
+                                    .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                                    .setWhen(System.currentTimeMillis())
+                                    .setContentTitle("有新消息了!")
+                                    .setContentText("A+").setAutoCancel(true);
+                    Intent resultIntent=new Intent(this,ChatActivity.class);
+                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    resultIntent.putExtra("notification",true);
+                    resultIntent.putExtra("easemobId",userId);
+                    TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
+                    stackBuilder.addParentStack(ChatActivity.class);
+                    stackBuilder.addNextIntent(resultIntent);
+                    PendingIntent resultPendingIntent=
+                            stackBuilder.getPendingIntent(0,
+                                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    mBuilder.setContentIntent(resultPendingIntent);
+                    NotificationManager mNotificationManager=
+                            (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    mNotificationManager.notify(0,mBuilder.build());
                 }
                 break;
             }

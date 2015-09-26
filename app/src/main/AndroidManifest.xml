@@ -87,9 +87,7 @@
         <activity android:name=".ui.CmtAcitivity" />
         <activity android:name=".ui.UserAcitivity" />
         <activity android:name=".ui.DetailActivity" />
-        <activity
-            android:name=".ui.ReleaseActivity"
-             />
+        <activity android:name=".ui.ReleaseActivity" />
         <activity android:name=".ui.CmtDatailActivity" />
         <activity android:name=".ui.LocationActivity" />
 
@@ -119,16 +117,16 @@
         <activity
             android:name=".ui.SignUpActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity
-            android:name=".ui.UserListActivity"
-            >
+        <activity android:name=".ui.UserListActivity" >
         </activity>
 
         <service
@@ -144,9 +142,7 @@
         </activity>
         <activity android:name=".ui.MyIntro" >
         </activity>
-        <activity
-            android:name=".ui.ChatActivity"
-        >
+        <activity android:name=".ui.ChatActivity" >
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -160,6 +156,17 @@
             android:name=".ui.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".ui.AtyDetailActivity"
+            android:label="@string/title_activity_aty_detail"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
