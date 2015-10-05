@@ -23,19 +23,16 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.bumptech.glide.Glide;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -284,7 +281,7 @@ public class SignUpFragment extends DialogFragment{
         if (resultCode == Activity.RESULT_OK) {
             Uri chosenImageUri = data.getData();
             selectedImgUri = chosenImageUri;
-            Glide.with(this).load(selectedImgUri).into(user_photo);
+            Picasso.with(getContext()).load(selectedImgUri).into(user_photo);
         }
     }
 }

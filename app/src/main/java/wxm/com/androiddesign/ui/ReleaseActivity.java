@@ -1,6 +1,4 @@
 package wxm.com.androiddesign.ui;
-
-import com.bumptech.glide.Glide;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;

@@ -32,25 +32,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
