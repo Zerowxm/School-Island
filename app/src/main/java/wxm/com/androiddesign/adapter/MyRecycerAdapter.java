@@ -48,6 +48,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.AtyDetailActivity;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.DetailActivity;
 
@@ -85,7 +86,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onUserPhoto(CircleImageView userPhoto, int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
                 intent.putExtra("userId", activityItems.get(position).getUserId());
-                Log.d("user", "user:" + activityItems.get(position).getUserId());
                 activity.startActivity(intent);
             }
 
@@ -106,7 +106,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onCard(CardView cardView, int position) {
                 if (!"001".equals(MyUser.userId)) {
                     Log.d("recyclerview", "onCard");
-                    Intent intent = new Intent(activity, DetailActivity.class);
+                    Intent intent = new Intent(activity, AtyDetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
                     intent.putExtra("position", position);
                     intent.putExtra("userId", userId);
@@ -119,7 +119,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onComment(FloatingActionButton fab, int adapterPosition) {
                 if (!"001".equals(MyUser.userId)) {
-                    Intent intent = new Intent(activity, DetailActivity.class);
+                    Intent intent = new Intent(activity, AtyDetailActivity.class);
                     intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(adapterPosition));
                     intent.putExtra("position", adapterPosition);
                     intent.putExtra("fragment", fragment);
@@ -253,11 +253,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
         item = activityItems.get(position);
-        Log.d("recyclerview", item.toString());
-        Log.d("recyclerview", "onBindViewHolder");
-        Log.d("recyclerview", "" + activityItems.size());
         holder.user_name.setText(item.getUserName());
         holder.total_comment.setText(item.getAtyComment());
         holder.aty_name.setText(item.getAtyName());
@@ -273,8 +269,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         Picasso.with(activity).load(item.getUserIcon()).into(holder.user_photo);
 
         Point size=MyUtils.getScreenSize(activity);
-        //DisplayMetrics displaymetrics = new DisplayMetrics();
-        //activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = size.x - 7;
         int screenHeight = size.y;
         holder.imageViewContainer.removeAllViews();
@@ -302,8 +296,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
-                           // new Handler().post(new Runnable() {
-                           //     public void run() {
                             if (activity!=null&&!((AppCompatActivity)activity).isFinishing()){
                                 MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
                                 FragmentTransaction ft = ((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction();
@@ -312,22 +304,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                             }else {
                                 Log.e("Error",activity.toString()+((AppCompatActivity)activity).isFinishing()+((AppCompatActivity)activity).isFinishing());
                             }
-
-
-                                    //dialog.show(((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction(), "showPicture");
-                            //    }
-                          //  });
                         }
                     });
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     holder.imageViewContainer.addView(imageView);
                 }
             }
-
-            Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
-
         }
-//
         if (item.getAtyPlused().equals("false")) {
             holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity,R.color.fab_gray)));
             holder.plus_fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one));
@@ -343,9 +326,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             holder.mjoinBtn.setText("加入");
             holder.mjoinBtn.setTextColor(ContextCompat.getColor(activity, R.color.black));
         }
-
         //setAnimation(holder.cardView, position);
-
     }
 
 

@@ -82,11 +82,14 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             setupRecyclerview(recyclerView);
             onConversationInit();
         }
-        MyApplication.setId(toChatUserId);
+        setupToolBar();
+        Log.d(TAG, "onPostResume");
+    }
+
+    private void setupToolBar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final ActionBar actionBar = getSupportActionBar();
     }
 
     @OnClick(R.id.send_msg)
@@ -95,54 +98,38 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         mContent.setText("");
     }
 
-
-
     @Override
     protected void onPostResume() {
+
         super.onPostResume();
-        Log.d(TAG,"onPostResume");
         if (mChatAdapter!=null){
             mChatAdapter.refresh();
         }
         EMChatManager.getInstance().registerEventListener(this);
-        MyApplication.activityResumed();
-        Log.d("activityBD",""+MyApplication.isActivityVisible());
+        Log.d(TAG, "onPostResume");
+        MyApplication.activityResumed(toChatUserId);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MyApplication.activityPaused();
-        Log.d("activityBD", "" + MyApplication.isActivityVisible());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop");
         EMChatManager.getInstance().unregisterEventListener(this);
         MyApplication.activityPaused();
-        MyApplication.setId("");
-//        unregisterReceiver(receiver);
-
-
     }
 
     private void onConversationInit() {
-        //if(chatType=)
         conversation = EMChatManager.getInstance().getConversationByType(toChatUserId
                 , EMConversation.EMConversationType.Chat);
         conversation.markAllMessagesAsRead();
-        Log.d("conversation","1"+conversation.toString());
-    }
-
-    public void setupBroadCastReceiver() {
-
     }
 
     public void sendMsg(String content) {
-        Log.d(TAG,EMChatManager.getInstance().getCurrentUser());
-        Log.d(TAG,"username"+conversation.getUserName());
         if (content.length() > 0) {
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
             Log.d(TAG, "sendMessage");
@@ -151,8 +138,6 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             message.setReceipt(toChatUserId);
             conversation.addMessage(message);
             sendMsgInBackGround(message);
-            //setResult(RESULT_OK);
-
         }
     }
 

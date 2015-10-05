@@ -6,6 +6,21 @@
     <item
         android:id="@id/action_settings"
         android:title="举报"
+        android:icon="@drawable/ic_done"
         android:orderInCategory="100"
-        app:showAsAction="never"/>
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@id/action_settings"
+        android:title="举报"
+        android:icon="@drawable/ic_done"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@id/action_settings"
+        android:title="举报"
+        android:icon="@drawable/ic_done"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
 </menu>

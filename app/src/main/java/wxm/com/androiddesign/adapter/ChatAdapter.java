@@ -18,6 +18,7 @@ import com.easemob.chat.TextMessageBody;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.ui.ChatActivity;
+import wxm.com.androiddesign.utils.DateUtils;
 
 /**
  * Created by Zero on 8/31/2015.
@@ -87,7 +89,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }if (holder instanceof MsgSendViewHolder){
             Picasso.with(activity).load(MyUser.userIcon).into(((MsgSendViewHolder) holder).mPhoto);
             ((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
-            ((MsgSendViewHolder) holder).mTime.setText(String.valueOf(message.getMsgTime()));
+            ((MsgSendViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
+                    new Date(message.getMsgTime())
+            ));
         }
     }
 
@@ -104,7 +108,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
-        //【return super.getItemViewType(position);
         EMMessage message = messages[position];
         if (message == null) {
             return -1;
@@ -135,7 +138,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 //        if (message.getType() == EMMessage.Type.FILE) {
 //            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_FILE : MESSAGE_TYPE_SENT_FILE;
 //        }
-
         return -1;// invalid
     }
 

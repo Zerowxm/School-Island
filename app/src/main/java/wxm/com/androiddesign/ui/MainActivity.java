@@ -1,11 +1,13 @@
 package wxm.com.androiddesign.ui;
 
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +27,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -45,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.Timer;
 import java.util.logging.LogRecord;
 
 import butterknife.Bind;
@@ -64,7 +68,7 @@ import wxm.com.androiddesign.ui.fragment.RankingFragment;
 import wxm.com.androiddesign.utils.Config;
 import wxm.com.androiddesign.utils.MyUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService,EMEventListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService {
     private static final String TAG="MainActivity";
 
     DrawerLayout drawerLayout;
@@ -74,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static MainActivity instance = null;
     public static WeakReference<AppCompatActivity> activityWeakReference=null;
     public static Context context;
+    private long exitTime = 0;
 
     int flag;
 
@@ -98,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         closeLocationServices();
-        Log.d(TAG, "onCreate");
+        Log.d(TAG, "onDestroy");
     }
 
     private Handler mHandler=new Handler(){
-       public void handleMeaasage(){
+        public void handleMeaasage(){
 
-       }
+        }
     };
 
     public void Login() {
@@ -164,172 +169,135 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        EMChatManager.getInstance().registerEventListener(this);
         Log.d(TAG, "onResume");
     }
 
-    @Override
-    public void onEvent(EMNotifierEvent event) {
-        switch (event.getEvent()){
-            case EventNewMessage:
-            {
-                EMMessage message = (EMMessage) event.getData();
-                String userId = null;
-                userId = message.getFrom();
-                Log.d("activityBD",""+MyApplication.isActivityVisible()+userId+"/"+MyApplication.getId());
 
-                if(!MyApplication.isActivityVisible()||MyApplication.isActivityVisible()&&!MyApplication.getId().equals(userId)){
-                    NotificationCompat.Builder mBuilder=
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
-                                    .setWhen(System.currentTimeMillis())
-                                    .setContentTitle("有新消息了!")
-                                    .setContentText("A+").setAutoCancel(true);
-                    Intent resultIntent=new Intent(this,ChatActivity.class);
-                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    resultIntent.putExtra("notification",true);
-                    resultIntent.putExtra("easemobId",userId);
-                    TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
-                    stackBuilder.addParentStack(ChatActivity.class);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent=
-                            stackBuilder.getPendingIntent(0,
-                                    PendingIntent.FLAG_UPDATE_CURRENT);
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    NotificationManager mNotificationManager=
-                            (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
-                    mNotificationManager.notify(0,mBuilder.build());
+
+        public class LoginTask extends AsyncTask<Boolean, Void, User> {
+            Context context;
+
+            public LoginTask(Context context) {
+                this.context = context;
+            }
+
+            @Override
+            protected void onPostExecute(User user) {
+                super.onPostExecute(user);
+                if (user == null) {
+
+                    return;
                 }
+                mUser = user;
+                Log.d("user", mUser.toString());
+                user_name.setText(mUser.getUserName());
+                if ("001".equals(mUser.getUserId())) {
+                    user_email.setText("点击头像登录");
+                    logout.setText("");
+                    logout.setClickable(false);
+                } else {
+                    user_email.setText(mUser.getUserEmail());
+                    logout.setText("Logout");
+                    logout.setClickable(true);
+                }
+                MyUser.userId = mUser.getUserId();
+                MyUser.userName = mUser.getUserName();
+                MyUser.userIcon = mUser.getUserIcon();
+                Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
+                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+                flag=1;
+                MyUtils.Login(getApplicationContext());
             }
-        }
-    }
 
+            @Override
+            protected User doInBackground(Boolean... params) {
 
-    public class LoginTask extends AsyncTask<Boolean, Void, User> {
-        Context context;
-
-        public LoginTask(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected void onPostExecute(User user) {
-            super.onPostExecute(user);
-            if (user == null) {
-
-                return;
-            }
-            mUser = user;
-            Log.d("user", mUser.toString());
-            user_name.setText(mUser.getUserName());
-            if ("001".equals(mUser.getUserId())) {
-                user_email.setText("点击头像登录");
-                logout.setText("");
-                logout.setClickable(false);
-            } else {
-                user_email.setText(mUser.getUserEmail());
-                logout.setText("Logout");
-                logout.setClickable(true);
-            }
-            MyUser.userId = mUser.getUserId();
-            MyUser.userName = mUser.getUserName();
-            MyUser.userIcon = mUser.getUserIcon();
-            Picasso.with(context).load(MyUser.userIcon).into(user_photo);
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
-            flag=1;
-            MyUtils.Login(getApplicationContext());
-        }
-
-        @Override
-        protected User doInBackground(Boolean... params) {
-
-            if (params[0]) {
+                if (params[0]) {
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("action", "loginemail");
+                        object.put("userEmail", "001");
+                        object.put("userPassword", "001");
+                        SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("UserId", "001");
+                        editor.putString("UserPassword", "001");
+                        editor.putBoolean("isSignup",false);
+                        editor.apply();
+                        String userJson = JsonConnection.getJSON(object.toString());
+                        return new Gson().fromJson(userJson, User.class);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                String type=prefs.getString("LoginType", "email");
+                String name = prefs.getString("UserId", "001");
+                String email=prefs.getString("UserEmail","");
+                String password = prefs.getString("UserPassword", "001");
                 JSONObject object = new JSONObject();
                 try {
-                    object.put("action", "loginemail");
-                    object.put("userEmail", "001");
-                    object.put("userPassword", "001");
-                    SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("UserId", "001");
-                    editor.putString("UserPassword", "001");
-                    editor.putBoolean("isSignup",false);
-                    editor.apply();
+                    if(type.equals(MyUser.EMAIL)){
+                        object.put("action", "loginemail");
+                        object.put("userEmail", email);
+                        object.put("userPassword", password);
+                    }else if (MyUser.SINA.equals(type)){
+                        object.put("action","loginsina");
+                        object.put("userId",name);
+                    }else if(MyUser.QQ.equals(type)){
+                        object.put("action","loginqq");
+                        object.put("userId",name);
+                    }
+                    Log.d(TAG,object.toString());
+
                     String userJson = JsonConnection.getJSON(object.toString());
+                    Log.d(TAG,userJson);
+                    if (userJson.contains("false")) {
+                        return null;
+                    }
                     return new Gson().fromJson(userJson, User.class);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return null;
             }
-            SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            String type=prefs.getString("LoginType", "email");
-            String name = prefs.getString("UserId", "001");
-            String email=prefs.getString("UserEmail","");
-            String password = prefs.getString("UserPassword", "001");
-            JSONObject object = new JSONObject();
-            try {
-                if(type.equals(MyUser.EMAIL)){
-                    object.put("action", "loginemail");
-                    object.put("userEmail", email);
-                    object.put("userPassword", password);
-                }else if (MyUser.SINA.equals(type)){
-                    object.put("action","loginsina");
-                    object.put("userId",name);
-                }else if(MyUser.QQ.equals(type)){
-                    object.put("action","loginqq");
-                    object.put("userId",name);
-                }
-                Log.d(TAG,object.toString());
-
-                String userJson = JsonConnection.getJSON(object.toString());
-                Log.d(TAG,userJson);
-                if (userJson.contains("false")) {
-                    return null;
-                }
-                return new Gson().fromJson(userJson, User.class);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-    @Override
-    public void onLongin(User user) {
-        mUser = user;
-        new LoginTask(this).execute(false);
-    }
-
-    private class UpDateTask extends AsyncTask<String, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        public void onLongin(User user) {
+            mUser = user;
+            new LoginTask(this).execute(false);
         }
 
-        @Override
-        protected Void doInBackground(String... params) {
-            JSONObject object = new JSONObject();
-            try {
-                object = new JSONObject();
-                object.put("action", "editAlbumRight");
-                object.put("userId", MyUser.userId);
-                object.put("userAlbumIsPublic", params[0]);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            String json = JsonConnection.getJSON(object.toString());
-            Log.i("mjson", json);
-            return null;
-        }
-    }
+//        private class UpDateTask extends AsyncTask<String, Void, Void> {
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//            }
+//
+//            @Override
+//            protected Void doInBackground(String... params) {
+//                JSONObject object = new JSONObject();
+//                try {
+//                    object = new JSONObject();
+//                    object.put("action", "editAlbumRight");
+//                    object.put("userId", MyUser.userId);
+//                    object.put("userAlbumIsPublic", params[0]);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                String json = JsonConnection.getJSON(object.toString());
+//                Log.i("mjson", json);
+//                return null;
+//            }
+//        }
 
     private void setupDrawerContent(final NavigationView navigationView, final Context context) {
 
@@ -345,43 +313,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
-                                flag=1;
+                                flag = 1;
                                 return true;
                             case R.id.nav_explore:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
-                                flag=2;
+                                flag = 2;
                                 return true;
                             case R.id.nav_attention:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, new RankingFragment()).commitAllowingStateLoss();
                                 Snackbar.make(drawerLayout, "积分排行",
                                         Snackbar.LENGTH_SHORT).show();
-                                flag=3;
+                                flag = 3;
                                 return true;
                             case R.id.nav_messages:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
-                                flag=4;
+                                flag = 4;
                                 return true;
                             case R.id.nav_user_setting:
-                                new MaterialDialog.Builder(context)
-                                        .title(R.string.permission)
-                                        .items(R.array.per_permission)
-                                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                                            @Override
-                                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                                if (which == 0) {
-                                                    new UpDateTask().execute("true");
-                                                } else if (which == 1) {
-                                                    new UpDateTask().execute("false");
-                                                } else {
-                                                    Log.d("userwxm", "countA" + which + text);
-                                                    return false;
-                                                }
-                                                Log.d("userwxm", "countB" + which + text);
-                                                return true;
-                                            }
-                                        }).positiveText(R.string.choose)
-                                        .show();
-
+//                                new MaterialDialog.Builder(context)
+//                                        .title(R.string.permission)
+//                                        .items(R.array.per_permission)
+//                                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+//                                            @Override
+//                                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+//                                                if (which == 0) {
+//                                                    new UpDateTask().execute("true");
+//                                                } else if (which == 1) {
+//                                                    new UpDateTask().execute("false");
+//                                                } else {
+//                                                    Log.d("userwxm", "countA" + which + text);
+//                                                    return false;
+//                                                }
+//                                                Log.d("userwxm", "countB" + which + text);
+//                                                return true;
+//                                            }
+//                                        }).positiveText(R.string.choose)
+//                                        .show();
                                 return true;
                             default:
                                 return true;
@@ -392,7 +359,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @OnClick(R.id.logout)
     public void Logout() {
-
         new MaterialDialog.Builder(this)
                 .title("乃确定不是手滑了么")
                 .positiveText("LOGOUT")
@@ -466,6 +432,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (System.currentTimeMillis()-exitTime>2000){
+            Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+            return;
+        }
+        finish();
     }
 
     @Override

@@ -6,13 +6,13 @@
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context="wxm.com.androiddesign.ui.AtyDetailActivity">
 
-    <android.support.design.widget.AppBarLayout android:layout_height="256dp"
+    <android.support.design.widget.AppBarLayout android:layout_height="233dp"
         android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -38,72 +38,95 @@
         app:layout_collapseMode="pin"
         android:id="@+id/details_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <include layout="@layout/toolbar"/>
-
-        <TextView android:layout_height="wrap_content"
+        <include layout="@layout/toolbar" />
+        <LinearLayout
+            android:paddingBottom="16dp"
+            android:id="@+id/titleBar"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginRight="16dp"
-            android:text="Tile"
-            android:id="@+id/session_title"
-            android:maxLines="4"
-            android:ellipsize="end"
-            android:textSize="18sp"
-            android:lineSpacingMultiplier="1.1"
-            android:fontFamily="@string/mdtp_sans_serif"
-            android:textColor="#deffff"
-            />
-        <TextView android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="72dp"
-            android:layout_marginRight="16dp"
-            android:text="SubTile"
-            android:id="@+id/session_subtitle"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textSize="16sp"
-            android:textColor="#8affff"
-            />
+            android:layout_height="wrap_content"
+            android:background="@color/primary">
+
+
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginRight="16dp"
+                android:text="Try this code. You need to use app:layout_behavior in your RecyclerView"
+                android:id="@+id/session_title"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                android:lineSpacingMultiplier="1.1"
+                android:fontFamily="@string/mdtp_sans_serif"
+                android:textColor="#deffffff"
+                />
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="72dp"
+                android:layout_marginRight="16dp"
+                android:text="下午 1:00 - 下午 1:45周三在room3"
+                android:id="@+id/session_subtitle"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="16sp"
+                android:textColor="#8affffff"
+                />
+        </LinearLayout>
        
-        <!--<android.support.v4.widget.NestedScrollView-->
+        <android.support.v4.widget.NestedScrollView
 
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical"-->
-                <!--android:paddingTop="24dp">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="24dp">
 
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="BAR"/>-->
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@drawable/wu"/>-->
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="BAR"/>-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BAR"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wu"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BAR"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BAR"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wu"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BAR"/>
 
-            <!--</LinearLayout>-->
-        <!--</android.support.v4.widget.NestedScrollView>-->
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
 
     <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        app:layout_anchorGravity="bottom|start|left" android:layout_margin="10dp"
+        app:layout_anchor="@id/titleBar"
+        app:fabSize="mini"
+
+        android:src="@drawable/ic_done" />
 
 </android.support.design.widget.CoordinatorLayout>

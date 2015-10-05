@@ -1,18 +1,29 @@
 package wxm.com.androiddesign.ui;
 
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 import wxm.com.androiddesign.broadcastreceive.NewMessageBroadCastReceiver;
@@ -23,106 +34,150 @@ import wxm.com.androiddesign.utils.MyUtils;
 /**
  * Created by Administrator on 2015/7/3.
  */
-public class MyApplication extends Application {
+public class MyApplication extends Application implements EMEventListener {
     public static Context applicationContext;
     private static MyApplication instance;
     //public static HXSDKHelper hxsdkHelper;
 
-    private static final String TAG="MyApplication";
-    NewMessageBroadCastReceiver receiver=new NewMessageBroadCastReceiver();;
+    private static final String TAG = "MyApplication";
+    NewMessageBroadCastReceiver receiver = new NewMessageBroadCastReceiver();
+    ;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        applicationContext=this;
-        instance=this;
+        applicationContext = this;
+        instance = this;
         EMChat.getInstance().setAutoLogin(false);
         SDKInitializer.initialize(applicationContext);
         EMChat.getInstance().init(applicationContext);
         EMChat.getInstance().setDebugMode(true);
-        Log.d(TAG, "onCreate");
-
+        Log.d(TAG, "ApplicationonCreate");
         initSDK(this);
         addConnectionListener();
-        //hxsdkHelper=new HXSDKHelper(applicationContext);
-        //hxsdkHelper.initEventListener();
     }
 
-    public static MyApplication getInstance(){
+    public static MyApplication getInstance() {
         return instance;
     }
 
-//    public static void LoginHX(){
-//        MyUtils.Login(getInstance());
-//    }
-
     private void initSDK(Context context) {
         //初始化sharesdk,具体集成步骤请看文档：
-        //http://wiki.mob.com/Android_%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90%E6%8C%87%E5%8D%97
         ShareSDK.initSDK(context);
         IntentFilter filter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
         filter.setPriority(3);
         registerReceiver(receiver, filter);
         EMChat.getInstance().setAppInited();
-
-        EMChatOptions options=EMChatManager.getInstance().getChatOptions();
-
-        options.setNotificationEnable(true);
-        options.setShowNotificationInBackgroud(true);
-        options.setOnNotificationClickListener(new OnNotificationClickListener() {
-            @Override
-            public Intent onNotificationClick(EMMessage emMessage) {
-                Intent intent=new Intent(applicationContext,ChatActivity.class);
-                intent.putExtra("toChatUserId",emMessage.getFrom());
-                return intent;
-            }
-        });
-//        options.setNotifyText(new OnMessageNotifyListener() {
-//            @Override
-//            public String onNewMessageNotify(EMMessage emMessage) {
-//                return null;
-//            }
-//
-//            @Override
-//            public String onLatestMessageNotify(EMMessage emMessage, int i, int i1) {
-//                return null;
-//            }
-//
-//            @Override
-//            public String onSetNotificationTitle(EMMessage emMessage) {
-//                return null;
-//            }
-//
-//            @Override
-//            public int onSetSmallIcon(EMMessage emMessage) {
-//                return 0;
-//            }
-//        });
+        EMChatManager.getInstance().registerEventListener(this);
     }
 
-    private void addConnectionListener(){
+    private void addConnectionListener() {
         EMChatManager.getInstance().addConnectionListener(new MyConnectionListener());
     }
 
-
-
-
     private static boolean activityVisible;
-    private static String id="";
-    public static String getId(){
+    private static String id = "";
+
+    public static String getId() {
         return id;
     }
-    public static boolean isActivityVisible(){
+
+    public static boolean isActivityVisible() {
         return activityVisible;
     }
-    public static void activityResumed(){
-        activityVisible=true;
+
+    public static void activityResumed(String chatId) {
+        activityVisible = true;
+        id = chatId;
     }
-    public static void activityPaused(){
-        activityVisible=false;
-        id="";
+
+    public static void activityPaused() {
+        activityVisible = false;
+        id = "";
     }
-    public static void setId(String chatId){
-        Log.d("activityBD",""+chatId);
-        id=chatId;
+
+    private List<String> mNotList = new ArrayList<String>();
+
+    public int getNotifyId(String id) {
+        if (mNotList.contains(id)) {
+            return mNotList.indexOf(id);
+        }
+        mNotList.add(id);
+        return mNotList.size() - 1;
+    }
+
+    @Override
+    public void onEvent(EMNotifierEvent event) {
+        switch (event.getEvent()) {
+            case EventNewMessage: {
+                EMMessage message = (EMMessage) event.getData();
+                String userId = null;
+                userId = message.getFrom();
+                Log.d("activityBD", "" + MyApplication.isActivityVisible() + userId + "/" + MyApplication.getId());
+                //if (!MyApplication.isActivityVisible() || MyApplication.isActivityVisible() && !MyApplication.getId().equals(userId)) {
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(this)
+                                .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                                .setWhen(System.currentTimeMillis())
+                                .setContentTitle("有新消息了!")
+                                .setContentText("A+").setAutoCancel(true)
+                                .setVibrate(new long[]{0, 800, 800, 800})
+                                .setLights(Color.BLUE, 1000, 1000);
+                Intent resultIntent = new Intent(this, ChatActivity.class);
+                resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                resultIntent.putExtra("notification", true);
+                resultIntent.putExtra("easemobId", userId);
+                resultIntent.setAction(Intent.ACTION_MAIN);
+                resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                stackBuilder.addParentStack(MainActivity.class);
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(0,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+                mBuilder.setContentIntent(resultPendingIntent);
+
+                Intent notificationIntent = new Intent(this, ChatActivity.class);
+                notificationIntent.setAction(Intent.ACTION_MAIN);
+                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                PendingIntent contentIntent = PendingIntent.getActivity(
+                        applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                //mBuilder.setContentIntent(contentIntent);
+                Notification notification = mBuilder.build();
+                notification.defaults = Notification.DEFAULT_SOUND;
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify((int) System.currentTimeMillis(), notification);
+            }
+        }
     }
 }
+//}
+
+//else {
+//        if (!MyApplication.isActivityVisible() || MyApplication.isActivityVisible() && !MyApplication.getId().equals(userId)) {
+//        NotificationCompat.Builder mBuilder =
+//        new NotificationCompat.Builder(this)
+//        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+//        .setWhen(System.currentTimeMillis())
+//        .setContentTitle("有新消息了!")
+//        .setContentText("A+").setAutoCancel(true)
+//        .setVibrate(new long[]{0, 800, 800, 800})
+//        .setLights(Color.BLUE, 1000, 1000);
+//        Intent resultIntent = new Intent(this, ChatActivity.class);
+//        resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        resultIntent.putExtra("SystemNotification", true);
+//        //resultIntent.putExtra("easemobId", userId);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addNextIntent(resultIntent);
+//        PendingIntent resultPendingIntent =
+//        stackBuilder.getPendingIntent(0,
+//        PendingIntent.FLAG_UPDATE_CURRENT);
+//        mBuilder.setContentIntent(resultPendingIntent);
+//        Notification notification = mBuilder.build();
+//        notification.defaults = Notification.DEFAULT_SOUND;
+//        NotificationManager mNotificationManager =
+//        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        mNotificationManager.notify(Integer.parseInt(userId.substring(1)), notification);
+//        }
