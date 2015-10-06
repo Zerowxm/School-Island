@@ -431,7 +431,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (System.currentTimeMillis()-exitTime>2000){
             Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
