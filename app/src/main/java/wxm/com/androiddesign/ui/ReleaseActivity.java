@@ -1,4 +1,5 @@
 package wxm.com.androiddesign.ui;
+import com.easemob.chat.EMChatManager;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -282,6 +283,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
                 object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
                 object.put("longitude", Location.split(" ")[2]);
                 object.put("latitude", Location.split(" ")[1]);
+                object.put("easemobId",MyUser.getEasemobId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

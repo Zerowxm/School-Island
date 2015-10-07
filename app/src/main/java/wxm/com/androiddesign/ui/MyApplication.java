@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+import com.easemob.chat.EMGroup;
+import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
@@ -118,22 +121,25 @@ public class MyApplication extends Application implements EMEventListener {
         switch (event.getEvent()) {
             case EventNewMessage: {
                 EMMessage message = (EMMessage) event.getData();
+              /*  EMGroup group = EMGroupManager.getInstance().getGroup("");
+                EMGroupManager.getInstance().createOrUpdateLocalGroup();*/
                 String userId = null;
                 userId = message.getFrom();
                 Log.d("activityBD", "" + MyApplication.isActivityVisible() + userId + "/" + MyApplication.getId());
-                if (!userId.equals("sa")) {
-                    if(this.message.containsKey(userId)){
-                        this.message.put(userId,this.message.get(userId)+1);
-                    }else{
-                        this.message.put(userId,1);
-                    }
+                if(this.message.containsKey(userId)){
+                    this.message.put(userId,this.message.get(userId)+1);
+                }else{
+                    this.message.put(userId,1);
+                }
+                if (!userId.equals("admin")) {
                     //if (!MyApplication.isActivityVisible() || MyApplication.isActivityVisible() && !MyApplication.getId().equals(userId)) {
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(this)
                                     .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
                                     .setWhen(System.currentTimeMillis())
                                     .setContentTitle(userId+"给你发来"+this.message.get(userId)+"条信息")
-                                    .setContentText(((TextMessageBody) message.getBody()).getMessage()).setAutoCancel(true)
+                                    .setContentText(((TextMessageBody) message.getBody()).getMessage())
+                                    .setAutoCancel(true)
                                     .setVibrate(new long[]{0, 200, 200, 200})
                                     .setLights(Color.BLUE, 1000, 1000)
                                     .setTicker(((TextMessageBody) message.getBody()).getMessage());
@@ -179,8 +185,9 @@ public class MyApplication extends Application implements EMEventListener {
                             new NotificationCompat.Builder(this)
                                     .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
                                     .setWhen(System.currentTimeMillis())
-                                    .setContentTitle("有新通知了!")
-                                    .setContentText("A+").setAutoCancel(true)
+                                    .setContentTitle(userId+"给你发来"+this.message.get(userId)+"条通知")
+                                    .setContentText("notification")
+                                    .setAutoCancel(true)
                                     .setVibrate(new long[]{0, 800, 800, 800})
                                     .setLights(Color.BLUE, 1000, 1000);
                     Intent resultIntent = new Intent(this, ChatActivity.class);

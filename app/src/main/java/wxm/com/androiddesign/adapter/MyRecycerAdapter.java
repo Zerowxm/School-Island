@@ -241,6 +241,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 object.put("action", params[0]);
                 object.put("userId", MyUser.userId);
                 object.put("atyId", item.getAtyId());
+                object.put("easemobId",MyUser.getEasemobId());
                 object.put("atyName", item.getAtyName());
             } catch (JSONException e) {
                 e.printStackTrace();

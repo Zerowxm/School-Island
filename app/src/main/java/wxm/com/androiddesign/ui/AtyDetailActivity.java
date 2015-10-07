@@ -85,6 +85,7 @@ public class AtyDetailActivity extends AppCompatActivity {
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
         new getCommentTask().execute(true);
 
+
 //        ListView lv = (ListView) findViewById(R.id.list);
 //
 //        List<String> your_array_list = Arrays.asList(
@@ -189,6 +190,7 @@ public class AtyDetailActivity extends AppCompatActivity {
                 object.put("action", "notifyFromAty");
                 object.put("atyId", atyItem.getAtyId());
                 object.put("userId", MyUser.userId);
+                object.put("easemobId",MyUser.getEasemobId());
                 object.put("msgContent",params[0]);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -213,6 +215,7 @@ public class AtyDetailActivity extends AppCompatActivity {
             commentAdapter=new CommentAdapter(commentDatas,AtyDetailActivity.this);
             setupRecyclerView();
             commentAdapter.notifyDataSetChanged();
+            new NotifyMSG().execute("hello~");
         }
 
         @Override

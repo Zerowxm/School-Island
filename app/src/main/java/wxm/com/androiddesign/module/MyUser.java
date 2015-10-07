@@ -13,6 +13,15 @@ public class MyUser {
     public static String userIcon = null;
     public static String loginType="";
     public static String userEmail="";
+    public static String easemobId;
+
+    public static String getEasemobId() {
+        return easemobId;
+    }
+
+    public static void setEasemobId(String easemobId) {
+        MyUser.easemobId = easemobId;
+    }
 
     public static void setUserPassword(String userPassword) {
         MyUser.userPassword = userPassword;

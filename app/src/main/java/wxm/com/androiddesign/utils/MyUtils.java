@@ -15,6 +15,8 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 
+import wxm.com.androiddesign.module.MyUser;
+
 /**
  * Created by Zero on 8/28/2015.
  */
@@ -41,6 +43,7 @@ public class MyUtils{
 
     public static void signupHX(final String userName, final String password){
         Log.d(TAG,userName);
+        MyUser.setEasemobId(userName);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -74,6 +77,7 @@ public class MyUtils{
             public void onSuccess() {
                 Log.i(Config.HX, "LoginSuccess");
                 Log.i(Config.HX,easemobId);
+                MyUser.setEasemobId(easemobId);
             }
 
             @Override
