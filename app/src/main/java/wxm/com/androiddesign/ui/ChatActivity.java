@@ -139,6 +139,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             TextMessageBody textMessageBody = new TextMessageBody(content);
             message.addBody(textMessageBody);
             message.setReceipt(toChatUserId);
+            message.setAttribute("identify","notification");
             conversation.addMessage(message);
             sendMsgInBackGround(message);
         }

@@ -4,27 +4,35 @@ package wxm.com.androiddesign.module;
  * Created by zero on 2015/7/22.
  */
 public class Notify {
-    String mTitle;
-    String mContent;
+    String atyName;
+    String msgContent;
     String userName;
-    String userPhoto;
-    String mTime;
+    String userIcon;
+    String releaseTime;
     String atyId;
 
+    public String getAtyId() {
+        return atyId;
+    }
+
+    public void setAtyId(String atyId) {
+        this.atyId = atyId;
+    }
+
     public String getmTitle() {
-        return mTitle;
+        return atyName;
     }
 
     public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
+        this.atyName = mTitle;
     }
 
     public String getmContent() {
-        return mContent;
+        return msgContent;
     }
 
     public void setmContent(String mContent) {
-        this.mContent = mContent;
+        this.msgContent = mContent;
     }
 
     public String getUserName() {
@@ -36,27 +44,27 @@ public class Notify {
     }
 
     public String getUserPhoto() {
-        return userPhoto;
+        return userIcon;
     }
 
     public void setUserPhoto(String userPhoto) {
-        this.userPhoto = userPhoto;
+        this.userIcon = userPhoto;
     }
 
     public String getmTime() {
-        return mTime;
+        return releaseTime;
     }
 
     public void setmTime(String mTime) {
-        this.mTime = mTime;
+        this.releaseTime = mTime;
     }
 
     public Notify(String mTitle, String mContent, String userName, String userPhoto, String mTime) {
-        this.mTitle = mTitle;
-        this.mContent = mContent;
+        this.atyName = mTitle;
+        this.msgContent = mContent;
         this.userName = userName;
-        this.userPhoto = userPhoto;
+        this.userIcon = userPhoto;
 
-        this.mTime = mTime;
+        this.releaseTime = mTime;
     }
 }

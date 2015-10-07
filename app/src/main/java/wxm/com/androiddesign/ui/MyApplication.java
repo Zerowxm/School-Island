@@ -27,6 +27,7 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,101 +132,106 @@ public class MyApplication extends Application implements EMEventListener {
                 }else{
                     this.message.put(userId,1);
                 }
-                if (!userId.equals("admin")) {
-                    //if (!MyApplication.isActivityVisible() || MyApplication.isActivityVisible() && !MyApplication.getId().equals(userId)) {
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
-                                    .setWhen(System.currentTimeMillis())
-                                    .setContentTitle(userId+"给你发来"+this.message.get(userId)+"条信息")
-                                    .setContentText(((TextMessageBody) message.getBody()).getMessage())
-                                    .setAutoCancel(true)
-                                    .setVibrate(new long[]{0, 200, 200, 200})
-                                    .setLights(Color.BLUE, 1000, 1000)
-                                    .setTicker(((TextMessageBody) message.getBody()).getMessage());
-                    Intent resultIntent = new Intent(this, ChatActivity.class);
-                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                    resultIntent.putExtra("notification", true);
-                    resultIntent.putExtra("easemobId", userId);
-                /*resultIntent.setAction(Intent.ACTION_MAIN);
-                resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);*/
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-                    stackBuilder.addParentStack(MainActivity.class);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent =
-                            stackBuilder.getPendingIntent(0,
-                                    PendingIntent.FLAG_UPDATE_CURRENT);
+                try {
+                    if (!message.getStringAttribute("identify").equals("notification")) {
+                   // if (userId.equals("notification")) {
+                        //if (!MyApplication.isActivityVisible() || MyApplication.isActivityVisible() && !MyApplication.getId().equals(userId)) {
+                        NotificationCompat.Builder mBuilder =
+                                new NotificationCompat.Builder(this)
+                                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                                        .setWhen(System.currentTimeMillis())
+                                        .setContentTitle(userId+"给你发来"+this.message.get(userId)+"条信息")
+                                        .setContentText(((TextMessageBody) message.getBody()).getMessage())
+                                        .setAutoCancel(true)
+                                        .setVibrate(new long[]{0, 200, 200, 200})
+                                        .setLights(Color.BLUE, 1000, 1000)
+                                        .setTicker(((TextMessageBody) message.getBody()).getMessage());
+                        Intent resultIntent = new Intent(this, ChatActivity.class);
+                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                        resultIntent.putExtra("notification", true);
+                        resultIntent.putExtra("easemobId", userId);
+                    /*resultIntent.setAction(Intent.ACTION_MAIN);
+                    resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);*/
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                        stackBuilder.addParentStack(MainActivity.class);
+                        stackBuilder.addNextIntent(resultIntent);
+                        PendingIntent resultPendingIntent =
+                                stackBuilder.getPendingIntent(0,
+                                        PendingIntent.FLAG_UPDATE_CURRENT);
 
-                /*PendingIntent contentIntent = PendingIntent.getActivities(
-                        this,
-                        0,
-                        makeIntentStack(this),
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-*/
-                    mBuilder.setContentIntent(resultPendingIntent);
+                    /*PendingIntent contentIntent = PendingIntent.getActivities(
+                            this,
+                            0,
+                            makeIntentStack(this),
+                            PendingIntent.FLAG_UPDATE_CURRENT);
+    */
+                        mBuilder.setContentIntent(resultPendingIntent);
 
-//                Intent notificationIntent = new Intent(this, ChatActivity.class);
-//                notificationIntent.setAction(Intent.ACTION_MAIN);
-//                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-//                PendingIntent contentIntent = PendingIntent.getActivity(
-//                        applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    //mBuilder.setContentIntent(contentIntent);
-                    Notification notification = mBuilder.build();
-                    // notification.flags |= Notification.DEFAULT_ALL;
-                    notification.defaults = Notification.DEFAULT_SOUND;
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    if(!this.easemobId.containsKey(userId))
-                        this.easemobId.put(userId,(int) System.currentTimeMillis());
-                    mNotificationManager.notify(this.easemobId.get(userId), notification);
-                }else{
-                    //if (!MyApplication.isActivityVisible() || MyApplication.isActivityVisible() && !MyApplication.getId().equals(userId)) {
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
-                                    .setWhen(System.currentTimeMillis())
-                                    .setContentTitle(userId+"给你发来"+this.message.get(userId)+"条通知")
-                                    .setContentText("notification")
-                                    .setAutoCancel(true)
-                                    .setVibrate(new long[]{0, 800, 800, 800})
-                                    .setLights(Color.BLUE, 1000, 1000);
-                    Intent resultIntent = new Intent(this, ChatActivity.class);
-                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                    resultIntent.putExtra("notification", true);
-                    resultIntent.putExtra("easemobId", userId);
-                /*resultIntent.setAction(Intent.ACTION_MAIN);
-                resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);*/
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-                    stackBuilder.addParentStack(MainActivity.class);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent =
-                            stackBuilder.getPendingIntent(0,
-                                    PendingIntent.FLAG_UPDATE_CURRENT);
+    //                Intent notificationIntent = new Intent(this, ChatActivity.class);
+    //                notificationIntent.setAction(Intent.ACTION_MAIN);
+    //                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+    //                PendingIntent contentIntent = PendingIntent.getActivity(
+    //                        applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        //mBuilder.setContentIntent(contentIntent);
+                        Notification notification = mBuilder.build();
+                        // notification.flags |= Notification.DEFAULT_ALL;
+                        notification.defaults = Notification.DEFAULT_SOUND;
+                        NotificationManager mNotificationManager =
+                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        if(!this.easemobId.containsKey(userId))
+                            this.easemobId.put(userId,(int) System.currentTimeMillis());
+                        mNotificationManager.notify(this.easemobId.get(userId), notification);
+                    }else{
+                        //if (!MyApplication.isActivityVisible() || MyApplication.isActivityVisible() && !MyApplication.getId().equals(userId)) {
+                        NotificationCompat.Builder mBuilder =
+                                new NotificationCompat.Builder(this)
+                                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                                        .setWhen(System.currentTimeMillis())
+                                        .setContentTitle(userId+"给你发来"+this.message.get(userId)+"条通知")
+                                        .setContentText("notification")
+                                        .setAutoCancel(true)
+                                        .setVibrate(new long[]{0, 800, 800, 800})
+                                        .setLights(Color.BLUE, 1000, 1000);
+                        Intent resultIntent = new Intent(this, ChatActivity.class);
+                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                        resultIntent.putExtra("notification", true);
+                        resultIntent.putExtra("easemobId", userId);
+                    /*resultIntent.setAction(Intent.ACTION_MAIN);
+                    resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);*/
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                        stackBuilder.addParentStack(MainActivity.class);
+                        stackBuilder.addNextIntent(resultIntent);
+                        PendingIntent resultPendingIntent =
+                                stackBuilder.getPendingIntent(0,
+                                        PendingIntent.FLAG_UPDATE_CURRENT);
 
-                /*PendingIntent contentIntent = PendingIntent.getActivities(
-                        this,
-                        0,
-                        makeIntentStack(this),
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-*/
-                    mBuilder.setContentIntent(resultPendingIntent);
+                    /*PendingIntent contentIntent = PendingIntent.getActivities(
+                            this,
+                            0,
+                            makeIntentStack(this),
+                            PendingIntent.FLAG_UPDATE_CURRENT);
+    */
+                        mBuilder.setContentIntent(resultPendingIntent);
 
-//                Intent notificationIntent = new Intent(this, ChatActivity.class);
-//                notificationIntent.setAction(Intent.ACTION_MAIN);
-//                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-//                PendingIntent contentIntent = PendingIntent.getActivity(
-//                        applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    //mBuilder.setContentIntent(contentIntent);
-                    Notification notification = mBuilder.build();
-                    // notification.flags |= Notification.DEFAULT_ALL;
-                    notification.defaults = Notification.DEFAULT_SOUND;
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    if(!this.easemobId.containsKey(userId))
-                        this.easemobId.put(userId,(int) System.currentTimeMillis());
-                     mNotificationManager.notify(this.easemobId.get(userId), notification);
+    //                Intent notificationIntent = new Intent(this, ChatActivity.class);
+    //                notificationIntent.setAction(Intent.ACTION_MAIN);
+    //                notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+    //                PendingIntent contentIntent = PendingIntent.getActivity(
+    //                        applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        //mBuilder.setContentIntent(contentIntent);
+                        Notification notification = mBuilder.build();
+                        // notification.flags |= Notification.DEFAULT_ALL;
+                        notification.defaults = Notification.DEFAULT_SOUND;
+                        NotificationManager mNotificationManager =
+                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        if(!this.easemobId.containsKey(userId))
+                            this.easemobId.put(userId,(int) System.currentTimeMillis());
+                         mNotificationManager.notify(this.easemobId.get(userId), notification);
+                    }
+                } catch (EaseMobException e) {
+                    e.printStackTrace();
                 }
             }
         }

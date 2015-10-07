@@ -27,6 +27,7 @@ import wxm.com.androiddesign.adapter.NotifyAdapter;
 import wxm.com.androiddesign.module.ChatItem;
 import wxm.com.androiddesign.module.CommentItem;
 import wxm.com.androiddesign.module.Message;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.Notify;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
@@ -58,8 +59,9 @@ public class ListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.list_layout, viewGroup, false);
-        type = getArguments().getInt("type");
+        type = getArguments().getInt("Type");
         ButterKnife.bind(this,v);
+        new getMsg(getActivity()).execute();
         setupRecyclerView(recyclerView);
         return v;
     }
@@ -92,7 +94,17 @@ public class ListFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             materialDialog.dismiss();
-            recyclerView.setAdapter(new NotifyAdapter(mNotifyList));
+            switch (type){
+                case ListFragment.CHAT:
+                    break;
+                case COMMENT:
+                    break;
+                case NOTIFY:
+                    recyclerView.setAdapter(new NotifyAdapter(mNotifyList));
+                    break;
+                default:
+                    break;
+            }
         }
 
         @Override
@@ -103,18 +115,25 @@ public class ListFragment extends Fragment {
 //            } catch (JSONException e) {
 //                e.printStackTrace();
 //            }
-            switch (type){
-                case ListFragment.CHAT:
-                    break;
-                case COMMENT:
-                    break;
-                case NOTIFY:
-                    break;
-                default:
-                    break;
+//
+            try {
+                switch (type){
+                    case ListFragment.CHAT:
+                        break;
+                    case COMMENT:
+                        break;
+                    case NOTIFY:
+                        object.put("action","showAllNotifications");
+                        object.put("easemobId", MyUser.getEasemobId());
+                        break;
+                    default:
+                        break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            mNotifyList = new Gson().fromJson(json, new TypeToken<List<Message>>() {
+            mNotifyList = new Gson().fromJson(json, new TypeToken<List<Notify>>() {
             }.getType());
             return null;
         }

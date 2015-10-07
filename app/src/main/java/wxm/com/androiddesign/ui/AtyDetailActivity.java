@@ -92,13 +92,19 @@ public class AtyDetailActivity extends AppCompatActivity {
     public void sendNotify(){
         new MaterialDialog.Builder(this)
                 .title("发送通知")
-                .inputMaxLength(3,R.color.mdtp_red)
+                .inputMaxLength(10, R.color.mdtp_red)
                 .input(null, null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
-                        Toast.makeText(AtyDetailActivity.this,input,Toast.LENGTH_SHORT);
+                        new NotifyMSG().execute(input.toString());
                     }
-                }).show();
+                })/*.callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
+                Toast.makeText(AtyDetailActivity.this,"dfdfd",Toast.LENGTH_SHORT).show();
+            }
+        })*/.show();
     }
 
     private void setupSlidingPanel(){
@@ -167,9 +173,14 @@ public class AtyDetailActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... params) {
             JSONObject object = new JSONObject();
             try {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
                 object.put("action", "notifyFromAty");
                 object.put("atyId", atyItem.getAtyId());
+                object.put("atyName",atyItem.getAtyName());
+                object.put("releaseTime",formatter.format(new Date(System.currentTimeMillis()))+"");
                 object.put("userId", MyUser.userId);
+                object.put("userName", MyUser.userName);
+                object.put("userIcon",MyUser.userIcon);
                 object.put("easemobId",MyUser.getEasemobId());
                 object.put("msgContent",params[0]);
             } catch (JSONException e) {

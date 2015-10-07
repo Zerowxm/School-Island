@@ -23,6 +23,7 @@
              <wxm.com.androiddesign.widget.MyTextView
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
+                 android:id="@+id/time"
                  android:text="Time"/>
             <wxm.com.androiddesign.widget.MyTextView
                 android:id="@+id/title"
