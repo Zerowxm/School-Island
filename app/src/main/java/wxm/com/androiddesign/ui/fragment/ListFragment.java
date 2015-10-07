@@ -4,13 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,47 +20,47 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.MsgAdapter;
-import wxm.com.androiddesign.listener.RecyclerItemClickListener;
+import wxm.com.androiddesign.adapter.NotifyAdapter;
+import wxm.com.androiddesign.module.ChatItem;
+import wxm.com.androiddesign.module.CommentItem;
 import wxm.com.androiddesign.module.Message;
-import wxm.com.androiddesign.module.User;
+import wxm.com.androiddesign.module.Notify;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
  * Created by zero on 2015/7/8.
  */
-public class MsgListFragment extends Fragment {
+public class ListFragment extends Fragment {
+    public static final int COMMENT=1;
+    public static final int CHAT=2;
+    public static final int NOTIFY=3;
+    @Bind(R.id.recyclerview_list)
     RecyclerView recyclerView;
 
-    List<Message> MsgList = new ArrayList<>();
+    List<Notify> mNotifyList;
+    List<CommentItem> mCommentList;
+    List<ChatItem> mChatItemList;
 
-    String userId;
+    int type;
 
 
-    public static Fragment newInstance(String muserId) {
-        Fragment fragment = new MsgListFragment();
+    public static Fragment newInstance(int type) {
+        Fragment fragment = new ListFragment();
         Bundle args = new Bundle();
-        args.putString("UserId", muserId);
+        args.putInt("Type", type);
         fragment.setArguments(args);
         return fragment;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.msg_layout, viewGroup, false);
-        userId = getArguments().getString("UserId");
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
+        View v = inflater.inflate(R.layout.list_layout, viewGroup, false);
+        type = getArguments().getInt("type");
+        ButterKnife.bind(this,v);
         setupRecyclerView(recyclerView);
-        //Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        //((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        //final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        //actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayShowCustomEnabled(true);
-//        actionBar.setTitle("系统消息");
         return v;
     }
 
@@ -73,13 +68,6 @@ public class MsgListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-            }
-        }));
-        new getMsg(getActivity()).execute();
     }
 
     private class getMsg extends AsyncTask<Void, Void, Boolean> {
@@ -104,20 +92,29 @@ public class MsgListFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             materialDialog.dismiss();
-            recyclerView.setAdapter(new MsgAdapter(MsgList));
+            recyclerView.setAdapter(new NotifyAdapter(mNotifyList));
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
-            try {
-                object.put("action", "showMessage");
-                object.put("userId", userId);
-            } catch (JSONException e) {
-                e.printStackTrace();
+//            try {
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+            switch (type){
+                case ListFragment.CHAT:
+                    break;
+                case COMMENT:
+                    break;
+                case NOTIFY:
+                    break;
+                default:
+                    break;
             }
             String json = JsonConnection.getJSON(object.toString());
-            MsgList = new Gson().fromJson(json, new TypeToken<List<Message>>() {
+            mNotifyList = new Gson().fromJson(json, new TypeToken<List<Message>>() {
             }.getType());
             return null;
         }

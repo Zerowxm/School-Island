@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/comment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@id/user_photo"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/wu" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/user_photo"
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:layout_toLeftOf="@+id/aty_photo"
+        android:layout_toStartOf="@+id/aty_photo">
+
+        <TextView
+            android:id="@id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/user_photo"
+            android:paddingLeft="10dp"
+            android:text="喵帕斯"
+            android:textColor="@color/primary_text_default_material_light" />
+
+        <TextView
+            android:id="@+id/user_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name"
+            android:layout_toRightOf="@id/user_photo"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="评论内容"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="17h" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:src="@drawable/wu"
+        android:layout_alignParentRight="true"
+        android:id="@id/aty_photo" />
+
+
+</RelativeLayout>
+

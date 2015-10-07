@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
@@ -42,7 +44,6 @@ public class MyUtils{
     }
 
     public static void signupHX(final String userName, final String password){
-        Log.d(TAG,userName);
         MyUser.setEasemobId(userName);
         new Thread(new Runnable() {
             @Override
@@ -76,7 +77,6 @@ public class MyUtils{
             @Override
             public void onSuccess() {
                 Log.i(Config.HX, "LoginSuccess");
-                Log.i(Config.HX,easemobId);
                 MyUser.setEasemobId(easemobId);
             }
 
@@ -88,10 +88,15 @@ public class MyUtils{
 
             @Override
             public void onProgress(int i, String s) {
-                Log.i(Config.HX,easemobId+" "+i+" "+s);
+                Log.i(Config.HX, easemobId + " " + i + " " + s);
             }
         });
     }
 
-
+    public static void setTextView(TextView tv) {
+        tv.setSingleLine(false);
+        tv.setEllipsize(TextUtils.TruncateAt.END);
+        int n = 2; // the exact number of lines you want to display
+        tv.setLines(n);
+    }
 }

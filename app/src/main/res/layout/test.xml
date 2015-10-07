@@ -102,44 +102,125 @@
                     </LinearLayout>
 
                     <android.support.v4.widget.NestedScrollView
-
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         >
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:paddingTop="24dp">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <LinearLayout
+                                xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:paddingTop="24dp"
+                                android:paddingRight="16dp"
+                                >
 
+                                <wxm.com.androiddesign.widget.MyTextView
+                                    android:paddingLeft="72dp"
+                                    android:id="@+id/aty_content"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="活动内容"/>
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="BAR"/>
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/wu"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="BAR"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="BAR"/>
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/wu"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="BAR"/>
+                                <LinearLayout
+                                    android:paddingTop="16dp"
+                                    android:paddingLeft="72dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/ic_action_group"/>
+                                    <wxm.com.androiddesign.widget.MyTextView
+                                        android:layout_marginLeft="6dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:textSize="8sp"
+                                        android:textColor="@color/gray"
+                                        android:gravity="center_vertical"
+                                        android:id="@+id/people"
+                                        android:text="已有21人参加"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:paddingTop="16dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="72dp">
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0.5dp"
+                                        android:background="@color/fab_gray"
+                                        />
+                                </LinearLayout>
+
+                                <wxm.com.androiddesign.widget.MyTextView
+                                    android:paddingTop="16dp"
+                                    android:layout_marginLeft="72dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="发起人"/>
+
+                                <RelativeLayout
+                                    android:padding="16dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <ImageView
+                                        android:layout_width="36dp"
+                                        android:layout_height="36dp"
+                                        android:src="@drawable/test"
+                                        android:id="@id/user_photo" />
+                                    <wxm.com.androiddesign.widget.MyTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="最爱打雷姐"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_toRightOf="@id/user_photo"
+                                        android:layout_toEndOf="@id/user_photo"
+                                        android:layout_marginLeft="18dp"
+                                        android:layout_marginStart="18dp"
+                                        android:id="@id/user_name" />
+                                    <wxm.com.androiddesign.widget.MyTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="少年吧啦啦啦啦"
+                                        android:textSize="10sp"
+                                        android:layout_below="@id/user_name"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_alignLeft="@id/user_name"
+                                        android:layout_alignStart="@id/user_name"
+                                        android:id="@+id/signal" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0.5dp"
+                                        android:background="@color/gray"
+                                        android:layout_below="@id/user_photo"
+                                        android:layout_alignLeft="@id/signal"
+                                        android:layout_alignStart="@id/signal" />
+                                </RelativeLayout>
+
+                                <wxm.com.androiddesign.widget.MyTextView
+
+                                    android:layout_marginLeft="72dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ta还发布了"/>
+
+                            </LinearLayout>
+
+                            <!--<LinearLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="72dp"></LinearLayout>-->
 
                         </LinearLayout>
+
                     </android.support.v4.widget.NestedScrollView>
                 </LinearLayout>
 
@@ -165,22 +246,26 @@
             android:clickable="false"
             android:focusable="false"
             android:id="@+id/dragView">
-            <LinearLayout
-                android:focusable="true" android:focusableInTouchMode="true"
-                android:layout_width="0px" android:layout_height="0px"/>
-            <include layout="@layout/comment_layout"/>
-            <!--<ListView-->
-                <!--android:id="@+id/list"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="1">-->
-            <!--</ListView>-->
-            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <ListView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scrollbars="vertical" />
+                android:layout_weight="1">
+            </ListView>
+
+            <!--<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"-->
+                <!--android:id="@+id/list"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="1"-->
+                 <!--/>-->
+            <LinearLayout
+                android:focusable="true" android:focusableInTouchMode="true"
+                android:layout_width="0px" android:layout_height="0px"/>
+            <include layout="@layout/comment_layout"
+                android:id="@id/comment"
+                />
             <!--<ScrollView-->
             <!--android:id="@+id/sv"-->
             <!--android:layout_width="match_parent"-->

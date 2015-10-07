@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fonts="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@id/user_photo"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/wu" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/user_photo"
+                android:layout_alignTop="@id/user_photo">
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@id/user_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="用户名"
+                    android:textSize="18sp"
+                    android:paddingTop="5dp"
+                    fonts:typeface="Roboto-Bold.ttf" />
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@+id/msg_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="时间"
+                    android:textSize="10sp"
+                    android:paddingTop="5dp"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    fonts:typeface="Roboto-Bold.ttf" />
+            </LinearLayout>
+
+        <wxm.com.androiddesign.widget.MyTextView
+            android:id="@id/chat_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="聊天内容"
+            android:singleLine="true"
+            android:textSize="18sp"
+            android:paddingTop="30dp"
+            android:layout_marginLeft="71dp"
+            fonts:typeface="Roboto-Bold.ttf"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            />
+    </RelativeLayout>

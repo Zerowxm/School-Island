@@ -43,6 +43,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.MainActivity;
+import wxm.com.androiddesign.ui.MyApplication;
 import wxm.com.androiddesign.utils.MyUtils;
 
 /**
@@ -238,7 +239,6 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
             } break;
             case MSG_AUTH_COMPLETE: {
                 //授权成功
-
                 Log.i(TAG, "MSG_AUTH_COMPLETE");
                 Platform platform=(Platform)msg.obj;
                 getInfo(platform);
@@ -250,7 +250,6 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
 
 
     private class LoginTask extends AsyncTask<String, Void, Boolean> {
-        MaterialDialog materialDialog;
         Context context;
         User mUser;
         public LoginTask(Context context) {
@@ -261,12 +260,6 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
         protected void onPreExecute() {
             super.onPreExecute();
             dismiss();
-//            materialDialog = new MaterialDialog.Builder(context)
-//                    .title(R.string.login_title)
-//                    .content(R.string.please_wait)
-//                    .progress(true, 0)
-//                    .progressIndeterminateStyle(false)
-//                    .show();
         }
 
         @Override
@@ -302,7 +295,6 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
                     }
                     return true;
                 }
-
             }
             return false;
         }
@@ -311,20 +303,17 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if (result == true) {
-                //materialDialog.dismiss();
                 if (mType==SIGN){
                     Intent intent = new Intent(activity,MainActivity.class);
                     activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                     activity.finish();
-                    activity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
                 }
                 else if(mType==MAIN){
                     loginCallBack.onLongin(mUser);
                 }
             } else {
-                //materialDialog.dismiss();
-                new MaterialDialog.Builder(context)
+                new MaterialDialog.Builder(MyApplication.applicationContext)
                         .title("登陆失败")
                         .content("请重新登陆")
                         .positiveText("确定")

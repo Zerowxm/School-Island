@@ -63,6 +63,7 @@ import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
+import wxm.com.androiddesign.ui.fragment.MessageFragment;
 import wxm.com.androiddesign.ui.fragment.MsgListFragment;
 import wxm.com.androiddesign.ui.fragment.RankingFragment;
 import wxm.com.androiddesign.utils.Config;
@@ -326,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 flag = 3;
                                 return true;
                             case R.id.nav_messages:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, MsgListFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, MessageFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 flag = 4;
                                 return true;
                             case R.id.nav_user_setting:

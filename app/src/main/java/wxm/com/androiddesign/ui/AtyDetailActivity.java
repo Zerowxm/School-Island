@@ -38,8 +38,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.CommentAdapter;
+import wxm.com.androiddesign.adapter.ListViewAdapter;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
@@ -57,8 +59,12 @@ public class AtyDetailActivity extends AppCompatActivity {
     CommentAdapter commentAdapter;
     @Bind(R.id.sliding_layout)
     SlidingUpPanelLayout mLayout;
-    @Bind(R.id.list)
+    //@Bind(R.id.list)
     RecyclerView recyclerView;
+    @Bind(R.id.list)
+    ListView lv;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,59 +77,28 @@ public class AtyDetailActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("");
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         setupSlidingPanel();
         addComment();
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
-        new getCommentTask().execute(true);
+        CommentData commentData=null;
+        new getCommentTask().execute(commentData);
 
 
-//        ListView lv = (ListView) findViewById(R.id.list);
-//
-//        List<String> your_array_list = Arrays.asList(
-//                "This",
-//                "Is",
-//                "An",
-//                "Example",
-//                "ListView",
-//                "That",
-//                "You",
-//                "Can",
-//                "Scroll",
-//                ".",
-//                "It",
-//                "Shows",
-//                "How",
-//                "Any",
-//                "Scrollable",
-//                "View",
-//                "Can",
-//                "Be",
-//                "Included",
-//                "As",
-//                "A",
-//                "Child",
-//                "Of",
-//                "SlidingUpPanelLayout"
-//        );
-//
-//        // This is the array adapter, it takes the context of the activity as a
-//        // first parameter, the type of list view as a second parameter and your
-//        // array as a third parameter.
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-//                this,
-//                android.R.layout.simple_list_item_1,
-//                your_array_list );
-//
-//        lv.setAdapter(arrayAdapter);
+
+    }
+
+    @OnClick(R.id.fab)
+    public void sendNotify(){
+        new MaterialDialog.Builder(this)
+                .title("发送通知")
+                .inputMaxLength(3,R.color.mdtp_red)
+                .input(null, null, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        Toast.makeText(AtyDetailActivity.this,input,Toast.LENGTH_SHORT);
+                    }
+                }).show();
     }
 
     private void setupSlidingPanel(){
@@ -144,13 +119,11 @@ public class AtyDetailActivity extends AppCompatActivity {
             @Override
             public void onPanelExpanded(View panel) {
                 Log.i(TAG, "onPanelExpanded");
-
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
                 Log.i(TAG, "onPanelCollapsed");
-                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             }
 
             @Override
@@ -172,14 +145,21 @@ public class AtyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cmt_text.getText() != null && !cmt_text.getText().toString().equals("")) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date nowDate = new Date(System.currentTimeMillis());
+                    String time = formatter.format(nowDate);
+                    CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(), time, cmt_text.getText().toString());
+                    new getCommentTask().execute(mcommentData);
+                    //commentDatas.add(mcommentData);
                     cmt_text.setText(null);
                 } else {
-
+                    //Toast.makeText(DetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
     }
+
 
     private class NotifyMSG extends AsyncTask<String,Void,Boolean>{
 
@@ -200,7 +180,7 @@ public class AtyDetailActivity extends AppCompatActivity {
         }
     }
 
-    private class getCommentTask extends AsyncTask<Boolean, Void, Boolean> {
+    private class getCommentTask extends AsyncTask<CommentData, Void, Boolean> {
         public getCommentTask() {
 
         }
@@ -213,14 +193,16 @@ public class AtyDetailActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             commentAdapter=new CommentAdapter(commentDatas,AtyDetailActivity.this);
-            setupRecyclerView();
-            commentAdapter.notifyDataSetChanged();
-            new NotifyMSG().execute("hello~");
+            ListViewAdapter adapter=new ListViewAdapter(getApplicationContext(),commentDatas);
+            //setupRecyclerView();
+            //commentAdapter.notifyDataSetChanged();
+            lv.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
 
         @Override
-        protected Boolean doInBackground(Boolean... params) {
-            if (params[0]) {
+        protected Boolean doInBackground(CommentData... params) {
+            if (params[0]==null) {
                 JSONObject object = new JSONObject();
                 try {
                     object.put("action", "showComments");
@@ -235,7 +217,7 @@ public class AtyDetailActivity extends AppCompatActivity {
             } else {
                 String json = JsonConnection.getJSON(new Gson().toJson(params[0]));
                 CommentData commentData = new Gson().fromJson(json, CommentData.class);
-                Log.d("comment", commentData.toString());
+//                Log.d("comment", commentData.toString());
                 commentDatas.add(commentData);
                 return true;
             }
@@ -243,7 +225,10 @@ public class AtyDetailActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Log.d("setupRecyclerView","setupRecyclerView");
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
         recyclerView.setAdapter(commentAdapter);

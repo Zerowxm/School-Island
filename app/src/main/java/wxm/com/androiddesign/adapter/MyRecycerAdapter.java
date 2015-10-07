@@ -286,8 +286,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 for (int i = 0; i < item.getAtyAlbum().size(); i++) {
                     Log.d("imageuri",""+ item.getAtyAlbum().size());
                     ImageView imageView=new ImageView(activity);
-                    //ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
                     Log.d("image", item.getAtyAlbum().get(i));
                     Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
@@ -458,14 +456,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             mjoinBtn.setOnClickListener(this);
             plus_fab.setOnClickListener(this);
             activity_tag.setOnClickListener(this);
-            setTextView(aty_content);
-        }
-
-        public void setTextView(TextView tv) {
-            tv.setSingleLine(false);
-            tv.setEllipsize(TextUtils.TruncateAt.END);
-            int n = 2; // the exact number of lines you want to display
-            tv.setLines(n);
+            MyUtils.setTextView(aty_content);
         }
 
         @Override
@@ -493,7 +484,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         @OnClick(R.id.fab_share)
         public void onShare() {
             if ("001".equals(MyUser.userId)) {
-                //Toast.makeText(activity, "请登录后分享", Toast.LENGTH_SHORT).show();
             } else {
                 final String imgPath = null;
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -524,7 +514,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             public void onCard(CardView cardView, int position);
 
-            //            public void onPlus(FloatingActionButton fab);
             public void onComment(FloatingActionButton fab, int adapterPosition);
 
             public void onJoinBtn(Button button, int adpterPosition);
