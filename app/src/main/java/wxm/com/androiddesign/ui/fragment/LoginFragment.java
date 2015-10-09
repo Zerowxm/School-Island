@@ -45,6 +45,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.MyApplication;
 import wxm.com.androiddesign.utils.MyUtils;
+import wxm.com.androiddesign.utils.PrefUtils;
 
 /**
  * Created by zero on 2015/6/29.
@@ -278,7 +279,7 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("UserEmail",mUser.getUserEmail());
                         editor.putString("UserPassword",mPassword);
-                        editor.putBoolean("isSignup", true);
+                        PrefUtils.markUse(context);
                         editor.putString("LoginType", mLoginType);
                         editor.putString("easemobId",mUser.getEasemobId());
                         editor.apply();
@@ -289,7 +290,7 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
                         MyUser.setLoginType(mLoginType);
                         editor.putString("UserId", mId);
                         editor.putString("LoginType",mLoginType);
-                        editor.putBoolean("isSignup", true);
+                        PrefUtils.markUse(context);
                         editor.putString("easemobId", mUser.getEasemobId());
                         editor.apply();
                     }

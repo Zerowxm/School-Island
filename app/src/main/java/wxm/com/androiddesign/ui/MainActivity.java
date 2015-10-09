@@ -69,7 +69,7 @@ import wxm.com.androiddesign.ui.fragment.RankingFragment;
 import wxm.com.androiddesign.utils.Config;
 import wxm.com.androiddesign.utils.MyUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService {
+public class MainActivity extends BaseActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService {
     private static final String TAG="MainActivity";
 
     DrawerLayout drawerLayout;

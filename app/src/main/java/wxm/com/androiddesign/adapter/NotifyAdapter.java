@@ -39,7 +39,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.msg_item, parent, false
+                        R.layout.notify_item, parent, false
                 ));
     }
 
@@ -54,13 +54,13 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
             Date nowDate = new Date(System.currentTimeMillis());
             long time = nowDate.getTime() - oldDate.getTime();
             String str = getSubTime(time);
-            holder.releaseTime.setText(item.getmTime());
-            holder.mTitle.setText(item.getmTitle());
-            holder.mContent.setText(item.getmContent());
-            holder.userName.setText(item.getUserName());
-            Picasso.with(MyApplication.applicationContext)
-                    .load(item.getUserPhoto())
-                    .into(holder.userPhoto);
+            //holder.releaseTime.setText(item.getmTime());
+//            holder.mTitle.setText(item.getmTitle());
+//            holder.mContent.setText(item.getmContent());
+//            holder.userName.setText(item.getUserName());
+//            Picasso.with(MyApplication.applicationContext)
+//                    .load(item.getUserPhoto())
+//                    .into(holder.userPhoto);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -91,12 +91,12 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
     class MyViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.content)
         TextView mContent;
-        @Bind(R.id.user_name)
-        TextView userName;
+       // @Bind(R.id.user_name)
+        //TextView userName;
         @Bind(R.id.title)
         TextView mTitle;
-        @Bind(R.id.user_photo)
-        CircleImageView userPhoto;
+       // @Bind(R.id.user_photo)
+        //CircleImageView userPhoto;
         @Bind(R.id.time)
         TextView releaseTime;
 

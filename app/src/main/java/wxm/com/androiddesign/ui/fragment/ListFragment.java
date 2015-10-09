@@ -69,7 +69,7 @@ public class ListFragment extends Fragment {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
+        //recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
     }
 
     private class getMsg extends AsyncTask<Void, Void, Boolean> {

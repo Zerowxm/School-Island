@@ -13,7 +13,6 @@
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout
-
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,26 +23,31 @@
              <wxm.com.androiddesign.widget.MyTextView
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
-                 android:padding="16dp"
+                 android:padding="6dp"
                  android:gravity="center"
                  android:background="@android:color/holo_red_dark"
-                 android:text="Time"/>
+                 android:textColor="@color/white"
+                 app:typeface="Roboto-Bold.ttf"
+                 android:textSize="20sp"
+                 android:id="@+id/time"
+                 android:text="9/20"/>
             <wxm.com.androiddesign.widget.MyTextView
                 android:id="@+id/title"
                 android:padding="16dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="活动标题"
-                android:paddingBottom="8dp"
+                android:text="监听好友请求,同意好友请求等事件"
                 android:textSize="20sp"
                 app:typeface="Roboto-Bold.ttf"/>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginLeft="72dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray"
+            android:layout_marginRight="16dp"
             />
         <LinearLayout
             android:paddingLeft="16dp"
@@ -53,35 +57,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@id/user_photo"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/wu" />
-            <wxm.com.androiddesign.widget.MyTextView
-                android:id="@+id/user_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="name"
-                android:paddingLeft="25dp"
-                android:layout_gravity="center"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                />
+            <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                <!--android:id="@id/user_photo"-->
+                <!--android:layout_width="35dp"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:src="@drawable/wu" />-->
+            <!--<wxm.com.androiddesign.widget.MyTextView-->
+                <!--android:id="@+id/user_name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="name"-->
+                <!--android:paddingLeft="25dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--/>-->
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray"
-            />
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0.5dp"-->
+            <!--android:background="@color/gray"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--/>-->
         <wxm.com.androiddesign.widget.MyTextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:text="通知内容"
+            android:paddingTop="3dp"
+            android:text="已过时，使用后面的”监听好友状态事件”里的方式：EMContactManager.getInstance().setContactListener(new EMContactListener())监听好友改变事件。"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="3dp"/>
     </LinearLayout>
     </android.support.v7.widget.CardView>

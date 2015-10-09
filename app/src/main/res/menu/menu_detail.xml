@@ -4,23 +4,17 @@
     >
 
     <item
-        android:id="@id/action_settings"
-        android:title="举报"
-        android:icon="@drawable/ic_done"
+        android:id="@+id/action_share"
+        android:title="share"
+        android:icon="@drawable/ic_action_share_white"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
     <item
-        android:id="@id/action_settings"
+        android:id="@+id/action_comment"
         android:title="举报"
-        android:icon="@drawable/ic_done"
+        android:icon="@drawable/ic_action_forum_white"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@id/action_settings"
-        android:title="举报"
-        android:icon="@drawable/ic_done"
-        android:orderInCategory="100"
-        app:showAsAction="always"/>
 </menu>

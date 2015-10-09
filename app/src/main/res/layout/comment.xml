@@ -59,7 +59,7 @@
         android:layout_height="66dp"
         android:src="@drawable/wu"
         android:layout_alignParentRight="true"
-        android:id="@id/aty_photo" />
+        android:id="@+id/aty_photo" />
 
 
 </RelativeLayout>

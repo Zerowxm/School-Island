@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -39,6 +40,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
@@ -59,12 +61,24 @@ public class AtyDetailActivity extends AppCompatActivity {
     CommentAdapter commentAdapter;
     @Bind(R.id.sliding_layout)
     SlidingUpPanelLayout mLayout;
-    //@Bind(R.id.list)
-    RecyclerView recyclerView;
     @Bind(R.id.list)
     ListView lv;
     @Bind(R.id.fab)
     FloatingActionButton fab;
+    @Bind(R.id.aty_photo)
+    ImageView mAtyImage;
+    @Bind(R.id.aty_name)
+    TextView atyName;
+    @Bind(R.id.aty_time)
+    TextView atyTime;
+    @Bind(R.id.aty_content)
+    TextView atyContent;
+    @Bind(R.id.people)
+    TextView mPeople;
+    @Bind(R.id.user_photo)
+    CircleImageView userPhoto;
+    @Bind(R.id.user_name)
+    TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +97,14 @@ public class AtyDetailActivity extends AppCompatActivity {
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
         CommentData commentData=null;
         new getCommentTask().execute(commentData);
+        init();
+    }
 
-
-
+    private void init(){
+        //atyName.setText(atyItem.getAtyName());
+        //atyContent.setText(atyItem.getAtyContent());
+        atyTime.setText(atyItem.getAtyEndTime());
+        userName.setText(atyItem.getUserName());
     }
 
     @OnClick(R.id.fab)
@@ -205,8 +224,6 @@ public class AtyDetailActivity extends AppCompatActivity {
             super.onPostExecute(result);
             commentAdapter=new CommentAdapter(commentDatas,AtyDetailActivity.this);
             ListViewAdapter adapter=new ListViewAdapter(getApplicationContext(),commentDatas);
-            //setupRecyclerView();
-            //commentAdapter.notifyDataSetChanged();
             lv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
@@ -228,33 +245,30 @@ public class AtyDetailActivity extends AppCompatActivity {
             } else {
                 String json = JsonConnection.getJSON(new Gson().toJson(params[0]));
                 CommentData commentData = new Gson().fromJson(json, CommentData.class);
-//                Log.d("comment", commentData.toString());
                 commentDatas.add(commentData);
                 return true;
             }
         }
     }
 
-    private void setupRecyclerView() {
-        Log.d("setupRecyclerView","setupRecyclerView");
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
-        recyclerView.setAdapter(commentAdapter);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        mLayout.setAnchorPoint(0.7f);
-        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+        //mLayout.setAnchorPoint(0.7f);
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_share:
+                break;
+            case R.id.action_comment:
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }
         return super.onOptionsItemSelected(item);
     }
 }
