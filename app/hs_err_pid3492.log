@@ -1,0 +1,173 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 1048576 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (memory/allocation.inline.hpp:62), pid=3492, tid=8136
+#
+# JRE version:  (8.0_20-b26) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.20-b23 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000000027b3000):  JavaThread "Unknown thread" [_thread_in_vm, id=8136, stack(0x00000000026b0000,0x00000000027b0000)]
+
+Stack: [0x00000000026b0000,0x00000000027b0000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x3152fa]
+V  [jvm.dll+0x265d03]
+V  [jvm.dll+0x266943]
+V  [jvm.dll+0x25e265]
+V  [jvm.dll+0x3ddc3f]
+V  [jvm.dll+0x3de73f]
+V  [jvm.dll+0x3de854]
+V  [jvm.dll+0x3dea23]
+V  [jvm.dll+0xe4472]
+V  [jvm.dll+0x1f8a09]
+V  [jvm.dll+0x229fc4]
+V  [jvm.dll+0x14c6f1]
+C  [java.exe+0x20b6]
+C  [java.exe+0xc9bb]
+C  [java.exe+0xca4f]
+C  [KERNEL32.DLL+0x12d92]
+C  [ntdll.dll+0x9f64]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x00000000027b3000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=8136, stack(0x00000000026b0000,0x00000000027b0000)]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 18432K, used 317K [0x00000000eab00000, 0x00000000ebf80000, 0x0000000100000000)
+  eden space 15872K, 2% used [0x00000000eab00000,0x00000000eab4f5d0,0x00000000eba80000)
+  from space 2560K, 0% used [0x00000000ebd00000,0x00000000ebd00000,0x00000000ebf80000)
+  to   space 2560K, 0% used [0x00000000eba80000,0x00000000eba80000,0x00000000ebd00000)
+ ParOldGen       total 42496K, used 0K [0x00000000c0000000, 0x00000000c2980000, 0x00000000eab00000)
+  object space 42496K, 0% used [0x00000000c0000000,0x00000000c0000000,0x00000000c2980000)
+ Metaspace       used 674K, capacity 4480K, committed 4480K, reserved 1056768K
+  class space    used 66K, capacity 384K, committed 384K, reserved 1048576K
+
+Card table byte_map: [0x0000000002c70000,0x0000000002e80000] byte_map_base: 0x0000000002670000
+
+Marking Bits: (ParMarkBitMap*) 0x000000005cddb460
+ Begin Bits: [0x00000000033e0000, 0x00000000043e0000)
+ End Bits:   [0x00000000043e0000, 0x00000000053e0000)
+
+Polling page: 0x0000000000a60000
+
+CodeCache: size=245760Kb used=327Kb max_used=327Kb free=245432Kb
+ bounds [0x000000000f010000, 0x000000000f280000, 0x000000001e010000]
+ total_blobs=56 nmethods=0 adapters=37
+ compilation: enabled
+
+Compilation events (0 events):
+No events
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.040 loading class java/lang/Short
+Event: 0.040 loading class java/lang/Short done
+Event: 0.040 loading class java/lang/Integer
+Event: 0.040 loading class java/lang/Integer done
+Event: 0.040 loading class java/lang/Long
+Event: 0.040 loading class java/lang/Long done
+Event: 0.041 loading class java/lang/NullPointerException
+Event: 0.041 loading class java/lang/NullPointerException done
+Event: 0.041 loading class java/lang/ArithmeticException
+Event: 0.041 loading class java/lang/ArithmeticException done
+
+
+Dynamic libraries:
+0x00007ff71e750000 - 0x00007ff71e784000 	C:\Program Files\Java\jdk1.8.0_20\bin\java.exe
+0x00007ffc07a80000 - 0x00007ffc07c41000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffc073c0000 - 0x00007ffc0746d000 	C:\WINDOWS\system32\KERNEL32.DLL
+0x00007ffc04f70000 - 0x00007ffc0514d000 	C:\WINDOWS\system32\KERNELBASE.dll
+0x00007ffc079d0000 - 0x00007ffc07a76000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x00007ffc074a0000 - 0x00007ffc0753d000 	C:\WINDOWS\system32\msvcrt.dll
+0x00007ffc05410000 - 0x00007ffc0546b000 	C:\WINDOWS\system32\sechost.dll
+0x00007ffc07290000 - 0x00007ffc073b6000 	C:\WINDOWS\system32\RPCRT4.dll
+0x00007ffc07670000 - 0x00007ffc077be000 	C:\WINDOWS\system32\USER32.dll
+0x00007ffc06b60000 - 0x00007ffc06ce6000 	C:\WINDOWS\system32\GDI32.dll
+0x00007ffc00070000 - 0x00007ffc002e4000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.10240.16384_none_f41f7b285750ef43\COMCTL32.dll
+0x00007ffc053d0000 - 0x00007ffc05406000 	C:\WINDOWS\system32\IMM32.DLL
+0x00007ffc06e40000 - 0x00007ffc06f9c000 	C:\WINDOWS\system32\MSCTF.dll
+0x00007ffc043a0000 - 0x00007ffc043d1000 	C:\WINDOWS\system32\nvinitx.dll
+0x00007ffc04390000 - 0x00007ffc0439a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x000000000f000000 - 0x000000000f006000 	C:\Program Files\NVIDIA Corporation\CoProcManager\_etoured.dll
+0x00007ffc00e10000 - 0x00007ffc00e42000 	C:\Program Files\NVIDIA Corporation\CoProcManager\nvd3d9wrapx.dll
+0x00007ffc05150000 - 0x00007ffc05315000 	C:\WINDOWS\system32\SETUPAPI.dll
+0x00007ffc04720000 - 0x00007ffc04764000 	C:\WINDOWS\system32\CFGMGR32.dll
+0x00007ffc00de0000 - 0x00007ffc00e02000 	C:\Program Files\NVIDIA Corporation\CoProcManager\nvdxgiwrapx.dll
+0x000000005c1a0000 - 0x000000005c272000 	C:\Program Files\Java\jdk1.8.0_20\jre\bin\msvcr100.dll
+0x000000005c600000 - 0x000000005ce58000 	C:\Program Files\Java\jdk1.8.0_20\jre\bin\server\jvm.dll
+0x00007ffc07490000 - 0x00007ffc07498000 	C:\WINDOWS\system32\PSAPI.DLL
+0x00007ffc02950000 - 0x00007ffc02973000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffbff1a0000 - 0x00007ffbff1a9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffc06fa0000 - 0x00007ffc07009000 	C:\WINDOWS\system32\WS2_32.dll
+0x00007ffc06cf0000 - 0x00007ffc06cf8000 	C:\WINDOWS\system32\NSI.dll
+0x0000000000a10000 - 0x0000000000a3c000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x00007ffc02dd0000 - 0x00007ffc02df7000 	C:\WINDOWS\SYSTEM32\DEVOBJ.dll
+0x000000005dae0000 - 0x000000005daef000 	C:\Program Files\Java\jdk1.8.0_20\jre\bin\verify.dll
+0x000000005c5d0000 - 0x000000005c5f8000 	C:\Program Files\Java\jdk1.8.0_20\jre\bin\java.dll
+0x000000005c5b0000 - 0x000000005c5c6000 	C:\Program Files\Java\jdk1.8.0_20\jre\bin\zip.dll
+0x00007ffc020f0000 - 0x00007ffc0227a000 	C:\WINDOWS\SYSTEM32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -Xmx1024M -Dfile.encoding=GBK -Duser.country=US -Duser.language=en -Duser.variant 
+java_command: com.android.dx.command.Main --dex --num-threads=4 --output E:\repo\Maca\A-\app\build\intermediates\dex\debug E:\repo\Maca\A-\app\build\intermediates\classes\debug E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-9792d51791d92eddc0d9758885c1364396bdbf7e.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\classes-8157f44e055a847e6d79136eac8d5df83939d703.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-Email-2.6.2-30e224a20995e13543649deead5fffc15258c7ce.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-Wechat-2.6.2-80429ff3bd4f7d173269b6d521f2251c7ab5796b.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-Wechat-Moments-2.6.2-2e271dace8261a74fec2315f55123d0efda43881.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-ShortMessage-2.6.2-93382bc91a2f447dcf5e4ded70c09dad6817740f.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\MobLogCollector-ecc638ad2153c8e3bf8f7d5c922c2fc2b3fabf5f.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\classes-d6d521bd247eb74d69635c5d158781f108b31b20.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\classes-432efd9efc4ff150b7bc7428a5a48e230839a8ed.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\classes-bee7243b4b9430f7d4c20ac0de9ff5d91b307f0e.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-QZone-2.6.2-e74669247fae62e278e4c0f99d9235ff876976fa.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-TencentWeibo-2.6.2-1087995d86a53e6767ba75090d7ed21aa974ce3d.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-QQ-2.6.2-52ef264365a5be2a0c6b97f46e84f20297b60cc0.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-Wechat-Core-2.6.2-4d7da9cb635aae54834dd364b24be1c776596159.jar E:\repo\Maca\A-\app\build\intermediates\pre-dexed\debug\ShareSDK-SinaWeibo-2.6.2-5f3abbea5bc087bd91d2a7b9dfbb70e395925189.jar E:\repo\Mac
+java_class_path (initial): D:\Android\sdk\build-tools\23.0.1\lib\dx.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.8.0_20
+CLASSPATH=C:\Program Files\Java\jdk1.8.0_20\lib\dt.jar;C:\Program Files\Java\jdk1.8.0_20\lib\tools.jar;.
+PATH=C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;D:\mysql\mysql-5.7.8-rc-winx64\bin;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5.4 & MySQL Utilities 1.5.4 1.5\;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5.4 & MySQL Utilities 1.5.4 1.5\Doctrine extensions for PHP\;D:\Tomcat 8.0\bin\;D:\Tomcat 8.0\bin\servlet-api.jar;D:\Tomcat 8.0\bin\jsp-api.jar;C:\Program Files\Java\jdk1.8.0_20\bin;D:\sbt\\bin;E:\apk\apktool;
+USERNAME=Zero
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 58 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8.1 , 64 bit Build 9600 
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 58 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, ht, tsc, tscinvbit, tscinv
+
+Memory: 4k page, physical 4051104k(889784k free), swap 16634016k(4108k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.20-b23) for windows-amd64 JRE (1.8.0_20-b26), built on Jul 30 2014 13:51:23 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Fri Oct 09 20:24:30 2015
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

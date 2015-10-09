@@ -313,11 +313,11 @@ public class LoginFragment extends DialogFragment implements PlatformActionListe
                     loginCallBack.onLongin(mUser);
                 }
             } else {
-                new MaterialDialog.Builder(MyApplication.applicationContext)
-                        .title("登陆失败")
-                        .content("请重新登陆")
-                        .positiveText("确定")
-                        .show();
+//                new MaterialDialog.Builder(MyApplication.applicationContext)
+//                        .title("登陆失败")
+//                        .content("请重新登陆")
+//                        .positiveText("确定")
+//                        .show();
             }
         }
     }

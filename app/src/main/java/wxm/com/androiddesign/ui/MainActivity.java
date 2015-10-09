@@ -327,29 +327,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 flag = 3;
                                 return true;
                             case R.id.nav_messages:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, MessageFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                //getSupportFragmentManager().beginTransaction().replace(R.id.content, MessageFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                Intent notificationIntent=new Intent(instance,NotificationActivity.class);
+                                startActivity(notificationIntent);
                                 flag = 4;
                                 return true;
                             case R.id.nav_user_setting:
-//                                new MaterialDialog.Builder(context)
-//                                        .title(R.string.permission)
-//                                        .items(R.array.per_permission)
-//                                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-//                                            @Override
-//                                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-//                                                if (which == 0) {
-//                                                    new UpDateTask().execute("true");
-//                                                } else if (which == 1) {
-//                                                    new UpDateTask().execute("false");
-//                                                } else {
-//                                                    Log.d("userwxm", "countA" + which + text);
-//                                                    return false;
-//                                                }
-//                                                Log.d("userwxm", "countB" + which + text);
-//                                                return true;
-//                                            }
-//                                        }).positiveText(R.string.choose)
-//                                        .show();
+//
                                 return true;
                             default:
                                 return true;

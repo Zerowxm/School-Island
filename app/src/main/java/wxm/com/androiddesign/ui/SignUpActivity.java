@@ -36,6 +36,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.fragment.SignUpFragment;
 import wxm.com.androiddesign.utils.MyUtils;
+import wxm.com.androiddesign.utils.PrefUtils;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener
         ,Handler.Callback,PlatformActionListener{
@@ -130,7 +131,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("UserId", user.getUserId());
-                editor.putBoolean("isSignup", true);
+                PrefUtils.markUse(activity);
                 editor.putString("LoginType", mType);
                 editor.apply();
                 startActivity(intent);
