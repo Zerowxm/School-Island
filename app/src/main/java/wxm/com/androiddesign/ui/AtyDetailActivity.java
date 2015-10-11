@@ -2,11 +2,13 @@ package wxm.com.androiddesign.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
@@ -59,6 +62,7 @@ public class AtyDetailActivity extends AppCompatActivity {
     AtyItem atyItem;
     ArrayList<CommentData> commentDatas = new ArrayList<CommentData>();
     CommentAdapter commentAdapter;
+    private boolean isUser=false;
     @Bind(R.id.sliding_layout)
     SlidingUpPanelLayout mLayout;
     @Bind(R.id.list)
@@ -79,6 +83,8 @@ public class AtyDetailActivity extends AppCompatActivity {
     CircleImageView userPhoto;
     @Bind(R.id.user_name)
     TextView userName;
+    @Bind(R.id.view_flipper)
+    ViewFlipper flipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +92,11 @@ public class AtyDetailActivity extends AppCompatActivity {
         setContentView(R.layout.test);
         ButterKnife.bind(this);
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("");
-        setupSlidingPanel();
         addComment();
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
+        if (atyItem.getUserId().equals(MyUser.userId))
+            isUser=true;
         CommentData commentData=null;
         new getCommentTask().execute(commentData);
         init();
@@ -105,6 +107,35 @@ public class AtyDetailActivity extends AppCompatActivity {
         //atyContent.setText(atyItem.getAtyContent());
         atyTime.setText(atyItem.getAtyEndTime());
         userName.setText(atyItem.getUserName());
+        setupToolBar();
+        setupFab();
+        setupFlipper();
+        setupSlidingPanel();
+    }
+
+    private void setupToolBar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("");
+    }
+
+    private void setupFab(){
+        if (isUser){
+            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.primary)));
+            fab.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_action_send_white));
+        }
+
+        //fab.announceForAccessibility();
+    }
+
+    private void setupFlipper(){
+        flipper.setAutoStart(true);
+        flipper.setFlipInterval(3000);
+        if(flipper.isAutoStart()&&!flipper.isFlipping()){
+            flipper.startFlipping();
+        }
     }
 
     @OnClick(R.id.fab)

@@ -1,0 +1,27 @@
+<LinearLayout
+    android:id="@+id/header"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_chat_bubble_outline"/>
+    <TextView
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已有"/>
+    <wxm.com.androiddesign.widget.MyTextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30"/>
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="参与了评论"/>
+</LinearLayout>

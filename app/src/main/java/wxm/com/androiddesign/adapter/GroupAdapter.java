@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -14,20 +15,19 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.module.CmtItem;
+import wxm.com.androiddesign.module.Group;
 
 /**
  * Created by zero on 2015/6/30.
  */
-public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder> {
+public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder> {
 
-    List<CmtItem> cmtItems = new ArrayList<>();
+    List<Group> groups = new ArrayList<>();
     Context context;
 
-    public CmyAdapter(List<CmtItem> cmtItems, Context context) {
-        this.cmtItems = cmtItems;
+    public GroupAdapter(List<Group> groups, Context context) {
+        this.groups = groups;
         this.context = context;
     }
 
@@ -41,35 +41,29 @@ public class CmyAdapter extends RecyclerView.Adapter<CmyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        CmtItem cmtItem = cmtItems.get(position);
-        holder.community_name.setText(cmtItem.getCtyId());
-        holder.member_num.setText("成员数" + cmtItem.getCtyMembers());
-        Picasso.with(context).load(cmtItem.getCtyIcon()).into(holder.community_img);
+        Group group = groups.get(position);
+        holder.community_name.setText(group.getCtyId());
+        holder.member_num.setText("成员数" + group.getCtyMembers());
+        Picasso.with(context).load(group.getCtyIcon()).into(holder.community_img);
     }
 
     @Override
     public int getItemCount() {
-        return cmtItems.size();
+        return groups.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.community_img)
-        CircleImageView community_img;
+        @Bind(R.id.group_img)
+        ImageView community_img;
         @Bind(R.id.member_num)
         TextView member_num;
-        @Bind(R.id.community_name)
+        @Bind(R.id.group_name)
         TextView community_name;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            community_img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
         }
     }
 }

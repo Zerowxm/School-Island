@@ -16,17 +16,16 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.ChatItem;
-import wxm.com.androiddesign.module.Notify;
 import wxm.com.androiddesign.ui.MyApplication;
 
 /**
  * Created by zero on 2015/6/30.
  */
-public class ChatItemAdapter extends RecyclerView.Adapter<ChatItemAdapter.MyViewHolder> {
+public class ChatHostoryAdapter extends RecyclerView.Adapter<ChatHostoryAdapter.MyViewHolder> {
 
     List<ChatItem> mChatItemList = new ArrayList<>();
 
-    public ChatItemAdapter(List<ChatItem> mChatItemList) {
+    public ChatHostoryAdapter(List<ChatItem> mChatItemList) {
         this.mChatItemList = mChatItemList;
     }
 

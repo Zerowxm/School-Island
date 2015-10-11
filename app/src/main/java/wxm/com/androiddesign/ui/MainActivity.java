@@ -41,6 +41,7 @@ import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -60,6 +61,7 @@ import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.services.LocationServices;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
+import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
@@ -83,8 +85,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     int flag;
 
+//    @Bind(R.id.fab)
+//    FloatingActionButton fab;
     @Bind(R.id.fab)
-    FloatingActionButton fab;
+    FloatingActionMenu fab;
     User mUser = new User();
     @Bind(R.id.logout)
     TextView logout;
@@ -105,32 +109,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onDestroy();
         closeLocationServices();
         Log.d(TAG, "onDestroy");
-    }
-
-    private Handler mHandler=new Handler(){
-        public void handleMeaasage(){
-
-        }
-    };
-
-    public void Login() {
-        EMChatManager.getInstance().login(MyUser.userId, MyUser.userId, new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                Log.i(TAG, "Login");
-
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Log.e(TAG, "LoginError");
-            }
-
-            @Override
-            public void onProgress(int i, String s) {
-
-            }
-        });
     }
 
     @Override
@@ -162,9 +140,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         stopService(i);
     }
 
-
+    private Handler mUiHandler=new Handler();
     private void setupFab() {
-        fab.setOnClickListener(this);
+        fab.hideMenuButton(false);
+        int delay=400;
+        mUiHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fab.showMenuButton(true);
+            }
+        },delay);
+        fab.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab.toggle(true);
+            }
+        });
+        fab.setClosedOnTouchOutside(true);
     }
 
     @Override
@@ -321,10 +313,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 flag = 2;
                                 return true;
                             case R.id.nav_attention:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new RankingFragment()).commitAllowingStateLoss();
-                                Snackbar.make(drawerLayout, "积分排行",
-                                        Snackbar.LENGTH_SHORT).show();
-                                flag = 3;
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, GroupFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+//                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new RankingFragment()).commitAllowingStateLoss();
+//                                Snackbar.make(drawerLayout, "积分排行",
+//                                        Snackbar.LENGTH_SHORT).show();
+                                flag = 2;
                                 return true;
                             case R.id.nav_messages:
                                 //getSupportFragmentManager().beginTransaction().replace(R.id.content, MessageFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +27,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import wxm.com.androiddesign.anim.MyItemAnimator;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
@@ -50,7 +48,7 @@ public class ActivityFragment extends Fragment {
     private int type;
     private String userId;
 
-    @Bind(R.id.recyclerview_activity)
+    @Bind(R.id.recyclerview_list)
     RecyclerView recyclerView;
 
 
@@ -85,7 +83,7 @@ public class ActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v;
-        v = inflater.inflate(R.layout.activity_fragment, viewGroup, false);
+        v = inflater.inflate(R.layout.refresh_list, viewGroup, false);
         ButterKnife.bind(this, v);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         setupRecyclerView(recyclerView);

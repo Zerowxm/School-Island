@@ -28,7 +28,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
-import wxm.com.androiddesign.module.CmtItem;
+import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.CmtAtyFragment;
@@ -39,7 +39,7 @@ public class CmtAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
     String cmtId = "";
-    CmtItem cmtItem;
+    Group group;
     Boolean flag = false;
 
 
@@ -79,11 +79,11 @@ public class CmtAcitivity extends AppCompatActivity {
             setupViewPager();
             setupTabLayout();
             if (reslut) {
-                cmt_name.setText(cmtItem.getCtyId());
-                cmt_member.setText(cmtItem.getCtyMembers());
-                Picasso.with(context).load(cmtItem.getCtyIcon()).into(cmt_photo);
+                cmt_name.setText(group.getCtyId());
+                cmt_member.setText(group.getCtyMembers());
+                Picasso.with(context).load(group.getCtyIcon()).into(cmt_photo);
 
-                if (cmtItem.getCtyIsAttention().equals("true")) {
+                if (group.getCtyIsAttention().equals("true")) {
                     flag = true;
                     joinbtn.setText("已订阅");
                     joinbtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.gray));
@@ -111,7 +111,7 @@ public class CmtAcitivity extends AppCompatActivity {
             }
             String json = JsonConnection.getJSON(object.toString());
             Log.d("Task2", json);
-            cmtItem = new Gson().fromJson(json, CmtItem.class);
+            group = new Gson().fromJson(json, Group.class);
 
             return true;
         }

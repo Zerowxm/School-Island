@@ -1,5 +1,6 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,20 +23,59 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <android.support.design.widget.FloatingActionButton
+            <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:id="@+id/fab"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_gravity="bottom|end"-->
+                <!--android:layout_marginBottom="16dp"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:src="@drawable/ic_action_mode_edit"-->
+                <!--app:backgroundTint="@color/accent"-->
+                <!--app:borderWidth="0dp"-->
+                <!--app:elevation="4dp"-->
+                <!--app:pressedTranslationZ="12dp" />-->
+            <com.github.clans.fab.FloatingActionMenu
                 android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_action_mode_edit"
-                app:backgroundTint="@color/accent"
-                app:borderWidth="0dp"
-                app:elevation="4dp"
-                app:pressedTranslationZ="12dp" />
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                fab:menu_labels_ellipsize="end"
+                fab:menu_labels_singleLine="true"
+                fab:menu_backgroundColor="#ccffffff"
+                fab:menu_fab_label="Menu label">
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_mode_edit"
+                    fab:fab_size="mini"
+                    fab:fab_label="Menu item 1" />
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_mode_edit"
+                    fab:fab_size="mini"
+                    fab:fab_label="Menu item 2" />
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_mode_edit"
+                    fab:fab_size="mini"
+                    fab:fab_label="menu" />
+
+            </com.github.clans.fab.FloatingActionMenu>
         </FrameLayout>
 
 

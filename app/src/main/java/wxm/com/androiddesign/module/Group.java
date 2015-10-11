@@ -3,14 +3,14 @@ package wxm.com.androiddesign.module;
 /**
  * Created by zero on 2015/7/22.
  */
-public class CmtItem {
+public class Group {
     String action;
     String ctyId;
     String ctyMembers;
     String ctyIcon;
     String ctyIsAttention;
 
-    public CmtItem(String action, String ctyId, String ctyMembers, String ctyIcon, String ctyIsAttention) {
+    public Group(String action, String ctyId, String ctyMembers, String ctyIcon, String ctyIsAttention) {
         this.action = action;
         this.ctyId = ctyId;
         this.ctyMembers = ctyMembers;
