@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +14,15 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.ChatItem;
-import wxm.com.androiddesign.ui.MyApplication;
 
 /**
  * Created by zero on 2015/6/30.
  */
-public class ChatHostoryAdapter extends RecyclerView.Adapter<ChatHostoryAdapter.MyViewHolder> {
+public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.MyViewHolder> {
 
     List<ChatItem> mChatItemList = new ArrayList<>();
 
-    public ChatHostoryAdapter(List<ChatItem> mChatItemList) {
+    public ChatHistoryAdapter(List<ChatItem> mChatItemList) {
         this.mChatItemList = mChatItemList;
     }
 

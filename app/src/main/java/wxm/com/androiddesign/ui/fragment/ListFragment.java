@@ -17,22 +17,19 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.ChatItemAdapter;
+import wxm.com.androiddesign.adapter.ChatHistoryAdapter;
 import wxm.com.androiddesign.adapter.CommentItemAdapter;
 import wxm.com.androiddesign.adapter.NotifyAdapter;
 import wxm.com.androiddesign.module.ChatItem;
 import wxm.com.androiddesign.module.CommentItem;
-import wxm.com.androiddesign.module.Message;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.Notify;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
  * Created by zero on 2015/7/8.
@@ -98,7 +95,7 @@ public class ListFragment extends Fragment {
             materialDialog.dismiss();
             switch (type){
                 case ListFragment.CHAT:
-                    recyclerView.setAdapter(new ChatItemAdapter(mChatItemList));
+                    recyclerView.setAdapter(new ChatHistoryAdapter(mChatItemList));
                     break;
                 case COMMENT:
                     recyclerView.setAdapter(new CommentItemAdapter(mCommentList));
