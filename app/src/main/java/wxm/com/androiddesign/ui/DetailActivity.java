@@ -37,6 +37,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultipleItemAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 
 public class DetailActivity extends AppCompatActivity {
@@ -64,6 +65,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
+        Log.d("atyItem",atyItem.getAtyName());
         position = bundle.getInt("position");
         userId = bundle.getString("userId");
         CommentData temp = null;
@@ -125,11 +127,21 @@ public class DetailActivity extends AppCompatActivity {
                 }.getType());
                 return false;
             } else {
-                String json = JsonConnection.getJSON(new Gson().toJson(params[0]));
-                CommentData commentData = new Gson().fromJson(json, CommentData.class);
-                Log.d("comment", commentData.toString());
-                commentDatas.add(commentData);
-                return true;
+                try {
+                    JSONObject object = new JSONObject(new Gson().toJson(params[0]));
+                    object.put("userName", MyUser.userName);
+                    object.put("atyName",atyItem.getAtyName());
+                    object.put("easemobId",MyUser.getEasemobId());
+                    String json = JsonConnection.getJSON(object.toString());
+                    CommentData commentData = new Gson().fromJson(json, CommentData.class);
+                    Log.d("comment", commentData.toString());
+                    commentDatas.add(commentData);
+                    return true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return false;
+
             }
 
         }

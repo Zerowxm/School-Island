@@ -1,6 +1,7 @@
 package wxm.com.androiddesign.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.ChatItem;
+import wxm.com.androiddesign.module.CommentItem;
 import wxm.com.androiddesign.ui.MyApplication;
 
 /**
@@ -24,9 +26,9 @@ import wxm.com.androiddesign.ui.MyApplication;
  */
 public class CommentItemAdapter extends RecyclerView.Adapter<CommentItemAdapter.MyViewHolder> {
 
-    List<ChatItem> mChatItemList = new ArrayList<>();
+    List<CommentItem> mChatItemList = new ArrayList<>();
 
-    public CommentItemAdapter(List<ChatItem> mChatItemList) {
+    public CommentItemAdapter(List<CommentItem> mChatItemList) {
         this.mChatItemList = mChatItemList;
     }
 
@@ -40,12 +42,13 @@ public class CommentItemAdapter extends RecyclerView.Adapter<CommentItemAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        ChatItem item = mChatItemList.get(position);
-        holder.mTime.setText(item.getmTime());
-        holder.mContent.setText(item.getmMessage());
+        CommentItem item = mChatItemList.get(position);
+        Log.d("itemma",item.getCmtTime());
+        holder.mTime.setText(item.getCmtTime());
+        holder.mContent.setText(item.getCmtContent());
         holder.userName.setText(item.getUserName());
         Picasso.with(MyApplication.applicationContext)
-                .load(item.getUserPhoto())
+                .load(item.getUserIcon())
                 .into(holder.userPhoto);
     }
 

@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.ui;
 
+import android.app.Application;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -44,6 +45,7 @@ import butterknife.OnClick;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.ChatAdapter;
 import wxm.com.androiddesign.broadcastreceive.NewMessageBroadCastReceiver;
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.MyUtils;
 
@@ -60,6 +62,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
     private ChatAdapter mChatAdapter;
     private String toChatUserId;
     private String userIcon;
+    private String userName;
     private int chatType;
     private EMConversation conversation;
 
@@ -81,6 +84,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         }else {
             toChatUserId=bundle.getString("toChatUserId");
             userIcon=bundle.getString("userIcon");
+            userName = bundle.getString("userName");
             onConversationInit();
             setupRecyclerview(recyclerView);
             onConversationInit();
@@ -92,7 +96,9 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
     private void setupToolBar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(userName);
     }
 
     @OnClick(R.id.send_msg)
@@ -139,9 +145,11 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             TextMessageBody textMessageBody = new TextMessageBody(content);
             message.addBody(textMessageBody);
             message.setReceipt(toChatUserId);
-            message.setAttribute("identify","notification");
+            message.setAttribute("identify", "chat");
+            message.setAttribute("userName", MyUser.userName);
             conversation.addMessage(message);
             sendMsgInBackGround(message);
+            new sendMessage().execute(content);
         }
     }
 
@@ -284,16 +292,50 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
     }
 
 
+    private class sendMessage extends AsyncTask<String,Void,Boolean>{
+        @Override
+        protected Boolean doInBackground(String... params) {
+            JSONObject object=new JSONObject();
+            try {
+                object.put("action","sendMessage");
+                object.put("easemobId",MyUser.getEasemobId());
+                object.put("toEasemobId",toChatUserId);
+                object.put("userId",MyUser.userId);
+                object.put("userName",MyUser.userName);
+                object.put("msgContent",params[0]);
+                String result = JsonConnection.getJSON(object.toString());
+                return true;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (!result){
+
+            }
+            setupRecyclerview(recyclerView);
+            onConversationInit();
+        }
+
+
+    }
+
 
     private class getHX extends AsyncTask<Void,Void,Boolean>{
         @Override
         protected Boolean doInBackground(Void... params) {
             JSONObject object=new JSONObject();
             try {
-                object.put("action","huanxin");
+                object.put("action","userChat");
                 object.put("easemobId",toChatUserId);
                 JSONObject object1=new JSONObject(JsonConnection.getJSON(object.toString()));
                 userIcon= object1.getString("userIcon");
+                userName = object1.getString("userName");
                 return true;
 
             } catch (JSONException e) {

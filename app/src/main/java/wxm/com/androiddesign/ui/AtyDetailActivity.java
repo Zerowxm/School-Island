@@ -142,7 +142,7 @@ public class AtyDetailActivity extends AppCompatActivity {
     public void sendNotify(){
         new MaterialDialog.Builder(this)
                 .title("发送通知")
-                .inputMaxLength(10, R.color.mdtp_red)
+                .inputMaxLength(30, R.color.mdtp_red)
                 .input(null, null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
@@ -201,7 +201,7 @@ public class AtyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cmt_text.getText() != null && !cmt_text.getText().toString().equals("")) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 HH:mm");
                     Date nowDate = new Date(System.currentTimeMillis());
                     String time = formatter.format(nowDate);
                     CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(), time, cmt_text.getText().toString());
@@ -274,11 +274,22 @@ public class AtyDetailActivity extends AppCompatActivity {
                 }.getType());
                 return false;
             } else {
-                String json = JsonConnection.getJSON(new Gson().toJson(params[0]));
-                CommentData commentData = new Gson().fromJson(json, CommentData.class);
-                commentDatas.add(commentData);
-                return true;
+                try {
+                    JSONObject object = new JSONObject(new Gson().toJson(params[0]));
+                    object.put("userName", MyUser.userName);
+                    object.put("atyName",atyItem.getAtyName());
+                    object.put("easemobId",MyUser.getEasemobId());
+                    String json = JsonConnection.getJSON(object.toString());
+                    CommentData commentData = new Gson().fromJson(json, CommentData.class);
+//                Log.d("comment", commentData.toString());
+                    commentDatas.add(commentData);
+                    return true; }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return  false;
             }
+
         }
     }
 

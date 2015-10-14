@@ -23,6 +23,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.adapter.ChatItemAdapter;
+import wxm.com.androiddesign.adapter.CommentItemAdapter;
 import wxm.com.androiddesign.adapter.NotifyAdapter;
 import wxm.com.androiddesign.module.ChatItem;
 import wxm.com.androiddesign.module.CommentItem;
@@ -60,7 +62,7 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.list_layout, viewGroup, false);
         type = getArguments().getInt("Type");
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, v);
         new getMsg(getActivity()).execute();
         setupRecyclerView(recyclerView);
         return v;
@@ -96,8 +98,10 @@ public class ListFragment extends Fragment {
             materialDialog.dismiss();
             switch (type){
                 case ListFragment.CHAT:
+                    recyclerView.setAdapter(new ChatItemAdapter(mChatItemList));
                     break;
                 case COMMENT:
+                    recyclerView.setAdapter(new CommentItemAdapter(mCommentList));
                     break;
                 case NOTIFY:
                     recyclerView.setAdapter(new NotifyAdapter(mNotifyList));
@@ -117,14 +121,29 @@ public class ListFragment extends Fragment {
 //            }
 //
             try {
+                String json;
                 switch (type){
                     case ListFragment.CHAT:
+                        object.put("action","showChatlist");
+                        object.put("easemobId", MyUser.getEasemobId());
+                        json = JsonConnection.getJSON(object.toString());
+                        mChatItemList = new Gson().fromJson(json, new TypeToken<List<ChatItem>>() {
+                        }.getType());
                         break;
                     case COMMENT:
+                        object.put("action","showUserComments");
+                        object.put("userId",MyUser.userId);
+                        object.put("easemobId", MyUser.getEasemobId());
+                        json = JsonConnection.getJSON(object.toString());
+                        mCommentList = new Gson().fromJson(json, new TypeToken<List<CommentItem>>() {
+                        }.getType());
                         break;
                     case NOTIFY:
                         object.put("action","showAllNotifications");
                         object.put("easemobId", MyUser.getEasemobId());
+                        json = JsonConnection.getJSON(object.toString());
+                        mNotifyList = new Gson().fromJson(json, new TypeToken<List<Notify>>() {
+                        }.getType());
                         break;
                     default:
                         break;
@@ -132,9 +151,6 @@ public class ListFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String json = JsonConnection.getJSON(object.toString());
-            mNotifyList = new Gson().fromJson(json, new TypeToken<List<Notify>>() {
-            }.getType());
             return null;
         }
     }

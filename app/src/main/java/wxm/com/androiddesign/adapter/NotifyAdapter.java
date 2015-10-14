@@ -55,12 +55,17 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
             long time = nowDate.getTime() - oldDate.getTime();
             String str = getSubTime(time);
             //holder.releaseTime.setText(item.getmTime());
+<<<<<<< Updated upstream
 //            if (position==0){
 //                holder.mTitle.setText("政府高层");
 //            }else {
 //                holder.mTitle.setText("怎样从政府高层的讲话中获取信息？");
 //            }
 //            holder.mContent.setText(item.getmContent());
+=======
+            holder.mTitle.setText(item.getmTitle());
+            holder.mContent.setText(item.getmContent());
+>>>>>>> Stashed changes
 //            holder.userName.setText(item.getUserName());
 //            Picasso.with(MyApplication.applicationContext)
 //                    .load(item.getUserPhoto())
@@ -95,12 +100,12 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
     class MyViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.content)
         TextView mContent;
-       // @Bind(R.id.user_name)
-        //TextView userName;
+//        @Bind(R.id.user_name)
+//        TextView userName;
         @Bind(R.id.title)
         TextView mTitle;
-       // @Bind(R.id.user_photo)
-        //CircleImageView userPhoto;
+//        @Bind(R.id.user_photo)
+//        CircleImageView userPhoto;
         @Bind(R.id.time)
         TextView releaseTime;
 

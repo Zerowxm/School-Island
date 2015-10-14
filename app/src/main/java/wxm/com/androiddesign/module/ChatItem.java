@@ -4,57 +4,57 @@ package wxm.com.androiddesign.module;
  * Created by Zero on 10/6/2015.
  */
 public class ChatItem {
-    String userPhoto;
-    String userName;
-    String userId;
-    String mTime;
-    String mMessage;
+    String fromUserIcon;
+    String fromUserName;
+    String fromUserId;
+    String sendTime;
+    String msgContent;
 
     public ChatItem(String userPhoto, String userName, String userId, String mTime, String mMessage) {
-        this.userPhoto = userPhoto;
-        this.userName = userName;
-        this.userId = userId;
-        this.mTime = mTime;
-        this.mMessage = mMessage;
+        this.fromUserIcon = userPhoto;
+        this.fromUserName = userName;
+        this.fromUserId = userId;
+        this.sendTime = mTime;
+        this.msgContent = mMessage;
     }
 
     public String getUserPhoto() {
-        return userPhoto;
+        return fromUserIcon;
     }
 
     public void setUserPhoto(String userPhoto) {
-        this.userPhoto = userPhoto;
+        this.fromUserIcon = userPhoto;
     }
 
     public String getUserName() {
-        return userName;
+        return fromUserName;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.fromUserName = userName;
     }
 
     public String getUserId() {
-        return userId;
+        return fromUserId;
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.fromUserId = userId;
     }
 
     public String getmTime() {
-        return mTime;
+        return sendTime;
     }
 
     public void setmTime(String mTime) {
-        this.mTime = mTime;
+        this.sendTime = mTime;
     }
 
     public String getmMessage() {
-        return mMessage;
+        return msgContent;
     }
 
     public void setmMessage(String mMessage) {
-        this.mMessage = mMessage;
+        this.msgContent = mMessage;
     }
 }

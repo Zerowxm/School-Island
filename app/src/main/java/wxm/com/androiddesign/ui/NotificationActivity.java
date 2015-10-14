@@ -35,6 +35,10 @@ import wxm.com.androiddesign.utils.Config;
  */
 public class NotificationActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
+    public static final int CHAT=1;
+    public static final int COMMENT=2;
+    public static final int NOTIFY=3;
+    int type;
     String userId;
     @Bind(R.id.appbar)
     AppBarLayout appBarLayout;
@@ -54,6 +58,8 @@ public class NotificationActivity extends AppCompatActivity implements AppBarLay
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.fragmentparent);
+        Bundle bundle = getIntent().getExtras();
+        type = bundle.getInt("type");
         ButterKnife.bind(this);
         appBarLayout.addOnOffsetChangedListener(this);
         if (viewPager != null) {
@@ -97,7 +103,11 @@ public class NotificationActivity extends AppCompatActivity implements AppBarLay
         adapter.addFragment(ListFragment.newInstance(ListFragment.NOTIFY), "通知");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(2).select();
+        switch (type) {
+            case CHAT:tabLayout.getTabAt(0).select();break;
+            case COMMENT:tabLayout.getTabAt(1).select();break;
+            case NOTIFY:tabLayout.getTabAt(2).select();break;
+        }
     }
 
     @Override

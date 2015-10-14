@@ -322,6 +322,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                             case R.id.nav_messages:
                                 //getSupportFragmentManager().beginTransaction().replace(R.id.content, MessageFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 Intent notificationIntent=new Intent(instance,NotificationActivity.class);
+                                notificationIntent.putExtra("type",NotificationActivity.CHAT);
                                 startActivity(notificationIntent);
                                 flag = 4;
                                 return true;

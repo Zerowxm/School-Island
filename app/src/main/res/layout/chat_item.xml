@@ -30,7 +30,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="用户名"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:paddingTop="5dp"
                     fonts:typeface="Roboto-Bold.ttf" />
                 <wxm.com.androiddesign.widget.MyTextView
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="聊天内容"
             android:singleLine="true"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:paddingTop="30dp"
             android:layout_marginLeft="71dp"
             fonts:typeface="Roboto-Bold.ttf"

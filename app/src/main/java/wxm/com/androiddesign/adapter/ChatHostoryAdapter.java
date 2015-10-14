@@ -43,9 +43,9 @@ public class ChatHostoryAdapter extends RecyclerView.Adapter<ChatHostoryAdapter.
         holder.mTime.setText(item.getmTime());
         holder.mContent.setText(item.getmMessage());
         holder.userName.setText(item.getUserName());
-        Picasso.with(MyApplication.applicationContext)
+       /* Picasso.with(MyApplication.applicationContext)
                 .load(item.getUserPhoto())
-                .into(holder.userPhoto);
+                .into(holder.userPhoto);*/
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ChatHostoryAdapter extends RecyclerView.Adapter<ChatHostoryAdapter.
         return mChatItemList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.chat_msg)
         TextView mContent;
         @Bind(R.id.user_name)

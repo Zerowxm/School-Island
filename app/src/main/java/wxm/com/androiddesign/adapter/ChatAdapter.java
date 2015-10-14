@@ -15,11 +15,13 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.exceptions.EaseMobException;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -70,10 +72,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==MESSAGE_TYPE_RECV_TXT){
             return new MsgReceiveViewHolder(LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.row_receive_msg,parent,false));
+                    .inflate(R.layout.row_receive_msg,parent,false));
         }else if(viewType==MESSAGE_TYPE_SENT_TXT){
             return new MsgSendViewHolder(LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.row_send_msg,parent,false));
+                    .inflate(R.layout.row_send_msg,parent,false));
         }
         return null;
     }
@@ -120,7 +122,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 //            else if(((DemoHXSDKHelper)HXSDKHelper.getInstance()).isRobotMenuMessage(message))
 //                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_ROBOT_MENU : MESSAGE_TYPE_SENT_ROBOT_MENU;
 //            else
-                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
+            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
         }
 //        if (message.getType() == EMMessage.Type.IMAGE) {
 //            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_IMAGE : MESSAGE_TYPE_SENT_IMAGE;
@@ -143,8 +145,33 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     Handler handler=new Handler(){
         private void refreshList(){
-            messages=(EMMessage[])emConversation.getAllMessages()
-                    .toArray(new EMMessage[emConversation.getAllMessages().size()]);
+            List<EMMessage> list = emConversation.getAllMessages();
+            /*for(int i = 0 ; i < list.size() ; i++){
+                try {
+                    if(list.get(i).getStringAttribute("identify").equals("notification")||
+                            list.get(i).getStringAttribute("identify").equals("comment")){
+                        list.remove(i);
+                    }
+                } catch (EaseMobException e) {
+                    e.printStackTrace();
+                }
+            }*/
+            Iterator<EMMessage> iterator = list.iterator();
+            while (iterator.hasNext()){
+                try {
+                    EMMessage emMessage = iterator.next();
+                    Log.d("identify",emMessage.getStringAttribute("identify"));
+                    if(emMessage.getStringAttribute("identify").equals("notification")||
+                            emMessage.getStringAttribute("identify").equals("comment")){
+                        //iterator.remove();
+                        Log.d("identify",emMessage.getStringAttribute("identify"));
+                        iterator.remove();
+                    }
+                } catch (EaseMobException e) {
+                    e.printStackTrace();
+                }
+            }
+            messages=list.toArray(new EMMessage[emConversation.getAllMessages().size()]);
             Log.d(TAG, Arrays.toString(messages));
             for (int i=0;i<messages.length;i++){
                 emConversation.getMessage(i);

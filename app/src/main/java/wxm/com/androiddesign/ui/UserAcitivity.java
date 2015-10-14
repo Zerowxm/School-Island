@@ -239,6 +239,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
                 chatIntent.putExtra("notification", false);
                 chatIntent.putExtra("toChatUserId", user.getEasemobId());
                 chatIntent.putExtra("userIcon", user.getUserIcon());
+                chatIntent.putExtra("userName",user.getUserName());
                 startActivity(chatIntent);
                 break;
             case R.id.action_settings:
