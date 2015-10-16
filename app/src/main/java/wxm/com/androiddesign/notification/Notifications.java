@@ -14,6 +14,10 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.exceptions.EaseMobException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import wxm.com.androiddesign.ui.ChatActivity;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.MyApplication;
@@ -30,11 +34,6 @@ public class Notifications {
         this.identify = type;
         this.message = emMessage;
         userId = message.getFrom();
-        if(MyApplication.message.containsKey(userId)){
-            MyApplication.message.put(userId,MyApplication.message.get(userId) + 1);
-        }else{
-            MyApplication.message.put(userId,1);
-        }
         notificate();
     }
 
@@ -48,7 +47,7 @@ public class Notifications {
                         new NotificationCompat.Builder(MyApplication.applicationContext)
                                 .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
                                 .setWhen(System.currentTimeMillis())
-                                .setContentTitle(message.getStringAttribute("userName")+"（"+ MyApplication.message.get(userId)+"）新条信息")
+                                .setContentTitle(message.getStringAttribute("userName")+"（"+ message.getStringAttribute("newMsgCount")+"条新信息）")
                                 .setContentText(((TextMessageBody) message.getBody()).getMessage())
                                 .setAutoCancel(true)
                                 .setVibrate(new long[]{0, 200, 200, 200})
@@ -88,13 +87,15 @@ public class Notifications {
                         (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
                 if(!MyApplication.easemobId.containsKey(userId))
                     MyApplication.easemobId.put(userId,(int) System.currentTimeMillis());
+
+                Log.d("identifyfff",MyApplication.easemobId.get(userId)+"");
                 mNotificationManager.notify(MyApplication.easemobId.get(userId), notification);
             }else if(identify.equals("notification")){
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(MyApplication.applicationContext)
                                 .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
                                 .setWhen(System.currentTimeMillis())
-                                .setContentTitle(message.getStringAttribute("userName")+"（"+MyApplication.message.get(userId)+"）条新通知")
+                                .setContentTitle(message.getStringAttribute("userName")+"给你发来通知")
                                 .setContentText(((TextMessageBody) message.getBody()).getMessage())
                                 .setAutoCancel(true)
                                 .setVibrate(new long[]{0, 800, 800, 800})
@@ -129,13 +130,12 @@ public class Notifications {
                                 .setAutoCancel(true)
                                 .setVibrate(new long[]{0, 200, 200, 200})
                                 .setLights(Color.BLUE, 1000, 1000);
-                Log.d("atyNamess",message.getStringAttribute("atyName"));
                 Intent resultIntent = new Intent(MyApplication.applicationContext, NotificationActivity.class);
                 resultIntent.putExtra("type",NotificationActivity.NOTIFY);
                 resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 resultIntent.putExtra("notification", true);
                 resultIntent.putExtra("easemobId", userId);
-                resultIntent.putExtra("type",NotificationActivity.NOTIFY);
+                resultIntent.putExtra("type", NotificationActivity.NOTIFY);
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(MyApplication.applicationContext);
                 stackBuilder.addParentStack(MainActivity.class);
                 stackBuilder.addNextIntent(resultIntent);
@@ -148,6 +148,8 @@ public class Notifications {
                 notification.flags = Notification.FLAG_SHOW_LIGHTS;
                 NotificationManager mNotificationManager =
                         (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                if(!MyApplication.easemobId.containsKey(userId))
+                    MyApplication.easemobId.put(userId,(int) System.currentTimeMillis());
                 mNotificationManager.notify(MyApplication.easemobId.get(userId), notification);
             }else if (identify.equals("comment")){
                 NotificationCompat.Builder mBuilder =

@@ -47,23 +47,23 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Notify item = mNotify.get(position);
         Log.d("item", item.getmTitle() + item.getmContent() + item.getUserName());
-        SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        /*SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date oldDate = null;
         try {
             oldDate = oldFormatter.parse(item.getmTime());
             Date nowDate = new Date(System.currentTimeMillis());
             long time = nowDate.getTime() - oldDate.getTime();
-            String str = getSubTime(time);
-            //holder.releaseTime.setText(item.getmTime());
+            String str = getSubTime(time);*/
+            holder.releaseTime.setText(item.getmTime());
             holder.mTitle.setText(item.getmTitle());
             holder.mContent.setText(item.getmContent());
 //            holder.userName.setText(item.getUserName());
 //            Picasso.with(MyApplication.applicationContext)
 //                    .load(item.getUserPhoto())
 //                    .into(holder.userPhoto);
-        } catch (ParseException e) {
+      /*  } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
     }
     private String getSubTime(long subTime) {
         long days = subTime / (1000 * 60 * 60 * 24);

@@ -77,7 +77,6 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         Log.d("noti",notification+"");
         if (notification){
             toChatUserId=bundle.getString("easemobId");
-            MyApplication.message.remove(toChatUserId);
             MyApplication.easemobId.remove(toChatUserId);
             onConversationInit();
             new getHX().execute();

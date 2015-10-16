@@ -9,6 +9,7 @@ public class ChatItem {
     String fromUserId;
     String sendTime;
     String msgContent;
+    String newMsgCount;
 
     public ChatItem(String userPhoto, String userName, String userId, String mTime, String mMessage) {
         this.fromUserIcon = userPhoto;
@@ -18,43 +19,60 @@ public class ChatItem {
         this.msgContent = mMessage;
     }
 
-    public String getUserPhoto() {
+    public ChatItem(String fromUserIcon, String fromUserName, String fromUserId, String sendTime, String msgContent, String newMsgCount) {
+        this.fromUserIcon = fromUserIcon;
+        this.fromUserName = fromUserName;
+        this.fromUserId = fromUserId;
+        this.sendTime = sendTime;
+        this.msgContent = msgContent;
+        this.newMsgCount = newMsgCount;
+    }
+
+    public String getFromUserIcon() {
         return fromUserIcon;
     }
 
-    public void setUserPhoto(String userPhoto) {
-        this.fromUserIcon = userPhoto;
+    public void setFromUserIcon(String fromUserIcon) {
+        this.fromUserIcon = fromUserIcon;
     }
 
-    public String getUserName() {
+    public String getFromUserName() {
         return fromUserName;
     }
 
-    public void setUserName(String userName) {
-        this.fromUserName = userName;
+    public void setFromUserName(String fromUserName) {
+        this.fromUserName = fromUserName;
     }
 
-    public String getUserId() {
+    public String getFromUserId() {
         return fromUserId;
     }
 
-    public void setUserId(String userId) {
-        this.fromUserId = userId;
+    public void setFromUserId(String fromUserId) {
+        this.fromUserId = fromUserId;
     }
 
-    public String getmTime() {
+    public String getSendTime() {
         return sendTime;
     }
 
-    public void setmTime(String mTime) {
-        this.sendTime = mTime;
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
     }
 
-    public String getmMessage() {
+    public String getMsgContent() {
         return msgContent;
     }
 
-    public void setmMessage(String mMessage) {
-        this.msgContent = mMessage;
+    public void setMsgContent(String msgContent) {
+        this.msgContent = msgContent;
+    }
+
+    public String getNewMsgCount() {
+        return newMsgCount;
+    }
+
+    public void setNewMsgCount(String newMsgCount) {
+        this.newMsgCount = newMsgCount;
     }
 }

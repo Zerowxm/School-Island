@@ -87,6 +87,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Bind(R.id.fab)
     FloatingActionMenu fab;
+    @Bind(R.id.fab3)
+    com.github.clans.fab.FloatingActionButton fab3;
     User mUser = new User();
     @Bind(R.id.logout)
     TextView logout;
@@ -122,6 +124,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         openLocationServices();
         Log.d(TAG + 1, "onCreate:" + this.toString());
         activityWeakReference=new WeakReference<AppCompatActivity>(this);
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ReleaseActivity.class));
+            }
+        });
+
     }
 
     private void openLocationServices() {

@@ -60,7 +60,6 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
     String Location;
     String mTime;
     private Uri selectedImgUri;
-    private String userId;
     AtyItem atyItem;
 
 
@@ -98,8 +97,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         ButterKnife.bind(this);
         userName.setText(MyUser.userName);
         Intent intent = getIntent();
-        userId = intent.getExtras().getString("userId");
-        Picasso.with(this).load(intent.getExtras().getString("userIcon")).into(userPhoto);
+        Picasso.with(this).load(MyUser.userIcon).into(userPhoto);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels - 7;
@@ -279,8 +277,8 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
             JSONObject object = new JSONObject();
             try {
                 object = new JSONObject(new Gson().toJson(params[0]));
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
+                //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                //object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
                 object.put("longitude", Location.split(" ")[2]);
                 object.put("latitude", Location.split(" ")[1]);
                 object.put("easemobId",MyUser.getEasemobId());
