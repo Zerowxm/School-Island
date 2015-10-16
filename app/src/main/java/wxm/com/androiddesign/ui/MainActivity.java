@@ -85,8 +85,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     int flag;
 
-//    @Bind(R.id.fab)
-//    FloatingActionButton fab;
     @Bind(R.id.fab)
     FloatingActionMenu fab;
     User mUser = new User();
@@ -149,7 +147,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void run() {
                 fab.showMenuButton(true);
             }
-        },delay);
+        }, delay);
         fab.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +155,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         fab.setClosedOnTouchOutside(true);
+    }
+    @OnClick(R.id.fab1)
+    public void createGroup(){
+        startActivity(new Intent(this,CreateGroupActivity.class));
     }
 
     @Override
@@ -264,34 +266,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             new LoginTask(this).execute(false);
         }
 
-//        private class UpDateTask extends AsyncTask<String, Void, Void> {
-//            @Override
-//            protected void onPreExecute() {
-//                super.onPreExecute();
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Void aVoid) {
-//                super.onPostExecute(aVoid);
-//            }
-//
-//            @Override
-//            protected Void doInBackground(String... params) {
-//                JSONObject object = new JSONObject();
-//                try {
-//                    object = new JSONObject();
-//                    object.put("action", "editAlbumRight");
-//                    object.put("userId", MyUser.userId);
-//                    object.put("userAlbumIsPublic", params[0]);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                String json = JsonConnection.getJSON(object.toString());
-//                Log.i("mjson", json);
-//                return null;
-//            }
-//        }
-
     private void setupDrawerContent(final NavigationView navigationView, final Context context) {
 
         navigationView.setNavigationItemSelectedListener(
@@ -314,13 +288,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 return true;
                             case R.id.nav_attention:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.content, GroupFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
-//                                getSupportFragmentManager().beginTransaction().replace(R.id.content, new RankingFragment()).commitAllowingStateLoss();
-//                                Snackbar.make(drawerLayout, "积分排行",
-//                                        Snackbar.LENGTH_SHORT).show();
                                 flag = 2;
                                 return true;
                             case R.id.nav_messages:
-                                //getSupportFragmentManager().beginTransaction().replace(R.id.content, MessageFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
                                 Intent notificationIntent=new Intent(instance,NotificationActivity.class);
                                 notificationIntent.putExtra("type",NotificationActivity.CHAT);
                                 startActivity(notificationIntent);

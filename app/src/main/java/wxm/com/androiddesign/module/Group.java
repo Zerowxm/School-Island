@@ -5,10 +5,14 @@ package wxm.com.androiddesign.module;
  */
 public class Group {
     String action;
+    String userId;
     String ctyId;
     String ctyMembers;
     String ctyIcon;
     String ctyIsAttention;
+    String ctyType;
+    String ctyName;
+    String ctyIntro;
 
     public Group(String action, String ctyId, String ctyMembers, String ctyIcon, String ctyIsAttention) {
         this.action = action;
@@ -18,15 +22,45 @@ public class Group {
         this.ctyIsAttention = ctyIsAttention;
     }
 
-    @Override
-    public String toString() {
-        return "CmtItem{" +
-                "action='" + action + '\'' +
-                ", ctyId='" + ctyId + '\'' +
-                ", ctyMembers='" + ctyMembers + '\'' +
-                ", ctyIcon='" + ctyIcon + '\'' +
-                ", ctyIsAttention='" + ctyIsAttention + '\'' +
-                '}';
+    public Group(String action, String userId, String ctyIcon, String ctyType, String ctyName, String ctyIntro) {
+        this.action = action;
+        this.userId = userId;
+        this.ctyIcon = ctyIcon;
+        this.ctyType = ctyType;
+        this.ctyName = ctyName;
+        this.ctyIntro = ctyIntro;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCtyType() {
+        return ctyType;
+    }
+
+    public void setCtyType(String ctyType) {
+        this.ctyType = ctyType;
+    }
+
+    public String getCtyName() {
+        return ctyName;
+    }
+
+    public void setCtyName(String ctyName) {
+        this.ctyName = ctyName;
+    }
+
+    public String getCtyIntro() {
+        return ctyIntro;
+    }
+
+    public void setCtyIntro(String ctyIntro) {
+        this.ctyIntro = ctyIntro;
     }
 
     public String getAction() {

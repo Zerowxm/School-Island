@@ -251,7 +251,6 @@
                     app:layout_anchorGravity="bottom|start|left" android:layout_margin="10dp"
                     app:layout_anchor="@id/titleBar"
                     app:fabSize="mini"
-
                     android:src="@drawable/ic_done" />
 
             </android.support.design.widget.CoordinatorLayout>

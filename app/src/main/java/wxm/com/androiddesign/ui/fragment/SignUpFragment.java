@@ -235,9 +235,6 @@ public class SignUpFragment extends DialogFragment{
                 return 3;
             }
             user.setUserIcon(icon);
-            Gson gson = new Gson();
-            Log.d("gson", gson.toJson(user));
-            mResult = "";
             JSONObject jsonObject= null;
             try {
                 jsonObject = new JSONObject(JsonConnection.getJSON(new Gson().toJson(user)));
@@ -246,7 +243,6 @@ public class SignUpFragment extends DialogFragment{
                 e.printStackTrace();
             }
 
-            Log.d("Task", "doConnection");
             if (mResult != "") {
                 if (!mResult.contains("false")) {
                     MyUtils.signupHX(mResult,"7777777");

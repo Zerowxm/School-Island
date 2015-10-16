@@ -71,4 +71,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_aty_detail">AtyDetailActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_create_group1">CreateGroupActivity1</string>
 </resources>

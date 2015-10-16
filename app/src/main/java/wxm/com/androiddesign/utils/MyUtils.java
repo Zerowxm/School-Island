@@ -2,14 +2,17 @@ package wxm.com.androiddesign.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
@@ -70,7 +73,7 @@ public class MyUtils{
     }
 
     public static void Login(Context context) {
-        Log.d(Config.HX,"LoginHX");
+        Log.d(Config.HX, "LoginHX");
         SharedPreferences prefs = context.getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
         final String easemobId=prefs.getString("easemobId", "error");
         EMChatManager.getInstance().login(easemobId, "7777777", new EMCallBack() {
@@ -98,5 +101,20 @@ public class MyUtils{
         tv.setEllipsize(TextUtils.TruncateAt.END);
         int n = 2; // the exact number of lines you want to display
         tv.setLines(n);
+    }
+
+    public static String getEditViewText(EditText editText){
+        return editText.getText().toString();
+    }
+
+    public static void chooseImage(Activity activity,int requestCode){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        Intent chooseImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        chooseImage.setType("image/*");
+        Intent chooserIntent = Intent.createChooser(photoPickerIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{chooseImage});
+        photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        activity.startActivityForResult(chooserIntent,requestCode);
     }
 }

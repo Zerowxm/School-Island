@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,5 +159,10 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
         CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)appBarLayout.getLayoutParams();
         AppBarLayout.Behavior behavior=(AppBarLayout.Behavior)params.getBehavior();
         behavior.onNestedFling(coordinatorLayout,appBarLayout,null,0,-1000,true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
