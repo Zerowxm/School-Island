@@ -53,9 +53,10 @@ public class CreateGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                new CreateGroupTask().execute();
             }
         });
-        new CreateGroupTask().execute();
+
     }
 
     @OnClick(R.id.group_img)

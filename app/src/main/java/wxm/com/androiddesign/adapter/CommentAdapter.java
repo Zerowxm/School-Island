@@ -49,18 +49,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(CommentAdapter.CommentViewHolder holder, int position) {
         CommentData item = commentDatas.get(position);
-        Log.d("connection", item.toString());
-        try {
-            SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date oldDate = null;
-            oldDate = oldFormatter.parse(item.getTime());
-            Date nowDate = new Date(System.currentTimeMillis());
-            long time = nowDate.getTime() - oldDate.getTime();
-            String str = getSubTime(time);
-            holder.time.setText(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+       // Log.d("CommentAdapter", item.toString());
+        //Log.d("mmcmttime","qwqwqwqwq");
+
+        holder.time.setText(item.getCmtTime());
         Picasso.with(activity).load(item.getUserIcon()).into(holder.user_photo);
         holder.user_comment.setText(item.getComment());
         holder.user_name.setText(item.getUserName());

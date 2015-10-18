@@ -49,7 +49,6 @@ public class MyApplication extends Application implements EMEventListener {
     private static MyApplication instance;
     //public static HXSDKHelper hxsdkHelper;
 
-    public static Map<String,Integer> message = new HashMap<>();
     public static Map<String,Integer> easemobId = new HashMap<>();
     private static final String TAG = "MyApplication";
     NewMessageBroadCastReceiver receiver = new NewMessageBroadCastReceiver();

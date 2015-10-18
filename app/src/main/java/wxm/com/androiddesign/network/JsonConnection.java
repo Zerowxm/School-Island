@@ -52,11 +52,13 @@ public class JsonConnection {
                 //URL murl = new URL("http://192.168.199.217:8081/bootStrap/ClientPostServlet");
                 //URL murl = new URL("http://124.172.185.128:8090/bootStrap/ClientPostServlet");
                 //URL murl = new URL("http://192.168.1.108:8080/bootStrap/ClientPostServlet");
-                //URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
+
+                URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
+
                 //URL murl = new URL("http://192.168.199.142:8080/bootStrap/ClientPostServlet");
 
 
-                URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
+               // URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
 
                 HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                 connection.setRequestProperty("Content-type", "application/json");

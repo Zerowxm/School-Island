@@ -201,15 +201,15 @@ public class AtyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cmt_text.getText() != null && !cmt_text.getText().toString().equals("")) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 HH:mm");
-                    Date nowDate = new Date(System.currentTimeMillis());
-                    String time = formatter.format(nowDate);
-                    CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(), time, cmt_text.getText().toString());
+                   // SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 HH:mm");
+                   // Date nowDate = new Date(System.currentTimeMillis());
+                   // String time = formatter.format(nowDate);
+                    CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(),"just moment", cmt_text.getText().toString());
                     new getCommentTask().execute(mcommentData);
                     //commentDatas.add(mcommentData);
                     cmt_text.setText(null);
                 } else {
-                    //Toast.makeText(DetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AtyDetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -223,11 +223,11 @@ public class AtyDetailActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... params) {
             JSONObject object = new JSONObject();
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
+                //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
                 object.put("action", "notifyFromAty");
                 object.put("atyId", atyItem.getAtyId());
                 object.put("atyName",atyItem.getAtyName());
-                object.put("releaseTime",formatter.format(new Date(System.currentTimeMillis()))+"");
+                //object.put("releaseTime",formatter.format(new Date(System.currentTimeMillis()))+"");
                 object.put("userId", MyUser.userId);
                 object.put("userName", MyUser.userName);
                 object.put("userIcon",MyUser.userIcon);

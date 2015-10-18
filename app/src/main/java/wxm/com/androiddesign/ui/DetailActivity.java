@@ -157,7 +157,7 @@ public class DetailActivity extends AppCompatActivity {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date nowDate = new Date(System.currentTimeMillis());
                     String time = formatter.format(nowDate);
-                    CommentData mcommentData = new CommentData("comment", userId, atyItem.getAtyId(), time, cmt_text.getText().toString());
+                    CommentData mcommentData = new CommentData("comment", userId, atyItem.getAtyId(),"just moment", cmt_text.getText().toString());
                     new getCommentTask(getApplicationContext()).execute(mcommentData);
                     //commentDatas.add(mcommentData);
                     cmt_text.setText(null);

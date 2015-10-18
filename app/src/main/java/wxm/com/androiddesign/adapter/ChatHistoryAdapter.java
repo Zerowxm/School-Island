@@ -37,9 +37,9 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         ChatItem item = mChatItemList.get(position);
-        holder.mTime.setText(item.getmTime());
-        holder.mContent.setText(item.getmMessage());
-        holder.userName.setText(item.getUserName());
+        holder.mTime.setText(item.getSendTime());
+        holder.mContent.setText(item.getMsgContent());
+        holder.userName.setText(item.getFromUserName());
        /* Picasso.with(MyApplication.applicationContext)
                 .load(item.getUserPhoto())
                 .into(holder.userPhoto);*/

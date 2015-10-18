@@ -55,7 +55,7 @@ public class ListViewAdapter extends ArrayAdapter<CommentData> {
             convertView.setTag(holder);
         }
 
-        try {
+      /*  try {
             SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date oldDate = null;
             oldDate = oldFormatter.parse(item.getTime());
@@ -65,7 +65,8 @@ public class ListViewAdapter extends ArrayAdapter<CommentData> {
             holder.time.setText(str);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
+        holder.time.setText(item.getCmtTime());
         Picasso.with(MyApplication.applicationContext).load(item.getUserIcon()).into(holder.user_photo);
         holder.user_comment.setText(item.getComment());
         holder.user_name.setText(item.getUserName());
