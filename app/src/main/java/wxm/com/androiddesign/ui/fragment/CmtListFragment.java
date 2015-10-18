@@ -35,6 +35,8 @@ import wxm.com.androiddesign.ui.CmtAcitivity;
  */
 public class CmtListFragment extends Fragment {
 
+    public static final int JOINED = 0x1;
+    public static final int OWNED = 0x2;
     @Bind(R.id.recyclerview_list)
     RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout)
@@ -42,10 +44,12 @@ public class CmtListFragment extends Fragment {
 
     List<Group> groups = new ArrayList<>();
     String userId;
-    public static CmtListFragment newInstance(String muserId) {
+    int type;
+    public static CmtListFragment newInstance(String muserId,int type) {
         CmtListFragment fragment = new CmtListFragment();
         Bundle args = new Bundle();
         args.putString("UserId", muserId);
+        args.putInt("type",type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +58,7 @@ public class CmtListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userId = getArguments().getString("UserId");
+        type = getArguments().getInt("type");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -74,6 +79,7 @@ public class CmtListFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), CmtAcitivity.class);
                 intent.putExtra("ctyId", groups.get(position).getCtyId());
+                intent.putExtra("ctyName",groups.get(position).getCtyName());
                 startActivity(intent);
             }
         }));
@@ -97,7 +103,14 @@ public class CmtListFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             JSONObject object=new JSONObject();
             try {
-                object.put("action","showJoinedCommunities");
+                switch (type){
+                    case JOINED:
+                        object.put("action","showJoinedCommunities");
+                        break;
+                    case OWNED:
+                        object.put("action","showOwnedCommunities");
+                        break;
+                }
                 object.put("userId", userId);
                 Log.d("jsonarray1", object.toString());
                 String jsonarrys = JsonConnection.getJSON(object.toString());

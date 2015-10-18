@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.ChatItem;
+import wxm.com.androiddesign.ui.MyApplication;
 
 /**
  * Created by zero on 2015/6/30.
@@ -40,9 +43,9 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
         holder.mTime.setText(item.getSendTime());
         holder.mContent.setText(item.getMsgContent());
         holder.userName.setText(item.getFromUserName());
-       /* Picasso.with(MyApplication.applicationContext)
-                .load(item.getUserPhoto())
-                .into(holder.userPhoto);*/
+        Picasso.with(MyApplication.applicationContext)
+                .load(item.getFromUserIcon())
+                .into(holder.userPhoto);
     }
 
     @Override

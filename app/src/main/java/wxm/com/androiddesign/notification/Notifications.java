@@ -47,7 +47,7 @@ public class Notifications {
                         new NotificationCompat.Builder(MyApplication.applicationContext)
                                 .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
                                 .setWhen(System.currentTimeMillis())
-                                .setContentTitle(message.getStringAttribute("userName")+"（"+ message.getStringAttribute("newMsgCount")+"条新信息）")
+                                .setContentTitle(message.getStringAttribute("userName")+"（"+message.getStringAttribute("newMsgCount")+"条新信息）")
                                 .setContentText(((TextMessageBody) message.getBody()).getMessage())
                                 .setAutoCancel(true)
                                 .setVibrate(new long[]{0, 200, 200, 200})

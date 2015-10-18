@@ -11,8 +11,11 @@ public class Group {
     String ctyIcon;
     String ctyIsAttention;
     String ctyType;
-    String ctyName;
+    String ctyNumOfAty;
     String ctyIntro;
+    String ctyGroupId;
+    String ctyCreatorId;
+    String ctyName;
 
     public Group(String action, String ctyId, String ctyMembers, String ctyIcon, String ctyIsAttention) {
         this.action = action;
@@ -29,6 +32,30 @@ public class Group {
         this.ctyType = ctyType;
         this.ctyName = ctyName;
         this.ctyIntro = ctyIntro;
+    }
+
+    public String getCtyNumOfAty() {
+        return ctyNumOfAty;
+    }
+
+    public void setCtyNumOfAty(String ctyNumOfAty) {
+        this.ctyNumOfAty = ctyNumOfAty;
+    }
+
+    public String getCtyGroupId() {
+        return ctyGroupId;
+    }
+
+    public void setCtyGroupId(String ctyGroupId) {
+        this.ctyGroupId = ctyGroupId;
+    }
+
+    public String getCtyCreatorId() {
+        return ctyCreatorId;
+    }
+
+    public void setCtyCreatorId(String ctyCreatorId) {
+        this.ctyCreatorId = ctyCreatorId;
     }
 
     public String getUserId() {

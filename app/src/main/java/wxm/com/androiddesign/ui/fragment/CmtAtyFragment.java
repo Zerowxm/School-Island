@@ -50,8 +50,7 @@ public class CmtAtyFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         cmtId = getArguments().getString("cmtId");
-
+        cmtId = getArguments().getString("cmtId");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {

@@ -101,10 +101,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         fab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ReleaseActivity.class));
+                fab.close(true);
+                startActivity(new Intent(getApplicationContext(), ReleaseActivity.class));
+
             }
         });
-
     }
 
 

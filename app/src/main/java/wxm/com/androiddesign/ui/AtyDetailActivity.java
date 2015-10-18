@@ -30,6 +30,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,10 +104,13 @@ public class AtyDetailActivity extends AppCompatActivity {
     }
 
     private void init(){
-        //atyName.setText(atyItem.getAtyName());
-        //atyContent.setText(atyItem.getAtyContent());
-        atyTime.setText(atyItem.getAtyEndTime());
+        atyTime.setText(atyItem.getAtyStartTime());
         userName.setText(atyItem.getUserName());
+        atyName.setText(atyItem.getAtyName());
+        atyContent.setText(atyItem.getAtyContent());
+        mPeople.setText("已有"+atyItem.getAtyMembers()+"人参加");
+        Log.d("userIcon",MyUser.userIcon);
+        Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userPhoto);
         setupToolBar();
         setupFab();
         setupFlipper();
@@ -124,9 +128,8 @@ public class AtyDetailActivity extends AppCompatActivity {
     private void setupFab(){
         if (isUser){
             fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.primary)));
-            fab.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_action_send_white));
+            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_send_white));
         }
-
         //fab.announceForAccessibility();
     }
 
@@ -140,21 +143,23 @@ public class AtyDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void sendNotify(){
-        new MaterialDialog.Builder(this)
-                .title("发送通知")
-                .inputMaxLength(30, R.color.mdtp_red)
-                .input(null, null, new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                        new NotifyMSG().execute(input.toString());
-                    }
-                })/*.callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
-                Toast.makeText(AtyDetailActivity.this,"dfdfd",Toast.LENGTH_SHORT).show();
-            }
-        })*/.show();
+        if(isUser) {
+            new MaterialDialog.Builder(this)
+                    .title("发送通知")
+                    .inputMaxLength(30, R.color.mdtp_red)
+                    .input(null, null, new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(MaterialDialog dialog, CharSequence input) {
+                            new NotifyMSG().execute(input.toString());
+                        }
+                    }).callback(new MaterialDialog.ButtonCallback() {
+                @Override
+                public void onPositive(MaterialDialog dialog) {
+                    super.onPositive(dialog);
+                    Toast.makeText(AtyDetailActivity.this, "dfdfd", Toast.LENGTH_SHORT).show();
+                }
+            }).show();
+        }
     }
 
     private void setupSlidingPanel(){
@@ -204,7 +209,7 @@ public class AtyDetailActivity extends AppCompatActivity {
                    // SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 HH:mm");
                    // Date nowDate = new Date(System.currentTimeMillis());
                    // String time = formatter.format(nowDate);
-                    CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(),"just moment", cmt_text.getText().toString());
+                    CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(),"moments ago", cmt_text.getText().toString());
                     new getCommentTask().execute(mcommentData);
                     //commentDatas.add(mcommentData);
                     cmt_text.setText(null);
@@ -282,8 +287,10 @@ public class AtyDetailActivity extends AppCompatActivity {
                     String json = JsonConnection.getJSON(object.toString());
                     CommentData commentData = new Gson().fromJson(json, CommentData.class);
 //                Log.d("comment", commentData.toString());
-                    commentDatas.add(commentData);
-                    return true; }
+                    //commentDatas.add(commentData);
+                    commentDatas.add(0,commentData);
+                    return true;
+                }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -313,4 +320,5 @@ public class AtyDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

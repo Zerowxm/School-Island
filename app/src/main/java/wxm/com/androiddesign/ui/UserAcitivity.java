@@ -194,7 +194,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
         adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release, userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
-        adapter.addFragment(CmtListFragment.newInstance(userId), "社区");
+        adapter.addFragment(CmtListFragment.newInstance(userId,CmtListFragment.JOINED), "社区");
         if ("true".equals(user.getUserAlbumIsPublic()) || MyUser.userId.equals(user.getUserId())) {
             Log.i("publicuser", user.getUserId());
             Log.i("publicuser", MyUser.userId);

@@ -139,7 +139,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
 
     public void sendMsg(String content) {
         if (content.length() > 0) {
-            EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+           /* EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
             Log.d(TAG, "sendMessage");
             TextMessageBody textMessageBody = new TextMessageBody(content);
             message.addBody(textMessageBody);
@@ -147,7 +147,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             message.setAttribute("identify", "chat");
             message.setAttribute("userName", MyUser.userName);
             conversation.addMessage(message);
-            sendMsgInBackGround(message);
+            sendMsgInBackGround(message);*/
             new sendMessage().execute(content);
         }
     }
@@ -292,6 +292,8 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
 
 
     private class sendMessage extends AsyncTask<String,Void,Boolean>{
+        String content;
+        String newMsgCount;
         @Override
         protected Boolean doInBackground(String... params) {
             JSONObject object=new JSONObject();
@@ -302,7 +304,8 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
                 object.put("userId",MyUser.userId);
                 object.put("userName",MyUser.userName);
                 object.put("msgContent",params[0]);
-                String result = JsonConnection.getJSON(object.toString());
+                newMsgCount = JsonConnection.getJSON(object.toString());
+                content = params[0];
                 return true;
 
             } catch (JSONException e) {
@@ -314,14 +317,19 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if (!result){
-
-            }
+            EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+            Log.d(TAG, "sendMessage");
+            TextMessageBody textMessageBody = new TextMessageBody(content);
+            message.addBody(textMessageBody);
+            message.setReceipt(toChatUserId);
+            message.setAttribute("identify", "chat");
+            message.setAttribute("userName", MyUser.userName);
+            message.setAttribute("newMsgCount", newMsgCount);
+            conversation.addMessage(message);
+            sendMsgInBackGround(message);
             setupRecyclerview(recyclerView);
             onConversationInit();
         }
-
-
     }
 
 

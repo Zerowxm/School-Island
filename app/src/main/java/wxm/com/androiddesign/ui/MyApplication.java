@@ -75,9 +75,9 @@ public class MyApplication extends Application implements EMEventListener {
     private void initSDK(Context context) {
         //初始化sharesdk,具体集成步骤请看文档：
         ShareSDK.initSDK(context);
-        IntentFilter filter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
-        filter.setPriority(3);
-        registerReceiver(receiver, filter);
+//        IntentFilter filter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
+//        filter.setPriority(3);
+//        registerReceiver(receiver, filter);
         EMChat.getInstance().setAppInited();
         EMChatManager.getInstance().registerEventListener(this);
     }

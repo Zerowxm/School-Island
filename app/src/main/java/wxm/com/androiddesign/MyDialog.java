@@ -63,11 +63,14 @@ public class MyDialog extends DialogFragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels - 2;
         int screenHeight = displaymetrics.heightPixels;
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                screenWidth, screenHeight * 2 / 3);
+      /*  RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                screenWidth, screenHeight * 2 / 3);*/
+        ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+        layoutParams.height = layoutParams.height*screenWidth/layoutParams.width;
+        layoutParams.width = screenWidth;
         imageView.setLayoutParams(layoutParams);
         Log.d(TAG, layoutParams.width + "/" + layoutParams.height);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 //        ViewTreeObserver vto=imageView.getViewTreeObserver();
 //        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 //            @Override
@@ -111,9 +114,7 @@ public class MyDialog extends DialogFragment {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
                     out.flush();
                     out.close();
-                    if (f.exists()) {
-                        Toast.makeText(v.getContext(), "已保存到 " + "Pictures/" + getActivity().getPackageName(), Toast.LENGTH_LONG).show();
-                    } else {
+                    if (!f.exists()) {
                         Toast.makeText(v.getContext(), "保存失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (FileNotFoundException e) {
@@ -132,7 +133,7 @@ public class MyDialog extends DialogFragment {
                 }
                 // 最后通知图库更新
                 getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + f.getPath())));
-
+                Toast.makeText(v.getContext(), "图片已保存", Toast.LENGTH_LONG).show();
                 //  MediaScannerConnection.scanFile(MainActivity.this, new String[]{f.getAbsolutePath().toString()}, null, null);
             }
         });

@@ -56,26 +56,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Group group = groups.get(position);
-        holder.community_name.setText(group.getCtyId());
-        holder.member_num.setText("成员数" + group.getCtyMembers());
-//        Picasso.with(context).load(group.getCtyIcon()).transform(new PaletteGeneratorTransformation())
-//                .into(holder.community_img, new PaletteGeneratorTransformation.Callback(holder.community_img) {
-//                    @Override
-//                    public void onPalette(Palette palette) {
-//
-//                       mPalette=palette;
-//                        int vibrant = palette.getVibrantColor(0x000000);
-//                        int vibrantLight = palette.getLightVibrantColor(0x000000);
-//                        int vibrantDark = palette.getDarkVibrantColor(0x000000);
-//                        int muted = palette.getMutedColor(0x000000);
-//                        int mutedLight = palette.getLightMutedColor(0x000000);
-//                        int mutedDark = palette.getDarkMutedColor(0x000000);
-//                        Log.i("Palette", "" + vibrant + "/" + vibrantDark + "/" + vibrantLight);
-//                    }
-//                });
-//        holder.cardView.setCardBackgroundColor(
-//                        ContextCompat.getColor(MyApplication.applicationContext,
-//                                R.color.primary));
         Picasso.with(context).load(group.getCtyIcon())
                 .fit().centerCrop()
                 .transform(PaletteTransformation.getInstance())
@@ -94,6 +74,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
                         holder.userPhoto.setVisibility(View.VISIBLE);
                     }
                 });
+        holder.community_name.setText(group.getCtyName());
+        holder.member_num.setText(group.getCtyMembers()+"个成员");
     }
 
     @Override

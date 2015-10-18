@@ -39,6 +39,7 @@ public class CmtAcitivity extends AppCompatActivity {
 
     ViewPager viewPager;
     String cmtId = "";
+    String cmtName = "";
     Group group;
     Boolean flag = false;
 
@@ -59,6 +60,7 @@ public class CmtAcitivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         cmtId = bundle.getString("ctyId");
+        cmtName = bundle.getString("ctyName");
         //cmtId="科学";
 
         new GetUserInfo(this).execute();
@@ -79,7 +81,7 @@ public class CmtAcitivity extends AppCompatActivity {
             setupViewPager();
             setupTabLayout();
             if (reslut) {
-                cmt_name.setText(group.getCtyId());
+                cmt_name.setText(group.getCtyName());
                 cmt_member.setText(group.getCtyMembers());
                 Picasso.with(context).load(group.getCtyIcon()).into(cmt_photo);
 

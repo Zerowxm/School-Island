@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_action_mode_edit"
                     fab:fab_size="mini"
-                    fab:fab_label="Menu item 1" />
+                    fab:fab_label="成立小组" />
 
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/fab2"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_action_mode_edit"
                     fab:fab_size="mini"
-                    fab:fab_label="menu" />
+                    fab:fab_label="发布活动" />
 
             </com.github.clans.fab.FloatingActionMenu>
         </FrameLayout>
