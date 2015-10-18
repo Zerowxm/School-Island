@@ -97,7 +97,7 @@ public class CmtListFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             JSONObject object=new JSONObject();
             try {
-                object.put("action","showAllCommunities");
+                object.put("action","showJoinedCommunities");
                 object.put("userId", userId);
                 Log.d("jsonarray1", object.toString());
                 String jsonarrys = JsonConnection.getJSON(object.toString());

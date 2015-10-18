@@ -1,57 +1,33 @@
 package wxm.com.androiddesign.ui;
 
-
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-
-
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.easemob.EMCallBack;
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMMessage;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.ref.WeakReference;
-import java.util.Timer;
-import java.util.logging.LogRecord;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -65,21 +41,18 @@ import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
-import wxm.com.androiddesign.ui.fragment.MessageFragment;
-import wxm.com.androiddesign.ui.fragment.MsgListFragment;
-import wxm.com.androiddesign.ui.fragment.RankingFragment;
-import wxm.com.androiddesign.utils.Config;
 import wxm.com.androiddesign.utils.MyUtils;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, LoginFragment.LoginCallBack,HomeFragment.CloseLocService {
-    private static final String TAG="MainActivity";
+public class MainActivity extends BaseActivity implements View.OnClickListener, LoginFragment.LoginCallBack, HomeFragment.CloseLocService {
+    private static final String TAG = "MainActivity";
 
+    public static Toolbar toolbar;
     DrawerLayout drawerLayout;
 
     public static int SIGNUP = 0x1;
 
     public static MainActivity instance = null;
-    public static WeakReference<AppCompatActivity> activityWeakReference=null;
+    public static WeakReference<AppCompatActivity> activityWeakReference = null;
     public static Context context;
     private long exitTime = 0;
 
@@ -106,7 +79,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onDestroy() {
         super.onDestroy();
         closeLocationServices();
-        Log.d(TAG, "onDestroy");
     }
 
     @Override
@@ -120,9 +92,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         new LoginTask(this).execute(false);
         setupNavigationView();
         openLocationServices();
-        Log.d(TAG + 1, "onCreate:" + this.toString());
-        activityWeakReference=new WeakReference<AppCompatActivity>(this);
+        activityWeakReference = new WeakReference<AppCompatActivity>(this);
+        setupDrawer();
     }
+
+
 
     private void openLocationServices() {
         Intent i = new Intent();
@@ -138,10 +112,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         stopService(i);
     }
 
-    private Handler mUiHandler=new Handler();
+    private Handler mUiHandler = new Handler();
+
     private void setupFab() {
         fab.hideMenuButton(false);
-        int delay=400;
+        int delay = 400;
         mUiHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -156,9 +131,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
         fab.setClosedOnTouchOutside(true);
     }
+
     @OnClick(R.id.fab1)
-    public void createGroup(){
-        startActivity(new Intent(this,CreateGroupActivity.class));
+    public void createGroup() {
+        startActivity(new Intent(this, CreateGroupActivity.class));
+    }
+
+    @OnClick(R.id.fab2)
+    public void release() {
+        startActivity(new Intent(this, TestActivity.class));
     }
 
     @Override
@@ -168,103 +149,108 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
+    public class LoginTask extends AsyncTask<Boolean, Void, User> {
+        Context context;
 
+        public LoginTask(Context context) {
+            this.context = context;
+        }
 
-        public class LoginTask extends AsyncTask<Boolean, Void, User> {
-            Context context;
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+            if (user == null) {
 
-            public LoginTask(Context context) {
-                this.context = context;
+                return;
             }
-
-            @Override
-            protected void onPostExecute(User user) {
-                super.onPostExecute(user);
-                if (user == null) {
-
-                    return;
-                }
-                mUser = user;
-                Log.d("user", mUser.toString());
-                user_name.setText(mUser.getUserName());
-                if ("001".equals(mUser.getUserId())) {
-                    user_email.setText("点击头像登录");
-                    logout.setText("");
-                    logout.setClickable(false);
-                } else {
-                    user_email.setText(mUser.getUserEmail());
-                    logout.setText("Logout");
-                    logout.setClickable(true);
-                }
-                MyUser.userId = mUser.getUserId();
-                MyUser.userName = mUser.getUserName();
-                MyUser.userIcon = mUser.getUserIcon();
-                Picasso.with(context).load(MyUser.userIcon).into(user_photo);
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
-                flag=1;
-                MyUtils.Login(getApplicationContext());
+            mUser = user;
+            Log.d("user", mUser.toString());
+            user_name.setText(mUser.getUserName());
+            if ("001".equals(mUser.getUserId())) {
+                user_email.setText("点击头像登录");
+                logout.setText("");
+                logout.setClickable(false);
+            } else {
+                user_email.setText(mUser.getUserEmail());
+                logout.setText("Logout");
+                logout.setClickable(true);
             }
+            MyUser.userId = mUser.getUserId();
+            MyUser.userName = mUser.getUserName();
+            MyUser.userIcon = mUser.getUserIcon();
+            Picasso.with(context).load(MyUser.userIcon).into(user_photo);
 
-            @Override
-            protected User doInBackground(Boolean... params) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+            flag = 1;
+            MyUtils.Login(getApplicationContext());
+        }
 
-                if (params[0]) {
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("action", "loginemail");
-                        object.put("userEmail", "001");
-                        object.put("userPassword", "001");
-                        SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("UserId", "001");
-                        editor.putString("UserPassword", "001");
-                        editor.putBoolean("isSignup",false);
-                        editor.apply();
-                        String userJson = JsonConnection.getJSON(object.toString());
-                        return new Gson().fromJson(userJson, User.class);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-                String type=prefs.getString("LoginType", "email");
-                String name = prefs.getString("UserId", "001");
-                String email=prefs.getString("UserEmail","");
-                String password = prefs.getString("UserPassword", "001");
+        @Override
+        protected User doInBackground(Boolean... params) {
+
+            if (params[0]) {
                 JSONObject object = new JSONObject();
                 try {
-                    if(type.equals(MyUser.EMAIL)){
-                        object.put("action", "loginemail");
-                        object.put("userEmail", email);
-                        object.put("userPassword", password);
-                    }else if (MyUser.SINA.equals(type)){
-                        object.put("action","loginsina");
-                        object.put("userId",name);
-                    }else if(MyUser.QQ.equals(type)){
-                        object.put("action","loginqq");
-                        object.put("userId",name);
-                    }
-                    Log.d(TAG,object.toString());
-
+                    object.put("action", "loginemail");
+                    object.put("userEmail", "001");
+                    object.put("userPassword", "001");
+                    SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("UserId", "001");
+                    editor.putString("UserPassword", "001");
+                    editor.putBoolean("isSignup", false);
+                    editor.apply();
                     String userJson = JsonConnection.getJSON(object.toString());
-                    Log.d(TAG,userJson);
-                    if (userJson.contains("false")) {
-                        return null;
-                    }
                     return new Gson().fromJson(userJson, User.class);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return null;
             }
-        }
+            SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+            String type = prefs.getString("LoginType", "email");
+            String name = prefs.getString("UserId", "001");
+            String email = prefs.getString("UserEmail", "");
+            String password = prefs.getString("UserPassword", "001");
+            JSONObject object = new JSONObject();
+            try {
+                if (type.equals(MyUser.EMAIL)) {
+                    object.put("action", "loginemail");
+                    object.put("userEmail", email);
+                    object.put("userPassword", password);
+                } else if (MyUser.SINA.equals(type)) {
+                    object.put("action", "loginsina");
+                    object.put("userId", name);
+                } else if (MyUser.QQ.equals(type)) {
+                    object.put("action", "loginqq");
+                    object.put("userId", name);
+                }
+                Log.d(TAG, object.toString());
 
-        @Override
-        public void onLongin(User user) {
-            mUser = user;
-            new LoginTask(this).execute(false);
+                String userJson = JsonConnection.getJSON(object.toString());
+                Log.d(TAG, userJson);
+                if (userJson.contains("false")) {
+                    return null;
+                }
+                return new Gson().fromJson(userJson, User.class);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
+    }
+
+    @Override
+    public void onLongin(User user) {
+        mUser = user;
+        new LoginTask(this).execute(false);
+    }
+
+    private void setupDrawer(){
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout,toolbar , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+    }
 
     private void setupDrawerContent(final NavigationView navigationView, final Context context) {
 
@@ -291,8 +277,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 flag = 2;
                                 return true;
                             case R.id.nav_messages:
-                                Intent notificationIntent=new Intent(instance,NotificationActivity.class);
-                                notificationIntent.putExtra("type",NotificationActivity.CHAT);
+                                Intent notificationIntent = new Intent(instance, NotificationActivity.class);
+                                notificationIntent.putExtra("type", NotificationActivity.CHAT);
                                 startActivity(notificationIntent);
                                 flag = 4;
                                 return true;
@@ -380,12 +366,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis()-exitTime>2000){
-            Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
-            exitTime = System.currentTimeMillis();
-            return;
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            if (System.currentTimeMillis() - exitTime > 2000) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+                return;
+            }
+            finish();
         }
-        finish();
+
     }
 
     @Override
@@ -401,7 +393,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (!MyUser.userId.equals("001")) {
             Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
             intent.putExtra("userId", mUser.getUserId());
-            intent.putExtra("userIcon",mUser.getUserIcon());
+            intent.putExtra("userIcon", mUser.getUserIcon());
             startActivity(intent);
         } else {
             Toast.makeText(this, "请登录后发布", Toast.LENGTH_SHORT).show();
@@ -416,17 +408,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private MyOnTouchListener onTouchListener;
 
-    public void registerMyOnTouchEvent(MyOnTouchListener listener){
-        onTouchListener=listener;
+    public void registerMyOnTouchEvent(MyOnTouchListener listener) {
+        onTouchListener = listener;
     }
 
-    public interface MyOnTouchListener{
+    public interface MyOnTouchListener {
         public void onTouch(MotionEvent event);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (flag==2){
+        if (flag == 2) {
             onTouchListener.onTouch(ev);
         }
 

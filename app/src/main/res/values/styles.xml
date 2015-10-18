@@ -12,7 +12,13 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>
+    </style>
 
+    <style name="editTextStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">#ffeb3b</item>
+        <item name="colorControlHighlight">#fbc02d</item>
+        <item name="colorAccent">#ffeb3b</item>
     </style>
 
     <style name="FabStyle">

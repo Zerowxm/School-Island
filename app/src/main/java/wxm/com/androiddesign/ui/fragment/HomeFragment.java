@@ -152,6 +152,9 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
         ButterKnife.bind(this, v);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+
+        MainActivity.toolbar=toolbar;
+
         appBarLayout=(AppBarLayout)v.findViewById(R.id.appbar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);

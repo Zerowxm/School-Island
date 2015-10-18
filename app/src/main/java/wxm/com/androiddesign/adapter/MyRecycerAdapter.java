@@ -418,8 +418,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView total_share;
         @Bind(R.id.location)
         TextView atyPlace;
-        @Bind(R.id.card_view)
-        CardView cardView;
+//        @Bind(R.id.card_view)
+//        CardView cardView;
         @Bind(R.id.imageViewContainer)
         LinearLayout imageViewContainer;
         @Bind(R.id.tag)
@@ -451,7 +451,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             Log.d("recyclerview", "MyViewHolder");
             mListener = listener;
             ButterKnife.bind(this, itemView);
-            cardView.setOnClickListener(this);
+            //cardView.setOnClickListener(this);
             comment_fab.setOnClickListener(this);
             user_photo.setOnClickListener(this);
             mjoinBtn.setOnClickListener(this);

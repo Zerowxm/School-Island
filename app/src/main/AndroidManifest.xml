@@ -151,6 +151,9 @@
             android:name=".ui.CreateGroupActivity"
             android:label="@string/title_activity_create_group1"
             android:theme="@style/AppTheme"></activity>
+
+        <activity android:name=".ui.TestActivity"
+            android:theme="@style/editTextStyle"/>
     </application>
 
 </manifest>

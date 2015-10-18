@@ -92,6 +92,7 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     }
     private void setupToolBar(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        MainActivity.toolbar=toolbar;
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);

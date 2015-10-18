@@ -90,6 +90,7 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
     }
     private void setupToolBar(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        MainActivity.toolbar=toolbar;
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
