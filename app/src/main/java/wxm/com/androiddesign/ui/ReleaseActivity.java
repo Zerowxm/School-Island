@@ -126,11 +126,11 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == GET_LOCATION) {
-                String address = data.getStringExtra(LocationActivity.Address);
-                Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
-                Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
-                Location = address + " " + lattitute + " " + Longtitute;
-                locaton.setText(address);
+//                String address = data.getStringExtra(LocationActivity.Address);
+//                Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
+//                Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
+                //Location = address + " " + lattitute + " " + Longtitute;
+                //locaton.setText(address);
             }
 
             if (requestCode == CHOOSE_PHOTO) {
@@ -366,8 +366,8 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
 
     @OnClick(R.id.add_location)
     public void addLoc() {
-        Intent intent = new Intent(ReleaseActivity.this, LocationActivity.class);
-        startActivityForResult(intent, GET_LOCATION);
+        //Intent intent = new Intent(ReleaseActivity.this, LocationActivity.class);
+        //startActivityForResult(intent, GET_LOCATION);
 
 
     }

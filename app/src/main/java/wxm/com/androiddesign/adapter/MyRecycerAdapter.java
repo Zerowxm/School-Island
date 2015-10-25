@@ -273,7 +273,10 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         Point size=MyUtils.getScreenSize(activity);
         int screenWidth = size.x - 7;
         int screenHeight = size.y;
-        holder.imageViewContainer.removeAllViews();
+        if (holder.imageViewContainer!=null){
+            holder.imageViewContainer.removeAllViews();
+        }
+
         if (item.getAtyAlbum() != null&&item.getAtyAlbum().size()!=0) {
             if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers") || "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
                 ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
@@ -418,8 +421,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView total_share;
         @Bind(R.id.location)
         TextView atyPlace;
-//        @Bind(R.id.card_view)
-//        CardView cardView;
+        @Bind(R.id.card_view)
+        CardView cardView;
         @Bind(R.id.imageViewContainer)
         LinearLayout imageViewContainer;
         @Bind(R.id.tag)

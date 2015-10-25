@@ -1,32 +1,14 @@
 package wxm.com.androiddesign.ui;
 
 import android.app.Application;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
-import android.media.audiofx.NoiseSuppressor;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMChatOptions;
-import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.OnMessageNotifyListener;
-import com.easemob.chat.OnNotificationClickListener;
-import com.easemob.chat.TextMessageBody;
 import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
@@ -38,8 +20,6 @@ import cn.sharesdk.framework.ShareSDK;
 import wxm.com.androiddesign.broadcastreceive.NewMessageBroadCastReceiver;
 import wxm.com.androiddesign.listener.MyConnectionListener;
 import wxm.com.androiddesign.notification.Notifications;
-import wxm.com.androiddesign.utils.HXSDKHelper;
-import wxm.com.androiddesign.utils.MyUtils;
 
 /**
  * Created by Administrator on 2015/7/3.
@@ -47,7 +27,6 @@ import wxm.com.androiddesign.utils.MyUtils;
 public class MyApplication extends Application implements EMEventListener {
     public static Context applicationContext;
     private static MyApplication instance;
-    //public static HXSDKHelper hxsdkHelper;
 
     public static Map<String,Integer> easemobId = new HashMap<>();
     private static final String TAG = "MyApplication";
@@ -60,7 +39,7 @@ public class MyApplication extends Application implements EMEventListener {
         applicationContext = this;
         instance = this;
         EMChat.getInstance().setAutoLogin(false);
-        SDKInitializer.initialize(applicationContext);
+        //SDKInitializer.initialize(applicationContext);
         EMChat.getInstance().init(applicationContext);
         EMChat.getInstance().setDebugMode(true);
         Log.d(TAG, "ApplicationonCreate");

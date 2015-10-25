@@ -57,7 +57,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
-public class AtyDetailActivity extends AppCompatActivity {
+public class AtyDetailActivity extends BaseActivity {
 
     private static final String TAG="AtyDetail";
     AtyItem atyItem;
@@ -86,6 +86,8 @@ public class AtyDetailActivity extends AppCompatActivity {
     TextView userName;
     @Bind(R.id.view_flipper)
     ViewFlipper flipper;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,18 +113,10 @@ public class AtyDetailActivity extends AppCompatActivity {
         mPeople.setText("已有"+atyItem.getAtyMembers()+"人参加");
         Log.d("userIcon",MyUser.userIcon);
         Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userPhoto);
-        setupToolBar();
+        setupToolBar(toolbar);
         setupFab();
         setupFlipper();
         setupSlidingPanel();
-    }
-
-    private void setupToolBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("");
     }
 
     private void setupFab(){
@@ -286,8 +280,6 @@ public class AtyDetailActivity extends AppCompatActivity {
                     object.put("easemobId",MyUser.getEasemobId());
                     String json = JsonConnection.getJSON(object.toString());
                     CommentData commentData = new Gson().fromJson(json, CommentData.class);
-//                Log.d("comment", commentData.toString());
-                    //commentDatas.add(commentData);
                     commentDatas.add(0,commentData);
                     return true;
                 }

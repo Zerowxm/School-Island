@@ -13,6 +13,7 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -23,12 +24,13 @@
             android:layout_alignParentTop="true"
             android:id="@+id/group_img"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="86dp"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
             android:src="@drawable/test" />
 
         <RelativeLayout
+            android:background="@color/white"
             android:animateLayoutChanges="true"
             android:paddingTop="16dp"
             android:layout_below="@id/group_img"
@@ -43,7 +45,7 @@
                 android:layout_marginTop="4dp"
                 android:text="小组名"
                 android:paddingLeft="16dp"
-                android:textColor="@color/white" />
+                />
 
             <wxm.com.androiddesign.widget.MyTextView
                 android:layout_width="match_parent"
@@ -51,9 +53,9 @@
                 android:id="@id/member_num"
                 android:paddingLeft="16dp"
                 android:textSize="12sp"
-                android:textColor="@color/white"
                 android:text="123个成员"
-                android:layout_centerVertical="true"
+                android:paddingTop="5dp"
+                android:layout_below="@id/group_name"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
@@ -61,7 +63,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="加入"
-                android:textColor="@color/white"
                 android:layout_gravity="bottom"
                 android:textSize="15sp"
                 android:layout_marginLeft="17dp"
@@ -71,7 +72,6 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="17dp"
                 android:layout_marginBottom="13dp" />
-
         </RelativeLayout>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@id/user_photo"
@@ -81,7 +81,7 @@
             app:border_width="1dp"
             app:border_color="#ffffff"
             android:src="@drawable/wu"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="74dp"
             android:layout_marginLeft="16dp"
             />
     </RelativeLayout>

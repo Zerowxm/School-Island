@@ -61,10 +61,7 @@ public class CmtAcitivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         cmtId = bundle.getString("ctyId");
         cmtName = bundle.getString("ctyName");
-        //cmtId="科学";
-
         new GetUserInfo(this).execute();
-
     }
 
     private class GetUserInfo extends AsyncTask<Void, Void, Boolean> {

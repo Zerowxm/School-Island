@@ -49,7 +49,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.MyUtils;
 
-public class ChatActivity extends AppCompatActivity implements EMEventListener {
+public class ChatActivity extends BaseActivity implements EMEventListener {
 
     private static final String TAG = "ChatActivity";
 
@@ -59,6 +59,8 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
     EditText mContent;
     @Bind(R.id.send_msg)
     ImageView mSendBtn;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     private ChatAdapter mChatAdapter;
     private String toChatUserId;
     private String userIcon;
@@ -74,7 +76,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
 
         Bundle bundle=getIntent().getExtras();
         Boolean notification=bundle.getBoolean("notification");
-        Log.d("noti",notification+"");
+        Log.d("noti", notification + "");
         if (notification){
             toChatUserId=bundle.getString("easemobId");
             MyApplication.easemobId.remove(toChatUserId);
@@ -88,16 +90,8 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             setupRecyclerview(recyclerView);
             onConversationInit();
         }
-        setupToolBar();
+        setupToolBar(toolbar);
         Log.d(TAG, "onPostResume");
-    }
-
-    private void setupToolBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.chat_toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar=getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(userName);
     }
 
     @OnClick(R.id.send_msg)
@@ -196,18 +190,12 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }if(id==android.R.id.home){
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

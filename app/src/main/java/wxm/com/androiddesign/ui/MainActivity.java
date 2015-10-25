@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -43,7 +44,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.utils.MyUtils;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, LoginFragment.LoginCallBack, HomeFragment.CloseLocService {
+public class MainActivity extends BaseActivity implements View.OnClickListener, LoginFragment.LoginCallBack{
     private static final String TAG = "MainActivity";
 
     public static Toolbar toolbar;
@@ -73,17 +74,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     TextView user_email;
 
     @Override
-    public void close() {
-        closeLocationServices();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        closeLocationServices();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         instance = this;
         context = getApplicationContext();
@@ -93,11 +83,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setupFab();
         new LoginTask(this).execute(false);
         setupNavigationView();
-        openLocationServices();
-
         activityWeakReference = new WeakReference<AppCompatActivity>(this);
         setupDrawer();
-        activityWeakReference=new WeakReference<AppCompatActivity>(this);
         fab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,20 +95,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
     }
 
-
-
-    private void openLocationServices() {
-        Intent i = new Intent();
-        i.putExtra("userId", MyUser.userId);
-        i.setClass(getApplicationContext(), LocationServices.class);
-        startService(i);
-    }
-
-    private void closeLocationServices() {
-        Intent i = new Intent();
-        i.putExtra("userId", MyUser.userId);
-        i.setClass(getApplicationContext(), LocationServices.class);
-        stopService(i);
+    private void setupStrictMode(){
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+        .detectAll()
+        .penaltyDialog()
+        .penaltyLog()
+        .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+        .detectAll()
+        .penaltyLog()
+        .build());
     }
 
     private Handler mUiHandler = new Handler();
@@ -142,6 +125,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         fab.setClosedOnTouchOutside(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @OnClick(R.id.fab1)
@@ -172,7 +160,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
             if (user == null) {
-
                 return;
             }
             mUser = user;
@@ -329,7 +316,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     private void setupNavigationView() {
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {
@@ -381,7 +367,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
             if (System.currentTimeMillis() - exitTime > 2000) {
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
@@ -433,7 +418,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (flag == 2) {
             onTouchListener.onTouch(ev);
         }
-
         return super.dispatchTouchEvent(ev);
     }
 }

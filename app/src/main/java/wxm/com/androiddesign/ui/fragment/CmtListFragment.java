@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.GroupAdapter;
+import wxm.com.androiddesign.adapter.GroupListAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.network.JsonConnection;
@@ -96,7 +96,7 @@ public class CmtListFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            recyclerView.setAdapter(new GroupAdapter(groups, getActivity()));
+            recyclerView.setAdapter(new GroupListAdapter(groups, getActivity()));
         }
 
         @Override

@@ -29,7 +29,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.utils.PrefUtils;
 
 
-public class TestActivity extends AppCompatActivity{
+public class TestActivity extends BaseActivity{
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.edit_aty)
@@ -39,10 +39,7 @@ public class TestActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.release_layout);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        setupToolBar(toolbar);
     }
 
     @Override

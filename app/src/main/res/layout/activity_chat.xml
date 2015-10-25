@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     tools:context="wxm.com.androiddesign.ui.ChatActivity">
 
-    <include layout="@layout/toolbar" android:id="@+id/chat_toolbar"/>
+    <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_below="@id/chat_toolbar"
+        android:layout_below="@id/toolbar"
         android:id="@+id/recyclerview_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

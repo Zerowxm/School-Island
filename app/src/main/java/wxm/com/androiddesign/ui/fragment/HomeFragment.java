@@ -67,16 +67,20 @@ import wxm.com.androiddesign.utils.TransparentToolBar;
  */
 public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
 
+    @Bind(R.id.recyclerview_activity)
     RecyclerView recyclerView;
+    @Bind(R.id.toolbar)
     Toolbar toolbar;
-    private AppBarLayout appBarLayout;
-    static MyRecycerAdapter myRecycerAdapter;
+    @Bind(R.id.appbar)
+    AppBarLayout appBarLayout;
+    @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    static MyRecycerAdapter myRecycerAdapter;
     static List<AtyItem> activityItems = new ArrayList<AtyItem>();
     private String userId;
     @Bind(R.id.country)
     TextView country;
-
 
     @Override
     public void setHasOptionsMenu(boolean hasMenu) {
@@ -86,18 +90,8 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         userId = getArguments().getString("UserId");
         setHasOptionsMenu(true);
-        //openMessageService();
-    }
-
-    public void openMessageService() {
-        Intent i = new Intent();
-        i.setClass(getActivity(), MessageService.class);
-        i.putExtra("userId", MyUser.userId);
-        getActivity().startService(i);
-        Log.i("CJ", "openMessageService " + userId);
     }
 
     @Override
@@ -149,14 +143,16 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.home_layout, viewGroup, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_activity);
         ButterKnife.bind(this, v);
-        toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-
         MainActivity.toolbar=toolbar;
+        setupToolBar();
+        setupSwipeRefreshLayout(mSwipeRefreshLayout);
+        setupRecyclerView(recyclerView);
+        setRetainInstance(true);
+        return v;
+    }
 
-        appBarLayout=(AppBarLayout)v.findViewById(R.id.appbar);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+    private void setupToolBar(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -164,10 +160,6 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-        setupSwipeRefreshLayout(mSwipeRefreshLayout);
-        setupRecyclerView(recyclerView);
-        setRetainInstance(true);
-        return v;
     }
 
     private class GetAtyTask extends AsyncTask<String, Void, Boolean> {
@@ -175,7 +167,6 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             mSwipeRefreshLayout.setRefreshing(true);
         }
 
@@ -189,7 +180,6 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
                     recyclerView.setAdapter(myRecycerAdapter);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-
                 country.setText(LocationServices.City);
 
             } else {
@@ -259,8 +249,6 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
             public void run() {
                 Log.d("home", "postDelayed");
 
-                //new GetAtyTask().execute();
-
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         }, 5000);
@@ -283,9 +271,4 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         activityItems.add(position, atyItem);
         myRecycerAdapter.notifyDataSetChanged();
     }
-
-    public interface CloseLocService{
-        public void close();
-    };
-
 }

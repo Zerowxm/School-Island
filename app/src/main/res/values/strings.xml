@@ -67,12 +67,26 @@
     <string name="title_activity_chat">ChatActivity</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_aty_detail">AtyDetailActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_create_group1">CreateGroupActivity1</string>
 
     <string name="navigation_drawer_open">OpenDrawer</string>
     <string name="navigation_drawer_close">CloseDrawer</string>
+
+    <!-- 设置界面-->
+    <string name="title_first_section"></string>
+    <string name="title_checkbox_preference"></string>
+    <string name="default_checkbox_preference"></string>
+    <string name="title_edittext_preference"></string>
+    <string name="summary_edittext_preference"></string>
+    <string name="dialog_title_edittext_preference"></string>
+    <array name="entries_list_preference">
+        <item>@string/navigation_drawer_open</item>
+        <item>@string/navigation_drawer_close</item>
+    </array>
+    <array name="entryvalues_list_preference">
+        <item>@string/navigation_drawer_open</item>
+        <item>@string/navigation_drawer_close</item>
+    </array>
 </resources>
