@@ -326,6 +326,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             holder.mjoinBtn.setText("加入");
             holder.mjoinBtn.setTextColor(ContextCompat.getColor(activity, R.color.black));
         }
+
+        if(!item.getAtyType().equals("暂时没有社区")){
+            holder.activity_tag.setVisibility(View.GONE);
+            holder.tagImage.setVisibility(View.GONE);
+        }else {
+
+        }
         //setAnimation(holder.cardView, position);
     }
 
@@ -418,12 +425,14 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView total_share;
         @Bind(R.id.location)
         TextView atyPlace;
-//        @Bind(R.id.card_view)
-//        CardView cardView;
+        @Bind(R.id.card_view)
+        CardView cardView;
         @Bind(R.id.imageViewContainer)
         LinearLayout imageViewContainer;
         @Bind(R.id.tag)
         TextView activity_tag;
+        @Bind(R.id.tag_image)
+        ImageView tagImage;
         @Bind(R.id.fab_comment)
         FloatingActionButton comment_fab;
         @Bind(R.id.fab_plus)
@@ -451,7 +460,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             Log.d("recyclerview", "MyViewHolder");
             mListener = listener;
             ButterKnife.bind(this, itemView);
-            //cardView.setOnClickListener(this);
+            cardView.setOnClickListener(this);
             comment_fab.setOnClickListener(this);
             user_photo.setOnClickListener(this);
             mjoinBtn.setOnClickListener(this);
@@ -463,7 +472,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         @Override
         public void onClick(View v) {
             if (v instanceof CircleImageView) {
-
                 mListener.onUserPhoto((CircleImageView) v, getAdapterPosition());
             } else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_comment)) {
                 mListener.onComment((FloatingActionButton) v, getAdapterPosition());
@@ -477,7 +485,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
             } else if (v instanceof TextView && (v.getId() == R.id.tag)) {
                 mListener.onCommunity((TextView) v, getAdapterPosition());
-
             }
         }
 

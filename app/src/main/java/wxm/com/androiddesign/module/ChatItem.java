@@ -7,6 +7,7 @@ public class ChatItem {
     String fromUserIcon;
     String fromUserName;
     String fromUserId;
+    String fromEasemobId;
     String sendTime;
     String msgContent;
     String newMsgCount;
@@ -26,6 +27,14 @@ public class ChatItem {
         this.sendTime = sendTime;
         this.msgContent = msgContent;
         this.newMsgCount = newMsgCount;
+    }
+
+    public String getFromEasemobId() {
+        return fromEasemobId;
+    }
+
+    public void setFromEasemobId(String fromEasemobId) {
+        this.fromEasemobId = fromEasemobId;
     }
 
     public String getFromUserIcon() {

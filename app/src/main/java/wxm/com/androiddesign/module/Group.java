@@ -16,6 +16,8 @@ public class Group {
     String ctyGroupId;
     String ctyCreatorId;
     String ctyName;
+    String userName;
+    String userIcon;
 
     public Group(String action, String ctyId, String ctyMembers, String ctyIcon, String ctyIsAttention) {
         this.action = action;
@@ -32,6 +34,22 @@ public class Group {
         this.ctyType = ctyType;
         this.ctyName = ctyName;
         this.ctyIntro = ctyIntro;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
     }
 
     public String getCtyNumOfAty() {

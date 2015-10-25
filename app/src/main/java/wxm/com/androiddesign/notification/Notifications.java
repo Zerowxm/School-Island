@@ -9,16 +9,9 @@ import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.exceptions.EaseMobException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import wxm.com.androiddesign.ui.ChatActivity;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.MyApplication;
 import wxm.com.androiddesign.ui.NotificationActivity;
@@ -85,11 +78,7 @@ public class Notifications {
                 notification.flags = Notification.FLAG_SHOW_LIGHTS;
                 NotificationManager mNotificationManager =
                         (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                if(!MyApplication.easemobId.containsKey(userId))
-                    MyApplication.easemobId.put(userId,(int) System.currentTimeMillis());
-
-                Log.d("identifyfff",MyApplication.easemobId.get(userId)+"");
-                mNotificationManager.notify(MyApplication.easemobId.get(userId), notification);
+                mNotificationManager.notify(Integer.parseInt(userId.substring(1)), notification);
             }else if(identify.equals("notification")){
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(MyApplication.applicationContext)
@@ -117,9 +106,6 @@ public class Notifications {
                 notification.flags = Notification.FLAG_SHOW_LIGHTS;
                 NotificationManager mNotificationManager =
                         (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                if(!MyApplication.easemobId.containsKey(userId))
-                    MyApplication.easemobId.put(userId,(int) System.currentTimeMillis());
-                mNotificationManager.notify(MyApplication.easemobId.get(userId), notification);
             }else if(identify.equals("join")){
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(MyApplication.applicationContext)
@@ -148,9 +134,6 @@ public class Notifications {
                 notification.flags = Notification.FLAG_SHOW_LIGHTS;
                 NotificationManager mNotificationManager =
                         (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                if(!MyApplication.easemobId.containsKey(userId))
-                    MyApplication.easemobId.put(userId,(int) System.currentTimeMillis());
-                mNotificationManager.notify(MyApplication.easemobId.get(userId), notification);
             }else if (identify.equals("comment")){
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(MyApplication.applicationContext)
@@ -179,9 +162,6 @@ public class Notifications {
                 notification.flags = Notification.FLAG_SHOW_LIGHTS;
                 NotificationManager mNotificationManager =
                         (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                if(!MyApplication.easemobId.containsKey(userId))
-                    MyApplication.easemobId.put(userId,(int) System.currentTimeMillis());
-                mNotificationManager.notify(MyApplication.easemobId.get(userId), notification);
             }
         } catch (EaseMobException e) {
             e.printStackTrace();

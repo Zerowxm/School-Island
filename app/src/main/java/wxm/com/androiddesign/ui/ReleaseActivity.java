@@ -69,7 +69,6 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
     ImageView userPhoto;
     @Bind(R.id.user_name)
     TextView userName;
-
     @Bind(R.id.start_time)
     TextView startTime;
     @Bind(R.id.end_time)
@@ -203,7 +202,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
                 .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         String temp = "toVisitors";
                         try {
                             if (which == 0) {
@@ -307,7 +306,6 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
         mTime=year+"."+(monthOfYear+1)+"."+dayOfMonth;
         setTime();
-
     }
 
     private void setTime(){
@@ -368,8 +366,6 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
     public void addLoc() {
         Intent intent = new Intent(ReleaseActivity.this, LocationActivity.class);
         startActivityForResult(intent, GET_LOCATION);
-
-
     }
 
     @OnClick(R.id.add_image)

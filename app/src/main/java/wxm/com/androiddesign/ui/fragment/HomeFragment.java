@@ -35,6 +35,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -172,16 +173,23 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
 
     private class GetAtyTask extends AsyncTask<String, Void, Boolean> {
 
+        MaterialDialog materialDialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
             mSwipeRefreshLayout.setRefreshing(true);
+            materialDialog = new MaterialDialog.Builder(getActivity())
+                    .title("Loading")
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(false)
+                    .show();
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            materialDialog.dismiss();
             if (aBoolean == true) {
                 AppCompatActivity appCompatActivity=MainActivity.activityWeakReference.get();
                 if (appCompatActivity!=null&&!appCompatActivity.isFinishing()){

@@ -1,12 +1,14 @@
 package wxm.com.androiddesign.ui;
 
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
@@ -24,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
 import com.easemob.EMEventListener;
@@ -73,21 +76,18 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         ButterKnife.bind(this);
 
         Bundle bundle=getIntent().getExtras();
-        Boolean notification=bundle.getBoolean("notification");
-        Log.d("noti",notification+"");
-        if (notification){
-            toChatUserId=bundle.getString("easemobId");
-            MyApplication.easemobId.remove(toChatUserId);
-            onConversationInit();
-            new getHX().execute();
-        }else {
-            toChatUserId=bundle.getString("toChatUserId");
-            userIcon=bundle.getString("userIcon");
-            userName = bundle.getString("userName");
-            onConversationInit();
-            setupRecyclerview(recyclerView);
-            onConversationInit();
-        }
+        userName = bundle.getString("userName");
+        toChatUserId = bundle.getString("easemobId");
+        userIcon = bundle.getString("userIcon");
+        MaterialDialog materialDialog = new MaterialDialog.Builder(this)
+                .title("Loading")
+                .progress(true, 0)
+                .progressIndeterminateStyle(false)
+                .show();
+        onConversationInit();
+        materialDialog.dismiss();
+        new getHX().execute();
+
         setupToolBar();
         Log.d(TAG, "onPostResume");
     }
@@ -190,7 +190,6 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chat, menu);
-
         return true;
     }
 
@@ -200,14 +199,12 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }if(id==android.R.id.home){
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -224,27 +221,38 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
                 if (userId.equals(toChatUserId)) {
                     refreshUIWithNewMessage();
                 }else {
-                    NotificationCompat.Builder mBuilder=
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
-                                    .setWhen(System.currentTimeMillis())
-                                    .setContentTitle("有新消息了!")
-                                    .setContentText("A+").setAutoCancel(true);
-                    Intent resultIntent=new Intent(this,ChatActivity.class);
-                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    resultIntent.putExtra("notification",true);
-                    resultIntent.putExtra("easemobId",userId);
-                    TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
-                    stackBuilder.addParentStack(ChatActivity.class);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent=
-                            stackBuilder.getPendingIntent(0,
-                                    PendingIntent.FLAG_UPDATE_CURRENT);
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    NotificationManager mNotificationManager=
-                            (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-
-                    mNotificationManager.notify(0,mBuilder.build());
+                    try {
+                        NotificationCompat.Builder mBuilder = null;
+                        mBuilder = new NotificationCompat.Builder(MyApplication.applicationContext)
+                                .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
+                                .setWhen(System.currentTimeMillis())
+                                .setContentTitle(message.getStringAttribute("userName") + "（" + message.getStringAttribute("newMsgCount") + "条新信息）")
+                                .setContentText(((TextMessageBody) message.getBody()).getMessage())
+                                .setAutoCancel(true)
+                                .setVibrate(new long[]{0, 200, 200, 200})
+                                .setLights(Color.GREEN, 1000, 1000)
+                                .setTicker(((TextMessageBody) message.getBody()).getMessage());
+                        Intent resultIntent = new Intent(MyApplication.applicationContext, NotificationActivity.class);
+                        resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        resultIntent.putExtra("type",NotificationActivity.CHAT);
+                        resultIntent.putExtra("notification", true);
+                        resultIntent.putExtra("easemobId", userId);
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(MyApplication.applicationContext);
+                        stackBuilder.addParentStack(MainActivity.class);
+                        stackBuilder.addNextIntent(resultIntent);
+                        PendingIntent resultPendingIntent =
+                                stackBuilder.getPendingIntent(2,
+                                        PendingIntent.FLAG_UPDATE_CURRENT);
+                        mBuilder.setContentIntent(resultPendingIntent);
+                        Notification notification = mBuilder.build();
+                        notification.defaults = Notification.DEFAULT_SOUND;
+                        notification.flags = Notification.FLAG_SHOW_LIGHTS;
+                        NotificationManager mNotificationManager =
+                                (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                        mNotificationManager.notify(Integer.parseInt(userId.substring(1)), notification);
+                    } catch (EaseMobException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             }
@@ -293,7 +301,7 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
 
     private class sendMessage extends AsyncTask<String,Void,Boolean>{
         String content;
-        String newMsgCount;
+        String newMsgCount =null;
         @Override
         protected Boolean doInBackground(String... params) {
             JSONObject object=new JSONObject();
@@ -302,9 +310,10 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
                 object.put("easemobId",MyUser.getEasemobId());
                 object.put("toEasemobId",toChatUserId);
                 object.put("userId",MyUser.userId);
-                object.put("userName",MyUser.userName);
                 object.put("msgContent",params[0]);
-                newMsgCount = JsonConnection.getJSON(object.toString());
+                String newMsg = JsonConnection.getJSON(object.toString());
+                JSONObject newMsgJson = new JSONObject(newMsg);
+                newMsgCount = newMsgJson.getString("newMsgCount");
                 content = params[0];
                 return true;
 
@@ -339,10 +348,9 @@ public class ChatActivity extends AppCompatActivity implements EMEventListener {
             JSONObject object=new JSONObject();
             try {
                 object.put("action","userChat");
-                object.put("easemobId",toChatUserId);
+                object.put("toEasemobId",toChatUserId);
+                object.put("fromEasemobId",MyUser.easemobId);
                 JSONObject object1=new JSONObject(JsonConnection.getJSON(object.toString()));
-                userIcon= object1.getString("userIcon");
-                userName = object1.getString("userName");
                 return true;
 
             } catch (JSONException e) {

@@ -236,10 +236,9 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
             case R.id.action_send:
                 //打开聊天
                 Intent chatIntent = new Intent(this, ChatActivity.class);
-                chatIntent.putExtra("notification", false);
-                chatIntent.putExtra("toChatUserId", user.getEasemobId());
-                chatIntent.putExtra("userIcon", user.getUserIcon());
-                chatIntent.putExtra("userName",user.getUserName());
+                chatIntent.putExtra("easemobId", user.getEasemobId());
+//                chatIntent.putExtra("userIcon", user.getUserIcon());
+//                chatIntent.putExtra("userName",user.getUserName());
                 startActivity(chatIntent);
                 break;
             case R.id.action_settings:

@@ -56,6 +56,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.ScrollManager;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
+import wxm.com.androiddesign.widget.MyTextView;
 
 public class AtyDetailActivity extends AppCompatActivity {
 
@@ -80,6 +81,8 @@ public class AtyDetailActivity extends AppCompatActivity {
     TextView atyContent;
     @Bind(R.id.people)
     TextView mPeople;
+    @Bind(R.id.comment_numbers)
+    MyTextView mNumber;
     @Bind(R.id.user_photo)
     CircleImageView userPhoto;
     @Bind(R.id.user_name)
@@ -108,8 +111,9 @@ public class AtyDetailActivity extends AppCompatActivity {
         userName.setText(atyItem.getUserName());
         atyName.setText(atyItem.getAtyName());
         atyContent.setText(atyItem.getAtyContent());
-        mPeople.setText("已有"+atyItem.getAtyMembers()+"人参加");
-        Log.d("userIcon",MyUser.userIcon);
+        mPeople.setText("已有" + atyItem.getAtyMembers() + "人参加");
+        mNumber.setText(atyItem.getAtyComments());
+        Log.d("atyComments", atyItem.getAtyComments());
         Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userPhoto);
         setupToolBar();
         setupFab();
@@ -129,6 +133,8 @@ public class AtyDetailActivity extends AppCompatActivity {
         if (isUser){
             fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.primary)));
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_send_white));
+        }else if(atyItem.getAtyJoined().equals("false")){
+            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fab_add));
         }
         //fab.announceForAccessibility();
     }
@@ -139,6 +145,13 @@ public class AtyDetailActivity extends AppCompatActivity {
         if(flipper.isAutoStart()&&!flipper.isFlipping()){
             flipper.startFlipping();
         }
+    }
+
+    @OnClick(R.id.user_photo)
+    public void showUser(){
+        Intent intent = new Intent(this, UserAcitivity.class);
+        intent.putExtra("userId", atyItem.getUserId());
+        startActivity(intent);
     }
 
     @OnClick(R.id.fab)
@@ -156,9 +169,80 @@ public class AtyDetailActivity extends AppCompatActivity {
                 @Override
                 public void onPositive(MaterialDialog dialog) {
                     super.onPositive(dialog);
-                    Toast.makeText(AtyDetailActivity.this, "dfdfd", Toast.LENGTH_SHORT).show();
                 }
             }).show();
+        }else if(atyItem.getAtyJoined().equals("false")){
+            new MaterialDialog.Builder(this)
+                    .title(R.string.add_title)
+                    .content(atyItem.getAtyName())
+                    .positiveText(R.string.OK)
+                    .negativeText(R.string.cancel)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            atyItem.setAtyJoined("true");
+                            atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
+                            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fab_add));
+                            new UpDateTask().execute("join");
+                        }
+                        @Override
+                        public void onNegative(MaterialDialog dialog) {
+
+                        }
+                    })
+                    .show();
+
+        } else {
+            new MaterialDialog.Builder(this)
+                    .title("主人你真的要退出瞄(´c_`)")
+                    .content(atyItem.getAtyName())
+                    .positiveText("是的")
+                    .negativeText(R.string.cancel)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            atyItem.setAtyJoined("false");
+                            atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
+                            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fab_add));
+                            new UpDateTask().execute("notJoin");
+                        }
+                        @Override
+                        public void onNegative(MaterialDialog dialog) {
+                        }
+                    })
+                    .show();
+        }
+    }
+
+
+    private class UpDateTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object = new JSONObject();
+                object.put("action", params[0]);
+                object.put("userId", MyUser.userId);
+                object.put("userName",MyUser.userName);
+                object.put("atyId", atyItem.getAtyId());
+                object.put("easemobId",MyUser.getEasemobId());
+                object.put("atyName", atyItem.getAtyName());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.i("mjson", json);
+            return null;
         }
     }
 
@@ -206,13 +290,14 @@ public class AtyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cmt_text.getText() != null && !cmt_text.getText().toString().equals("")) {
-                   // SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 HH:mm");
-                   // Date nowDate = new Date(System.currentTimeMillis());
-                   // String time = formatter.format(nowDate);
+                    // SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 HH:mm");
+                    // Date nowDate = new Date(System.currentTimeMillis());
+                    // String time = formatter.format(nowDate);
                     CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(),"moments ago", cmt_text.getText().toString());
                     new getCommentTask().execute(mcommentData);
                     //commentDatas.add(mcommentData);
                     cmt_text.setText(null);
+                    mNumber.setText(Integer.parseInt(mNumber.getText().toString())+1+"");
                 } else {
                     Toast.makeText(AtyDetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();
                 }

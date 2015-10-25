@@ -66,6 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
+                    android:id="@+id/tag_image"
                     android:src="@drawable/ic_action_play_arrow" />
 
                 <TextView
@@ -74,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:text="tag"
-                    android:textColor="@color/secondary_text_default_material_light" />
+                    android:textColor="@color/material_deep_teal_500" />
             </LinearLayout>
 
             <LinearLayout

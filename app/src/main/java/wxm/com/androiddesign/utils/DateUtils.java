@@ -31,7 +31,7 @@ public class DateUtils {
             
             format = "HH:mm";
             
-            if (hour > 17) {                
+            if (hour > 18) {
                 if(isChinese){
                     format = "晚上 hh:mm";
                 }
@@ -40,7 +40,7 @@ public class DateUtils {
                 if(isChinese){
                     format = "凌晨 hh:mm";
                 }
-            } else if (hour > 11 && hour <= 17) {
+            } else if (hour > 12 && hour <= 18) {
                 if(isChinese){
                     format = "下午 hh:mm";
                 }

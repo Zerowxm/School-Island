@@ -87,7 +87,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if(holder instanceof MsgReceiveViewHolder){
             Picasso.with(activity).load(userIcon).into(((MsgReceiveViewHolder) holder).mPhoto);
             ((MsgReceiveViewHolder) holder).mContent.setText(textMessageBody.getMessage());
-            ((MsgReceiveViewHolder) holder).mTime.setText(String.valueOf(message.getMsgTime()));
+            ((MsgReceiveViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
+                    new Date(message.getMsgTime())));
         }if (holder instanceof MsgSendViewHolder){
             Picasso.with(activity).load(MyUser.userIcon).into(((MsgSendViewHolder) holder).mPhoto);
             ((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());

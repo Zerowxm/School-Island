@@ -1,7 +1,9 @@
 package wxm.com.androiddesign.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -72,7 +74,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             Uri chosenImageUri = data.getData();
             Picasso.with(this).load(chosenImageUri).into(groupImage);
@@ -99,6 +101,10 @@ public class CreateGroupActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             String icon = MyBitmapFactory.BitmapToString(bitmap);
             Log.d("iconicon",icon);
+            Log.d("userIdddd",MyUser.userId);
+            /*SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
+            String id = prefs.getString("UserId", "001");
+            Log.d("userIii",id);*/
             Group group=new Group("createCommunity",MyUser.userId,icon,groupTag.getText().toString(),
                     groupName.getText().toString(),groupIntro.getText().toString());
             String result = JsonConnection.getJSON(new Gson().toJson(group));
