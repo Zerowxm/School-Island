@@ -54,7 +54,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
         int height = display.getHeight();
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width / 3 - 2, height * 1 / 3);
         holder.photo.setLayoutParams(layoutParams);
-        //Picasso.with(context).load(R.drawable.test);
+        //Picasso.with(context).load(R.drawable.aty_detail);
     }
 
     @Override

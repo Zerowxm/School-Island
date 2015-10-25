@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.ref.WeakReference;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,7 +37,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.services.LocationServices;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
@@ -85,14 +85,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setupNavigationView();
         activityWeakReference = new WeakReference<AppCompatActivity>(this);
         setupDrawer();
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fab.close(true);
-                startActivity(new Intent(getApplicationContext(), ReleaseActivity.class));
+        activityWeakReference=new WeakReference<AppCompatActivity>(this);
 
-            }
-        });
     }
 
     private void setupStrictMode(){
@@ -134,12 +128,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @OnClick(R.id.fab1)
     public void createGroup() {
+        fab.close(true);
         startActivity(new Intent(this, CreateGroupActivity.class));
     }
 
     @OnClick(R.id.fab2)
     public void release() {
-        startActivity(new Intent(this, TestActivity.class));
+        fab.close(true);
+        startActivity(new Intent(this, PublishActivity.class));
+    }
+
+    @OnClick(R.id.fab3)
+    public void release2() {
+        fab.close(true);
+        startActivity(new Intent(getApplicationContext(), ReleaseActivity.class));
     }
 
     @Override
@@ -336,6 +338,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
                     intent.putExtra("userId", mUser.getUserId());
                     startActivity(intent);
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
             }
         });
@@ -366,7 +369,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+
+        }/*else if(getSupportFragmentManager().getFragment(new Bundle(), "cmtListFragment") instanceof CmtListFragment){
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+        }*/else {
+
             if (System.currentTimeMillis() - exitTime > 2000) {
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();

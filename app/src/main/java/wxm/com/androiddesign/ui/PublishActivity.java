@@ -1,32 +1,54 @@
 package wxm.com.androiddesign.ui;
-import com.easemob.chat.EMChatManager;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+/**
+ * Created by Zero on 10/16/2015.
+ */
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.module.AtyItem;
+import wxm.com.androiddesign.module.MyUser;
+import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.fragment.HomeFragment;
+import wxm.com.androiddesign.utils.MyBitmapFactory;
+
+
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -35,89 +57,70 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.module.AtyItem;
-import wxm.com.androiddesign.module.MyUser;
-import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
-import wxm.com.androiddesign.ui.fragment.HomeFragment;
-import wxm.com.androiddesign.utils.MyBitmapFactory;
 
-public class ReleaseActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener {
 
+public class PublishActivity extends BaseActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener{
     private int timeType;
+    private List<String> uriList = new ArrayList<>();
+    String Location;
+    private Uri selectedImgUri;
+    AtyItem atyItem;
+    private RelativeLayout.LayoutParams layoutParams;
+
     public static final int START_TIME = 0x1;
     public static final int END_TIME = 0x2;
-
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
     public static final int GET_LOCATION = 3;
-
-    private List<String> uriList = new ArrayList<>();
-    String Location;
     String mTime;
-    private Uri selectedImgUri;
-    AtyItem atyItem;
-
-
-    @Bind(R.id.sendButton)
-    ImageView send;
-    @Bind(R.id.user_photo)
-    ImageView userPhoto;
-    @Bind(R.id.user_name)
-    TextView userName;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.edit_aty)
+    EditText editAty;
+    @Bind(R.id.content)
+    TextView atyContent;
     @Bind(R.id.start_time)
     TextView startTime;
     @Bind(R.id.end_time)
     TextView endTime;
-    @Bind(R.id.aty_name)
-    TextView atyName;
-    @Bind(R.id.aty_content)
-    TextView atyContent;
     @Bind(R.id.location)
-    TextView locaton;
-    @Bind(R.id.add_image)
-    ImageView add_image;
+    TextView location;
     @Bind(R.id.imageViewContainer)
     LinearLayout imageContains;
-    @Bind(R.id.community_name)
-    TextView community_name;
-    private RelativeLayout.LayoutParams layoutParams;
-    // @Bind(R.id.image_show)ViewFlipper viewFlipper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.release_activity_layout);
+        setContentView(R.layout.release_layout);
         ButterKnife.bind(this);
-        userName.setText(MyUser.userName);
-        Intent intent = getIntent();
-        Picasso.with(this).load(MyUser.userIcon).into(userPhoto);
+        setupToolBar(toolbar);
+
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        userName.setText(MyUser.userName);
+//        Picasso.with(this).load(MyUser.userIcon).into(userPhoto);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels - 7;
         int screenHeight = displaymetrics.heightPixels;
         layoutParams = new RelativeLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
+
     }
 
-    @OnClick(R.id.community_name)
-    public void chooseCmt() {
-        new MaterialDialog.Builder(this)
-                .title(R.string.community)
-                .items(R.array.communities)
-                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        community_name.setText(text);
-                        return true;
-                    }
-                })
-                .positiveText(R.string.choose)
-                .show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -125,11 +128,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == GET_LOCATION) {
-//                String address = data.getStringExtra(LocationActivity.Address);
-//                Double lattitute = data.getDoubleExtra(LocationActivity.Latitude, 0);
-//                Double Longtitute = data.getDoubleExtra(LocationActivity.Longtitude, 0);
-                //Location = address + " " + lattitute + " " + Longtitute;
-                //locaton.setText(address);
+
             }
 
             if (requestCode == CHOOSE_PHOTO) {
@@ -184,17 +183,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         }
     }
 
-    public void removePicture(View view) {
-        Log.d("image", "" + view.getTag());
-        int position = (int) view.getTag();
-        imageContains.removeViewAt(position);
-        uriList.remove(position);
-        for (int i = 0; i < imageContains.getChildCount(); i++) {
-            imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
-        }
-    }
-
-    @OnClick(R.id.sendButton)
+    @OnClick(R.id.fab)
     public void send() {
         new MaterialDialog.Builder(this)
                 .title(R.string.permission)
@@ -212,9 +201,9 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
                             } else if (which == 2) {
                                 temp = "toVisitors";
                             }
-                            if (startTime.getText().toString().equals("开始时间")) {
+                            if (startTime.getText().toString().equals("没有开始时间")) {
                                 Toast.makeText(getApplicationContext(), "set your start time", Toast.LENGTH_SHORT).show();
-                            } else if (endTime.getText().toString().equals("结束时间")) {
+                            } else if (endTime.getText().toString().equals("没有结束时间")) {
                                 Toast.makeText(getApplicationContext(), "set your end time", Toast.LENGTH_SHORT).show();
                             } else {
                                 Date d1 = df.parse(startTime.getText().toString());
@@ -222,22 +211,20 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
                                 long diff = d1.getTime() - d2.getTime();
                                 if (diff >= 0) {
                                     Toast.makeText(getApplicationContext(), "end time must be later than start time", Toast.LENGTH_SHORT).show();
-                                } else if (community_name.getText().toString().equals("choose community")) {
+                                } /*else if (community_name.getText().toString().equals("choose community")) {
                                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
-                                } else if (atyName.getText().toString().equals("")) {
+                                } */else if (editAty.getText().toString().equals("")) {
                                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
-                                } else if (atyContent.getText().toString().equals("")) {
+                                } /*else if (atyContent.getText().toString().equals("没有活动内容")) {
                                     Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
-                                } else if (locaton.getText().toString().equals("add your location")) {
+                                } */else if (location.getText().toString().equals("没有活动地点")) {
                                     Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    atyItem = new AtyItem("release", MyUser.userId, atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
-                                            endTime.getText().toString(), locaton.getText().toString(), "1",
+                                    atyItem = new AtyItem("release", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
+                                            endTime.getText().toString(), location.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
                                             "true", "false", "0", temp, uriList);
                                     new UpDateTask().execute(atyItem);
-
-
                                 }
                             }
                         } catch (Exception e) {
@@ -249,8 +236,6 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
                 })
                 .positiveText(R.string.choose)
                 .show();
-
-
     }
 
     private class UpDateTask extends AsyncTask<AtyItem, Void, Void> {
@@ -266,6 +251,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
             super.onPostExecute(aVoid);
             atyItem.setUserName(MyUser.userName);
             atyItem.setAtyId(id);
+            atyItem.setUserIcon(MyUser.userIcon);
             HomeFragment.addActivity(atyItem);
             finish();
         }
@@ -289,6 +275,34 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         }
     }
 
+    @OnClick(R.id.set_start_time)
+    public void addStartTime() {
+        timeType = START_TIME;
+        setDate();
+    }
+
+    @OnClick(R.id.set_end_time)
+    public void addEndTime() {
+        timeType = END_TIME;
+        setDate();
+    }
+
+    @OnClick(R.id.set_lacation)
+    public void setLocation(){
+
+    }
+
+    @OnClick(R.id.set_content)
+    public void setContent(){
+
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
+        mTime=year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
+        setTime();
+    }
+
     @Override
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
         if (minute<10){
@@ -302,16 +316,10 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         }
     }
 
-    @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
-        mTime=year+"."+(monthOfYear+1)+"."+dayOfMonth;
-        setTime();
-    }
-
     private void setTime(){
         Calendar mNowTime=Calendar.getInstance();
         TimePickerDialog timePickerDialog= TimePickerDialog.newInstance(
-                ReleaseActivity.this,
+                PublishActivity.this,
                 mNowTime.get(Calendar.HOUR_OF_DAY),
                 mNowTime.get(Calendar.MINUTE),
                 false
@@ -324,13 +332,13 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
 
             }
         });
-        timePickerDialog.show(getFragmentManager(),"Timepickerdialog");
+        timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
     }
 
     private void setDate(){
         Calendar mNowTime=Calendar.getInstance();
         DatePickerDialog datePickerDialog= DatePickerDialog.newInstance(
-                ReleaseActivity.this,
+                PublishActivity.this,
                 mNowTime.get(Calendar.YEAR),
                 mNowTime.get(Calendar.MONTH),
                 mNowTime.get(Calendar.DAY_OF_MONTH)
@@ -346,33 +354,13 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         datePickerDialog.show(getFragmentManager(),"Datepickerdialog");
     }
 
-    @OnClick(R.id.add_start_time)
-    public void addStartTime() {
-        timeType = START_TIME;
-        setDate();
-        //DatePickerFragment datePickerFragment = new DatePickerFragment();
-        //datePickerFragment.show(getSupportFragmentManager(), "date");
-    }
-
-    @OnClick(R.id.add_end_time)
-    public void addEndTime() {
-        timeType = END_TIME;
-        setDate();
-        //DatePickerFragment datePickerFragment = new DatePickerFragment();
-        //datePickerFragment.show(getSupportFragmentManager(), "date");
-    }
-
-    @OnClick(R.id.add_location)
-    public void addLoc() {
-    }
-
-    @OnClick(R.id.add_image)
+    /*@OnClick(R.id.add_image)
     public void addImg() {
 
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        photoPickerIntent.setType("image/*");
+        photoPickerIntent.setType("image*//*");
         Intent chooseImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        chooseImage.setType("image/*");
+        chooseImage.setType("image*//*");
         Intent chooserIntent = Intent.createChooser(photoPickerIntent, "Select Image");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{chooseImage});
         photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -386,7 +374,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         selectedImgUri = Uri.fromFile(getOutPhotoFile());
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImgUri);
         startActivityForResult(cameraIntent, TAKE_PHOTO);
-    }
+    }*/
 
     private File getOutPhotoFile() {
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
@@ -399,7 +387,4 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
         SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
         return dateFormat.format(date) + ".jpg";
     }
-
-
-
 }

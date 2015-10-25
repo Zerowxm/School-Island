@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,13 +37,14 @@ import wxm.com.androiddesign.network.JsonConnection;
 /**
  * Created by zero on 2015/7/8.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements EMEventListener {
     public static final int COMMENT=1;
     public static final int CHAT=2;
     public static final int NOTIFY=3;
     @Bind(R.id.recyclerview_list)
     RecyclerView recyclerView;
 
+    ChatHistoryAdapter chatHistoryAdapter;
     List<Notify> mNotifyList;
     List<CommentItem> mCommentList;
     List<ChatItem> mChatItemList;
@@ -71,6 +75,12 @@ public class ListFragment extends Fragment {
         //recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
     }
 
+    @Override
+    public void onEvent(EMNotifierEvent emNotifierEvent) {
+        Log.d("datachange", "change");
+        chatHistoryAdapter.notifyDataSetChanged();
+    }
+
     private class getMsg extends AsyncTask<Void, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
@@ -95,7 +105,8 @@ public class ListFragment extends Fragment {
             materialDialog.dismiss();
             switch (type){
                 case ListFragment.CHAT:
-                    recyclerView.setAdapter(new ChatHistoryAdapter(mChatItemList));
+                    chatHistoryAdapter = new ChatHistoryAdapter(mChatItemList,getActivity());
+                    recyclerView.setAdapter(chatHistoryAdapter);
                     break;
                 case COMMENT:
                     recyclerView.setAdapter(new CommentItemAdapter(mCommentList));

@@ -79,8 +79,9 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
                         //holder.userPhoto.setVisibility(View.VISIBLE);
                     }
                 });
+        ///Picasso.with(context).load(group.getUserIcon()).into(holder.userPhoto);
         holder.community_name.setText(group.getCtyName());
-        holder.member_num.setText(group.getCtyMembers()+"个成员");
+        holder.member_num.setText(group.getCtyMembers() + "个成员");
     }
 
     @Override

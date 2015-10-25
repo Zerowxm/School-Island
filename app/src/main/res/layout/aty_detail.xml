@@ -95,7 +95,7 @@
                             android:layout_marginBottom="0dp"
                             android:layout_marginLeft="72dp"
                             android:layout_marginRight="16dp"
-                            android:text="怎样从政府高层的讲话中获取信息？"
+                            android:text=""
                             android:id="@id/aty_name"
                             android:maxLines="4"
                             android:ellipsize="end"
@@ -141,11 +141,7 @@
                                     android:id="@+id/aty_content"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="高层讲话有一套语系。如果是纯粹讲话，必须结合讲话前三五个月的背景来听，讲话一般是对现象的解读和定调，算是向社会吹风。
-
-如果是官方文件，如规划，纲要，指导意见。最重要的不是读文件本身，而是和该文件之前的相关文件放到一起读。看多了什么，少了什么，什么东西没提了，这样才能明白有什么变化，看出动态和趋势，才是学习政策精神的本事。
-
-话说有高票答案讲文化体制改革的东西，因为业务相关，也多说两句。首先，文化产业和文化事业是两条线，不是一回事。文化产业是赚钱的东西，文化事业是托底的事情。原先的想法是两翼齐飞，并寄希望于文化产业拉消费和就业一把，但后来发现文化产业只赚吆喝不赚钱，问题还冒出一大堆。一句话，钱没挣到，反而把魂儿丢了。所以从十七届六中全会，到文化体制改革，但习总书记文艺座谈，到公共文化服务体系建设，到最新的政府工作报告，整体的变化趋势是文化产业越提越少，但要求托底的东西，要求价值观的东西越来越多。这就是政策走向的思路。如果你是商人，就可以从中看出未来政府需要采购和建设什么东西，如果是文艺工作者，就知道该创作什么样的剧目可以获奖，可以拿到补贴。如果是地方政府，就知道什么文化活动该办，什么不该办，变成自己的政绩。如果是社科学者，就知道要往人民日报发什么样的文章。如果是科研民工，就知道怎样结合自己的研究背景，编出一个美丽的故事，然后去各大部委换成项目。如果是换句官方的话说，这就叫紧密团结在以大大为首的党中央国务院周围。"/>
+                                    android:text=""/>
 
                                 <LinearLayout
                                     android:paddingTop="16dp"
@@ -161,11 +157,11 @@
                                         android:layout_marginLeft="6dp"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:textSize="8sp"
+                                        android:textSize="10sp"
                                         android:textColor="@color/gray"
                                         android:gravity="center_vertical"
                                         android:id="@+id/people"
-                                        android:text="已有21人参加"/>
+                                        android:text=""/>
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -284,15 +280,15 @@
                     android:layout_height="wrap_content"
                     android:text="已有"/>
                 <wxm.com.androiddesign.widget.MyTextView
-
+                    android:id="@+id/comment_numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30"/>
+                    android:text=""/>
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="参与了评论"/>
+                    android:text="人参与了评论"/>
             </LinearLayout>
 
             <ListView

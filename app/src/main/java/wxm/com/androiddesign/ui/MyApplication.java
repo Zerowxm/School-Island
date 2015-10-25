@@ -28,7 +28,6 @@ public class MyApplication extends Application implements EMEventListener {
     public static Context applicationContext;
     private static MyApplication instance;
 
-    public static Map<String,Integer> easemobId = new HashMap<>();
     private static final String TAG = "MyApplication";
     NewMessageBroadCastReceiver receiver = new NewMessageBroadCastReceiver();
     ;

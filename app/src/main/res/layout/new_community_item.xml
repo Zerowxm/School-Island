@@ -43,7 +43,7 @@
             <!--android:layout_height="36dp"-->
             <!--app:border_width="2dp"-->
             <!--app:border_color="#ffffff"-->
-            <!--android:src="@drawable/test"-->
+            <!--android:src="@drawable/aty_detail"-->
             <!--android:layout_margin="8dp"-->
             <!--/>-->
         <!--<TextView-->

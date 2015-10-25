@@ -82,12 +82,12 @@
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ui.CmtAcitivity" />
         <activity android:name=".ui.UserAcitivity" />
@@ -95,10 +95,10 @@
         <activity android:name=".ui.ReleaseActivity" />
         <activity android:name=".ui.CmtDatailActivity" />
 
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
+        <!--<service-->
+            <!--android:name="com.baidu.location.f"-->
+            <!--android:enabled="true"-->
+            <!--android:process=":remote" />-->
 
         <activity
             android:name=".ui.SearchResultsActivity"
@@ -123,12 +123,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".ui.UserListActivity" />
 
-        <service
-            android:name=".services.LocationServices"
-            android:enabled="true" />
-        <service
-            android:name=".services.MessageService"
-            android:enabled="true" />
 
         <activity android:name=".ui.MyIntro" />
         <activity android:name=".ui.ChatActivity" />
@@ -143,7 +137,7 @@
             android:label="@string/title_activity_create_group1"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.TestActivity"
+            android:name=".ui.PublishActivity"
             android:theme="@style/editTextStyle" />
         <activity android:name=".ui.SettingsActivity">
             <!--<intent-filter>-->
@@ -154,12 +148,12 @@
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".ui.GroupAcitivity">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
     </application>
 

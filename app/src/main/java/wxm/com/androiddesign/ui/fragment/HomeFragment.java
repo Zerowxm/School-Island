@@ -35,6 +35,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -55,7 +56,6 @@ import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.services.LocationServices;
 import wxm.com.androiddesign.services.MessageService;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.ReleaseActivity;
@@ -164,15 +164,22 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
 
     private class GetAtyTask extends AsyncTask<String, Void, Boolean> {
 
+        MaterialDialog materialDialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             mSwipeRefreshLayout.setRefreshing(true);
+            materialDialog = new MaterialDialog.Builder(getActivity())
+                    .title("Loading")
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(false)
+                    .show();
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            materialDialog.dismiss();
             if (aBoolean == true) {
                 AppCompatActivity appCompatActivity=MainActivity.activityWeakReference.get();
                 if (appCompatActivity!=null&&!appCompatActivity.isFinishing()){
@@ -180,7 +187,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
                     recyclerView.setAdapter(myRecycerAdapter);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-                country.setText(LocationServices.City);
+                //country.setText(LocationServices.City);
 
             } else {
                 Snackbar.make(mSwipeRefreshLayout, "Error", Snackbar.LENGTH_SHORT).show();
