@@ -229,6 +229,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 }
             }
         }
+
+        if(item.getAtyTags() != null && item.getAtyTags().size() != 0){
+            for(int i = 0 ; i < item.getAtyTags().size() ; i++){
+                holder.aty_tags.setText(holder.aty_tags.getText() + "," + item.getAtyTags().get(i));
+            }
+        }
 //        if (item.getAtyPlused().equals("false")) {
 //            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
 //        } else if (item.getAtyPlused().equals("true")) {
@@ -351,9 +357,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         CircleImageView user_photo;
         @Bind(R.id.aty_name)
         TextView aty_name;
-
-
-
+        @Bind(R.id.tag)
+        TextView aty_tags;
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
             Log.d("recyclerview", "MyViewHolder");

@@ -64,6 +64,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     private String groupName ="";
     private String groupId="";
     private List<String> uriList = new ArrayList<>();
+    private List<String> tagList = new ArrayList<>();
     String Location;
     private Uri selectedImgUri;
     AtyItem atyItem;
@@ -148,6 +149,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                             ImageView deleteTag=(ImageView)tagView.getChildAt(1);
                             deleteTag.setTag(tagContainer.getChildCount()-1);
                             tagContainer.addView(tagView,tagContainer.getChildCount()-1);
+                            tagList.add(input.toString());
                         }
                     }
                 }).callback(new MaterialDialog.ButtonCallback() {
@@ -286,15 +288,15 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
                                 } */else if (editAty.getText().toString().equals("")) {
                                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
-                                } /*else if (atyContent.getText().toString().equals("没有活动内容")) {
+                                } else if (atyContent.getText().toString().equals("没有活动内容")) {
                                     Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
-                                } */else if (location.getText().toString().equals("没有活动地点")) {
+                                } else if (location.getText().toString().equals("没有活动地点")) {
                                     Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    atyItem = new AtyItem("release", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
+                                    atyItem = new AtyItem("publishByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
                                             endTime.getText().toString(), location.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
-                                            "true", "false", "0", temp, uriList);
+                                            "true", "false", "0", temp, uriList,tagList);
                                     new UpDateTask().execute(atyItem);
                                 }
                             }
@@ -332,11 +334,12 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
             JSONObject object = new JSONObject();
             try {
-                object = new JSONObject(new Gson().toJson(params[0]));
-                //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                //object.put("releaseTime", formatter.format(new Date(System.currentTimeMillis())));
-                object.put("longitude", Location.split(" ")[2]);
-                object.put("latitude", Location.split(" ")[1]);
+                if(groupId.equals("")) {
+                    object = new JSONObject(new Gson().toJson(params[0]));
+                }else{
+                    params[0].setAction("publishByGroup");
+                    params[0].setAtyType(groupId);
+                }
                 object.put("easemobId",MyUser.getEasemobId());
             } catch (JSONException e) {
                 e.printStackTrace();
