@@ -23,7 +23,7 @@
         <wxm.com.androiddesign.widget.MyTextView
 
             android:gravity="center"
-            android:id="@id/group_name"
+            android:id="@+id/group_name"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_width="match_parent"
@@ -67,7 +67,6 @@
         android:paddingBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/group_brief_intro"
         android:text="小组You can set  android:maxLines property of textview to 2 by default in your layout xml..
 
 In your onCreate() function after setting the text to your textview (t1).
