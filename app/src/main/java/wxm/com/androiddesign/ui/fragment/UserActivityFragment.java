@@ -96,7 +96,7 @@ public class UserActivityFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             //if (aBoolean == true) {
-                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+                myRecycerAdapter = new MyRecycerAdapter(activityItems,getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
             //}
         }

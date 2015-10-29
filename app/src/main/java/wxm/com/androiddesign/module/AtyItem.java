@@ -29,6 +29,7 @@ public class AtyItem implements Parcelable {
     String atyIsLiked;
     String atyShares;
     String atyIsPublic;
+    String releaseTime;
     //String atyIsBanned;
     List<String> atyAlbum = new ArrayList<String>();
 
@@ -39,6 +40,14 @@ public class AtyItem implements Parcelable {
 //    public void setAtyIsBanned(String atyIsBanned) {
 //        this.atyIsBanned = atyIsBanned;
 //    }
+
+    public String getAtyPublishTime() {
+        return releaseTime;
+    }
+
+    public void setAtyPublishTime(String atyPublishTime) {
+        this.releaseTime = atyPublishTime;
+    }
 
     public String getAtyComments() {
         return atyComments;

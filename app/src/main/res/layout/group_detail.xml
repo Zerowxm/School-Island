@@ -26,6 +26,7 @@
 
             <ImageView
                 android:src="@drawable/test"
+                android:id="@+id/cty_picture"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

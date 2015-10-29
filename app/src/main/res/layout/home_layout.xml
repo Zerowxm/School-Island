@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="定位中..."
+                    android:text="A+"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     fonts:typeface="Roboto-Bold.ttf" />

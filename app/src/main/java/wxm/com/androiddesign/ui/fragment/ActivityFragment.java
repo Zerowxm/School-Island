@@ -153,7 +153,7 @@ public class ActivityFragment extends Fragment {
                 if (activityItems == null) {
                     return;
                 }
-                myRecycerAdapter = new MyRecycerAdapter(activityItems, userId, (AppCompatActivity) getActivity(), "ActivityFragment");
+                myRecycerAdapter = new MyRecycerAdapter(activityItems, getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
             }
         }

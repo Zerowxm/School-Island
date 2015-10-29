@@ -183,7 +183,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
             if (aBoolean == true) {
                 AppCompatActivity appCompatActivity=MainActivity.activityWeakReference.get();
                 if (appCompatActivity!=null&&!appCompatActivity.isFinishing()){
-                    myRecycerAdapter = new MyRecycerAdapter(activityItems, userId,appCompatActivity, "HomeFragment");
+                    myRecycerAdapter = new MyRecycerAdapter(activityItems,appCompatActivity, "HomeFragment");
                     recyclerView.setAdapter(myRecycerAdapter);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }

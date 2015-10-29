@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:text="音乐"
+                android:id="@+id/tag"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
                 android:layout_below="@id/user_name"
@@ -87,7 +88,7 @@
                 android:layout_alignBottom="@+id/user_name"
                 android:layout_toRightOf="@+id/user_name"
                 android:layout_toEndOf="@+id/user_name"
-                android:id="@+id/linearLayout">
+                android:id="@+id/group_layout">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,7 +97,7 @@
 
                 <TextView
                     android:gravity="center_vertical"
-                    android:id="@+id/tag"
+                    android:id="@+id/group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -109,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="45分钟前"
-                    android:layout_alignBottom="@+id/linearLayout"
+                    android:layout_alignBottom="@+id/group_layout"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
         </RelativeLayout>
@@ -117,11 +118,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp">
-            <ImageView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@drawable/test"
-                android:scaleType="centerCrop"/>
+                android:layout_height="300dp">
+
+                <LinearLayout
+                    android:id="@+id/imageViewContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:divider="@drawable/divider"
+                    android:orientation="horizontal"
+                    android:showDividers="middle" >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:src="@drawable/test"
+                        android:scaleType="centerCrop"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
             <FrameLayout
                 android:padding="16dp"
                 android:layout_alignParentBottom="true"
@@ -153,19 +169,28 @@
                 android:background="@color/primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="十月12日\n19：30"
+                android:text="10月12日\n19：30"
                 android:textColor="@color/white"
-                android:id="@+id/textView" />
+
+                android:id="@+id/start_time" />
             <TextView
-                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:padding="6dp"
+                android:id="@+id/location"
+                android:layout_marginRight="80dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="厦门大学思明校区\n自钦楼203多功能厅"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="厦门大学思明校区厦门大学思明校区厦门大学思明校区厦门大学思明校区"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/textView"
-                android:layout_toEndOf="@+id/textView" />
+                android:layout_toRightOf="@+id/start_time"
+                android:layout_toEndOf="@+id/start_time"
+                android:layout_toLeftOf="@+id/plus"
+                />
             <ImageView
+                android:id="@+id/plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_thumb_up_grey"
@@ -175,6 +200,7 @@
                 android:layout_marginRight="70dp"
                 android:layout_marginEnd="70dp" />
             <TextView
+                android:id="@id/total_plus"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="56dp"
@@ -193,6 +219,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_group"/>
             <TextView
+                android:id="@+id/total_member"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="12dp"

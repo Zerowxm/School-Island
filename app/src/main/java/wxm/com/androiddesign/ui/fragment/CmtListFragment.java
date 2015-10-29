@@ -29,6 +29,7 @@ import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.CmtAcitivity;
+import wxm.com.androiddesign.ui.GroupAcitivity;
 
 /**
  * Created by zero on 2015/7/8.
@@ -77,7 +78,7 @@ public class CmtListFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), CmtAcitivity.class);
+                Intent intent = new Intent(getActivity(), GroupAcitivity.class);
                 intent.putExtra("ctyId", groups.get(position).getCtyId());
                 intent.putExtra("ctyName",groups.get(position).getCtyName());
                 startActivity(intent);

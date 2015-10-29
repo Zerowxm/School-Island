@@ -1,10 +1,13 @@
 package wxm.com.androiddesign.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -29,10 +32,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.CommentAdapter;
@@ -44,6 +55,10 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.widget.MyTextView;
 
 public class AtyDetailActivity extends BaseActivity {
+
+    private static final int SHARE_SUCCESS = 30;
+    private static final int SHARE_FAIL = 31;
+    private String[] items = new String[] { "分享给好友", "分享到朋友圈" };
 
     private static final String TAG="AtyDetail";
     AtyItem atyItem;
@@ -94,6 +109,7 @@ public class AtyDetailActivity extends BaseActivity {
     }
 
     private void init(){
+        ShareSDK.initSDK(this);
         atyTime.setText(atyItem.getAtyStartTime());
         userName.setText(atyItem.getUserName());
         atyName.setText(atyItem.getAtyName());
@@ -124,6 +140,12 @@ public class AtyDetailActivity extends BaseActivity {
         if(flipper.isAutoStart()&&!flipper.isFlipping()){
             flipper.startFlipping();
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        ShareSDK.stopSDK(this);
     }
 
     @OnClick(R.id.user_photo)
@@ -280,7 +302,6 @@ public class AtyDetailActivity extends BaseActivity {
                 } else {
                     Toast.makeText(AtyDetailActivity.this, "Please enter comment", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -358,7 +379,6 @@ public class AtyDetailActivity extends BaseActivity {
                 }
                 return  false;
             }
-
         }
     }
 
@@ -376,6 +396,7 @@ public class AtyDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
+                showChatDialog();
                 break;
             case R.id.action_comment:
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -383,4 +404,82 @@ public class AtyDetailActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void share(String text, String photopath, String sharename) {
+        Platform.ShareParams sp = new SinaWeibo.ShareParams();
+        sp.text = text;
+        if (photopath != null) {
+            sp.imagePath = photopath;
+        }
+
+        Platform weibo = ShareSDK.getPlatform(this, sharename);
+        weibo.setPlatformActionListener(new PlatformActionListener() {
+
+            public void onError(Platform platform, int action, Throwable t) {
+                Message m = handler.obtainMessage();
+                m.what = SHARE_FAIL;
+                handler.sendMessage(m);
+            }
+
+            public void onComplete(Platform platform, int action,
+                                   HashMap<String, Object> res) {
+                Message m = handler.obtainMessage();
+                m.what = SHARE_SUCCESS;
+                handler.sendMessage(m);
+            }
+            public void onCancel(Platform platform, int action) {
+            }
+        });
+        weibo.share(sp);
+    }
+
+    private void showChatDialog() {
+        new AlertDialog.Builder(this).setTitle("分享到")
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                share(atyItem.getAtyName(), null, Wechat.NAME);
+                                break;
+                            case 1:
+                                share(atyItem.getAtyName(), null, WechatMoments.NAME);
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
+    private Handler handler = new Handler() {
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.os.Handler#handleMessage(android.os.Message)
+         */
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+
+            switch (msg.what) {
+                case SHARE_SUCCESS:
+
+                    Toast.makeText(AtyDetailActivity.this, "分享成功", Toast.LENGTH_SHORT)
+                            .show();
+                    break;
+                case SHARE_FAIL:
+
+                    Toast.makeText(AtyDetailActivity.this, "分享失败", Toast.LENGTH_SHORT)
+                            .show();
+                    break;
+
+            }
+        }
+
+    };
 }
