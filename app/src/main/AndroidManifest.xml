@@ -52,6 +52,7 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:windowSoftInputMode="stateHidden|adjustResize"
         android:theme="@style/AppTheme">
 
         <!-- 设置环信应用的appkey -->
@@ -138,14 +139,16 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.PublishActivity"
-            android:theme="@style/editTextStyle" />
-        <activity android:name=".ui.SettingsActivity">
+            android:theme="@style/editTextStyle" >
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
                 <!--<category android:name="android.intent.category.DEFAULT" />-->
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".ui.SettingsActivity">
+
         </activity>
         <activity android:name=".ui.GroupAcitivity">
             <!--<intent-filter>-->

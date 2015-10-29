@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/publish"
         android:title="share"
         android:icon="@drawable/fab_add"
         android:orderInCategory="100"

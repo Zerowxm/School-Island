@@ -32,8 +32,13 @@ import wxm.com.androiddesign.network.JsonConnection;;
 
 public class GroupAcitivity extends AppCompatActivity {
 
+<<<<<<< Updated upstream
     String ctyId = "";
     String ctyName = "";
+=======
+    String groupId = "";
+    String groupName = "";
+>>>>>>> Stashed changes
     Group group;
     ArrayList<AtyItem> atyItems;
     Boolean flag = false;
@@ -49,10 +54,16 @@ public class GroupAcitivity extends AppCompatActivity {
         setContentView(R.layout.group_detail);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
+<<<<<<< Updated upstream
         ctyId = bundle.getString("ctyId");
         ctyName = bundle.getString("ctyName");
         new GetUserInfo(this).execute();
         new GetGroupAty(this).execute();
+=======
+        groupId = bundle.getString("groupId");
+        groupName = bundle.getString("groupName");
+        //new GetUserInfo(this).execute();
+>>>>>>> Stashed changes
         setupToolBar();
     }
 
@@ -140,11 +151,14 @@ public class GroupAcitivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+<<<<<<< Updated upstream
         collapsingToolbar.setTitle(ctyName);
         collapsingToolbar.setAlpha(Float.parseFloat("0.5"));
+=======
+        collapsingToolbar.setTitle("社区名");
+>>>>>>> Stashed changes
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
     }
-
 
 
     @Override
@@ -173,6 +187,12 @@ public class GroupAcitivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if(id==R.id.publish){
+            Intent intent=new Intent(this,PublishActivity.class);
+            intent.putExtra("groupId",groupId);
+            intent.putExtra("groupName",groupName);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

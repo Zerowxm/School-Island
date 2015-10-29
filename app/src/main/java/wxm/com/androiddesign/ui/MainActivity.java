@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @OnClick(R.id.fab2)
     public void release() {
         fab.close(true);
-        startActivity(new Intent(this, PublishActivity.class));
+        startActivity(new Intent(this, PublishActivity.class).putExtra("groupId",""));
     }
 
     @OnClick(R.id.fab3)

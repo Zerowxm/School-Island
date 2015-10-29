@@ -27,6 +27,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true"
+        android:background="@drawable/chatlog"
         android:layout_toLeftOf="@id/user_photo">
 
         <TextView

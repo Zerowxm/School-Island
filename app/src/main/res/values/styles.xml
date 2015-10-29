@@ -19,6 +19,10 @@
         <item name="colorControlActivated">#ffeb3b</item>
         <item name="colorControlHighlight">#fbc02d</item>
         <item name="colorAccent">#ffeb3b</item>
+        <item name="android:textColorHint">#fbc02d</item>
+    </style>
+    <style name="CodeFont" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#ffc107</item>
     </style>
 
     <style name="FabStyle">

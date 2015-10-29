@@ -89,7 +89,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onCommunity(TextView community, int position) {
                 Intent intent = new Intent(activity, CmtAcitivity.class);
 
-                intent.putExtra("ctyId", community.getText().toString());
+                intent.putExtra("groupId", community.getText().toString());
+                intent.putExtra("groupName",community.getText().toString());
 
                 activity.startActivity(intent);
             }
@@ -228,11 +229,29 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 }
             }
         }
+<<<<<<< Updated upstream
 //        if (item.getAtyPlused().equals("false")) {
 //            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
 //        } else if (item.getAtyPlused().equals("true")) {
 //            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
 //        }
+=======
+        if (item.getAtyPlused().equals("false")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity,R.color.fab_gray)));
+            holder.plus_fab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_plus_one));
+        } else if (item.getAtyPlused().equals("true")) {
+            holder.plus_fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
+            holder.plus_fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one_white));
+        }
+        if (item.getAtyJoined().equals("true")) {
+
+            holder.mjoinBtn.setText("已加入");
+            holder.mjoinBtn.setTextColor(ContextCompat.getColor(activity, R.color.primary));
+        } else if (item.getAtyJoined().equals("false")) {
+            holder.mjoinBtn.setText("加入");
+            holder.mjoinBtn.setTextColor(ContextCompat.getColor(activity, R.color.black));
+        }
+>>>>>>> Stashed changes
 
         if(!item.getAtyType().equals("暂时没有社区")){
             holder.groupLayout.setVisibility(View.GONE);

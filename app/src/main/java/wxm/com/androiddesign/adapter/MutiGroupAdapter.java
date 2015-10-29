@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.adapter;
 
+<<<<<<< Updated upstream
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,15 +8,23 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+=======
+import android.media.Image;
+import android.support.v4.content.ContextCompat;
+>>>>>>> Stashed changes
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< Updated upstream
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+=======
+import android.widget.ImageView;
+>>>>>>> Stashed changes
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -244,6 +253,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
+<<<<<<< Updated upstream
         @Bind(R.id.peoples)
         TextView peoples;
         @Bind(R.id.group_name)
@@ -252,10 +262,33 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView groupIntrt;
         @Bind(R.id.join)
         Button join;
+=======
+        @Bind(R.id.read_more)
+        ImageView readMore;
+        @Bind(R.id.group_brief_intro)
+        TextView groupIntro;
+>>>>>>> Stashed changes
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+<<<<<<< Updated upstream
+=======
+            readMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(groupIntro.getVisibility()==View.GONE){
+                        readMore.setImageResource(R.drawable.ic_expand_less);
+                        groupIntro.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        readMore.setImageResource(R.drawable.ic_expand_more);
+                        groupIntro.setVisibility(View.GONE);
+                    }
+
+                }
+            });
+>>>>>>> Stashed changes
         }
     }
 

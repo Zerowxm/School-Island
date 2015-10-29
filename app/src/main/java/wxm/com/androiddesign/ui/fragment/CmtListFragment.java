@@ -79,8 +79,13 @@ public class CmtListFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), GroupAcitivity.class);
+<<<<<<< Updated upstream
                 intent.putExtra("ctyId", groups.get(position).getCtyId());
                 intent.putExtra("ctyName",groups.get(position).getCtyName());
+=======
+                intent.putExtra("groupId", groups.get(position).getCtyId());
+                intent.putExtra("groupName",groups.get(position).getCtyName());
+>>>>>>> Stashed changes
                 startActivity(intent);
             }
         }));

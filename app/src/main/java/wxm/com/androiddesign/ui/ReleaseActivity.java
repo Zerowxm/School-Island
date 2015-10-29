@@ -155,10 +155,10 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
                         e.printStackTrace();
                     }
                 }
-
             }
             if (requestCode == TAKE_PHOTO) {
-                RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
+                RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this)
+                        .inflate(R.layout.image_item, null);
                 ImageView imageView = (ImageView) imageItem.getChildAt(0);
                 ImageView removeImage = (ImageView) imageItem.getChildAt(1);
                 removeImage.setTag(imageContains.getChildCount());

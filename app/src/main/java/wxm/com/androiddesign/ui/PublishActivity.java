@@ -6,11 +6,11 @@ package wxm.com.androiddesign.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 
 import butterknife.Bind;
@@ -22,6 +22,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.utils.MyBitmapFactory;
+import wxm.com.androiddesign.utils.MyUtils;
 
 
 import android.support.v7.widget.Toolbar;
@@ -49,7 +50,6 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -61,6 +61,8 @@ import java.util.List;
 
 public class PublishActivity extends BaseActivity implements TimePickerDialog.OnTimeSetListener,DatePickerDialog.OnDateSetListener{
     private int timeType;
+    private String groupName ="";
+    private String groupId="";
     private List<String> uriList = new ArrayList<>();
     String Location;
     private Uri selectedImgUri;
@@ -72,6 +74,8 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
     public static final int GET_LOCATION = 3;
+
+    float scale;
     String mTime;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -87,13 +91,21 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     TextView location;
     @Bind(R.id.imageViewContainer)
     LinearLayout imageContains;
+    @Bind(R.id.tag_container)
+    LinearLayout tagContainer;
+    @Bind(R.id.group_pannel)
+    LinearLayout groupPannel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.release_layout);
         ButterKnife.bind(this);
         setupToolBar(toolbar);
-
+        Bundle bundle=getIntent().getExtras();
+        groupId =bundle.getString("groupId");
+        if (!"".equals(groupId)){
+            groupName=bundle.getString("groupName");
+        }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 //        userName.setText(MyUser.userName);
@@ -103,7 +115,66 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         int screenWidth = displaymetrics.widthPixels - 7;
         int screenHeight = displaymetrics.heightPixels;
         layoutParams = new RelativeLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
+        scale=getResources().getDisplayMetrics().density;
+        setup();
+    }
 
+    private void setup(){
+        if (!"".equals(groupId)){
+            groupPannel.setVisibility(View.VISIBLE);
+            TextView groupName=(TextView)groupPannel.getChildAt(1);
+            groupName.setText(this.groupName);
+        }
+    }
+
+    @OnClick(R.id.add_tag)
+    public void addTag(){
+        new MaterialDialog.Builder(this)
+                .title("标签")
+                .inputMaxLength(5, R.color.mdtp_red)
+                .input(null, null, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        if (!"".equals(input.toString())){
+                            int dpAsPixels=(int)(25*scale+0.5f);
+                            LinearLayout tagView=(LinearLayout)LayoutInflater.from(PublishActivity.this)
+                                    .inflate(R.layout.tag_view,null);
+                            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    dpAsPixels);
+                            params.setMargins(0,0,15,0);
+                            tagView.setLayoutParams(params);
+                            TextView tag=(TextView)tagView.getChildAt(0);
+                            tag.setText(input);
+                            ImageView deleteTag=(ImageView)tagView.getChildAt(1);
+                            deleteTag.setTag(tagContainer.getChildCount()-1);
+                            tagContainer.addView(tagView,tagContainer.getChildCount()-1);
+                        }
+                    }
+                }).callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
+            }
+        }).show();
+    }
+
+    public void removeTag(View view) {
+        Log.d("image", "" + view.getTag());
+        int position = (int) view.getTag();
+        tagContainer.removeViewAt(position);
+        for (int i = 0; i < imageContains.getChildCount()-1; i++) {
+            tagContainer.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
+        }
+    }
+
+    public void removePicture(View view) {
+        Log.d("image", "" + view.getTag());
+        int position = (int) view.getTag();
+        imageContains.removeViewAt(position);
+        uriList.remove(position);
+        for (int i = 0; i < imageContains.getChildCount(); i++) {
+            imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
+        }
     }
 
     @Override
@@ -287,15 +358,15 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         setDate();
     }
 
-    @OnClick(R.id.set_lacation)
-    public void setLocation(){
-
-    }
-
-    @OnClick(R.id.set_content)
-    public void setContent(){
-
-    }
+//    @OnClick(R.id.set_lacation)
+//    public void setLocation(){
+//
+//    }
+//
+//    @OnClick(R.id.set_content)
+//    public void setContent(){
+//
+//    }
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
@@ -354,6 +425,16 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         datePickerDialog.show(getFragmentManager(),"Datepickerdialog");
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+    }
+
+    @OnClick(R.id.add_image)
+    public void addImage(){
+        MyUtils.chooseImage(this,CHOOSE_PHOTO);
+    }
     /*@OnClick(R.id.add_image)
     public void addImg() {
 
@@ -376,15 +457,15 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         startActivityForResult(cameraIntent, TAKE_PHOTO);
     }*/
 
-    private File getOutPhotoFile() {
-        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                getPackageName());
-        return new File(directory.getPath() + File.separator + getPhotoFileName());
-    }
-
-    private String getPhotoFileName() {
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
-        return dateFormat.format(date) + ".jpg";
-    }
+//    private File getOutPhotoFile() {
+//        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+//                getPackageName());
+//        return new File(directory.getPath() + File.separator + getPhotoFileName());
+//    }
+//
+//    private String getPhotoFileName() {
+//        Date date = new Date(System.currentTimeMillis());
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
+//        return dateFormat.format(date) + ".jpg";
+//    }
 }
