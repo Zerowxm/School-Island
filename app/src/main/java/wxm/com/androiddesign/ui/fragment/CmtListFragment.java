@@ -78,7 +78,7 @@ public class CmtListFragment extends Fragment {
         }
         else
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        
+
         recyclerView.setHasFixedSize(true);
         new GetAtyTask().execute();
 
