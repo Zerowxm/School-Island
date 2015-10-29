@@ -23,6 +23,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.Group;
+import wxm.com.androiddesign.ui.fragment.CmtListFragment;
+import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.utils.MyColorUtils;
 import wxm.com.androiddesign.utils.PaletteTransformation;
 
@@ -33,10 +35,12 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
 
     List<Group> groups = new ArrayList<>();
     Context context;
+    int type;
 
-    public GroupListAdapter(List<Group> groups, Context context) {
+    public GroupListAdapter(List<Group> groups, Context context,int type) {
         this.groups = groups;
         this.context = context;
+        this.type=type;
     }
 
     @Override
@@ -49,6 +53,9 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        if (type== CmtListFragment.HOT){
+            holder.hotTag.setVisibility(View.VISIBLE);
+        }
         Group group = groups.get(position);
         Picasso.with(context).load(group.getCtyIcon())
                 .fit().centerCrop()
@@ -98,6 +105,8 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
         TextView community_name;
         @Bind(R.id.card_view)
         CardView cardView;
+        @Bind(R.id.hot_tag)
+        TextView hotTag;
         //@Bind(R.id.shadow)
        // FrameLayout shadow;
 //        @Bind(R.id.user_photo)

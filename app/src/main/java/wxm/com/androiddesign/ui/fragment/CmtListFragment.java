@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class CmtListFragment extends Fragment {
 
     public static final int JOINED = 0x1;
     public static final int OWNED = 0x2;
+    public static final int HOT=0x3;
     @Bind(R.id.recyclerview_list)
     RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout)
@@ -64,14 +66,19 @@ public class CmtListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.refresh_list, viewGroup, false);
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, v);
         setupRecyclerView(recyclerView);
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
+        if (type==HOT){
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
+        else
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        
         recyclerView.setHasFixedSize(true);
         new GetAtyTask().execute();
 
@@ -80,7 +87,7 @@ public class CmtListFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), GroupAcitivity.class);
                 intent.putExtra("groupId", groups.get(position).getCtyId());
-                intent.putExtra("groupName",groups.get(position).getCtyName());
+                intent.putExtra("groupName", groups.get(position).getCtyName());
                 startActivity(intent);
             }
         }));
@@ -97,7 +104,7 @@ public class CmtListFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            recyclerView.setAdapter(new GroupListAdapter(groups, getActivity()));
+            recyclerView.setAdapter(new GroupListAdapter(groups, getActivity(),type));
         }
 
         @Override
