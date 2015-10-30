@@ -19,6 +19,26 @@ public class MyItemAnimator extends RecyclerView.ItemAnimator {
     List<RecyclerView.ViewHolder> mAnimationRemoveViewHolders = new ArrayList<RecyclerView.ViewHolder>();
 
     @Override
+    public boolean animateDisappearance(RecyclerView.ViewHolder viewHolder, ItemHolderInfo preLayoutInfo, ItemHolderInfo postLayoutInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean animateAppearance(RecyclerView.ViewHolder viewHolder, ItemHolderInfo preLayoutInfo, ItemHolderInfo postLayoutInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean animatePersistence(RecyclerView.ViewHolder viewHolder, ItemHolderInfo preLayoutInfo, ItemHolderInfo postLayoutInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean animateChange(RecyclerView.ViewHolder oldHolder, RecyclerView.ViewHolder newHolder, ItemHolderInfo preLayoutInfo, ItemHolderInfo postLayoutInfo) {
+        return false;
+    }
+
+    @Override
     public void runPendingAnimations() {
         int animationDuration = 300;
         AnimatorSet animator;
@@ -64,27 +84,7 @@ public class MyItemAnimator extends RecyclerView.ItemAnimator {
         }
     }
 
-    @Override
-    public boolean animateRemove(RecyclerView.ViewHolder holder) {
-        return false;
-    }
 
-    @Override
-    public boolean animateAdd(RecyclerView.ViewHolder holder) {
-        holder.itemView.setAlpha(0.0f);
-        return mViewHolders.add(holder);
-
-    }
-
-    @Override
-    public boolean animateMove(RecyclerView.ViewHolder holder, int fromX, int fromY, int toX, int toY) {
-        return false;
-    }
-
-    @Override
-    public boolean animateChange(RecyclerView.ViewHolder oldHolder, RecyclerView.ViewHolder newHolder, int fromLeft, int fromTop, int toLeft, int toTop) {
-        return false;
-    }
 
     @Override
     public void endAnimation(RecyclerView.ViewHolder item) {

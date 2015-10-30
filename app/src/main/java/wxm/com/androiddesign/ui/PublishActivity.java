@@ -126,7 +126,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             groupName.setText(this.groupName);
         }
     }
-
     @OnClick(R.id.add_tag)
     public void addTag(){
         new MaterialDialog.Builder(this)
@@ -170,6 +169,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             tagContainer.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
         }
     }
+
 
     public void removePicture(View view) {
         Log.d("image", "" + view.getTag());
@@ -421,6 +421,14 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         super.onConfigurationChanged(newConfig);
 
     }
+
+    @OnClick(R.id.add_image)
+    public void addImage(){
+        MyUtils.chooseImage(this,CHOOSE_PHOTO);
+    }
+    /*@OnClick(R.id.add_image)
+    public void addImg() {
+>>>>>>> Stashed changes
 
 
     @OnClick(R.id.add_image)

@@ -1,14 +1,12 @@
 package wxm.com.androiddesign.adapter;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.media.Image;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,25 +16,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.AtyItem;
-import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
@@ -240,6 +231,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder{
+
         @Bind(R.id.peoples)
         TextView peoples;
         @Bind(R.id.group_name)
@@ -257,10 +249,11 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             readMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (groupIntro.getVisibility() == View.GONE) {
+                    if(groupIntro.getVisibility()==View.GONE){
                         readMore.setImageResource(R.drawable.ic_expand_less);
                         groupIntro.setVisibility(View.VISIBLE);
-                    } else {
+                    }
+                    else {
                         readMore.setImageResource(R.drawable.ic_expand_more);
                         groupIntro.setVisibility(View.GONE);
                     }
@@ -308,6 +301,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Log.i("mjson", json);
                 return null;
             }
+
         }
     }
 

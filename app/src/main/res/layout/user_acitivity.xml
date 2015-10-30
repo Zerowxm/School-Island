@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             >
             <!--app:layout_scrollFlags="scroll|enterAlwaysCollapsed"-->
             <RelativeLayout
@@ -32,7 +32,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/google_bg" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -96,15 +96,17 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/divider"
             android:elevation="5dp"
+            app:elevation="5dp"
             app:cardElevation="5dp"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#03a9f3"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="#000000"
-            app:tabTextColor="#9e9e9e9e" />
-
+            app:tabIndicatorColor="@color/white"
+             />
+        <!--android:divider="@color/divider"-->
+        <!--app:tabSelectedTextColor="#000000"-->
+        <!--app:tabIndicatorColor="#03a9f3"-->
+        <!--app:tabTextColor="#9e9e9e9e"-->
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"

@@ -89,7 +89,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onCommunity(TextView community, int position) {
                 Intent intent = new Intent(activity, GroupAcitivity.class);
-
                 if(!activityItems.get(position).getAtyCtyId().equals("")) {
                     intent.putExtra("groupId", activityItems.get(position).getAtyCtyId());
                     intent.putExtra("groupName", activityItems.get(position).getAtyCtyId().
@@ -254,6 +253,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
         if(item.getAtyCtyId().equals("")){
             holder.groupLayout.setVisibility(View.GONE);
+
         }else {
             holder.groupLayout.setVisibility(View.VISIBLE);
         }

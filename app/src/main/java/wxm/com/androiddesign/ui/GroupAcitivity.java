@@ -52,6 +52,7 @@ public class GroupAcitivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         groupId = bundle.getString("groupId");
         groupName = bundle.getString("groupName");
+
         new GetUserInfo(this).execute();
         new GetGroupAty(this).execute();
     }
@@ -123,6 +124,9 @@ public class GroupAcitivity extends AppCompatActivity {
 
             return true;
         }
+        //new GetUserInfo(this).execute();
+
+
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
@@ -174,6 +178,12 @@ public class GroupAcitivity extends AppCompatActivity {
                 intent.putExtra("groupId",groupId);
                 intent.putExtra("groupName",groupName);
                 this.startActivity(intent);
+        }
+        if(id==R.id.publish){
+            Intent intent=new Intent(this,PublishActivity.class);
+            intent.putExtra("groupId",groupId);
+            intent.putExtra("groupName",groupName);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

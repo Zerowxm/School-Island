@@ -67,6 +67,7 @@
             <!--/>-->
         <!--</LinearLayout>-->
         <RelativeLayout
+            android:id="@+id/shadow"
             android:background="#000000"
             android:alpha="0.6"
             android:layout_alignBottom="@id/group_img"

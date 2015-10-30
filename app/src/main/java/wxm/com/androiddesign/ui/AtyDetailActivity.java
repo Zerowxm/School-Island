@@ -101,7 +101,7 @@ public class AtyDetailActivity extends BaseActivity {
         addComment();
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
-        if (atyItem.getUserId().equals(MyUser.userId))
+        if (MyUser.userId.equals(atyItem.getUserId()))
             isUser=true;
         CommentData commentData=null;
         new getCommentTask().execute(commentData);

@@ -186,6 +186,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(user.getUserName());
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
+
     }
 
     private void setupViewPager() {
@@ -208,7 +209,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
     private void setupTabLayout() {
         TabLayout tab = (TabLayout) findViewById(R.id.tabs);
         tab.setupWithViewPager(viewPager);
-        tab.setBackgroundColor(ContextCompat.getColor(this, R.color.tab_color));
+     //   tab.setBackgroundColor(ContextCompat.getColor(this, R.color.tab_color));
 
     }
 

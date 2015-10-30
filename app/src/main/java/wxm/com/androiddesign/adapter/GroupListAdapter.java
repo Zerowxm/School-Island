@@ -3,6 +3,7 @@ package wxm.com.androiddesign.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -75,8 +76,13 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
                         Palette.Swatch mutedLightSwatch=palette.getLightMutedSwatch();
                         Palette.Swatch mutedDarkSwatch=palette.getDarkMutedSwatch();
                         Palette.Swatch PopulerSwatch=MyColorUtils.getDominantSwatch(palette);
-                        Log.i("palette",""+vibrant+vibrantDark+vibrantLight+mutedSwatch+mutedDarkSwatch+mutedLightSwatch);
+                        Log.i("palette", "" + vibrant + vibrantDark + vibrantLight + mutedSwatch + mutedDarkSwatch + mutedLightSwatch);
                         MyColorUtils.getINSTANCE();
+                        GradientDrawable gd=new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                new int[]{0xffffff,palette.getVibrantColor(
+                                                MyColorUtils.getColor())});
+                        gd.setCornerRadius(0f);
+                        holder.shadow.setBackground(gd);
 //                        holder.cardView.setCardBackgroundColor(
 //                                palette.getVibrantColor(
 //                                        MyColorUtils.getColor())
@@ -107,7 +113,8 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
         CardView cardView;
         @Bind(R.id.hot_tag)
         TextView hotTag;
-        //@Bind(R.id.shadow)
+        @Bind(R.id.shadow)
+        View shadow;
        // FrameLayout shadow;
 //        @Bind(R.id.user_photo)
 //        ImageView userPhoto;

@@ -64,13 +64,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Bind(R.id.fab3)
     com.github.clans.fab.FloatingActionButton fab3;
     User mUser = new User();
-    @Bind(R.id.logout)
+    //@Bind(R.id.logout)
     TextView logout;
-    @Bind(R.id.user_photo)
+    //@Bind(R.id.user_photo)
     CircleImageView user_photo;
-    @Bind(R.id.user_name)
+    //@Bind(R.id.user_name)
     TextView user_name;
-    @Bind(R.id.user_email)
+    //@Bind(R.id.user_email)
     TextView user_email;
 
     @Override
@@ -79,10 +79,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupNavigationView();
         ButterKnife.bind(this);
         setupFab();
         new LoginTask(this).execute(false);
-        setupNavigationView();
+
         activityWeakReference = new WeakReference<AppCompatActivity>(this);
         setupDrawer();
         activityWeakReference=new WeakReference<AppCompatActivity>(this);
@@ -293,7 +294,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 });
     }
 
-    @OnClick(R.id.logout)
+    //@OnClick(R.id.logout)
     public void Logout() {
         new MaterialDialog.Builder(this)
                 .title("乃确定不是手滑了么")
@@ -323,11 +324,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (navigationView != null) {
             setupDrawerContent(navigationView, this);
         }
-        View header = findViewById(R.id.header);
+        View header = navigationView.inflateHeaderView(R.layout.drawer_header);
         header.setClickable(true);
-        final CircleImageView userPhoto = (CircleImageView) findViewById(R.id.user_photo);
-        userPhoto.setClickable(true);
-        userPhoto.setOnClickListener(new View.OnClickListener() {
+        user_photo = (CircleImageView) header.findViewById(R.id.user_photo);
+        logout=(TextView)header.findViewById(R.id.logout);
+        user_name=(TextView)header.findViewById(R.id.user_name);
+        user_email=(TextView)header.findViewById(R.id.user_email);
+
+        user_photo.setClickable(true);
+        user_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, MyUser.userId);
