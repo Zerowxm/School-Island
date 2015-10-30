@@ -53,10 +53,10 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int ITEM=2;
     private Group group;
     AtyItem item;
-    ArrayList<AtyItem> activityItems;
+    List<AtyItem> activityItems;
     Context activity;
 
-    public MutiGroupAdapter(Group group,ArrayList<AtyItem> atyItems,Context activity){
+    public MutiGroupAdapter(Group group,List<AtyItem> atyItems,Context activity){
         this.group = group;
         this.activityItems = atyItems;
         this.activity = activity;
@@ -75,7 +75,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onUserPhoto(CircleImageView userPhoto, int position) {
                     Intent intent = new Intent(activity, UserAcitivity.class);
-                    intent.putExtra("userId", activityItems.get(position).getUserId());
+                    intent.putExtra("userId", activityItems.get(position-1).getUserId());
                     activity.startActivity(intent);
                 }
 
@@ -97,7 +97,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if (!"001".equals(MyUser.userId)) {
                         Log.d("recyclerview", "onCard");
                         Intent intent = new Intent(activity, AtyDetailActivity.class);
-                        intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
+                        intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position-1));
                         activity.startActivity(intent);
                     } else {
                         Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
@@ -171,17 +171,19 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((HeaderViewHolder) holder).peoples.setText(group.getCtyMembers() + "个成员");
             ((HeaderViewHolder) holder).groupName.setText(group.getCtyName() + "");
             ((HeaderViewHolder) holder).groupIntro.setText(group.getCtyIntro() + "");
-            if (group.getCtyIsAttention().equals("true")) {
+            if(group.getUserId().equals(MyUser.userId)){
                 ((HeaderViewHolder) holder).join.setVisibility(View.GONE);
+            }else if (group.getCtyIsAttention().equals("true")) {
+                ((HeaderViewHolder) holder).join.setText("退出");
             }
         }else{
-            item = activityItems.get(position);
+            item = activityItems.get(position-1);
             ((AtyViewHolder)holder).user_name.setText(item.getUserName());
             ((AtyViewHolder)holder).total_member.setText(item.getAtyMembers());
             ((AtyViewHolder)holder).aty_name.setText(item.getAtyName());
             ((AtyViewHolder)holder).totle_plus.setText(item.getAtyPlus());
             ((AtyViewHolder)holder).startTime.setText(item.getAtyStartTime());
-            ((AtyViewHolder)holder).group.setText(item.getAtyType());
+            ((AtyViewHolder)holder).group.setText(item.getAtyCtyName());
             ((AtyViewHolder)holder).atyPlace.setText(item.getAtyPlace());
             ((AtyViewHolder)holder).total_member.setText(item.getAtyMembers());
             ((AtyViewHolder)holder).totle_plus.setText(item.getAtyPlus());
@@ -196,48 +198,39 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
 
             if (item.getAtyAlbum() != null&&item.getAtyAlbum().size()!=0) {
-                if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers") || "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
-                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+                for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+                    Log.d("imageuri", "" + item.getAtyAlbum().size());
+                    ImageView imageView = new ImageView(activity);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
-                    Picasso.with(activity).load(R.drawable.wu).into(imageView);
+                    Log.d("image", item.getAtyAlbum().get(i));
+                    Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
                     imageView.setLayoutParams(layoutParams);
+                    imageView.setTag(i);
+                    final List<String> album = item.getAtyAlbum();
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            if (activity != null && !((AppCompatActivity) activity).isFinishing()) {
+                                MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
+                                FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
+                                ft.add(dialog, "showPic");
+                                ft.commitAllowingStateLoss();
+                            } else {
+                                Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());
+                            }
+                        }
+                    });
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     ((AtyViewHolder)holder).imageViewContainer.addView(imageView);
-
-                } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers") || item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
-                    for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-                        Log.d("imageuri", "" + item.getAtyAlbum().size());
-                        ImageView imageView = new ImageView(activity);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
-                        Log.d("image", item.getAtyAlbum().get(i));
-                        Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-                        imageView.setLayoutParams(layoutParams);
-                        imageView.setTag(i);
-                        final List<String> album = item.getAtyAlbum();
-                        imageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(final View v) {
-                                if (activity != null && !((AppCompatActivity) activity).isFinishing()) {
-                                    MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
-                                    FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
-                                    ft.add(dialog, "showPic");
-                                    ft.commitAllowingStateLoss();
-                                } else {
-                                    Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());
-                                }
-                            }
-                        });
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        ((AtyViewHolder)holder).imageViewContainer.addView(imageView);
-                    }
                 }
+
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        return activityItems.size() + 1;
+        return activityItems.size()+1;
     }
 
     @Override
@@ -264,17 +257,57 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             readMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(groupIntro.getVisibility()==View.GONE){
+                    if (groupIntro.getVisibility() == View.GONE) {
                         readMore.setImageResource(R.drawable.ic_expand_less);
                         groupIntro.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         readMore.setImageResource(R.drawable.ic_expand_more);
                         groupIntro.setVisibility(View.GONE);
                     }
 
                 }
             });
+            join.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(join.getText().equals("加入")){
+                        join.setText("退出");
+                        new joinCmtTask().execute("notJoinCty");
+                    }else{
+                        join.setText("加入");
+                        new joinCmtTask().execute("joinCty");
+                    }
+                }
+            });
+        }
+
+        private class joinCmtTask extends AsyncTask<String, Void, Void> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+            }
+
+            @Override
+            protected Void doInBackground(String... params) {
+                JSONObject object = new JSONObject();
+                try {
+                    object = new JSONObject();
+                    object.put("action", params[0]);
+                    object.put("userId", MyUser.userId);
+                    object.put("ctyId", group.getCtyId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String json = JsonConnection.getJSON(object.toString());
+                Log.i("mjson", json);
+                return null;
+            }
         }
     }
 

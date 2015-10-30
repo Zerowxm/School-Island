@@ -20,6 +20,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
@@ -36,13 +38,12 @@ public class GroupAcitivity extends AppCompatActivity {
     String groupName = "";
     Group group;
     ArrayList<AtyItem> atyItems;
+    MenuItem menuItem;
     Boolean flag = false;
     @Bind(R.id.cty_picture)
     ImageView ctyPicture;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerView;
-    @Bind(R.id.action_share)
-    MenuItem menuItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,18 +68,18 @@ public class GroupAcitivity extends AppCompatActivity {
             super.onPostExecute(reslut);
             setupToolBar();
             Picasso.with(context).load(group.getCtyIcon()).into(ctyPicture);
-            setupRecyclerView(recyclerView);
-            if(group.getUserId().equals(MyUser.userId)){
-                menuItem.setVisible(false);
-            }
+//            if(group.getUserId().equals(MyUser.userId)){
+//                menuItem.setVisible(false);
+//            }
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
-                Log.d("Task2", "doInBackground");
+                Log.d("Task2", "doInBackground"+"id"+groupId);
                 object.put("action", "showCommunity");
+                Log.d("groupIdd",groupId);
                 object.put("ctyId", groupId);
                 object.put("userId", MyUser.userId);
                 Log.d("Task2", object.toString());
@@ -102,6 +103,7 @@ public class GroupAcitivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean reslut) {
             super.onPostExecute(reslut);
+            setupRecyclerView(recyclerView);
         }
 
         @Override
@@ -116,7 +118,7 @@ public class GroupAcitivity extends AppCompatActivity {
             }
             String json = JsonConnection.getJSON(object.toString());
             Log.d("Task2", json);
-            atyItems = new Gson().fromJson(json, new TypeToken<ArrayList<AtyItem>>() {
+            atyItems = new Gson().fromJson(json, new TypeToken<List<AtyItem>>() {
             }.getType());
 
             return true;
@@ -149,6 +151,9 @@ public class GroupAcitivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
+        this.menuItem = menu.findItem(R.id.publish);
+        if(!MyUser.userId.equals(group.getUserId()))
+            this.menuItem.setVisible(false);
         return true;
     }
 
@@ -162,21 +167,13 @@ public class GroupAcitivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_share:
+            case R.id.action_settings:
+                return true;
+            case R.id.publish:
                 Intent intent = new Intent(this,PublishActivity.class);
                 intent.putExtra("groupId",groupId);
                 intent.putExtra("groupName",groupName);
                 this.startActivity(intent);
-        }
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if(id==R.id.publish){
-            Intent intent=new Intent(this,PublishActivity.class);
-            intent.putExtra("groupId",groupId);
-            intent.putExtra("groupName",groupName);
-            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

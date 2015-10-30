@@ -230,7 +230,7 @@ public class MyHomeRecycerAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((MyViewHolder) holder).aty_content.setText(item.getAtyContent());
             ((MyViewHolder) holder).totle_plus.setText(item.getAtyPlus());
             ((MyViewHolder) holder).publish_time.setText(item.getAtyStartTime() + "-\n" + item.getAtyEndTime());
-            ((MyViewHolder) holder).activity_tag.setText(item.getAtyType());
+            ((MyViewHolder) holder).activity_tag.setText(item.getAtyCtyName());
             ((MyViewHolder) holder).atyPlace.setText(item.getAtyPlace());
             ((MyViewHolder) holder).total_member.setText(item.getAtyMembers());
             ((MyViewHolder) holder).totle_plus.setText(item.getAtyPlus());

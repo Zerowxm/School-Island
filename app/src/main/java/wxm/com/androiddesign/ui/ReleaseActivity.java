@@ -57,7 +57,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
     public static final int GET_LOCATION = 3;
 
     private List<String> uriList = new ArrayList<>();
-    private List<String> tagList = new ArrayList<>();
+    private String tagList = "";
     String Location;
     String mTime;
     private Uri selectedImgUri;

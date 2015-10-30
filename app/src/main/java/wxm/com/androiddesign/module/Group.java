@@ -5,7 +5,7 @@ package wxm.com.androiddesign.module;
  */
 public class Group {
     String action;
-    String userId;
+    String creatorId;
     String ctyId;
     String ctyMembers;
     String ctyIcon;
@@ -29,7 +29,7 @@ public class Group {
 
     public Group(String action, String userId, String ctyIcon, String ctyType, String ctyName, String ctyIntro) {
         this.action = action;
-        this.userId = userId;
+        this.creatorId = userId;
         this.ctyIcon = ctyIcon;
         this.ctyType = ctyType;
         this.ctyName = ctyName;
@@ -77,11 +77,11 @@ public class Group {
     }
 
     public String getUserId() {
-        return userId;
+        return creatorId;
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.creatorId = userId;
     }
 
     public String getCtyType() {

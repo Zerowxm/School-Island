@@ -18,6 +18,8 @@ public class AtyItem implements Parcelable {
     String atyId;
     String atyName;
     String atyType;
+    String atyCtyId;
+    String atyCtyName;
     String atyStartTime;
     String atyEndTime;
     String atyPlace;
@@ -30,18 +32,32 @@ public class AtyItem implements Parcelable {
     String atyShares;
     String atyIsPublic;
     String releaseTime;
-    //String atyIsBanned;
     List<String> atyAlbum = new ArrayList<String>();
-    List<String> atyTags = new ArrayList<>();
 
-//    public String getAtyIsBanned() {
-//        return atyIsBanned;
-//    }
-//
-//    public void setAtyIsBanned(String atyIsBanned) {
-//        this.atyIsBanned = atyIsBanned;
-//    }
 
+    public String getAtyCtyId() {
+        return atyCtyId;
+    }
+
+    public void setAtyCtyId(String atyCtyId) {
+        this.atyCtyId = atyCtyId;
+    }
+
+    public String getAtyCtyName() {
+        return atyCtyName;
+    }
+
+    public void setAtyCtyName(String atyCtyName) {
+        this.atyCtyName = atyCtyName;
+    }
+
+    public String getAtyTpye() {
+        return atyType;
+    }
+
+    public void setAtyTpye(String atyTpye) {
+        this.atyType = atyTpye;
+    }
 
     public String getReleaseTime() {
         return releaseTime;
@@ -49,14 +65,6 @@ public class AtyItem implements Parcelable {
 
     public void setReleaseTime(String releaseTime) {
         this.releaseTime = releaseTime;
-    }
-
-    public List<String> getAtyTags() {
-        return atyTags;
-    }
-
-    public void setAtyTags(List<String> atyTags) {
-        this.atyTags = atyTags;
     }
 
     public String getAtyPublishTime() {
@@ -137,14 +145,6 @@ public class AtyItem implements Parcelable {
 
     public void setAtyName(String atyName) {
         this.atyName = atyName;
-    }
-
-    public String getAtyType() {
-        return atyType;
-    }
-
-    public void setAtyType(String atyType) {
-        this.atyType = atyType;
     }
 
     public String getAtyStartTime() {
@@ -262,13 +262,13 @@ public class AtyItem implements Parcelable {
     }
 
     public AtyItem(String action, String userId, String userName, String userIcon,
-                   String atyName, String atyType, String atyStartTime, String atyEndTime,
+                   String atyName, String atyCtyId, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
-                   String atyIsPublic, List<String> atyAlbum , List<String> atyTags) {
+                   String atyIsPublic, List<String> atyAlbum , String atyType) {
         this.action = action;
         this.userId = userId;
-        this.atyType = atyType;
+        this.atyCtyId = atyCtyId;
         this.atyIsPublic = atyIsPublic;
         this.userName = userName;
         this.userIcon = userIcon;
@@ -284,7 +284,7 @@ public class AtyItem implements Parcelable {
         this.atyIsLiked = atyPlused;
         this.atyShares = atyShare;
         this.atyAlbum = atyAlbum;
-        this.atyTags = atyTags;
+        this.atyType = atyType;
     }
 
     public String getUserId() {
@@ -296,14 +296,14 @@ public class AtyItem implements Parcelable {
     }
 
     public AtyItem(String action, String userId, String atyName,
-                   String atyType, String atyStartTime, String atyEndTime,
+                   String atyCtyId, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent,
                    String atyPlus, String atyComment, String atyJoined, String atyIsLiked,
-                   String atyShare, String atyIsPublic, List<String> atyAlbum ,List<String> atyTags) {
+                   String atyShare, String atyIsPublic, List<String> atyAlbum ,String atyType) {
         this.action = action;
         this.userId = userId;
         this.atyName = atyName;
-        this.atyType = atyType;
+        this.atyCtyId = atyCtyId;
         this.atyIsLiked = atyIsLiked;
         this.atyStartTime = atyStartTime;
         this.atyEndTime = atyEndTime;
@@ -316,7 +316,7 @@ public class AtyItem implements Parcelable {
         this.atyIsPublic = atyIsPublic;
         this.atyShares = atyShare;
         this.atyAlbum = atyAlbum;
-        this.atyTags = atyTags;
+        this.atyType = atyType;
     }
 
     @Override
@@ -327,7 +327,8 @@ public class AtyItem implements Parcelable {
         dest.writeString(userIcon);
         dest.writeString(atyId);
         dest.writeString(atyName);
-        dest.writeString(atyType);
+        dest.writeString(atyCtyId);
+        dest.writeString(atyCtyName);
         dest.writeString(atyStartTime);
         dest.writeString(atyEndTime);
         dest.writeString(atyPlace);
@@ -339,8 +340,8 @@ public class AtyItem implements Parcelable {
         dest.writeString(atyIsLiked);
         dest.writeString(atyIsPublic);
         dest.writeString(atyShares);
+        dest.writeString(atyType);
         dest.writeList(atyAlbum);
-        dest.writeList(atyTags);
     }
 
     public void readFromParcel(Parcel in) {
@@ -350,7 +351,8 @@ public class AtyItem implements Parcelable {
         userIcon = in.readString();
         atyId = in.readString();
         atyName = in.readString();
-        atyType = in.readString();
+        atyCtyId = in.readString();
+        atyCtyName = in.readString();
         atyStartTime = in.readString();
         atyEndTime = in.readString();
         atyPlace = in.readString();
@@ -362,8 +364,8 @@ public class AtyItem implements Parcelable {
         atyIsLiked = in.readString();
         atyIsPublic = in.readString();
         atyShares = in.readString();
+        atyType = in.readString();
         in.readList(atyAlbum, List.class.getClassLoader());
-        in.readList(atyTags,List.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<AtyItem> CREATOR =
@@ -386,7 +388,8 @@ public class AtyItem implements Parcelable {
                 ", userIcon='" + userIcon + '\'' +
                 ", atyId='" + atyId + '\'' +
                 ", atyName='" + atyName + '\'' +
-                ", atyType='" + atyType + '\'' +
+                ", atyCtyId='" + atyCtyId + '\'' +
+                ", atyCtyName='" + atyCtyName + '\'' +
                 ", atyStartTime='" + atyStartTime + '\'' +
                 ", atyEndTime='" + atyEndTime + '\'' +
                 ", atyPlace='" + atyPlace + '\'' +
@@ -399,7 +402,7 @@ public class AtyItem implements Parcelable {
                 ", atyIsPublic='" + atyIsPublic + '\'' +
                 ", atyShares='" + atyShares + '\'' +
                 ", atyAlbum=" + atyAlbum +
-                ", atyTags=" + atyTags +
+                ", atyType=" + atyType +
                 '}';
     }
 }

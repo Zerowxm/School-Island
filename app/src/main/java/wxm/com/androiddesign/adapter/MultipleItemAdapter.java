@@ -106,7 +106,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AtyViewHolder) holder).total_comment.setText(atyItem.getAtyComment());
             ((AtyViewHolder) holder).totle_plus.setText(atyItem.getAtyPlus());
             ((AtyViewHolder) holder).publish_time.setText(atyItem.getAtyStartTime() + "-\n" + atyItem.getAtyEndTime());
-            ((AtyViewHolder) holder).activity_tag.setText(atyItem.getAtyType());
+            ((AtyViewHolder) holder).activity_tag.setText(atyItem.getAtyCtyName());
             ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
             ((AtyViewHolder) holder).atyPlace.setText(atyItem.getAtyPlace());
             ((AtyViewHolder) holder).total_member.setText(atyItem.getAtyMembers());
@@ -413,6 +413,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     object = new JSONObject();
                     object.put("action", params[0]);
                     object.put("userId", MyUser.userId);
+                    object.put("userName",MyUser.userName);
                     object.put("atyId", atyItem.getAtyId());
                 } catch (JSONException e) {
                     e.printStackTrace();

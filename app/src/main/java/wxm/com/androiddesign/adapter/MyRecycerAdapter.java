@@ -52,6 +52,7 @@ import wxm.com.androiddesign.ui.AtyDetailActivity;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.DetailActivity;
 
+import wxm.com.androiddesign.ui.GroupAcitivity;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.utils.MyUtils;
@@ -81,17 +82,19 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                intent.putExtra("userId", activityItems.get(position).getUserId());
+                intent.putExtra("userId", activityItems.get(position-1).getUserId());
                 activity.startActivity(intent);
             }
 
             @Override
             public void onCommunity(TextView community, int position) {
-                Intent intent = new Intent(activity, CmtAcitivity.class);
+                Intent intent = new Intent(activity, GroupAcitivity.class);
 
-                intent.putExtra("groupId", community.getText().toString());
-                intent.putExtra("groupName",community.getText().toString());
-
+                if(!activityItems.get(position).getAtyCtyId().equals("")) {
+                    intent.putExtra("groupId", activityItems.get(position).getAtyCtyId());
+                    intent.putExtra("groupName", activityItems.get(position).getAtyCtyId().
+                            substring(0, activityItems.get(position).getAtyCtyId().length() - 14));
+                }
                 activity.startActivity(intent);
             }
 
@@ -178,12 +181,16 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.aty_name.setText(item.getAtyName());
         holder.totle_plus.setText(item.getAtyPlus());
         holder.startTime.setText(item.getAtyStartTime());
-        holder.group.setText(item.getAtyType());
+        if(!item.getAtyCtyId().equals("")){
+            holder.group.setText(item.getAtyCtyId().substring(0,item.getAtyCtyId().length() - 14));
+        }
         holder.atyPlace.setText(item.getAtyPlace());
         holder.total_member.setText(item.getAtyMembers());
         holder.totle_plus.setText(item.getAtyPlus());
         holder.user_name.setText(item.getUserName());
         holder.publishTime.setText(item.getAtyPublishTime());
+        holder.aty_tags.setText(item.getAtyTpye());
+        Log.d("aty_tags",item.getAtyTpye());
         Picasso.with(activity).load(item.getUserIcon()).into(holder.user_photo);
         Point size=MyUtils.getScreenSize(activity);
         int screenWidth = size.x - 7;
@@ -191,22 +198,32 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         if (holder.imageViewContainer!=null){
             holder.imageViewContainer.removeAllViews();
         }
+        if (item.getAtyAlbum()==null||item.getAtyAlbum().size()==0){
+            ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
+            imageView.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.test));
+            imageView.setLayoutParams(layoutParams);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            holder.imageViewContainer.addView(imageView);
+        }
 
-        if (item.getAtyAlbum() != null&&item.getAtyAlbum().size()!=0) {
-            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers") || "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
-                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
-                Picasso.with(activity).load(R.drawable.wu).into(imageView);
-                imageView.setLayoutParams(layoutParams);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                holder.imageViewContainer.addView(imageView);
+       else if (item.getAtyAlbum() != null&&item.getAtyAlbum().size()!=0) {
+//            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers") || "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
+//                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
+//               // Picasso.with(activity).load(R.drawable.wu).into(imageView);
+//                imageView.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.test));
+//                imageView.setLayoutParams(layoutParams);
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                holder.imageViewContainer.addView(imageView);
 
-            } else if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers") || item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
+            //if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers") || item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
                 for (int i = 0; i < item.getAtyAlbum().size(); i++) {
                     Log.d("imageuri",""+ item.getAtyAlbum().size());
                     ImageView imageView=new ImageView(activity);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 /5);
                     Log.d("image", item.getAtyAlbum().get(i));
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
                     imageView.setLayoutParams(layoutParams);
                     imageView.setTag(i);
@@ -227,13 +244,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     holder.imageViewContainer.addView(imageView);
                 }
-            }
-        }
-
-        if(item.getAtyTags() != null && item.getAtyTags().size() != 0){
-            for(int i = 0 ; i < item.getAtyTags().size() ; i++){
-                holder.aty_tags.setText(holder.aty_tags.getText() + "," + item.getAtyTags().get(i));
-            }
+           // }
         }
 //        if (item.getAtyPlused().equals("false")) {
 //            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
@@ -241,10 +252,10 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 //            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
 //        }
 
-        if(!item.getAtyType().equals("暂时没有社区")){
+        if(item.getAtyCtyId().equals("")){
             holder.groupLayout.setVisibility(View.GONE);
         }else {
-
+            holder.groupLayout.setVisibility(View.VISIBLE);
         }
         //setAnimation(holder.cardView, position);
     }

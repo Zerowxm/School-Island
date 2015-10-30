@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:text="音乐"
+                android:text=""
                 android:id="@+id/tag"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
@@ -117,24 +117,24 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="wrap_content">
             <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/imageViewContainer"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:divider="@drawable/divider"
                     android:orientation="horizontal"
                     android:showDividers="middle" >
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:src="@drawable/test"
-                        android:scaleType="centerCrop"/>
+                    <!--<ImageView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="300dp"-->
+                        <!--android:src="@drawable/test"-->
+                        <!--android:scaleType="centerCrop"/>-->
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -178,12 +178,12 @@
                 android:layout_centerHorizontal="true"
                 android:padding="6dp"
                 android:id="@+id/location"
-                android:layout_marginRight="80dp"
+                android:layout_marginRight="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:text="厦门大学思明校区厦门大学思明校区厦门大学思明校区厦门大学思明校区"
+                android:text="没有选择地点"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/start_time"
                 android:layout_toEndOf="@+id/start_time"

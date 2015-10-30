@@ -86,6 +86,7 @@ public class CmtListFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), GroupAcitivity.class);
+                Log.d("Task2",groups.get(position).getCtyId());
                 intent.putExtra("groupId", groups.get(position).getCtyId());
                 intent.putExtra("groupName", groups.get(position).getCtyName());
                 startActivity(intent);
@@ -117,6 +118,9 @@ public class CmtListFragment extends Fragment {
                         break;
                     case OWNED:
                         object.put("action","showOwnedCommunities");
+                        break;
+                    case HOT:
+                        object.put("action","showHotCommunities");
                         break;
                 }
                 object.put("userId", userId);

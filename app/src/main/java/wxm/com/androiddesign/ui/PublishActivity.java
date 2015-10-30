@@ -64,8 +64,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     private String groupName ="";
     private String groupId="";
     private List<String> uriList = new ArrayList<>();
-    private List<String> tagList = new ArrayList<>();
-    String Location;
+    private String tagList = "";
     private Uri selectedImgUri;
     AtyItem atyItem;
     private RelativeLayout.LayoutParams layoutParams;
@@ -147,9 +146,12 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                             TextView tag=(TextView)tagView.getChildAt(0);
                             tag.setText(input);
                             ImageView deleteTag=(ImageView)tagView.getChildAt(1);
-                            deleteTag.setTag(tagContainer.getChildCount()-1);
+                            deleteTag.setTag(tagContainer.getChildCount() - 1);
                             tagContainer.addView(tagView,tagContainer.getChildCount()-1);
-                            tagList.add(input.toString());
+                            if(tagList.equals(""))
+                                tagList += input;
+                            else
+                                tagList+=","+input;
                         }
                     }
                 }).callback(new MaterialDialog.ButtonCallback() {
@@ -181,7 +183,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -227,7 +228,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                         e.printStackTrace();
                     }
                 }
-
             }
             if (requestCode == TAKE_PHOTO) {
                 RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
@@ -284,16 +284,14 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                                 long diff = d1.getTime() - d2.getTime();
                                 if (diff >= 0) {
                                     Toast.makeText(getApplicationContext(), "end time must be later than start time", Toast.LENGTH_SHORT).show();
-                                } /*else if (community_name.getText().toString().equals("choose community")) {
-                                    Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
-                                } */else if (editAty.getText().toString().equals("")) {
+                                } else if (editAty.getText().toString().equals("")) {
                                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
                                 } else if (atyContent.getText().toString().equals("没有活动内容")) {
                                     Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
                                 } else if (location.getText().toString().equals("没有活动地点")) {
                                     Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    atyItem = new AtyItem("publishByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
+                                    atyItem = new AtyItem("releaseByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
                                             endTime.getText().toString(), location.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
                                             "true", "false", "0", temp, uriList,tagList);
@@ -326,6 +324,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             atyItem.setAtyId(id);
             atyItem.setUserIcon(MyUser.userIcon);
             HomeFragment.addActivity(atyItem);
+            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -334,12 +333,11 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
             JSONObject object = new JSONObject();
             try {
-                if(groupId.equals("")) {
-                    object = new JSONObject(new Gson().toJson(params[0]));
-                }else{
-                    params[0].setAction("publishByGroup");
-                    params[0].setAtyType(groupId);
+                if(!groupId.equals("")) {
+                    params[0].setAction("releaseByCty");
                 }
+                params[0].setAtyCtyId(groupId);
+                object = new JSONObject(new Gson().toJson(params[0]));
                 object.put("easemobId",MyUser.getEasemobId());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -360,16 +358,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         timeType = END_TIME;
         setDate();
     }
-
-//    @OnClick(R.id.set_lacation)
-//    public void setLocation(){
-//
-//    }
-//
-//    @OnClick(R.id.set_content)
-//    public void setContent(){
-//
-//    }
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
@@ -425,7 +413,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
             }
         });
-        datePickerDialog.show(getFragmentManager(),"Datepickerdialog");
+        datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
     }
 
     @Override
@@ -434,24 +422,20 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
     }
 
-    @OnClick(R.id.add_image)
-    public void addImage(){
-        MyUtils.chooseImage(this,CHOOSE_PHOTO);
-    }
-    /*@OnClick(R.id.add_image)
-    public void addImg() {
 
+    @OnClick(R.id.add_image)
+    public void addImg() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        photoPickerIntent.setType("image*//*");
+        photoPickerIntent.setType("image/*");
         Intent chooseImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        chooseImage.setType("image*//*");
+        chooseImage.setType("image/*");
         Intent chooserIntent = Intent.createChooser(photoPickerIntent, "Select Image");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{chooseImage});
         photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(chooserIntent, CHOOSE_PHOTO);
 
     }
-
+/*
     @OnClick(R.id.take_photo)
     public void takeImg() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

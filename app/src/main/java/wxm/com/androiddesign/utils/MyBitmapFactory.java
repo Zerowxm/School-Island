@@ -24,7 +24,7 @@ public class MyBitmapFactory {
             byte[]bytes = zip(b);
             Log.d("bytete",b.length+"");
             Log.d("bytete",b.length+"");
-            temp = new String(bytes, "ISO-8859-1");
+            temp = new String(b, "ISO-8859-1");
         Log.d("bitmap", "" + b.length);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -36,7 +36,7 @@ public class MyBitmapFactory {
         try {
             byte[] encodeByte = Base64.decode(encodeString, Base64.DEFAULT);
             byte[]encodeBytes = unZip(encodeByte);
-            Bitmap bitmap = android.graphics.BitmapFactory.decodeByteArray(encodeBytes, 0, encodeBytes.length);
+            Bitmap bitmap = android.graphics.BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
         } catch (Exception e) {
             e.getMessage();
