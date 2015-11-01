@@ -59,6 +59,7 @@ public class JsonConnection {
 
 
                 URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
+                //URL murl = new URL("http://106.0.4.149:8081/bootStrap/ClientPostServlet");
 
                 HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                 connection.setRequestProperty("Content-type", "application/json");

@@ -114,7 +114,7 @@ public class MyDialog extends DialogFragment {
         }
     }
 
-    private String getBigImage(String smallImage){
+    public static String getBigImage(String smallImage){
         String []splits = smallImage.split("/");
         splits[splits.length-1] = "i"+ splits[splits.length-1];
         String bitImage = "";

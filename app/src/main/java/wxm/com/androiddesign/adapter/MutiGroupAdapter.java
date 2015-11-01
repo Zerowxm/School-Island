@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.easemob.chat.EMGroupManager;
+import com.easemob.exceptions.EaseMobException;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +37,8 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.UserListActivity;
+import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.utils.MyUtils;
 
 /**
@@ -249,11 +254,10 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             readMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(groupIntro.getVisibility()==View.GONE){
+                    if (groupIntro.getVisibility() == View.GONE) {
                         readMore.setImageResource(R.drawable.ic_expand_less);
                         groupIntro.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         readMore.setImageResource(R.drawable.ic_expand_more);
                         groupIntro.setVisibility(View.GONE);
                     }
@@ -270,6 +274,15 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         join.setText("加入");
                         new joinCmtTask().execute("joinCty");
                     }
+                }
+            });
+
+            peoples.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, UserListActivity.class);
+                    intent.putExtra("ctyId",group.getCtyId());
+                    activity.startActivity(intent);
                 }
             });
         }
@@ -298,6 +311,17 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     e.printStackTrace();
                 }
                 String json = JsonConnection.getJSON(object.toString());
+                String []members = {MyUser.easemobId};
+                try {
+                    if(params[0].equals("joinCty")){
+                        EMGroupManager.getInstance().addUsersToGroup(group.getCtyGroupId(), members);
+                        //EMGroupManager.getInstance().applyJoinToGroup(group.getCtyGroupId(), "求加入");
+                    }else if(params[0].equals("notJoinCty")){
+                        EMGroupManager.getInstance().removeUserFromGroup(group.getCtyGroupId(), MyUser.easemobId);
+                        //EMGroupManager.getInstance().exitFromGroup(group.getCtyGroupId());
+                    } } catch (EaseMobException e) {
+                    e.printStackTrace();
+                }
                 Log.i("mjson", json);
                 return null;
             }

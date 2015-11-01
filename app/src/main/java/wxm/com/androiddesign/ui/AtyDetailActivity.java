@@ -1,22 +1,32 @@
 package wxm.com.androiddesign.ui;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +35,18 @@ import android.widget.ViewFlipper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mob.tools.utils.UIHandler;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,11 +54,9 @@ import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.wechat.friends.Wechat;
-import cn.sharesdk.wechat.moments.WechatMoments;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
+import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
@@ -52,17 +64,20 @@ import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.utils.MyUtils;
 import wxm.com.androiddesign.widget.MyTextView;
 
-public class AtyDetailActivity extends BaseActivity {
+public class AtyDetailActivity extends BaseActivity implements PlatformActionListener,
+        Handler.Callback {
 
     private static final int SHARE_SUCCESS = 30;
     private static final int SHARE_FAIL = 31;
-    private String[] items = new String[] { "分享给好友", "分享到朋友圈" };
-
+    private static final int MSG_TOAST = 1;
+    private static final int MSG_ACTION_CCALLBACK = 2;
+    private static final int MSG_CANCEL_NOTIFY = 3;
     private static final String TAG="AtyDetail";
     AtyItem atyItem;
-    ArrayList<CommentData> commentDatas = new ArrayList<CommentData>();
+    ArrayList<CommentData> commentDatas = new ArrayList<>();
     CommentAdapter commentAdapter;
     private boolean isUser=false;
     @Bind(R.id.sliding_layout)
@@ -71,8 +86,8 @@ public class AtyDetailActivity extends BaseActivity {
     ListView lv;
     @Bind(R.id.fab)
     FloatingActionButton fab;
-    @Bind(R.id.aty_photo)
-    ImageView mAtyImage;
+    //    @Bind(R.id.aty_photo)
+//    ImageView mAtyImage;
     @Bind(R.id.aty_name)
     TextView atyName;
     @Bind(R.id.aty_time)
@@ -87,8 +102,8 @@ public class AtyDetailActivity extends BaseActivity {
     CircleImageView userPhoto;
     @Bind(R.id.user_name)
     TextView userName;
-    @Bind(R.id.view_flipper)
-    ViewFlipper flipper;
+    @Bind(R.id.imageViewContainer)
+    LinearLayout imageViewContainer;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -104,12 +119,55 @@ public class AtyDetailActivity extends BaseActivity {
         if (MyUser.userId.equals(atyItem.getUserId()))
             isUser=true;
         CommentData commentData=null;
+
+        Point size=MyUtils.getScreenSize(this);
+        int screenWidth = size.x - 7;
+        int screenHeight = size.y;
+        if (atyItem.getAtyAlbum()==null||atyItem.getAtyAlbum().size()==0){
+            ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.image, null);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
+            imageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.test));
+            imageView.setLayoutParams(layoutParams);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageViewContainer.addView(imageView);
+        }
+        else if (atyItem.getAtyAlbum() != null&&atyItem.getAtyAlbum().size()!=0) {
+            for (int i = 0; i < atyItem.getAtyAlbum().size(); i++) {
+                Log.d("imageuri",""+ atyItem.getAtyAlbum().size());
+                ImageView imageView=new ImageView(this);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 /5);
+                Log.d("image", atyItem.getAtyAlbum().get(i));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Picasso.with(this).load(atyItem.getAtyAlbum().get(i)).into(imageView);
+                imageView.setLayoutParams(layoutParams);
+                imageView.setTag(i);
+                final List<String> album=atyItem.getAtyAlbum();
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.add(dialog,"showPic");
+                        ft.commitAllowingStateLoss();
+                    }
+                });
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageViewContainer.addView(imageView);
+            }
+            // }
+        }
         new getCommentTask().execute(commentData);
         init();
     }
 
     private void init(){
         ShareSDK.initSDK(this);
+        // 初始化图片路径
+//        new Thread() {
+//            public void run() {
+//                initImagePath();
+//            }
+//        }.start();
         atyTime.setText(atyItem.getAtyStartTime());
         userName.setText(atyItem.getUserName());
         atyName.setText(atyItem.getAtyName());
@@ -120,7 +178,7 @@ public class AtyDetailActivity extends BaseActivity {
         Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userPhoto);
         setupToolBar(toolbar);
         setupFab();
-        setupFlipper();
+        //setupFlipper();
         setupSlidingPanel();
     }
 
@@ -130,17 +188,19 @@ public class AtyDetailActivity extends BaseActivity {
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_action_send_white));
         }else if(atyItem.getAtyJoined().equals("false")){
             fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fab_add));
+        }else if(atyItem.getAtyJoined().equals("true")){
+            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_action_clear));
         }
         //fab.announceForAccessibility();
     }
 
-    private void setupFlipper(){
-        flipper.setAutoStart(true);
-        flipper.setFlipInterval(3000);
-        if(flipper.isAutoStart()&&!flipper.isFlipping()){
-            flipper.startFlipping();
-        }
-    }
+//    private void setupFlipper(){
+//        flipper.setAutoStart(true);
+//        flipper.setFlipInterval(3000);
+//        if(flipper.isAutoStart()&&!flipper.isFlipping()){
+//            flipper.startFlipping();
+//        }
+//    }
 
     @Override
     protected void onDestroy(){
@@ -153,6 +213,13 @@ public class AtyDetailActivity extends BaseActivity {
         Intent intent = new Intent(this, UserAcitivity.class);
         intent.putExtra("userId", atyItem.getUserId());
         startActivity(intent);
+    }
+
+    @OnClick(R.id.show_people)
+    public void showPeople(){
+        Intent showIntent = new Intent(this, UserListActivity.class);
+        showIntent.putExtra("atyId", atyItem.getAtyId());
+        startActivity(showIntent);
     }
 
     @OnClick(R.id.fab)
@@ -183,7 +250,7 @@ public class AtyDetailActivity extends BaseActivity {
                         public void onPositive(MaterialDialog dialog) {
                             atyItem.setAtyJoined("true");
                             atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) + 1));
-                            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fab_add));
+                            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_action_clear));
                             new UpDateTask().execute("join");
                         }
                         @Override
@@ -214,6 +281,103 @@ public class AtyDetailActivity extends BaseActivity {
                     .show();
         }
     }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case MSG_TOAST: {
+                String text = String.valueOf(msg.obj);
+                Toast.makeText(AtyDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+            break;
+//            case MSG_ACTION_CCALLBACK: {
+//                switch (msg.arg1) {
+//                    case 1: // 成功后发送Notification
+//                        showNotification(2000, "分享完成");
+//                        break;
+//                    case 2: // 失败后发送Notification
+//                        showNotification(2000, "分享失败");
+//                        break;
+//                    case 3: // 取消
+//                        showNotification(2000, "取消分享");
+//                        break;
+//                }
+//            }
+//            break;
+            case MSG_CANCEL_NOTIFY:
+                NotificationManager nm = (NotificationManager) msg.obj;
+                if (nm != null) {
+                    nm.cancel(msg.arg1);
+                }
+                break;
+        }
+        return false;
+    }
+
+    // 取消后的回调方法
+    @Override
+    public void onCancel(Platform platform, int action) {
+        Message msg = new Message();
+        msg.what = MSG_ACTION_CCALLBACK;
+        msg.arg1 = 3;
+        msg.arg2 = action;
+        msg.obj = platform;
+        UIHandler.sendMessage(msg, this);
+    }
+
+    // 完成后的回调方法
+    @Override
+    public void onComplete(Platform platform, int action,
+                           HashMap<String, Object> arg2) {
+        Message msg = new Message();
+        msg.what = MSG_ACTION_CCALLBACK;
+        msg.arg1 = 1;
+        msg.arg2 = action;
+        msg.obj = platform;
+        UIHandler.sendMessage(msg, this);
+    }
+
+    // 出错后的回调方法
+    @Override
+    public void onError(Platform platform, int action, Throwable t) {
+        t.printStackTrace();
+        Message msg = new Message();
+        msg.what = MSG_ACTION_CCALLBACK;
+        msg.arg1 = 2;
+        msg.arg2 = action;
+        msg.obj = t;
+        UIHandler.sendMessage(msg, this);
+    }
+
+//    // 根据传入的参数显示一个Notification
+//    @SuppressWarnings("deprecation")
+//    private void showNotification(long cancelTime, String text) {
+//        try {
+//            Context app = getApplicationContext();
+//            NotificationManager nm = (NotificationManager) app
+//                    .getSystemService(Context.NOTIFICATION_SERVICE);
+//            final int id = Integer.MAX_VALUE / 13 + 1;
+//            nm.cancel(id);
+//            long when = System.currentTimeMillis();
+//            Notification notification = new Notification(
+//                    R.drawable.test, text, when);
+//            PendingIntent pi = PendingIntent.getActivity(app, 0, new Intent(),
+//                    0);
+//            //notification.setLatestEventInfo(app, "sharesdk test", text, pi);
+//            notification.flags = Notification.FLAG_AUTO_CANCEL;
+//            //nm.notify(id, notification);
+//
+//            if (cancelTime > 0) {
+//                Message msg = new Message();
+//                msg.what = MSG_CANCEL_NOTIFY;
+//                msg.obj = nm;
+//                msg.arg1 = id;
+//                UIHandler.sendMessageDelayed(msg, cancelTime, this);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     private class UpDateTask extends AsyncTask<String, Void, Void> {
@@ -396,90 +560,45 @@ public class AtyDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_share:
-                showChatDialog();
+                share();
                 break;
             case R.id.action_comment:
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void share(String text, String photopath, String sharename) {
-        Platform.ShareParams sp = new SinaWeibo.ShareParams();
-        sp.text = text;
-        if (photopath != null) {
-            sp.imagePath = photopath;
-        }
-
-        Platform weibo = ShareSDK.getPlatform(this, sharename);
-        weibo.setPlatformActionListener(new PlatformActionListener() {
-
-            public void onError(Platform platform, int action, Throwable t) {
-                Message m = handler.obtainMessage();
-                m.what = SHARE_FAIL;
-                handler.sendMessage(m);
-            }
-
-            public void onComplete(Platform platform, int action,
-                                   HashMap<String, Object> res) {
-                Message m = handler.obtainMessage();
-                m.what = SHARE_SUCCESS;
-                handler.sendMessage(m);
-            }
-            public void onCancel(Platform platform, int action) {
-            }
-        });
-        weibo.share(sp);
+    public void share() {
+        //实例化一个OnekeyShare对象
+        OnekeyShare oks = new OnekeyShare();
+        //设置Notification的显示图标和显示文字
+        //oks.setNotification(R.drawable.ic_launcher, "ShareSDK demo");
+        //设置短信地址或者是邮箱地址，如果没有可以不设置
+        oks.setAddress("12345678901");
+        //分享内容的标题
+        oks.setTitle("我参加了校园岛的\"" + atyItem.getAtyName() + "\",一起来吧！");
+        //标题对应的网址，如果没有可以不设置
+        //oks.setTitleUrl("http://www.17heli.com");
+        //设置分享的文本内容
+        oks.setText("我参加了校园岛的\"" + atyItem.getAtyName() + "\",一起来吧！\n" + atyItem.getAtyContent());
+        //设置分享照片的本地路径，如果没有可以不设置
+        //oks.setImagePath(AtyDetailActivity.TEST_IMAGE);
+        //设置分享照片的url地址，如果没有可以不设置
+        oks.setImageUrl(MyDialog.getBigImage(atyItem.getAtyAlbum().get(0)));
+        //微信和易信的分享的网络连接，如果没有可以不设置
+        oks.setUrl("http://106.0.4.149:8081/bootStrap/ShareServlet?atyId="+atyItem.getAtyId());
+        //人人平台特有的评论字段，如果没有可以不设置
+        oks.setComment("添加评论");
+        //程序的名称或者是站点名称
+        oks.setSite("site");
+        //程序的名称或者是站点名称的链接地址
+        oks.setSiteUrl("http://www.baidu.com");
+//        //设置纬度
+//        oks.setLatitude(23.122619f);
+//        //设置精度
+//        oks.setLongitude(113.372338f);
+        //设置是否是直接分享
+        oks.setSilent(false);
+        //显示
+        oks.show(AtyDetailActivity.this);
     }
-
-    private void showChatDialog() {
-        new AlertDialog.Builder(this).setTitle("分享到")
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                share(atyItem.getAtyName(), null, Wechat.NAME);
-                                break;
-                            case 1:
-                                share(atyItem.getAtyName(), null, WechatMoments.NAME);
-                                break;
-                        }
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
-    }
-
-    private Handler handler = new Handler() {
-        /*
-         * (non-Javadoc)
-         *
-         * @see android.os.Handler#handleMessage(android.os.Message)
-         */
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-
-            switch (msg.what) {
-                case SHARE_SUCCESS:
-
-                    Toast.makeText(AtyDetailActivity.this, "分享成功", Toast.LENGTH_SHORT)
-                            .show();
-                    break;
-                case SHARE_FAIL:
-
-                    Toast.makeText(AtyDetailActivity.this, "分享失败", Toast.LENGTH_SHORT)
-                            .show();
-                    break;
-
-            }
-        }
-
-    };
 }

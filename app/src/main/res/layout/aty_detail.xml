@@ -43,27 +43,25 @@
                         <!--app:layout_scrollFlags="scroll|enterAlwaysCollapsed"-->
 
                         <!--app:layout_scrollFlags="scroll|enterAlways"-->
-                        <ViewFlipper
-                            android:id="@+id/view_flipper"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_collapseMode="parallax">
-                            <ImageView
-                                android:id="@+id/aty_photo"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/detail_backdrop_height"
-                                android:scaleType="centerCrop"
-                                android:fitsSystemWindows="true"
-                                android:src="@drawable/wu"
-                                app:layout_collapseMode="parallax"/>
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/detail_backdrop_height"
-                                android:scaleType="centerCrop"
-                                android:fitsSystemWindows="true"
-                                android:src="@drawable/google_bg"
-                                app:layout_collapseMode="parallax"/>
-                        </ViewFlipper>
+                        <HorizontalScrollView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/imageViewContainer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:divider="@drawable/divider"
+                                android:orientation="horizontal"
+                                android:showDividers="middle" >
+                                <!--<ImageView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="300dp"-->
+                                <!--android:src="@drawable/test"-->
+                                <!--android:scaleType="centerCrop"/>-->
+                            </LinearLayout>
+                        </HorizontalScrollView>
 
 
 
@@ -146,6 +144,8 @@
                                 <LinearLayout
                                     android:paddingTop="16dp"
                                     android:paddingLeft="72dp"
+                                    android:id="@+id/show_people"
+                                    android:clickable="true"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
                                     <ImageView

@@ -82,7 +82,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                intent.putExtra("userId", activityItems.get(position-1).getUserId());
+                intent.putExtra("userId", activityItems.get(position).getUserId());
                 activity.startActivity(intent);
             }
 
@@ -115,28 +115,21 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onPlus(ImageView fab, int adapterPosition, TextView plus) {
-//                if (!"001".equals(MyUser.userId)) {
-//                    AtyItem atyItem = activityItems.get(adapterPosition);
-//                    item = atyItem;
-//                    if (atyItem.getAtyPlused().equals("true")) {
-//                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
-//                        fab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_plus_one));
-//                        atyItem.setAtyPlused("false");
-//                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
-//                        notifyDataSetChanged();
-//                        new UpDateTask().execute("notLike");
-//                    } else {
-//                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
-//                        fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one_white));
-//                        atyItem.setAtyPlused("true");
-//                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
-//                        notifyDataSetChanged();
-//                        new UpDateTask().execute("like");
-//                    }
-//
-//                } else {
-//                    Toast.makeText(activity, "请登录后点赞", Toast.LENGTH_SHORT).show();
-//                }
+                    AtyItem atyItem = activityItems.get(adapterPosition);
+                    item = atyItem;
+                    if (atyItem.getAtyPlused().equals("true")) {
+                        atyItem.setAtyPlused("false");
+                        fab.setImageResource(R.drawable.ic_thumb_up_grey);
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
+                        notifyDataSetChanged();
+                        new UpDateTask().execute("notLike");
+                    } else {
+                        atyItem.setAtyPlused("true");
+                        fab.setImageResource(R.drawable.ic_thumb_up_primary);
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
+                        notifyDataSetChanged();
+                        new UpDateTask().execute("like");
+                    }
             }
         });
     }
@@ -245,11 +238,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 }
            // }
         }
-//        if (item.getAtyPlused().equals("false")) {
-//            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
-//        } else if (item.getAtyPlused().equals("true")) {
-//            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
-//        }
+        if (item.getAtyPlused().equals("false")) {
+            holder.plus.setImageResource(R.drawable.ic_thumb_up_grey);
+        } else if (item.getAtyPlused().equals("true")) {
+            holder.plus.setImageResource(R.drawable.ic_thumb_up_primary);
+        }
 
         if(item.getAtyCtyId().equals("")){
             holder.groupLayout.setVisibility(View.GONE);
@@ -352,8 +345,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView group;
         @Bind(R.id.group_layout)
         LinearLayout groupLayout;
-        @Bind(R.id.plus)
-        ImageView plus;
         @Bind(R.id.total_plus)
         TextView totle_plus;
         @Bind(R.id.start_time)
@@ -370,6 +361,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView aty_name;
         @Bind(R.id.tag)
         TextView aty_tags;
+        @Bind(R.id.plus)
+        ImageView plus;
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
             Log.d("recyclerview", "MyViewHolder");
