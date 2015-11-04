@@ -201,6 +201,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
                 object.put("action", "showActivities");
                 object.put("userId", MyUser.userId);
                 String jsonarrys = JsonConnection.getJSON(object.toString());
+                Log.d("jsonArrays",jsonarrys);
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
 

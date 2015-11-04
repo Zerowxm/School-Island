@@ -294,7 +294,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 });
     }
 
-    //@OnClick(R.id.logout)
+//    @OnClick(R.id.logout)
     public void Logout() {
         new MaterialDialog.Builder(this)
                 .title("乃确定不是手滑了么")

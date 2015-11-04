@@ -2,7 +2,9 @@ package wxm.com.androiddesign.ui;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -20,6 +22,7 @@ import cn.sharesdk.framework.ShareSDK;
 import wxm.com.androiddesign.broadcastreceive.NewMessageBroadCastReceiver;
 import wxm.com.androiddesign.listener.MyConnectionListener;
 import wxm.com.androiddesign.notification.Notifications;
+import wxm.com.androiddesign.utils.CrashHandler;
 
 /**
  * Created by Administrator on 2015/7/3.
@@ -30,13 +33,14 @@ public class MyApplication extends Application implements EMEventListener {
 
     private static final String TAG = "MyApplication";
     NewMessageBroadCastReceiver receiver = new NewMessageBroadCastReceiver();
-    ;
 
     @Override
     public void onCreate() {
         super.onCreate();
         applicationContext = this;
         instance = this;
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
         EMChat.getInstance().setAutoLogin(false);
         //SDKInitializer.initialize(applicationContext);
         EMChat.getInstance().init(applicationContext);
@@ -44,6 +48,18 @@ public class MyApplication extends Application implements EMEventListener {
         Log.d(TAG, "ApplicationonCreate");
         initSDK(this);
         addConnectionListener();
+        //throw new NullPointerException();
+//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//            public void uncaughtException(Thread thread, Throwable ex) {
+//                Log.d("uncaughtException", "uncaughtException");
+////                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+////                startActivity(intent);
+////                Toast.makeText(getApplicationContext(),"数据访问失败，请检查网络状态",Toast.LENGTH_SHORT).show();
+//                final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     public static MyApplication getInstance() {

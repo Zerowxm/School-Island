@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -83,6 +85,7 @@ public class MyDialog extends DialogFragment {
     private class LoadImage extends AsyncTask<String, Void, Void> {
 
         String uri;
+        RequestCreator creator;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -92,7 +95,7 @@ public class MyDialog extends DialogFragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             uri = getBigImage(uri);
-            Log.d("bigImage",uri);
+            Log.d("bigImage", uri);
             Picasso.with(getActivity()).load(uri).into(imageView);
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -169,8 +172,20 @@ public class MyDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        Log.d(TAG, "imageviewwidth:" + imageView.getWidth());
+//        uri = getBigImage(uri);
+//        Log.d("bigImage",uri);
+//        Picasso.with(getActivity()).load(uri).into(imageView);
+//        DisplayMetrics displaymetrics = new DisplayMetrics();
+//        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//        int screenWidth = displaymetrics.widthPixels - 2;
+//        int screenHeight = displaymetrics.heightPixels;
+//        ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+//        //layoutParams.height = layoutParams.height*screenWidth/layoutParams.width;
+//
+//        layoutParams.width = screenWidth;
+//        imageView.setLayoutParams(layoutParams);
+//        Log.d(TAG, layoutParams.width + "/" + layoutParams.height);
+//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
     @Override
