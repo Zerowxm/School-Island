@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.ui.ChatActivity;
 import wxm.com.androiddesign.utils.DateUtils;
+import wxm.com.androiddesign.utils.SmileUtils;
 
 /**
  * Created by Zero on 8/31/2015.
@@ -84,14 +86,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         EMMessage message=messages[position];
         TextMessageBody textMessageBody=(TextMessageBody)message.getBody();
+        Spannable span = SmileUtils.getSmiledText(context, textMessageBody.getMessage());
         if(holder instanceof MsgReceiveViewHolder){
             Picasso.with(activity).load(userIcon).into(((MsgReceiveViewHolder) holder).mPhoto);
-            ((MsgReceiveViewHolder) holder).mContent.setText(textMessageBody.getMessage());
+            ((MsgReceiveViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
+//            ((MsgReceiveViewHolder) holder).mContent.setText(textMessageBody.getMessage());
             ((MsgReceiveViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
                     new Date(message.getMsgTime())));
         }if (holder instanceof MsgSendViewHolder){
             Picasso.with(activity).load(MyUser.userIcon).into(((MsgSendViewHolder) holder).mPhoto);
-            ((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
+            ((MsgSendViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
+            //((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
             ((MsgSendViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
                     new Date(message.getMsgTime())
             ));

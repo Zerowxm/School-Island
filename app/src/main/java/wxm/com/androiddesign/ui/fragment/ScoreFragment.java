@@ -1,6 +1,5 @@
 package wxm.com.androiddesign.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,17 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.PhotoAdapter;
-
-import wxm.com.androiddesign.anim.MyItemAnimator;
 
 import wxm.com.androiddesign.adapter.ScoreAdapter;
-import wxm.com.androiddesign.anim.MyItemAnimator;
 import wxm.com.androiddesign.module.Score;
 
-import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.utils.ScrollManager;
 
 /**
  * Created by zero on 2015/7/15.

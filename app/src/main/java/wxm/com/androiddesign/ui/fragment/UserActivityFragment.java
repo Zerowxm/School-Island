@@ -2,11 +2,8 @@ package wxm.com.androiddesign.ui.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,10 +22,8 @@ import java.util.List;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
-import wxm.com.androiddesign.anim.MyItemAnimator;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.utils.ScrollManager;
 
 
 /**

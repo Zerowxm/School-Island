@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.MultipleItemAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.module.AtyItem;
-import wxm.com.androiddesign.module.CommentData;
 
 public class CmtDatailActivity extends AppCompatActivity {
 

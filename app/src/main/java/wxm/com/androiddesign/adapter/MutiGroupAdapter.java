@@ -38,7 +38,6 @@ import wxm.com.androiddesign.ui.AtyDetailActivity;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.ui.UserListActivity;
-import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.utils.MyUtils;
 
 /**

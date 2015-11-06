@@ -2,9 +2,7 @@ package wxm.com.androiddesign.ui;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -14,10 +12,9 @@ import com.easemob.chat.EMMessage;
 import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 import wxm.com.androiddesign.broadcastreceive.NewMessageBroadCastReceiver;
 import wxm.com.androiddesign.listener.MyConnectionListener;
@@ -60,6 +57,9 @@ public class MyApplication extends Application implements EMEventListener {
 //                startActivity(intent);
 //            }
 //        });
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     public static MyApplication getInstance() {

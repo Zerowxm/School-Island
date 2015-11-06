@@ -1,40 +1,17 @@
 package wxm.com.androiddesign.network;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.Application;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import org.jivesoftware.smack.util.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import wxm.com.androiddesign.module.User;
-import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.MyApplication;
 import wxm.com.androiddesign.utils.ACache;
 import wxm.com.androiddesign.utils.NetState;

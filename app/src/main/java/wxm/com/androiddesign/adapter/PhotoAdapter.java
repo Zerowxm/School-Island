@@ -1,8 +1,6 @@
 package wxm.com.androiddesign.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Display;

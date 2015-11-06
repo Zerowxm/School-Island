@@ -22,11 +22,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.easemob.EMError;
-import com.easemob.chat.EMChatManager;
-import com.easemob.exceptions.EaseMobException;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 

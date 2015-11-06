@@ -3,7 +3,6 @@ package wxm.com.androiddesign.utils;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.graphics.drawable.Drawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

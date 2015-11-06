@@ -3,19 +3,13 @@ package wxm.com.androiddesign.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -28,12 +22,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.ChatItem;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.ChatActivity;
-import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.MyApplication;
 
 /**

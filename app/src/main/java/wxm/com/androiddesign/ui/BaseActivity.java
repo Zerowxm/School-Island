@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.utils.NetState;
 import wxm.com.androiddesign.utils.PrefUtils;
 

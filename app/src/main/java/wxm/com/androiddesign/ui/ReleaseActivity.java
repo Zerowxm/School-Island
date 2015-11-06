@@ -1,5 +1,4 @@
 package wxm.com.androiddesign.ui;
-import com.easemob.chat.EMChatManager;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +41,6 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.DatePickerFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.utils.MyBitmapFactory;
 

@@ -20,7 +20,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
-import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.utils.Config;
 

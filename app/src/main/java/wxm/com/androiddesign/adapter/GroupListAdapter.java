@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.ui.fragment.CmtListFragment;
-import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.utils.MyColorUtils;
 import wxm.com.androiddesign.utils.PaletteTransformation;
 

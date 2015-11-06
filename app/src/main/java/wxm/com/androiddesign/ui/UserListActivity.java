@@ -25,12 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.MsgAdapter;
-import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.UserAdapter;
 import wxm.com.androiddesign.anim.MyItemAnimator;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
-import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 

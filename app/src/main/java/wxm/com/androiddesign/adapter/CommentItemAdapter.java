@@ -17,7 +17,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.module.ChatItem;
 import wxm.com.androiddesign.module.CommentItem;
 import wxm.com.androiddesign.ui.MyApplication;
 
