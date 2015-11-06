@@ -2,13 +2,16 @@ package wxm.com.androiddesign.ui;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
+import com.easemob.chat.OnNotificationClickListener;
 import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
@@ -74,6 +77,31 @@ public class MyApplication extends Application implements EMEventListener {
 //        registerReceiver(receiver, filter);
         EMChat.getInstance().setAppInited();
         EMChatManager.getInstance().registerEventListener(this);
+        // 获取到EMChatOptions对象
+        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+        options.setShowNotificationInBackgroud(true|false); //默认为true
+        options.setNoticeBySound(true| false); //默认为true 开启声音提醒
+        options.setNoticedByVibrate(true | false); //默认为true 开启震动提醒
+        options.setUseSpeaker(true|false); //默认为true 开启扬声器播放
+
+//设置notification点击listener
+        options.setOnNotificationClickListener(new OnNotificationClickListener() {
+
+            @Override
+            public Intent onNotificationClick(EMMessage message) {
+                Intent intent = new Intent(applicationContext, ChatActivity.class);
+                EMMessage.ChatType chatType = message.getChatType();
+                if (chatType == EMMessage.ChatType.Chat) { //单聊信息
+                    intent.putExtra("easemobId", message.getFrom());
+                    intent.putExtra("chatType", ChatActivity.CHAT);
+                } else { //群聊信息
+                    //message.getTo()为群聊id
+                    intent.putExtra("easemobId", message.getTo());
+                    intent.putExtra("chatType", ChatActivity.GROUP_CHAT);
+                }
+                return intent;
+            }
+        });
     }
 
     private void addConnectionListener() {

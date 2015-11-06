@@ -25,6 +25,7 @@ import wxm.com.androiddesign.utils.MyBitmapFactory;
 import wxm.com.androiddesign.utils.MyUtils;
 
 
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -67,6 +68,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     private List<String> tempUriList = new ArrayList<>();
     private String tagList = "";
     private Uri selectedImgUri;
+    private long exitTime = 0;
     AtyItem atyItem;
     private RelativeLayout.LayoutParams layoutParams;
 
@@ -334,7 +336,10 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             atyItem.setAtyAlbum(tempUriList);
             HomeFragment.addActivity(atyItem);
             Toast.makeText(getApplicationContext(),"发布正在后台进行",Toast.LENGTH_SHORT).show();
-            finish();
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            //finish();
         }
 
         @Override
@@ -443,7 +448,17 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
     @OnClick(R.id.add_image)
     public void addImage(){
-        MyUtils.chooseImage(this,CHOOSE_PHOTO);
+        MyUtils.chooseImage(this, CHOOSE_PHOTO);
+    }
+
+    @Override
+    public void onBackPressed() {
+            if (System.currentTimeMillis() - exitTime > 2000) {
+                Toast.makeText(this, "再按一次退出发布", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+                return;
+            }
+            finish();
     }
     /*@OnClick(R.id.add_image)
     public void addImg() {

@@ -15,32 +15,19 @@
         android:layout_height="55dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/wu" />
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_below="@+id/msg_time"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:fonts="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:elevation="5dp"
-        android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardElevation="5dp"
-        card_view:cardUseCompatPadding="true"
-        android:background="@drawable/chatlog"
-        android:layout_toLeftOf="@id/user_photo">
+
 
         <TextView
-            android:paddingRight="16dp"
-            android:paddingLeft="6dp"
-            android:paddingBottom="16dp"
+            android:textColor="@color/white"
+            android:layout_below="@+id/msg_time"
+            android:layout_toLeftOf="@id/user_photo"
             android:id="@+id/msg_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="content"
-            android:textSize="15sp"
-            android:layout_marginRight="16dp"/>
-</android.support.v7.widget.CardView>
+            android:paddingTop="8dp"
+            android:background="@drawable/chatlog"
+             />
     <TextView
         android:id="@+id/msg_time"
         android:layout_alignTop="@id/user_photo"

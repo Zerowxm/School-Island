@@ -87,6 +87,7 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
                     intent.putExtra("easemobId", mChatItemList.get(getAdapterPosition()).getFromEasemobId());
                     intent.putExtra("userName", mChatItemList.get(getAdapterPosition()).getFromUserName());
                     intent.putExtra("userIcon",mChatItemList.get(getAdapterPosition()).getFromUserIcon());
+                    intent.putExtra("chatType",ChatActivity.CHAT);
                     activity.startActivity(intent);
                 }
             });

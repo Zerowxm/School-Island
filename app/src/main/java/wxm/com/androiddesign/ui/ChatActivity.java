@@ -60,7 +60,8 @@ import wxm.com.androiddesign.widget.PasteEditText;
 public class ChatActivity extends BaseActivity implements EMEventListener {
 
     private static final String TAG = "ChatActivity";
-
+    public static final int CHAT = 0x1;
+    public static final int GROUP_CHAT = 0x2;
     @Bind(R.id.recyclerview_chat)
     RecyclerView recyclerView;
     @Bind(R.id.add_msg)
@@ -103,6 +104,7 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
         userName = bundle.getString("userName");
         toChatUserId = bundle.getString("easemobId");
         userIcon = bundle.getString("userIcon");
+        chatType = bundle.getInt("chatType");
         MaterialDialog materialDialog = new MaterialDialog.Builder(this)
                 .title("Loading")
                 .progress(true, 0)
@@ -164,8 +166,13 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
     }
 
     private void onConversationInit() {
-        conversation = EMChatManager.getInstance().getConversationByType(toChatUserId
-                , EMConversation.EMConversationType.Chat);
+        if(chatType == CHAT) {
+            conversation = EMChatManager.getInstance().getConversationByType(toChatUserId
+                    , EMConversation.EMConversationType.Chat);
+        }else if(chatType == GROUP_CHAT){
+            conversation = EMChatManager.getInstance().getConversationByType(toChatUserId
+                    , EMConversation.EMConversationType.GroupChat);
+        }
         conversation.markAllMessagesAsRead();
     }
 

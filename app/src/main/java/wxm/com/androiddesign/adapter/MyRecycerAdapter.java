@@ -241,17 +241,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
     }
 
 
-    private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            User user = new User();
-            user.setAction("");
-            return null;
-        }
-    }
-
-
     public void setAnimation(View viewtoAnimate, int position) {
         if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(activity, R.anim.item_anim);

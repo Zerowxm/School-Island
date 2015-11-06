@@ -38,6 +38,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.MainActivity;
+import wxm.com.androiddesign.utils.ACache;
 import wxm.com.androiddesign.utils.ScrollManager;
 
 /**
@@ -200,6 +201,26 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+
+        //先读取缓存内容
+        ACache activities = ACache.get(getActivity());
+        JSONObject object = new JSONObject();
+        try {
+            object.put("action", "showActivities");
+            object.put("userId", MyUser.userId);
+            if(activities.getAsString(object.toString())!=null) {
+                activityItems = new Gson().fromJson(activities.getAsString(object.toString()), new TypeToken<List<AtyItem>>() {
+                }.getType());
+                AppCompatActivity appCompatActivity = MainActivity.activityWeakReference.get();
+                if (appCompatActivity != null && !appCompatActivity.isFinishing()) {
+                    myRecycerAdapter = new MyRecycerAdapter(activityItems, appCompatActivity, "HomeFragment");
+                    recyclerView.setAdapter(myRecycerAdapter);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         new GetAtyTask().execute();
 

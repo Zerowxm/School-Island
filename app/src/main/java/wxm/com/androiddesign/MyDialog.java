@@ -55,11 +55,6 @@ public class MyDialog extends DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.dialog_layout, null);
         Log.d("dialog", uri + "onCreateView");
-//        if("本地存在或者缓存有"){
-//
-//        }else{
-//
-//        }
         imageView = (PhotoView) view.findViewById(R.id.image_show);
         Picasso.with(getActivity()).load(uri).into(imageView);
         new LoadImage().execute(uri);
