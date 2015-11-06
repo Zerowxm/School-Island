@@ -9,18 +9,20 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Size;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 
+import cn.jpush.android.api.JPushInterface;
 import wxm.com.androiddesign.module.MyUser;
+import wxm.com.androiddesign.ui.MyApplication;
 
 /**
  * Created by Zero on 8/28/2015.
@@ -57,13 +59,16 @@ public class MyUtils{
                     e.printStackTrace();
                     int errorCode= e.getErrorCode();
                     if (errorCode==EMError.NONETWORK_ERROR){
+                        Toast.makeText(MyApplication.applicationContext,"网络异常",Toast.LENGTH_SHORT).show();
                         Log.d(TAG,"网络异常");
                     }
                     else if (errorCode==EMError.USER_ALREADY_EXISTS){
                         Log.d(TAG,"用户已存在");
+                        Toast.makeText(MyApplication.applicationContext,"用户名已存在",Toast.LENGTH_SHORT).show();
                     }
                     else if (errorCode==EMError.UNAUTHORIZED){
                         Log.d(TAG,"无权限");
+                        Toast.makeText(MyApplication.applicationContext,"无权限",Toast.LENGTH_SHORT).show();
                     }else {
                         Log.d(TAG,e.getMessage());
                     }
@@ -81,6 +86,8 @@ public class MyUtils{
             public void onSuccess() {
                 Log.i(Config.HX, "LoginSuccess");
                 MyUser.setEasemobId(easemobId);
+                //设置用户极光别名
+                JPushInterface.setAlias(MyApplication.applicationContext, MyUser.easemobId, null);
             }
 
             @Override

@@ -31,7 +31,6 @@ import wxm.com.androiddesign.adapter.GroupListAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.GroupAcitivity;
 
 /**

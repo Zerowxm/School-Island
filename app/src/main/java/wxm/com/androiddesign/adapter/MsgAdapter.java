@@ -11,10 +11,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.Message;
-import wxm.com.androiddesign.module.User;
 
 /**
  * Created by zero on 2015/6/30.

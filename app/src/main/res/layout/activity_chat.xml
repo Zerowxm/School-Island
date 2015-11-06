@@ -27,22 +27,65 @@
             android:layout_height="2dp"
             android:background="@color/gray" />
 
-        <EditText
+        <!--<wxm.com.androiddesign.widget.PasteEditText-->
+            <!--android:id="@+id/add_msg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="35dip"-->
+            <!--android:background="@null"-->
+            <!--android:maxLines="3"-->
+            <!--android:minHeight="40dp"-->
+            <!--android:onClick="editClick"-->
+            <!--android:paddingBottom="3dp"-->
+            <!--android:paddingLeft="1dp"-->
+            <!--android:paddingRight="1dp"-->
+            <!--android:paddingTop="3dp"-->
+            <!--android:textSize="18sp" />-->
+
+        <wxm.com.androiddesign.widget.PasteEditText
             android:id="@+id/add_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageView"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/send_msg"
-            android:layout_toStartOf="@+id/send_msg"
+            android:layout_toLeftOf="@+id/iv_emoticons_normal"
+            android:layout_toStartOf="@+id/iv_emoticons_normal"
             android:hint="" />
+
+        <ImageView
+            android:id="@+id/iv_emoticons_normal"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:paddingRight="8dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|right"
+            android:layout_margin="1dip"
+            android:scaleType="fitCenter"
+            android:layout_toLeftOf="@+id/send_msg"
+            android:src="@drawable/chatting_biaoqing_btn_normal"
+            android:visibility="visible"
+            android:clickable="true"/>
+
+        <ImageView
+            android:paddingRight="8dp"
+            android:id="@+id/iv_emoticons_checked"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|right"
+            android:layout_margin="1dip"
+            android:scaleType="fitCenter"
+            android:layout_toLeftOf="@+id/send_msg"
+            android:src="@drawable/chatting_biaoqing_btn_enable"
+            android:visibility="invisible"
+            android:clickable="true"/>
 
         <ImageView
             android:layout_below="@id/imageView"
             android:clickable="true"
             android:id="@+id/send_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignBottom="@+id/add_msg"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -50,4 +93,16 @@
             android:paddingRight="16dp"
             android:src="@drawable/ic_action_send" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_face_container"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:visibility="gone" >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </RelativeLayout>

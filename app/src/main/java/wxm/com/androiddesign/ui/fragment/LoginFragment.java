@@ -21,7 +21,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -43,7 +42,6 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.MainActivity;
-import wxm.com.androiddesign.ui.MyApplication;
 import wxm.com.androiddesign.utils.MyUtils;
 import wxm.com.androiddesign.utils.PrefUtils;
 

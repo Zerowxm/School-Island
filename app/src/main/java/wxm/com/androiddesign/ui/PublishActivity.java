@@ -25,6 +25,7 @@ import wxm.com.androiddesign.utils.MyBitmapFactory;
 import wxm.com.androiddesign.utils.MyUtils;
 
 
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -64,8 +65,10 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     private String groupName ="";
     private String groupId="";
     private List<String> uriList = new ArrayList<>();
+    private List<String> tempUriList = new ArrayList<>();
     private String tagList = "";
     private Uri selectedImgUri;
+    private long exitTime = 0;
     AtyItem atyItem;
     private RelativeLayout.LayoutParams layoutParams;
 
@@ -208,7 +211,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             if (requestCode == CHOOSE_PHOTO) {
                 Uri chosenImageUri = data.getData();
                 selectedImgUri = chosenImageUri;
-                RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
+                final RelativeLayout imageItem = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.image_item, null);
                 ImageView imageView = (ImageView) imageItem.getChildAt(0);
                 ImageView removeImage = (ImageView) imageItem.getChildAt(1);
                 removeImage.setTag(imageContains.getChildCount());
@@ -220,13 +223,25 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                 Picasso.with(this).load(selectedImgUri).into(imageView);
                 Log.d("image", "" + imageView.toString());
                 if (selectedImgUri != null) {
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
-                        imageContains.addView(imageItem);
-                        uriList.add(MyBitmapFactory.BitmapToString(bitmap));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    new AsyncTask<Void,Void,Void>(){
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(PublishActivity.this.getContentResolver(), selectedImgUri);
+                                imageContains.addView(imageItem);
+                                uriList.add(MyBitmapFactory.BitmapToString(bitmap));
+                                tempUriList.add(selectedImgUri+"");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        @Override
+                        protected Void doInBackground(Void... params) {
+
+                            return null;
+                        }
+                    }.execute();
                 }
             }
             if (requestCode == TAKE_PHOTO) {
@@ -247,6 +262,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
                         imageContains.addView(imageItem);
                         uriList.add(MyBitmapFactory.BitmapToString(bitmap));
+                        tempUriList.add(selectedImgUri+"");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -297,17 +313,23 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            atyItem.setUserName(MyUser.userName);
+            atyItem.setUserIcon(MyUser.userIcon);
+            atyItem.setAtyAlbum(tempUriList);
+            HomeFragment.addActivity(atyItem);
+            Toast.makeText(getApplicationContext(),"发布正在后台进行",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            //finish();
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            atyItem.setUserName(MyUser.userName);
             atyItem.setAtyId(id);
-            atyItem.setUserIcon(MyUser.userIcon);
-            HomeFragment.addActivity(atyItem);
             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
-            finish();
+            //finish();
         }
 
         @Override
@@ -319,6 +341,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                     params[0].setAction("releaseByCty");
                 }
                 params[0].setAtyCtyId(groupId);
+                params[0].setAtyAlbum(uriList);
                 object = new JSONObject(new Gson().toJson(params[0]));
                 object.put("easemobId",MyUser.getEasemobId());
             } catch (JSONException e) {
@@ -327,6 +350,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             id = JsonConnection.getJSON(object.toString());
             return null;
         }
+
     }
 
     @OnClick(R.id.set_start_time)
@@ -406,7 +430,17 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
     @OnClick(R.id.add_image)
     public void addImage(){
-        MyUtils.chooseImage(this,CHOOSE_PHOTO);
+        MyUtils.chooseImage(this, CHOOSE_PHOTO);
+    }
+
+    @Override
+    public void onBackPressed() {
+            if (System.currentTimeMillis() - exitTime > 2000) {
+                Toast.makeText(this, "再按一次退出发布", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+                return;
+            }
+            finish();
     }
     /*@OnClick(R.id.add_image)
     public void addImg() {

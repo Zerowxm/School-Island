@@ -33,6 +33,7 @@ import java.lang.ref.WeakReference;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
@@ -183,7 +184,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
-
             getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
             flag = 1;
             MyUtils.Login(getApplicationContext());
@@ -296,7 +296,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 });
     }
 
-    //@OnClick(R.id.logout)
+//    @OnClick(R.id.logout)
     public void Logout() {
         new MaterialDialog.Builder(this)
                 .title("乃确定不是手滑了么")

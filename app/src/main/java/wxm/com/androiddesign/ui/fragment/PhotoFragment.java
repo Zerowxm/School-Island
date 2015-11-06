@@ -1,21 +1,17 @@
 package wxm.com.androiddesign.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,13 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.PhotoAdapter;
-import wxm.com.androiddesign.anim.MyItemAnimator;
-import wxm.com.androiddesign.module.AtyItem;
-import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.utils.ScrollManager;
 
 /**
  * Created by zero on 2015/7/15.

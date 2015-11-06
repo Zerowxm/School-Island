@@ -3,44 +3,34 @@ package wxm.com.androiddesign.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.module.AtyItem;
@@ -49,11 +39,8 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
-import wxm.com.androiddesign.ui.CmtAcitivity;
-import wxm.com.androiddesign.ui.DetailActivity;
 
 import wxm.com.androiddesign.ui.GroupAcitivity;
-import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
@@ -83,13 +70,13 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position-1).getUserId());
+                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position - 1).getUserId());
             }
 
             @Override
             public void onCommunity(TextView community, int position) {
                 Intent intent = new Intent(activity, GroupAcitivity.class);
-                if(!activityItems.get(position).getAtyCtyId().equals("")) {
+                if (!activityItems.get(position).getAtyCtyId().equals("")) {
                     intent.putExtra("groupId", activityItems.get(position).getAtyCtyId());
                     intent.putExtra("groupName", activityItems.get(position).getAtyCtyId().
                             substring(0, activityItems.get(position).getAtyCtyId().length() - 14));
@@ -103,40 +90,28 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 
             @Override
             public void onCard(CardView cardView, int position) {
-                if (!"001".equals(MyUser.userId)) {
-                    Log.d("recyclerview", "onCard");
-                    Intent intent = new Intent(activity, AtyDetailActivity.class);
-                    intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
-                    activity.startActivity(intent);
-                } else {
-                    Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(activity, AtyDetailActivity.class);
+                intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
+                activity.startActivity(intent);
             }
 
             @Override
             public void onPlus(ImageView fab, int adapterPosition, TextView plus) {
-//                if (!"001".equals(MyUser.userId)) {
-//                    AtyItem atyItem = activityItems.get(adapterPosition);
-//                    item = atyItem;
-//                    if (atyItem.getAtyPlused().equals("true")) {
-//                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
-//                        fab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_plus_one));
-//                        atyItem.setAtyPlused("false");
-//                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
-//                        notifyDataSetChanged();
-//                        new UpDateTask().execute("notLike");
-//                    } else {
-//                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
-//                        fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one_white));
-//                        atyItem.setAtyPlused("true");
-//                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
-//                        notifyDataSetChanged();
-//                        new UpDateTask().execute("like");
-//                    }
-//
-//                } else {
-//                    Toast.makeText(activity, "请登录后点赞", Toast.LENGTH_SHORT).show();
-//                }
+                AtyItem atyItem = activityItems.get(adapterPosition);
+                item = atyItem;
+                if (atyItem.getAtyPlused().equals("true")) {
+                    atyItem.setAtyPlused("false");
+                    fab.setImageResource(R.drawable.ic_thumb_up_grey);
+                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
+                    notifyDataSetChanged();
+                    new UpDateTask().execute("notLike");
+                } else {
+                    atyItem.setAtyPlused("true");
+                    fab.setImageResource(R.drawable.ic_thumb_up_primary);
+                    atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
+                    notifyDataSetChanged();
+                    new UpDateTask().execute("like");
+                }
             }
         });
     }
@@ -159,9 +134,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 object = new JSONObject();
                 object.put("action", params[0]);
                 object.put("userId", MyUser.userId);
-                object.put("userName",MyUser.userName);
+                object.put("userName", MyUser.userName);
                 object.put("atyId", item.getAtyId());
-                object.put("easemobId",MyUser.getEasemobId());
+                object.put("easemobId", MyUser.getEasemobId());
                 object.put("atyName", item.getAtyName());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -180,8 +155,8 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.aty_name.setText(item.getAtyName());
         holder.totle_plus.setText(item.getAtyPlus());
         holder.startTime.setText(item.getAtyStartTime());
-        if(!item.getAtyCtyId().equals("")){
-            holder.group.setText(item.getAtyCtyId().substring(0,item.getAtyCtyId().length() - 14));
+        if (!item.getAtyCtyId().equals("")) {
+            holder.group.setText(item.getAtyCtyId().substring(0, item.getAtyCtyId().length() - 14));
         }
         holder.atyPlace.setText(item.getAtyPlace());
         holder.total_member.setText(item.getAtyMembers());
@@ -189,86 +164,62 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         holder.user_name.setText(item.getUserName());
         holder.publishTime.setText(item.getAtyPublishTime());
         holder.aty_tags.setText(item.getAtyTpye());
-        Log.d("aty_tags",item.getAtyTpye());
+        Log.d("aty_tags", item.getAtyTpye());
         Picasso.with(activity).load(item.getUserIcon()).into(holder.user_photo);
-        Point size=MyUtils.getScreenSize(activity);
+        Point size = MyUtils.getScreenSize(activity);
         int screenWidth = size.x - 7;
         int screenHeight = size.y;
-        if (holder.imageViewContainer!=null){
+        if (holder.imageViewContainer != null) {
             holder.imageViewContainer.removeAllViews();
         }
-        if (item.getAtyAlbum()==null||item.getAtyAlbum().size()==0){
+        if (item.getAtyAlbum() == null || item.getAtyAlbum().size() == 0) {
             ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
-            imageView.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.material_flat));
+            imageView.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.material_flat));
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             holder.imageViewContainer.addView(imageView);
-        }
-
-       else if (item.getAtyAlbum() != null&&item.getAtyAlbum().size()!=0) {
-//            if (item.getAtyIsJoined().equals("false") && item.getAtyIsPublic().equals("toMembers") || "001".equals(MyUser.userId) && !item.getAtyIsPublic().equals("toVisitors")) {
-//                ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 1 / 3);
-//               // Picasso.with(activity).load(R.drawable.wu).into(imageView);
-//                imageView.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.test));
-//                imageView.setLayoutParams(layoutParams);
-//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                holder.imageViewContainer.addView(imageView);
-
-            //if (item.getAtyIsJoined().equals("true") && item.getAtyIsPublic().equals("toMembers") || item.getAtyIsPublic().equals("toVisitors") || !"001".equals(MyUser.userId) && item.getAtyIsPublic().equals("toUsers")) {
-                for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-                    Log.d("imageuri",""+ item.getAtyAlbum().size());
-                    ImageView imageView=new ImageView(activity);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 /5);
-                    Log.d("image", item.getAtyAlbum().get(i));
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
-                    imageView.setLayoutParams(layoutParams);
-                    imageView.setTag(i);
-                    final List<String> album=item.getAtyAlbum();
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(final View v) {
-                            if (activity!=null&&!((AppCompatActivity)activity).isFinishing()){
-                                MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
-                                FragmentTransaction ft = ((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction();
-                                ft.add(dialog,"showPic");
-                                ft.commitAllowingStateLoss();
-                            }else {
-                                Log.e("Error",activity.toString()+((AppCompatActivity)activity).isFinishing()+((AppCompatActivity)activity).isFinishing());
-                            }
+        } else if (item.getAtyAlbum() != null && item.getAtyAlbum().size() != 0) {
+            for (int i = 0; i < item.getAtyAlbum().size(); i++) {
+                Log.d("imageuri", "" + item.getAtyAlbum().size());
+                ImageView imageView = new ImageView(activity);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
+                Log.d("image", item.getAtyAlbum().get(i));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
+                imageView.setLayoutParams(layoutParams);
+                imageView.setTag(i);
+                final List<String> album = item.getAtyAlbum();
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        if (activity != null && !((AppCompatActivity) activity).isFinishing()) {
+                            MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
+                            FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
+                            ft.add(dialog, "showPic");
+                            ft.commitAllowingStateLoss();
+                        } else {
+                            Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());
                         }
-                    });
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    holder.imageViewContainer.addView(imageView);
-                }
-           // }
+                    }
+                });
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                holder.imageViewContainer.addView(imageView);
+            }
         }
-//        if (item.getAtyPlused().equals("false")) {
-//            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
-//        } else if (item.getAtyPlused().equals("true")) {
-//            holder.plus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
-//        }
+        if (item.getAtyPlused().equals("false")) {
+            holder.plus.setImageResource(R.drawable.ic_thumb_up_grey);
+        } else if (item.getAtyPlused().equals("true")) {
+            holder.plus.setImageResource(R.drawable.ic_thumb_up_primary);
+        }
 
-        if(item.getAtyCtyId().equals("")){
+        if (item.getAtyCtyId().equals("")) {
             holder.groupLayout.setVisibility(View.GONE);
 
-        }else {
+        } else {
             holder.groupLayout.setVisibility(View.VISIBLE);
         }
         //setAnimation(holder.cardView, position);
-    }
-
-
-    private class getUserInfoTask extends AsyncTask<String, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            User user = new User();
-            user.setAction("");
-            return null;
-        }
     }
 
 
@@ -352,8 +303,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView group;
         @Bind(R.id.group_layout)
         LinearLayout groupLayout;
-        @Bind(R.id.plus)
-        ImageView plus;
         @Bind(R.id.total_plus)
         TextView totle_plus;
         @Bind(R.id.start_time)
@@ -370,6 +319,9 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         TextView aty_name;
         @Bind(R.id.tag)
         TextView aty_tags;
+        @Bind(R.id.plus)
+        ImageView plus;
+
         public MyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);
             Log.d("recyclerview", "MyViewHolder");
@@ -380,7 +332,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             user_photo.setOnClickListener(this);
             plus.setOnClickListener(this);
             group.setOnClickListener(this);
-           // MyUtils.setTextView(aty_content);
         }
 
         @Override
@@ -389,7 +340,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 mListener.onUserPhoto((CircleImageView) v, getAdapterPosition());
             } /*else if ((v instanceof FloatingActionButton) && (v.getId() == R.id.fab_comment)) {
                 mListener.onComment((FloatingActionButton) v, getAdapterPosition());
-            } */else if ((v instanceof ImageView) && (v.getId() == R.id.plus)) {
+            } */ else if ((v instanceof ImageView) && (v.getId() == R.id.plus)) {
                 mListener.onPlus((ImageView) v, getAdapterPosition(), totle_plus);
             } else if (v instanceof ImageView) {
                 mListener.onPicture((ImageView) v, getAdapterPosition());
@@ -402,31 +353,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             }
         }
 
-
-//        @OnClick(R.id.fab_share)
-//        public void onShare() {
-//            if ("001".equals(MyUser.userId)) {
-//            } else {
-//                final String imgPath = null;
-//                Intent intent = new Intent(Intent.ACTION_SEND);
-//                intent.setType("text/plain");
-//                if (imgPath != null && !imgPath.equals("")) {
-//                    File f = new File(imgPath);
-//                    if (f != null && f.exists() && f.isFile()) {
-//                        intent.setType("image/*");
-//                        Uri u = Uri.fromFile(f);
-//                        intent.putExtra(Intent.EXTRA_STREAM, u);
-//                    }
-//                }
-//                intent.putExtra(Intent.EXTRA_TITLE, "Title");
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-//                intent.putExtra(Intent.EXTRA_TEXT, "You are sharing text!");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(Intent.createChooser(intent, "Share"));
-//            }
-//        }
-
-
         public interface MyViewHolderClicks {
             public void onUserPhoto(CircleImageView user_photo, int position);
 
@@ -435,10 +361,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onPicture(ImageView picture, int position);
 
             public void onCard(CardView cardView, int position);
-
-//            public void onComment(FloatingActionButton fab, int adapterPosition);
-//
-//            public void onJoinBtn(Button button, int adpterPosition);
 
             public void onPlus(ImageView fab, int adapterPosition, TextView plus);
         }

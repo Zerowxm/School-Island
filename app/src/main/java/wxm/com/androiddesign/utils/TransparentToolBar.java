@@ -1,9 +1,6 @@
 package wxm.com.androiddesign.utils;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

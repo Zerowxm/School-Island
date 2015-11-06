@@ -2,8 +2,6 @@ package wxm.com.androiddesign.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -264,6 +262,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
                 chatIntent.putExtra("easemobId", user.getEasemobId());
                 chatIntent.putExtra("userIcon", user.getUserIcon());
                 chatIntent.putExtra("userName",user.getUserName());
+                chatIntent.putExtra("chatType",ChatActivity.CHAT);
                 startActivity(chatIntent);
                 break;
             case R.id.action_settings:

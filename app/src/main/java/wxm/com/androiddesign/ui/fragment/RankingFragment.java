@@ -1,6 +1,5 @@
 package wxm.com.androiddesign.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,10 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.MsgAdapter;
 import wxm.com.androiddesign.adapter.RankingAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
-import wxm.com.androiddesign.module.Message;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.UserAcitivity;

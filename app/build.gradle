@@ -5,6 +5,10 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']
+    }
+
     defaultConfig {
         applicationId "wxm.com.androiddesign"
         minSdkVersion 16
@@ -40,4 +44,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.0'
     compile 'com.sothree.slidinguppanel:library:3.1.1'
     compile 'com.github.clans:fab:1.6.1'
+    compile files('libs/jpush-sdk-release1.8.0.jar')
 }

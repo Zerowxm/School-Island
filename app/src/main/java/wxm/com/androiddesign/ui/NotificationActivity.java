@@ -1,31 +1,23 @@
 package wxm.com.androiddesign.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
-import wxm.com.androiddesign.module.MyUser;
-import wxm.com.androiddesign.ui.fragment.ActivityFragment;
 import wxm.com.androiddesign.ui.fragment.ListFragment;
 import wxm.com.androiddesign.utils.Config;
 

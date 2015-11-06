@@ -1,6 +1,5 @@
 package wxm.com.androiddesign.adapter;
 
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,21 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.module.Message;
 import wxm.com.androiddesign.module.Notify;
-import wxm.com.androiddesign.ui.MyApplication;
 
 /**
  * Created by zero on 2015/6/30.

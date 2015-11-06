@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
@@ -19,7 +18,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.ReleaseActivity;
 
 /**
