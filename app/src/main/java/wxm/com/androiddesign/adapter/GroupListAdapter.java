@@ -27,6 +27,7 @@ import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.ui.fragment.CmtListFragment;
 import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.utils.MyColorUtils;
+import wxm.com.androiddesign.utils.MyUtils;
 import wxm.com.androiddesign.utils.PaletteTransformation;
 
 /**
@@ -56,12 +57,20 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         if (type== CmtListFragment.HOT){
             holder.hotTag.setVisibility(View.VISIBLE);
+        }else {
+            //holder.cardView.setHe
+            Log.d("imageSize", "" + holder.community_img.getHeight());
+            if (position%3==0){
+                holder.community_img.getLayoutParams().height= MyUtils.getPixels(context,260);
+                Log.d("imageSize", "" + holder.community_img.getLayoutParams().height);
+                holder.community_img.requestLayout();
+            }
         }
         Group group = groups.get(position);
         Picasso.with(context).load(group.getCtyIcon())
                 .fit().centerCrop()
                 .transform(PaletteTransformation.getInstance())
-                .placeholder(R.drawable.test)
+                .placeholder(R.drawable.user_avatar)
                 .error(R.drawable.wu)
                 .into(holder.community_img,new Callback.EmptyCallback(){
                     @Override
@@ -79,10 +88,12 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
                         Log.i("palette", "" + vibrant + vibrantDark + vibrantLight + mutedSwatch + mutedDarkSwatch + mutedLightSwatch);
                         MyColorUtils.getINSTANCE();
                         GradientDrawable gd=new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{0xffffff,palette.getVibrantColor(
-                                                MyColorUtils.getColor())});
+                                new int[]{PopulerSwatch.getRgb(),0xffffff});
                         gd.setCornerRadius(0f);
-                        holder.shadow.setBackground(gd);
+                        holder._shadow.setBackground(gd);
+                        holder.shadow.setBackgroundColor(PopulerSwatch.getRgb());
+                        holder.community_name.setTextColor(PopulerSwatch.getTitleTextColor());
+                        holder.member_num.setTextColor(PopulerSwatch.getBodyTextColor());
 //                        holder.cardView.setCardBackgroundColor(
 //                                palette.getVibrantColor(
 //                                        MyColorUtils.getColor())
@@ -115,6 +126,8 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
         TextView hotTag;
         @Bind(R.id.shadow)
         View shadow;
+        @Bind(R.id._shadow)
+        View _shadow;
        // FrameLayout shadow;
 //        @Bind(R.id.user_photo)
 //        ImageView userPhoto;

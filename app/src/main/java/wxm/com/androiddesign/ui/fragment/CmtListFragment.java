@@ -8,10 +8,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,15 +37,13 @@ import wxm.com.androiddesign.ui.GroupAcitivity;
 /**
  * Created by zero on 2015/7/8.
  */
-public class CmtListFragment extends Fragment {
+public class CmtListFragment extends BaseFragment {
 
     public static final int JOINED = 0x1;
     public static final int OWNED = 0x2;
     public static final int HOT=0x3;
     @Bind(R.id.recyclerview_list)
     RecyclerView recyclerView;
-    @Bind(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
 
     List<Group> groups = new ArrayList<>();
     String userId;
@@ -68,7 +68,8 @@ public class CmtListFragment extends Fragment {
         View v = inflater.inflate(R.layout.refresh_list, viewGroup, false);
         ButterKnife.bind(this, v);
         setupRecyclerView(recyclerView);
-        setupSwipeRefreshLayout(mSwipeRefreshLayout);
+        mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
+                setupSwipeRefreshLayout();
         return v;
     }
 
@@ -77,7 +78,7 @@ public class CmtListFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
         else
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL));
 
         recyclerView.setHasFixedSize(true);
         new GetAtyTask().execute();
@@ -145,12 +146,12 @@ public class CmtListFragment extends Fragment {
         }
     }
 
-    private void setupSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+    private void setupSwipeRefreshLayout() {
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
@@ -182,7 +183,5 @@ public class CmtListFragment extends Fragment {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    public SwipeRefreshLayout getmSwipeRefreshLayout() {
-        return mSwipeRefreshLayout;
-    }
+
 }

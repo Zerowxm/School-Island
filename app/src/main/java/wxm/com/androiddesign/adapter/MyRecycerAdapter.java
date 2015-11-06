@@ -55,6 +55,7 @@ import wxm.com.androiddesign.ui.DetailActivity;
 import wxm.com.androiddesign.ui.GroupAcitivity;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
 
@@ -82,8 +83,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                intent.putExtra("userId", activityItems.get(position-1).getUserId());
-                activity.startActivity(intent);
+                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position-1).getUserId());
             }
 
             @Override
@@ -200,7 +200,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         if (item.getAtyAlbum()==null||item.getAtyAlbum().size()==0){
             ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
-            imageView.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.test));
+            imageView.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.material_flat));
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             holder.imageViewContainer.addView(imageView);

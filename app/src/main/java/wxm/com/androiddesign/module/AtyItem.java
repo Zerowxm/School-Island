@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.module;
 
+import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -34,6 +35,13 @@ public class AtyItem implements Parcelable {
     String releaseTime;
     List<String> atyAlbum = new ArrayList<String>();
 
+    public String getAtyType() {
+        return atyType;
+    }
+
+    public void setAtyType(String atyType) {
+        this.atyType = atyType;
+    }
 
     public String getAtyCtyId() {
         return atyCtyId;
@@ -265,11 +273,10 @@ public class AtyItem implements Parcelable {
                    String atyName, String atyCtyId, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
-                   String atyIsPublic, List<String> atyAlbum , String atyType) {
+                    List<String> atyAlbum , String atyType) {
         this.action = action;
         this.userId = userId;
         this.atyCtyId = atyCtyId;
-        this.atyIsPublic = atyIsPublic;
         this.userName = userName;
         this.userIcon = userIcon;
         this.atyName = atyName;
@@ -299,7 +306,7 @@ public class AtyItem implements Parcelable {
                    String atyCtyId, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent,
                    String atyPlus, String atyComment, String atyJoined, String atyIsLiked,
-                   String atyShare, String atyIsPublic, List<String> atyAlbum ,String atyType) {
+                   String atyShare,  List<String> atyAlbum ,String atyType) {
         this.action = action;
         this.userId = userId;
         this.atyName = atyName;
@@ -313,7 +320,6 @@ public class AtyItem implements Parcelable {
         this.atyLikes = atyPlus;
         this.atyComments = atyComment;
         this.atyIsJoined = atyJoined;
-        this.atyIsPublic = atyIsPublic;
         this.atyShares = atyShare;
         this.atyAlbum = atyAlbum;
         this.atyType = atyType;

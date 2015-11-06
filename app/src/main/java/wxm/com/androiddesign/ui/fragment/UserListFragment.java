@@ -64,7 +64,7 @@ public class UserListFragment extends Fragment {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(getContext()));
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

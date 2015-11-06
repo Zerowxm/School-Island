@@ -31,6 +31,7 @@ import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.R;
 
+import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.ScrollManager;
 
@@ -38,7 +39,7 @@ import wxm.com.androiddesign.utils.ScrollManager;
 /**
  * Created by zero on 2015/6/25.
  */
-public class ActivityFragment extends Fragment {
+public class ActivityFragment extends BaseFragment {
     private static final String TAG="ActivityFragment";
 
     public static final int HOT = 0x1;
@@ -53,17 +54,14 @@ public class ActivityFragment extends Fragment {
 
     static MyRecycerAdapter myRecycerAdapter;
 
-    @Bind(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
     ScrollManager manager = new ScrollManager();
 
 
 
-    public static ActivityFragment newInstance(int type, String muserId) {
+    public static ActivityFragment newInstance(int type) {
         ActivityFragment fragment = new ActivityFragment();
         Bundle args = new Bundle();
         args.putInt("Type", type);
-        args.putString("userId", muserId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +72,7 @@ public class ActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("Type");
-        userId = getArguments().getString("userId");
+        userId = MyUser.userId;
 //        setRetainInstance(true);
     }
 
@@ -84,17 +82,18 @@ public class ActivityFragment extends Fragment {
         View v;
         v = inflater.inflate(R.layout.refresh_list, viewGroup, false);
         ButterKnife.bind(this, v);
-        setupSwipeRefreshLayout(mSwipeRefreshLayout);
+        mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
+                setupSwipeRefreshLayout();
         setupRecyclerView(recyclerView);
         return v;
     }
 
-    private void setupSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+    private void setupSwipeRefreshLayout() {
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {

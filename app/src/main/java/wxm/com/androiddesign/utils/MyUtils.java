@@ -117,4 +117,9 @@ public class MyUtils{
         photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         activity.startActivityForResult(chooserIntent,requestCode);
     }
+
+    public static int getPixels(Context context,int dp){
+        final float scale=context.getResources().getDisplayMetrics().density;
+        return (int)(dp*scale+0.5);
+    }
 }

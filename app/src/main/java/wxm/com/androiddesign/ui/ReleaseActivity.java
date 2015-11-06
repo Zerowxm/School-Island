@@ -235,7 +235,7 @@ public class ReleaseActivity extends AppCompatActivity implements TimePickerDial
                                     atyItem = new AtyItem("release", MyUser.userId, atyName.getText().toString(), community_name.getText().toString(), startTime.getText().toString(),
                                             endTime.getText().toString(), locaton.getText().toString(), "1",
                                             atyContent.getText().toString(), "0", "0",
-                                            "true", "false", "0", temp, uriList,tagList);
+                                            "true", "false", "0",uriList,tagList);
                                     new UpDateTask().execute(atyItem);
 
 

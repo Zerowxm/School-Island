@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MultpleiProfileAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
+import wxm.com.androiddesign.adapter.ProfieAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.User;
@@ -56,7 +57,8 @@ public class ProfileFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new MultpleiProfileAdapter(user, getActivity()));
+        //recyclerView.setAdapter(new MultpleiProfileAdapter(user, getActivity()));
+        recyclerView.setAdapter(new ProfieAdapter());
     }
 
     private class GetProfile extends AsyncTask<String, Void, Boolean> {

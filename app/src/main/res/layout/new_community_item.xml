@@ -22,7 +22,7 @@
             android:layout_height="240dp"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/test" />
+            android:src="@drawable/material_flat" />
         <TextView
             android:id="@+id/hot_tag"
             android:visibility="invisible"
@@ -66,14 +66,26 @@
             <!--android:textColor="@color/white"-->
             <!--/>-->
         <!--</LinearLayout>-->
+    <View
+        android:id="@+id/_shadow"
+        android:layout_above="@+id/shadow"
+        android:gravity="bottom"
+        android:animateLayoutChanges="true"
+        android:paddingBottom="7dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        />
         <RelativeLayout
+            android:background="@color/black"
             android:id="@+id/shadow"
-            android:background="#000000"
-            android:alpha="0.6"
             android:layout_alignBottom="@id/group_img"
             android:gravity="bottom"
             android:animateLayoutChanges="true"
-            android:padding="7dp"
+            android:paddingBottom="7dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
            >
@@ -81,7 +93,6 @@
                 android:id="@+id/group_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:text="小组名"
                 android:paddingLeft="8dp"
                 android:textSize="18sp"

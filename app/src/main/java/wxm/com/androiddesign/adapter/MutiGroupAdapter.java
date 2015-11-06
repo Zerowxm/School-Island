@@ -374,10 +374,6 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             public void onCard(CardView cardView, int position);
 
-//            public void onComment(FloatingActionButton fab, int adapterPosition);
-//
-//            public void onJoinBtn(Button button, int adpterPosition);
-
             public void onPlus(ImageView fab, int adapterPosition, TextView plus);
         }
     }

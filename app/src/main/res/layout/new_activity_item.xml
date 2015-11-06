@@ -130,11 +130,7 @@
                     android:divider="@drawable/divider"
                     android:orientation="horizontal"
                     android:showDividers="middle" >
-                    <!--<ImageView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="300dp"-->
-                        <!--android:src="@drawable/test"-->
-                        <!--android:scaleType="centerCrop"/>-->
+
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -146,12 +142,13 @@
                 android:alpha="0.6"
                 android:background="#000000">
                 <wxm.com.androiddesign.widget.MyTextView
+                    android:alpha="1"
                     android:id="@+id/aty_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/user_photo"
-                    android:text="abc_text_size_body_1_material@dimen/abc_text_size_body_1_material"
-                    android:textSize="27sp"
+                    android:text="dasdasda"
+                    android:textSize="17sp"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:gravity="center_vertical"

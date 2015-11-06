@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="atyitem"
+            type="wxm.com.androiddesign.module.AtyItem"/>
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:paddingLeft="20dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/main_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingRight="16dp"
+                android:paddingTop="24dp">
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:text="活动内容"
+                    android:textSize="15sp" />
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@+id/aty_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:paddingTop="16dp"
+                    android:text="@{atyitem.atyContent}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:paddingTop="16dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_action_group" />
+
+                    <wxm.com.androiddesign.widget.MyTextView
+                        android:id="@+id/people"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="6dp"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:textColor="@color/gray"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:paddingTop="16dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/fab_gray" />
+                </LinearLayout>
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:text="开始时间"
+                    android:paddingTop="16dp"
+                    android:textSize="15sp" />
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@+id/aty_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+
+                    android:text="@{atyitem.atyStartTime}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:paddingLeft="72dp"
+                    android:layout_marginLeft="72dp"
+                    android:background="@color/gray" />
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:paddingTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:text="结束时间"
+                    android:textSize="15sp" />
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@+id/aty_end_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+
+                    android:text="@{atyitem.atyEndTime}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:paddingLeft="72dp"
+                    android:layout_marginLeft="72dp"
+
+                    android:background="@color/gray" />
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:paddingTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:text="地点"
+                    android:textSize="15sp" />
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@+id/aty_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="72dp"
+                    android:text="@{atyitem.atyPlace}" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:paddingLeft="72dp"
+                    android:layout_marginLeft="72dp"
+
+                    android:background="@color/gray" />
+
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:paddingTop="16dp"
+                    android:text="发起人"
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@id/user_photo"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/user_avatar" />
+
+                    <wxm.com.androiddesign.widget.MyTextView
+                        android:id="@id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_toEndOf="@id/user_photo"
+                        android:layout_toRightOf="@id/user_photo"
+                        android:text="@{atyitem.userName}" />
+
+                    <wxm.com.androiddesign.widget.MyTextView
+                        android:id="@+id/signal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/user_name"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@id/user_name"
+                        android:layout_below="@id/user_name"
+                        android:text="少年吧啦啦啦啦"
+                        android:textSize="10sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@id/signal"
+                        android:layout_alignStart="@id/signal"
+                        android:layout_below="@id/user_photo"
+                        android:background="@color/gray" />
+                </RelativeLayout>
+
+                <wxm.com.androiddesign.widget.MyTextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:text="Ta还发布了" />
+
+                <LinearLayout
+                    android:id="@+id/aty_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="72dp"
+                    android:paddingTop="16dp">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:orientation="horizontal"
+                    android:paddingTop="16dp">
+
+                    <wxm.com.androiddesign.widget.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="参与人"
+                        android:textSize="15sp" />
+
+                    <wxm.com.androiddesign.widget.MyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:text="查看"
+                        android:textSize="15sp"
+                        app:typeface="Roboto-Bold.ttf" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/avator_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:paddingTop="16dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

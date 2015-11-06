@@ -69,9 +69,6 @@ public class GroupAcitivity extends AppCompatActivity {
             super.onPostExecute(reslut);
             setupToolBar();
             Picasso.with(context).load(group.getCtyIcon()).into(ctyPicture);
-//            if(group.getUserId().equals(MyUser.userId)){
-//                menuItem.setVisible(false);
-//            }
         }
 
         @Override
@@ -146,7 +143,6 @@ public class GroupAcitivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(groupName);
-        collapsingToolbar.setAlpha(Float.parseFloat("0.5"));
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
     }
 
@@ -156,7 +152,8 @@ public class GroupAcitivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         this.menuItem = menu.findItem(R.id.publish);
-        if(!MyUser.userId.equals(group.getUserId()))
+        if(!MyUser.userId.equals(group.getUserId())){
+        }
             this.menuItem.setVisible(false);
         return true;
     }

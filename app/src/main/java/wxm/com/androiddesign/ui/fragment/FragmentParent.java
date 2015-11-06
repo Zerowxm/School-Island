@@ -76,11 +76,12 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
                     case MotionEvent.ACTION_DOWN:
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        ActivityFragment activityFragment = (ActivityFragment) adapter.getItem(viewPager.getCurrentItem());
+
+                        BaseFragment baseFragment = (BaseFragment) adapter.getItem(viewPager.getCurrentItem());
                         if (index == 0) {
-                            activityFragment.getmSwipeRefreshLayout().setEnabled(true);
+                            baseFragment.getmSwipeRefreshLayout().setEnabled(true);
                         } else {
-                            activityFragment.getmSwipeRefreshLayout().setEnabled(false);
+                            baseFragment.getmSwipeRefreshLayout().setEnabled(false);
                         }
                         break;
                 }
@@ -100,9 +101,10 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
     private void setupViewPager() {
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.HOT, MyUser.userId), "热门活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.HIGHT, MyUser.userId), "评价最高");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.LATEST, MyUser.userId), "最近活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.HOT), "热门活动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.LATEST), "最近活动");
+        adapter.addFragment(CmtListFragment.newInstance(MyUser.userId, CmtListFragment.HOT), "热门小组");
+
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

@@ -4,22 +4,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 
 /**
  * Created by zero on 2015/6/30.
  */
-public class FooAdapter extends RecyclerView.Adapter<FooAdapter.MyViewHolder> {
+public class ProfieAdapter extends RecyclerView.Adapter<ProfieAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.foo_fragment, parent, false
+                        R.layout.profile_item, parent, false
                 ));
     }
 
@@ -30,7 +26,7 @@ public class FooAdapter extends RecyclerView.Adapter<FooAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 5;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

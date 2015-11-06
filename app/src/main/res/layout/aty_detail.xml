@@ -1,359 +1,93 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DemoActivity" >
+<layout
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_layout"
+        <import type="android.view.View"/>
+       <variable
+           name="atyitem"
+           type="wxm.com.androiddesign.module.AtyItem"/>
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        sothree:umanoPanelHeight="68dp"
-        sothree:umanoShadowHeight="4dp"
-        sothree:umanoParalaxOffset="100dp"
-        sothree:umanoDragView="@+id/dragView"
-        sothree:umanoOverlay="true"
-        sothree:umanoScrollableView="@+id/list">
+        android:fitsSystemWindows="true"
+        tools:context=".DemoActivity">
 
-        <!-- MAIN CONTENT -->
-        <FrameLayout
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <android.support.design.widget.CoordinatorLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent" android:fitsSystemWindows="true"
-                tools:context="wxm.com.androiddesign.ui.AtyDetailActivity">
+            android:fitsSystemWindows="true"
+            android:gravity="bottom"
+            sothree:umanoDragView="@+id/dragView"
+            sothree:umanoOverlay="true"
+            sothree:umanoPanelHeight="68dp"
+            sothree:umanoParalaxOffset="100dp"
+            sothree:umanoScrollableView="@+id/list"
+            sothree:umanoShadowHeight="4dp">
 
-                <android.support.design.widget.AppBarLayout android:layout_height="@dimen/detail_backdrop_height"
-                    android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+            <!-- MAIN CONTENT -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
-                    <android.support.design.widget.CollapsingToolbarLayout
-                        android:id="@+id/collapsing_toolbar"
+                <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/background_light"
+                    android:fitsSystemWindows="true"
+                    tools:context="wxm.com.androiddesign.ui.AtyDetailActivity">
+
+                    <android.support.design.widget.AppBarLayout
+                        android:id="@id/appbar"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/detail_backdrop_height"
                         android:fitsSystemWindows="true"
-                        app:contentScrim="?attr/colorPrimary"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                        >
-                        <!--app:layout_scrollFlags="scroll|enterAlwaysCollapsed"-->
+                        android:theme="@style/AppTheme.AppBarOverlay">
 
-                        <!--app:layout_scrollFlags="scroll|enterAlways"-->
-                        <ViewFlipper
-                            android:id="@+id/view_flipper"
+                        <android.support.design.widget.CollapsingToolbarLayout
+                            android:id="@+id/collapsing_toolbar"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_collapseMode="parallax">
-                            <ImageView
-                                android:id="@+id/aty_photo"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/detail_backdrop_height"
-                                android:scaleType="centerCrop"
-                                android:fitsSystemWindows="true"
-                                android:src="@drawable/wu"
-                                app:layout_collapseMode="parallax"/>
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/detail_backdrop_height"
-                                android:scaleType="centerCrop"
-                                android:fitsSystemWindows="true"
-                                android:src="@drawable/google_bg"
-                                app:layout_collapseMode="parallax"/>
-                        </ViewFlipper>
+                            android:layout_height="match_parent"
+                            android:fitsSystemWindows="true"
+                            app:contentScrim="?attr/colorPrimary"
+                            app:expandedTitleMarginEnd="64dp"
+                            app:expandedTitleMarginStart="48dp"
+                            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+                            <include layout="@layout/image_viewpager" />
 
+                        </android.support.design.widget.CollapsingToolbarLayout>
+                    </android.support.design.widget.AppBarLayout>
 
-                    </android.support.design.widget.CollapsingToolbarLayout>
-                </android.support.design.widget.AppBarLayout>
+                    <include layout="@layout/detail_nested"
+                        bind:atyitem="@{atyitem}"/>
 
-                <!--<include layout="@layout/content_aty_detail" />-->
+                    <include layout="@layout/aty_toolbar"
+                        bind:atyitem="@{atyitem}"/>
 
-                <LinearLayout
-                    app:layout_collapseMode="pin"
-                    android:id="@+id/details_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-                    <include layout="@layout/toolbar" />
-                    <LinearLayout
-                        android:paddingBottom="16dp"
-                        android:id="@+id/titleBar"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/primary">
+                        android:layout_margin="@dimen/fab_margin"
+                        android:src="@drawable/ic_done"
+                        app:fabSize="mini"
+                        app:layout_anchor="@id/titleBar"
+                        app:layout_anchorGravity="bottom|start|left" />
 
+                </android.support.design.widget.CoordinatorLayout>
 
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:layout_marginBottom="0dp"
-                            android:layout_marginLeft="72dp"
-                            android:layout_marginRight="16dp"
-                            android:text=""
-                            android:id="@id/aty_name"
-                            android:maxLines="4"
-                            android:ellipsize="end"
-                            android:textSize="18sp"
-                            android:lineSpacingMultiplier="1.1"
-                            android:fontFamily="@string/mdtp_sans_serif"
-                            android:textColor="#deffffff"
-                            />
-                        <TextView android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:layout_marginLeft="72dp"
-                            android:layout_marginRight="16dp"
-                            android:text="下午 1:00 - 下午 1:45周三在room3"
-                            android:id="@+id/aty_time"
-                            android:maxLines="2"
-                            android:ellipsize="end"
-                            android:textSize="16sp"
-                            android:textColor="#8affffff"
-                            />
-                    </LinearLayout>
+            </FrameLayout>
 
-                    <android.support.v4.widget.NestedScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
+            <!-- SLIDING LAYOUT -->
+            <include layout="@layout/detail_comment" />
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                            <LinearLayout
-                                xmlns:android="http://schemas.android.com/apk/res/android"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:paddingTop="24dp"
-                                android:paddingRight="16dp"
-                                android:id="@id/main_content"
-                                >
-
-                                <wxm.com.androiddesign.widget.MyTextView
-                                    android:paddingLeft="72dp"
-                                    android:id="@+id/aty_content"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text=""/>
-
-                                <LinearLayout
-                                    android:paddingTop="16dp"
-                                    android:paddingLeft="72dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/ic_action_group"/>
-                                    <wxm.com.androiddesign.widget.MyTextView
-                                        android:layout_marginLeft="6dp"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:textSize="10sp"
-                                        android:textColor="@color/gray"
-                                        android:gravity="center_vertical"
-                                        android:id="@+id/people"
-                                        android:text=""/>
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:paddingTop="16dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="72dp">
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="0.5dp"
-                                        android:background="@color/fab_gray"
-                                        />
-                                </LinearLayout>
-
-                                <wxm.com.androiddesign.widget.MyTextView
-                                    android:paddingTop="16dp"
-                                    android:layout_marginLeft="72dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="发起人"/>
-
-                                <RelativeLayout
-                                    android:padding="16dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-                                    <de.hdodenhof.circleimageview.CircleImageView
-                                        android:layout_width="36dp"
-                                        android:layout_height="36dp"
-                                        android:src="@drawable/wu"
-                                        android:id="@id/user_photo" />
-                                    <wxm.com.androiddesign.widget.MyTextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="最爱打雷姐"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_toRightOf="@id/user_photo"
-                                        android:layout_toEndOf="@id/user_photo"
-                                        android:layout_marginLeft="18dp"
-                                        android:layout_marginStart="18dp"
-                                        android:id="@id/user_name" />
-                                    <wxm.com.androiddesign.widget.MyTextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="少年吧啦啦啦啦"
-                                        android:textSize="10sp"
-                                        android:layout_below="@id/user_name"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignLeft="@id/user_name"
-                                        android:layout_alignStart="@id/user_name"
-                                        android:id="@+id/signal" />
-
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="0.5dp"
-                                        android:background="@color/gray"
-                                        android:layout_below="@id/user_photo"
-                                        android:layout_alignLeft="@id/signal"
-                                        android:layout_alignStart="@id/signal" />
-                                </RelativeLayout>
-
-                                <wxm.com.androiddesign.widget.MyTextView
-
-                                    android:layout_marginLeft="72dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Ta还发布了"/>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="72dp"></LinearLayout>
-
-                        </LinearLayout>
-
-                    </android.support.v4.widget.NestedScrollView>
-                </LinearLayout>
-
-
-                <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    app:layout_anchorGravity="bottom|start|left" android:layout_margin="10dp"
-                    app:layout_anchor="@id/titleBar"
-                    app:fabSize="mini"
-                    android:src="@drawable/ic_done" />
-
-            </android.support.design.widget.CoordinatorLayout>
-
-        </FrameLayout>
-
-        <!-- SLIDING LAYOUT -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff"
-            android:orientation="vertical"
-            android:clickable="false"
-            android:focusable="false"
-            android:id="@+id/dragView">
-
-            <LinearLayout
-                android:id="@+id/header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_chat_bubble_outline"/>
-                <TextView
-                    android:paddingLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="已有"/>
-                <wxm.com.androiddesign.widget.MyTextView
-                    android:id="@+id/comment_numbers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="人参与了评论"/>
-            </LinearLayout>
-
-            <ListView
-                android:layout_below="@id/header"
-                android:id="@+id/list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/comment"
-                android:layout_weight="1">
-            </ListView>
-
-            <LinearLayout
-                android:focusable="true" android:focusableInTouchMode="true"
-                android:layout_width="0dp" android:layout_height="0dp"/>
-
-            <RelativeLayout
-                android:id="@+id/comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:layout_alignParentBottom="true"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-
-                <View
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/gray" />
-
-                <ImageView
-                    android:padding="3dp"
-                    android:id="@id/user_photo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/wu"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"/>
-
-                <EditText
-                    android:layout_marginLeft="10dp"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:layout_toRightOf="@id/user_photo"
-                    android:id="@+id/add_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/imageView"
-                    android:paddingRight="10dp"
-                    android:layout_toLeftOf="@+id/cmt_comment"
-                    android:layout_toStartOf="@+id/cmt_comment"
-                    android:background="@null"
-                    android:hint="添加评论..." />
-
-                <ImageView
-                    android:id="@+id/cmt_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_action_send"
-                    android:paddingRight="16dp"
-                    android:layout_marginTop="7dp"
-                    />
-            </RelativeLayout>
-        </RelativeLayout>
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

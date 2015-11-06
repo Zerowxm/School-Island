@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/action_comment"
-        android:title="举报"
+        android:title="评论"
         android:icon="@drawable/ic_action_forum_white"
         android:orderInCategory="100"
         app:showAsAction="always"/>

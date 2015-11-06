@@ -65,7 +65,7 @@ public class RankingFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         new GetRanking().execute();
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(getContext()));
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

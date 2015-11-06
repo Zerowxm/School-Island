@@ -42,6 +42,8 @@ import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
+import wxm.com.androiddesign.ui.test.UserAcitvity;
+import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, LoginFragment.LoginCallBack{
@@ -136,7 +138,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @OnClick(R.id.fab2)
     public void release() {
         fab.close(true);
-        startActivity(new Intent(this, PublishActivity.class).putExtra("groupId",""));
+        startActivity(new Intent(this, PublishActivity.class).putExtra("groupId", ""));
     }
 
     @OnClick(R.id.fab3)
@@ -340,14 +342,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     drawerLayout.closeDrawers();
                     showLoginDialog();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, UserAcitivity.class);
-                    intent.putExtra("userId", mUser.getUserId());
-                    startActivity(intent);
+                    ActivityStartHelper.startProfileActivity(MainActivity.this
+                            , mUser.getUserId());
+
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
             }
         });
 
+        logout.setClickable(true);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logout();
+            }
+        });
     }
 
     @Override
@@ -374,10 +383,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-
-        }/*else if(getSupportFragmentManager().getFragment(new Bundle(), "cmtListFragment") instanceof CmtListFragment){
-            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
-        }*/else {
+        }
+        else {
 
             if (System.currentTimeMillis() - exitTime > 2000) {
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
@@ -399,14 +406,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onClick(View v) {
-        if (!MyUser.userId.equals("001")) {
             Intent intent = new Intent(MainActivity.this, ReleaseActivity.class);
             intent.putExtra("userId", mUser.getUserId());
             intent.putExtra("userIcon", mUser.getUserIcon());
             startActivity(intent);
-        } else {
-            Toast.makeText(this, "请登录后发布", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void showLoginDialog() {

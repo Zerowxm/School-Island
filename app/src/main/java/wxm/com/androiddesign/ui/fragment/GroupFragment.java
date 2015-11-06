@@ -102,10 +102,8 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     private void setupViewPager() {
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(CmtListFragment.newInstance(MyUser.userId,CmtListFragment.HOT), "热门小组");
         adapter.addFragment(CmtListFragment.newInstance(MyUser.userId,CmtListFragment.JOINED), "加入的小组");
         adapter.addFragment(CmtListFragment.newInstance(MyUser.userId,CmtListFragment.OWNED), "我的小组");
-        //adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.NEARBY, MyUser.userId), "附近活动");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

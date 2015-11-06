@@ -1,23 +1,33 @@
 package wxm.com.androiddesign.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -33,6 +43,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,13 +57,27 @@ import cn.sharesdk.wechat.moments.WechatMoments;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.adapter.AvatorAdapter;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
+import wxm.com.androiddesign.adapter.MutiGroupAdapter;
+import wxm.com.androiddesign.adapter.PagerAdapter;
+import wxm.com.androiddesign.adapter.TabPagerAdapter;
+import wxm.com.androiddesign.adapter.UserAdapter;
+import wxm.com.androiddesign.databinding.AtyDetailBinding;
 import wxm.com.androiddesign.module.AtyItem;
+import wxm.com.androiddesign.module.Avator;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.MyUser;
+import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.fragment.ActivityFragment;
+import wxm.com.androiddesign.ui.fragment.CmtListFragment;
+import wxm.com.androiddesign.ui.fragment.ImageFragment;
+import wxm.com.androiddesign.utils.SpacesItemDecoration;
+import wxm.com.androiddesign.widget.CirclePageIndicator;
 import wxm.com.androiddesign.widget.MyTextView;
+import wxm.com.androiddesign.widget.WrappingLinearLayoutManager;
 
 public class AtyDetailActivity extends BaseActivity {
 
@@ -71,8 +96,8 @@ public class AtyDetailActivity extends BaseActivity {
     ListView lv;
     @Bind(R.id.fab)
     FloatingActionButton fab;
-    @Bind(R.id.aty_photo)
-    ImageView mAtyImage;
+//    @Bind(R.id.aty_photo)
+//    ImageView mAtyImage;
     @Bind(R.id.aty_name)
     TextView atyName;
     @Bind(R.id.aty_time)
@@ -87,41 +112,142 @@ public class AtyDetailActivity extends BaseActivity {
     CircleImageView userPhoto;
     @Bind(R.id.user_name)
     TextView userName;
-    @Bind(R.id.view_flipper)
-    ViewFlipper flipper;
+    @Bind(R.id.image_pager)
+    ViewPager pager;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.comment_user_photo)
+    ImageView userImg;
+    @Bind(R.id.avator_list)
+    RecyclerView recyclerView;
 
+    ArrayList<String> urls;
+
+    AtyDetailBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_detail);
+//        setContentView(R.layout.aty_detail);
+        Bundle bundle = getIntent().getExtras();
+        atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
+        binding =DataBindingUtil.setContentView(this,R.layout.aty_detail);
         ButterKnife.bind(this);
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         addComment();
-        Bundle bundle = getIntent().getExtras();
-        atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
+        atyItem.setAtyStartTime(atyItem.getAtyStartTime().replace("\n"," "));
+        binding.setAtyitem(atyItem);
         if (MyUser.userId.equals(atyItem.getUserId()))
             isUser=true;
         CommentData commentData=null;
         new getCommentTask().execute(commentData);
         init();
+        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+
+        }
+    }
+    private void setupRecyclerView(List<Avator> list) {
+        final WrappingLinearLayoutManager layoutManager = new WrappingLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(new AvatorAdapter(list,getApplicationContext()));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(this));
+    }
+
+
+    private class GetPeople extends AsyncTask<Void, Void, Boolean> {
+        List<Avator> mUserList;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (true){
+                setupRecyclerView(mUserList);
+                setupOther();
+
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("action", "showMembers");
+                object.put("atyId", atyItem.getAtyId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            mUserList = new Gson().fromJson(json, new TypeToken<List<Avator>>() {
+            }.getType());
+            if (mUserList!=null){
+                return true;
+            }else {
+                return false;
+            }
+        }
+    }
+
+    @Bind(R.id.aty_other)
+    LinearLayout otherList;
+    private void setupOther(){
+
+
+        for (int i=0;i<=3;i++){
+            TextView textView =new TextView(this);
+            textView.setText("fffffff");
+            otherList.addView(textView);
+            if (i>3){
+                TextView moreText =new TextView(this);
+                moreText.setText("查看更多");
+                otherList.addView(textView);
+                break;
+            }
+        }
+    }
+
+    private void setupViewPager() {
+        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
+        if (atyItem.getAtyAlbum()!=null&&atyItem.getAtyAlbum().size()!=0){
+            for (String url:atyItem.getAtyAlbum()){
+                adapter.addFragment(ImageFragment.newInstance(url),"AtyImg");
+            }
+        }
+        pager.setAdapter(adapter);
+        CirclePageIndicator circlePageIndicator=(CirclePageIndicator)findViewById(R.id.indicator);
+        circlePageIndicator.setViewPager(pager);
+        circlePageIndicator.setSnap(true);
     }
 
     private void init(){
         ShareSDK.initSDK(this);
-        atyTime.setText(atyItem.getAtyStartTime());
-        userName.setText(atyItem.getUserName());
-        atyName.setText(atyItem.getAtyName());
-        atyContent.setText(atyItem.getAtyContent());
+        atyTime.setText(atyItem.getAtyStartTime()+" 在"+atyItem.getAtyPlace()+"举行\n"+atyItem.getAtyEndTime()+" 活动结束");
+        //userName.setText(atyItem.getUserName());
+        //atyName.setText(atyItem.getAtyName());
+        //atyContent.setText(atyItem.getAtyContent());
         mPeople.setText("已有" + atyItem.getAtyMembers() + "人参加");
         mNumber.setText(atyItem.getAtyComments());
         Log.d("atyComments", atyItem.getAtyComments());
         Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userPhoto);
-        setupToolBar(toolbar);
+        Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userImg);
+        //setupToolBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         setupFab();
-        setupFlipper();
+        //setupFlipper();
         setupSlidingPanel();
+        setupViewPager();
+        new GetPeople().execute();
     }
 
     private void setupFab(){
@@ -134,13 +260,6 @@ public class AtyDetailActivity extends BaseActivity {
         //fab.announceForAccessibility();
     }
 
-    private void setupFlipper(){
-        flipper.setAutoStart(true);
-        flipper.setFlipInterval(3000);
-        if(flipper.isAutoStart()&&!flipper.isFlipping()){
-            flipper.startFlipping();
-        }
-    }
 
     @Override
     protected void onDestroy(){
@@ -243,6 +362,34 @@ public class AtyDetailActivity extends BaseActivity {
             }
             String json = JsonConnection.getJSON(object.toString());
             Log.i("mjson", json);
+            return null;
+        }
+    }
+
+    private class GetLatestAty extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object = new JSONObject();
+                object.put("action", params[0]);
+                object.put("userId", atyItem.getUserId());
+                object.put("atyId", atyItem.getAtyId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
             return null;
         }
     }
@@ -394,14 +541,13 @@ public class AtyDetailActivity extends BaseActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 finish();
-                break;
-            case R.id.action_share:
-                showChatDialog();
-                break;
-            case R.id.action_comment:
-                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.action_comment)
+    public void comment(){
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
     public void share(String text, String photopath, String sharename) {
@@ -432,7 +578,9 @@ public class AtyDetailActivity extends BaseActivity {
         weibo.share(sp);
     }
 
-    private void showChatDialog() {
+
+    @OnClick(R.id.action_share)
+    public void showChatDialog() {
         new AlertDialog.Builder(this).setTitle("分享到")
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override

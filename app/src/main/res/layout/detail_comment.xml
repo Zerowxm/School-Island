@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:clickable="false"
+    android:focusable="false"
+    android:id="@+id/dragView"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_chat_bubble_outline"/>
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已有"/>
+        <wxm.com.androiddesign.widget.MyTextView
+            android:id="@+id/comment_numbers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="人参与了评论"/>
+    </LinearLayout>
+
+    <ListView
+        android:layout_below="@id/header"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/comment"
+        android:layout_weight="1">
+    </ListView>
+
+    <LinearLayout
+        android:focusable="true" android:focusableInTouchMode="true"
+        android:layout_width="0dp" android:layout_height="0dp"/>
+
+    <RelativeLayout
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_alignParentBottom="true"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <View
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray" />
+
+        <ImageView
+            android:padding="3dp"
+            android:id="@+id/comment_user_photo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/user_avatar"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+
+        <EditText
+            android:gravity="center_vertical"
+            android:id="@+id/add_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView"
+            android:paddingRight="10dp"
+            android:layout_toLeftOf="@+id/cmt_comment"
+            android:background="@null"
+            android:hint="添加评论..."
+            android:layout_alignBottom="@+id/cmt_comment"
+            android:layout_toRightOf="@+id/comment_user_photo"
+            android:layout_toEndOf="@+id/comment_user_photo" />
+
+        <ImageView
+            android:id="@+id/cmt_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_action_send"
+            android:paddingRight="16dp"
+            android:layout_marginTop="7dp"
+            />
+    </RelativeLayout>
+</RelativeLayout>

@@ -60,7 +60,7 @@ public class MyHomeRecycerAdapter extends RecyclerView.Adapter<RecyclerView.View
     AtyItem item;
     String fragment;
     String userId;
-    private int[] images={R.drawable.miao,R.drawable.test};
+    private int[] images={R.drawable.miao,R.drawable.user_avatar};
 
     public MyHomeRecycerAdapter(List<AtyItem> activityItemArrayList, String userId, AppCompatActivity activity, String fragment) {
         activityItems = activityItemArrayList;

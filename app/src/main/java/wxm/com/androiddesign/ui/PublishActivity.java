@@ -258,55 +258,37 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
     @OnClick(R.id.fab)
     public void send() {
-        new MaterialDialog.Builder(this)
-                .title(R.string.permission)
-                .items(R.array.permissions)
-                .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        String temp = "toVisitors";
-                        try {
-                            if (which == 0) {
-                                temp = "toMembers";
-                            } else if (which == 1) {
-                                temp = "toUsers";
-                            } else if (which == 2) {
-                                temp = "toVisitors";
-                            }
-                            if (startTime.getText().toString().equals("没有开始时间")) {
-                                Toast.makeText(getApplicationContext(), "set your start time", Toast.LENGTH_SHORT).show();
-                            } else if (endTime.getText().toString().equals("没有结束时间")) {
-                                Toast.makeText(getApplicationContext(), "set your end time", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Date d1 = df.parse(startTime.getText().toString());
-                                Date d2 = df.parse(endTime.getText().toString());
-                                long diff = d1.getTime() - d2.getTime();
-                                if (diff >= 0) {
-                                    Toast.makeText(getApplicationContext(), "end time must be later than start time", Toast.LENGTH_SHORT).show();
-                                } else if (editAty.getText().toString().equals("")) {
-                                    Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
-                                } else if (atyContent.getText().toString().equals("没有活动内容")) {
-                                    Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
-                                } else if (location.getText().toString().equals("没有活动地点")) {
-                                    Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    atyItem = new AtyItem("releaseByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
-                                            endTime.getText().toString(), location.getText().toString(), "1",
-                                            atyContent.getText().toString(), "0", "0",
-                                            "true", "false", "0", temp, uriList,tagList);
-                                    new UpDateTask().execute(atyItem);
-                                }
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "error!", Toast.LENGTH_SHORT).show();
-                        }
-                        return true; // allow selection
-                    }
-                })
-                .positiveText(R.string.choose)
-                .show();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            if (startTime.getText().toString().equals("没有开始时间")) {
+                Toast.makeText(getApplicationContext(), "set your start time", Toast.LENGTH_SHORT).show();
+            } else if (endTime.getText().toString().equals("没有结束时间")) {
+                Toast.makeText(getApplicationContext(), "set your end time", Toast.LENGTH_SHORT).show();
+            } else {
+                Date d1 = df.parse(startTime.getText().toString());
+                Date d2 = df.parse(endTime.getText().toString());
+                long diff = d1.getTime() - d2.getTime();
+                if (diff >= 0) {
+                    Toast.makeText(getApplicationContext(), "end time must be later than start time", Toast.LENGTH_SHORT).show();
+                } else if (editAty.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
+                } else if (atyContent.getText().toString().equals("没有活动内容")) {
+                    Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
+                } else if (location.getText().toString().equals("没有活动地点")) {
+                    Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
+                } else {
+                    atyItem = new AtyItem("releaseByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
+                            endTime.getText().toString(), location.getText().toString(), "1",
+                            atyContent.getText().toString(), "0", "0",
+                            "true", "false", "0", uriList,tagList);
+                    new UpDateTask().execute(atyItem);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "error!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private class UpDateTask extends AsyncTask<AtyItem, Void, Void> {

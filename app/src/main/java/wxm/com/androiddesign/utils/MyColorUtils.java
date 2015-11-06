@@ -43,7 +43,7 @@ public final class MyColorUtils {
         return Collections.max(palette.getSwatches(), new Comparator<Palette.Swatch>() {
             @Override
             public int compare(Palette.Swatch lhs, Palette.Swatch rhs) {
-                return Integer.compare(lhs.getPopulation(),rhs.getPopulation());
+                return lhs.getPopulation() < rhs.getPopulation() ? -1 : (lhs.getPopulation() == rhs.getPopulation() ? 0 : 1);
             }
         });
     }

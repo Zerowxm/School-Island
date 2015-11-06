@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="atyitem"
+            type="wxm.com.androiddesign.module.AtyItem"/>
+    </data>
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        style="@style/ToolBarWithNavigationBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <LinearLayout
+            android:id="@+id/titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:id="@+id/action_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_action_forum_white" />
+
+                <ImageView
+                    android:id="@+id/action_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_share_white" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/aty_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@string/mdtp_sans_serif"
+                android:maxLines="2"
+                android:paddingRight="16dp"
+                android:textColor="#deffffff"
+                android:text="@{atyitem.atyName}"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/aty_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="#8affffff" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+</layout>

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -40,11 +41,11 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.CmtListFragment;
-import wxm.com.androiddesign.ui.fragment.FooFragment;
 import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
 import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
 import wxm.com.androiddesign.utils.Config;
+import wxm.com.androiddesign.utils.MyUtils;
 
 
 public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
@@ -52,6 +53,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
     ViewPager viewPager;
     String userId = null;
     User user;
+    public int appBarHeight;
 
     @Bind(R.id.user_id)
     TextView user_id;
@@ -74,6 +76,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("userId");
         new GetUserInfo(this).execute();
+        appBarHeight = MyUtils.getPixels(this,175);
         //appBarLayout.addOnOffsetChangedListener(this);
     }
 
@@ -100,16 +103,49 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
         return super.dispatchTouchEvent(ev);
     }
 
+    boolean isExpanded=true;
+
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         Log.d(Config.appBar, "verticalOffset:" + i);
-        Log.d(Config.appBar, "appBarHeight:" + appBarLayout.getHeight());
+//        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i, getResources().getDisplayMetrics())
+        Log.d(Config.appBar, "px_verticalOffset:" + i/(getResources().getDisplayMetrics().densityDpi/160f));
+        Log.d(Config.appBar, "appBarHeight:" +appBarHeight);
+        Log.d(Config.appBar,"pixels:"+MyUtils.getPixels(this,200));
+        if (i==0){
+            isExpanded=true;
+        }
+        else if(Math.abs(i)==appBarHeight){
+            isExpanded=false;
+        }
+        if(Math.abs(i)>appBarHeight/2){
+            if(isExpanded){
+                collapseAppBar();
+                isExpanded=false;
+            }
+        }else {
+            if (!isExpanded){
+                isExpanded=true;
+                expandAppbar();
+            }
+        }
     }
 
-    private void resetAppBar() {
+    private void collapseAppBar() {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-        behavior.onNestedFling(coordinatorLayout, appBarLayout, null, 0, 1000, true);
+        if (behavior!=null){
+            behavior.onNestedFling(coordinatorLayout, appBarLayout, null, 0, 10000, true);
+        }
+    }
+
+    private void expandAppbar(){
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+        if (behavior!=null){
+            behavior.setTopAndBottomOffset(0);
+            behavior.onNestedPreScroll(coordinatorLayout, appBarLayout, null, 0, 1, new int[2]);
+        }
     }
 
     private class GetUserInfo extends AsyncTask<Void, Void, Boolean> {
@@ -135,12 +171,6 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
                         user_photo.animate().alpha(1f).setDuration(1000).start();
                         score.animate().alpha(1f).setDuration(1000).start();
                         user_id.animate().alpha(1f).setDuration(1000).start();
-//                        Bitmap bitmap = ((BitmapDrawable) user_photo.getDrawable()).getBitmap();
-//                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-//                            public void onGenerated(Palette palette) {
-//                                applyPalette(palette);
-//                            }
-//                        });
                     }
 
                     @Override
@@ -196,13 +226,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release, userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
         adapter.addFragment(CmtListFragment.newInstance(userId,CmtListFragment.JOINED), "社区");
-        if ("true".equals(user.getUserAlbumIsPublic()) || MyUser.userId.equals(user.getUserId())) {
-            Log.i("publicuser", user.getUserId());
-            Log.i("publicuser", MyUser.userId);
-            adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
-        } else {
-            adapter.addFragment(new FooFragment(), "相册");
-        }
+        adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
         viewPager.setAdapter(adapter);
     }
 
