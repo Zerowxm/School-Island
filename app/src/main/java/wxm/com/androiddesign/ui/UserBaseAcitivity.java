@@ -190,6 +190,7 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
                 chatIntent.putExtra("easemobId", user.getEasemobId());
                 chatIntent.putExtra("userIcon", user.getUserIcon());
                 chatIntent.putExtra("userName",user.getUserName());
+                chatIntent.putExtra("chatType",ChatActivity.CHAT);
                 startActivity(chatIntent);
                 break;
             case R.id.action_settings:

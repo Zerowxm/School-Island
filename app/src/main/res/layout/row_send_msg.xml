@@ -18,6 +18,7 @@
 
 
         <TextView
+            android:padding="16dp"
             android:textColor="@color/white"
             android:layout_below="@+id/msg_time"
             android:layout_toLeftOf="@id/user_photo"

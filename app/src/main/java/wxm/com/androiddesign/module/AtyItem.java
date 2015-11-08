@@ -32,7 +32,7 @@ public class AtyItem implements Parcelable {
     String atyShares;
     String atyIsPublic;
     String releaseTime;
-    List<String> atyAlbum = new ArrayList<String>();
+    ArrayList<String> atyAlbum = new ArrayList<String>();
 
     public String getAtyType() {
         return atyType;
@@ -250,11 +250,11 @@ public class AtyItem implements Parcelable {
         this.atyShares = atyShare;
     }
 
-    public List<String> getAtyAlbum() {
+    public ArrayList<String> getAtyAlbum() {
         return atyAlbum;
     }
 
-    public void setAtyAlbum(List<String> atyAlbum) {
+    public void setAtyAlbum(ArrayList<String> atyAlbum) {
         this.atyAlbum = atyAlbum;
     }
 
@@ -272,7 +272,7 @@ public class AtyItem implements Parcelable {
                    String atyName, String atyCtyId, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent, String atyPlus,
                    String atyComment, String atyJoined, String atyPlused, String atyShare,
-                    List<String> atyAlbum , String atyType) {
+                   ArrayList<String> atyAlbum , String atyType) {
         this.action = action;
         this.userId = userId;
         this.atyCtyId = atyCtyId;
@@ -305,7 +305,7 @@ public class AtyItem implements Parcelable {
                    String atyCtyId, String atyStartTime, String atyEndTime,
                    String atyPlace, String atyMembers, String atyContent,
                    String atyPlus, String atyComment, String atyJoined, String atyIsLiked,
-                   String atyShare,  List<String> atyAlbum ,String atyType) {
+                   String atyShare,  ArrayList<String> atyAlbum ,String atyType) {
         this.action = action;
         this.userId = userId;
         this.atyName = atyName;

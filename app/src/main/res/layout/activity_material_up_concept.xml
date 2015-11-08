@@ -59,27 +59,27 @@
 			app:layout_scrollFlags="scroll|enterAlways|snap"
 			style="@style/ToolBarWithNavigationBack"
 			>
-			<LinearLayout
-				android:paddingTop="8dp"
-				android:paddingRight="16dp"
-				android:layout_gravity="end"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/action_comment"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@drawable/ic_action_forum_white"
-					android:layout_marginRight="16dp"
-					/>
-				<ImageView
-					android:id="@+id/action_share"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@drawable/ic_action_share_white"
-					/>
-			</LinearLayout>
+			<!--<LinearLayout-->
+				<!--android:paddingTop="8dp"-->
+				<!--android:paddingRight="16dp"-->
+				<!--android:layout_gravity="end"-->
+				<!--android:layout_width="wrap_content"-->
+				<!--android:layout_height="wrap_content"-->
+				<!--android:orientation="horizontal">-->
+				<!--<ImageView-->
+					<!--android:id="@+id/action_comment"-->
+					<!--android:layout_width="wrap_content"-->
+					<!--android:layout_height="wrap_content"-->
+					<!--android:src="@drawable/ic_action_forum_white"-->
+					<!--android:layout_marginRight="16dp"-->
+					<!--/>-->
+				<!--<ImageView-->
+					<!--android:id="@+id/action_share"-->
+					<!--android:layout_width="wrap_content"-->
+					<!--android:layout_height="wrap_content"-->
+					<!--android:src="@drawable/ic_action_share_white"-->
+					<!--/>-->
+			<!--</LinearLayout>-->
 		</android.support.v7.widget.Toolbar>
 		​
 		<LinearLayout

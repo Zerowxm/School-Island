@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.Avator;
+import wxm.com.androiddesign.utils.ActivityStartHelper;
 
 /**
  * Created by zero on 2015/6/30.
@@ -40,14 +43,21 @@ public class AvatorAdapter extends RecyclerView.Adapter<AvatorAdapter.MyViewHold
                 ));
     }
 
+    public void AvatorDetail(View view){
+        ActivityStartHelper.startProfileActivity(context
+                ,avatorList.get((int)view.getTag()).getUserId());
+    }
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        Picasso.with(context).load(avatorList.get(position).userIcon)
+                .into(holder.avator);
+        holder.avator.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return avatorList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

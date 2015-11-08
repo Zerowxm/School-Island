@@ -64,8 +64,8 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     private int timeType;
     private String groupName ="";
     private String groupId="";
-    private List<String> uriList = new ArrayList<>();
-    private List<String> tempUriList = new ArrayList<>();
+    private ArrayList<String> uriList = new ArrayList<>();
+    private ArrayList<String> tempUriList = new ArrayList<>();
     private String tagList = "";
     private Uri selectedImgUri;
     private long exitTime = 0;

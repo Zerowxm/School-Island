@@ -31,6 +31,8 @@
         <item name="android:windowSharedElementExitTransition">
             @transition/change_image_transform
         </item>
+
+        <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
     </style>
 
     <style name="Widget.CardContent" parent="android:Widget">

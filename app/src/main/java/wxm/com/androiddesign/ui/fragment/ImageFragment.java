@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.photoview.PhotoView;
 
 /**
  * Created by Zero on 11/4/2015.
@@ -19,11 +20,13 @@ import wxm.com.androiddesign.R;
 public class ImageFragment extends Fragment {
 
     String url;
+    int type;
 
-    public static Fragment newInstance(String url) {
+    public static Fragment newInstance(String url,int type) {
         ImageFragment imageFragment=new ImageFragment();
         Bundle args=new Bundle();
         args.putString("url",url);
+        args.putInt("type",type);
         imageFragment.setArguments(args);
         return imageFragment;
     }
@@ -32,10 +35,18 @@ public class ImageFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         url = getArguments().getString("url");
+        type=getArguments().getInt("type");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        ImageView v = (ImageView)inflater.inflate(R.layout.image, viewGroup, false);
+        ImageView v;
+        if (type==0){
+            v=new PhotoView(getContext());
+        }
+        else {
+            v = (ImageView)inflater.inflate(R.layout.image, viewGroup, false);
+
+        }
         Picasso.with(viewGroup.getContext()).load(url).into(v);
         return v;
     }

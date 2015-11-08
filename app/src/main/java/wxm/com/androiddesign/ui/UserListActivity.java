@@ -30,6 +30,7 @@ import wxm.com.androiddesign.anim.MyItemAnimator;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.utils.ActivityStartHelper;
 
 public class UserListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -43,18 +44,15 @@ public class UserListActivity extends AppCompatActivity {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setItemAnimator(new MyItemAnimator());
-        if(atyId!=null && !atyId.equals("")) {
+       // if(atyId!=null && !atyId.equals("")) {
             new GetAtyMembers(this).execute();
-        }else if(ctyId!=null && !ctyId.equals("")){
-            new GetCtyMembers(this).execute();
-        }
+       // }else if(ctyId!=null && !ctyId.equals("")){
+            //new GetCtyMembers(this).execute();
+       // }
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(UserListActivity.this, UserAcitivity.class);
-                intent.putExtra("userId", mUserList.get(position).getUserId());
-                Log.d("user", "user:" + mUserList.get(position).getUserId());
-                startActivity(intent);
+                ActivityStartHelper.startProfileActivity(view.getContext(),mUserList.get(position).getUserId());
             }
         }));
     }
@@ -64,7 +62,6 @@ public class UserListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         atyId = bundle.getString("atyId");
-        ctyId = bundle.getString("ctyId");
         setContentView(R.layout.activity_user_list);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,9 +69,15 @@ public class UserListActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle("参加人员");
         setupRecyclerView(recyclerView);
 
 
+    }
+
+    public static void start(Context c,String atyId) {
+        c.startActivity(new Intent(c, UserListActivity.class)
+                .putExtra("atyId", atyId));
     }
 
     private class GetAtyMembers extends AsyncTask<Void, Void, Boolean> {

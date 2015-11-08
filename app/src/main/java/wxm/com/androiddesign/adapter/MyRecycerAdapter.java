@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -41,6 +42,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
 
 import wxm.com.androiddesign.ui.GroupAcitivity;
+import wxm.com.androiddesign.ui.ImageViewerActivity;
 import wxm.com.androiddesign.ui.UserAcitivity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
@@ -70,7 +72,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
                 Intent intent = new Intent(activity, UserAcitivity.class);
-                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position - 1).getUserId());
+                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position).getUserId());
             }
 
             @Override
@@ -189,15 +191,16 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
                 imageView.setLayoutParams(layoutParams);
                 imageView.setTag(i);
-                final List<String> album = item.getAtyAlbum();
+                final ArrayList<String> album = item.getAtyAlbum();
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         if (activity != null && !((AppCompatActivity) activity).isFinishing()) {
-                            MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
-                            FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
-                            ft.add(dialog, "showPic");
-                            ft.commitAllowingStateLoss();
+//                            MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
+//                            FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
+//                            ft.add(dialog, "showPic");
+//                            ft.commitAllowingStateLoss();
+                            ImageViewerActivity.start(activity,album,(int)v.getTag());
                         } else {
                             Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());
                         }

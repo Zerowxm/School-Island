@@ -204,38 +204,4 @@ public class NewUserAcitivity extends UserBaseAcitivity {
         v.startAnimation(alphaAnimation);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_acitivity, menu);
-        if (userId.equals(MyUser.userId)) {
-            MenuItem menuItem = menu.findItem(R.id.action_send);
-            menuItem.setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.action_send:
-                //打开聊天
-                Intent chatIntent = new Intent(this, ChatActivity.class);
-                chatIntent.putExtra("easemobId", user.getEasemobId());
-                chatIntent.putExtra("userIcon", user.getUserIcon());
-                chatIntent.putExtra("userName",user.getUserName());
-                startActivity(chatIntent);
-                break;
-            case R.id.action_settings:
-                //Snackbar.make(user_photo, "举报", Snackbar.LENGTH_SHORT).show();
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -1,27 +1,24 @@
 package wxm.com.androiddesign.ui;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 
 import android.app.NotificationManager;
-import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +53,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.AvatorAdapter;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
@@ -66,6 +62,7 @@ import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.ImageFragment;
+import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 import wxm.com.androiddesign.widget.CirclePageIndicator;
 import wxm.com.androiddesign.widget.MyTextView;
@@ -142,8 +139,18 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(new AvatorAdapter(list,getApplicationContext()));
+        //recyclerView.setAdapter(new AvatorAdapter(list, getApplicationContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(this));
+    }
+
+    @OnClick(R.id.check_more)
+    public void CheckMore(){
+        UserListActivity.start(this, atyItem.getAtyId());
+    }
+
+    @OnClick(R.id.user_photo)
+    public void UserDetail(){
+        ActivityStartHelper.startProfileActivity(this, atyItem.getUserId());
     }
 
 
@@ -160,7 +167,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             super.onPostExecute(result);
             if (true){
                 setupRecyclerView(mUserList);
-                setupOther();
 
             }
         }
@@ -171,6 +177,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             try {
                 object.put("action", "showMembers");
                 object.put("atyId", atyItem.getAtyId());
+//                object.put("")
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -185,27 +192,13 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         }
     }
 
-    @Bind(R.id.aty_other)
-    LinearLayout otherList;
-    private void setupOther(){
-        for (int i=0;i<=3;i++){
-            TextView textView =new TextView(this);
-            textView.setText("fffffff");
-            otherList.addView(textView);
-            if (i>3){
-                TextView moreText =new TextView(this);
-                moreText.setText("查看更多");
-                otherList.addView(textView);
-                break;
-            }
-        }
-    }
+
 
     private void setupViewPager() {
         TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         if (atyItem.getAtyAlbum()!=null&&atyItem.getAtyAlbum().size()!=0){
             for (String url:atyItem.getAtyAlbum()){
-                adapter.addFragment(ImageFragment.newInstance(url),"AtyImg");
+                adapter.addFragment(ImageFragment.newInstance(url,1),"AtyImg");
             }
         }
         pager.setAdapter(adapter);
@@ -214,10 +207,17 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         circlePageIndicator.setSnap(true);
     }
 
+
+    public void MakeLove(View view){
+        ImageView imageView=(ImageView)view;
+        Drawable drawable=imageView.getDrawable();
+        //imageView.setBackgroundColor(ContextCompat.getColor(this,R.color.yellow));
+        imageView.setColorFilter(ContextCompat.getColor(this,R.color.yellow));
+    }
+
     private void init(){
         ShareSDK.initSDK(this);
         atyTime.setText(atyItem.getAtyStartTime()+" 在"+atyItem.getAtyPlace()+"举行\n"+atyItem.getAtyEndTime()+" 活动结束");
-        atyTime.setText(atyItem.getAtyStartTime());
         userName.setText(atyItem.getUserName());
         atyName.setText(atyItem.getAtyName());
         atyContent.setText(atyItem.getAtyContent());
@@ -258,12 +258,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         ShareSDK.stopSDK(this);
     }
 
-    @OnClick(R.id.user_photo)
-    public void showUser(){
-        Intent intent = new Intent(this, UserAcitivity.class);
-        intent.putExtra("userId", atyItem.getUserId());
-        startActivity(intent);
-    }
 
 //    @OnClick(R.id.show_people)
 //    public void showPeople(){
@@ -461,31 +455,62 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         }
     }
 
-    private class GetLatestAty extends AsyncTask<String, Void, Void> {
+    public static void start(Context c,AtyItem atyItem) {
+        c.startActivity(new Intent(c, AtyDetailActivity.class)
+                .putExtra("com.wxm.com.androiddesign.module.ActivityItemData", atyItem));
+    }
+    @Bind(R.id.aty_other)
+    LinearLayout otherList;
+    private void setupOther(final List<AtyItem> aties){
+        for (int i=0;i<=aties.size();i++){
+            final TextView textView =new TextView(this);
+            textView.setText(aties.get(i).getAtyName());
+            textView.setTag(i);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AtyDetailActivity.start(getApplicationContext(),aties.get((int)textView.getTag()));
+                }
+            });
+            otherList.addView(textView);
+//            if (i>3){
+//                TextView moreText =new TextView(this);
+//                moreText.setText("查看更多");
+//                otherList.addView(textView);
+//                break;
+//            }
+        }
+    }
+    private class GetLatestAty extends AsyncTask<String, Void, Boolean> {
+        List<AtyItem> latestAties;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result){
+                setupOther(latestAties);
+            }
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
             JSONObject object = new JSONObject();
             try {
                 object = new JSONObject();
-                object.put("action", params[0]);
+                object.put("action", "getLatestAty");
                 object.put("userId", atyItem.getUserId());
                 object.put("atyId", atyItem.getAtyId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
-            return null;
+            latestAties=new Gson().fromJson(json, new TypeToken<List<AtyItem>>() {
+            }.getType());
+            return true;
         }
     }
 
