@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<!--<layout>-->
 
-    <data>
-        <variable
-            name="atyitem"
-            type="wxm.com.androiddesign.module.AtyItem"/>
-    </data>
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="atyitem"-->
+            <!--type="wxm.com.androiddesign.module.AtyItem"/>-->
+    <!--</data>-->
 
     <android.support.v4.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="72dp"
                     android:paddingTop="16dp"
-                    android:text="@{atyitem.atyContent}" />
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,9 +91,7 @@
                     android:id="@+id/aty_start_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="72dp"
-
-                    android:text="@{atyitem.atyStartTime}" />
+                    android:paddingLeft="72dp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -114,16 +112,13 @@
                     android:id="@+id/aty_end_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="72dp"
-
-                    android:text="@{atyitem.atyEndTime}" />
+                    android:paddingLeft="72dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:paddingLeft="72dp"
                     android:layout_marginLeft="72dp"
-
                     android:background="@color/gray" />
 
                 <wxm.com.androiddesign.widget.MyTextView
@@ -139,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="72dp"
-                    android:text="@{atyitem.atyPlace}" />
+                     />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
@@ -176,7 +171,7 @@
                         android:layout_marginStart="18dp"
                         android:layout_toEndOf="@id/user_photo"
                         android:layout_toRightOf="@id/user_photo"
-                        android:text="@{atyitem.userName}" />
+                        />
 
                     <wxm.com.androiddesign.widget.MyTextView
                         android:id="@+id/signal"
@@ -251,4 +246,4 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-</layout>
+<!--</layout>-->

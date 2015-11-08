@@ -1,12 +1,12 @@
-<layout
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
-    <data>
+<!--<layout-->
+    <!--xmlns:bind="http://schemas.android.com/apk/res-auto">-->
+    <!--<data>-->
 
-        <import type="android.view.View"/>
-       <variable
-           name="atyitem"
-           type="wxm.com.androiddesign.module.AtyItem"/>
-    </data>
+        <!--<import type="android.view.View"/>-->
+       <!--<variable-->
+           <!--name="atyitem"-->
+           <!--type="wxm.com.androiddesign.module.AtyItem"/>-->
+    <!--</data>-->
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -66,10 +66,10 @@
                     </android.support.design.widget.AppBarLayout>
 
                     <include layout="@layout/detail_nested"
-                        bind:atyitem="@{atyitem}"/>
+                        />
 
                     <include layout="@layout/aty_toolbar"
-                        bind:atyitem="@{atyitem}"/>
+                        />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab"
@@ -90,4 +90,4 @@
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
     </RelativeLayout>
-</layout>
+<!--</layout>-->

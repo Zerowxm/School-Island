@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.databinding.DataBindingUtil;
 
 import android.app.NotificationManager;
 import android.graphics.Point;
@@ -54,9 +53,6 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.wechat.friends.Wechat;
-import cn.sharesdk.wechat.moments.WechatMoments;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.R;
@@ -64,19 +60,14 @@ import wxm.com.androiddesign.adapter.AvatorAdapter;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
-import wxm.com.androiddesign.databinding.AtyDetailBinding;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.Avator;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.MyUser;
-import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.ActivityFragment;
-import wxm.com.androiddesign.ui.fragment.CmtListFragment;
 import wxm.com.androiddesign.ui.fragment.ImageFragment;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 import wxm.com.androiddesign.widget.CirclePageIndicator;
-import wxm.com.androiddesign.utils.MyUtils;
 import wxm.com.androiddesign.widget.MyTextView;
 import wxm.com.androiddesign.widget.WrappingLinearLayoutManager;
 
@@ -124,15 +115,13 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
 
     ArrayList<String> urls;
 
-    AtyDetailBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.aty_detail);
         Bundle bundle = getIntent().getExtras();
         atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
-        binding =DataBindingUtil.setContentView(this,R.layout.aty_detail);
         atyItem.setAtyStartTime(atyItem.getAtyStartTime().replace("\n", " "));
-        binding.setAtyitem(atyItem);
         ButterKnife.bind(this);
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         addComment();
@@ -228,11 +217,10 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     private void init(){
         ShareSDK.initSDK(this);
         atyTime.setText(atyItem.getAtyStartTime()+" 在"+atyItem.getAtyPlace()+"举行\n"+atyItem.getAtyEndTime()+" 活动结束");
-
-       // atyTime.setText(atyItem.getAtyStartTime());
-        //userName.setText(atyItem.getUserName());
-        //atyName.setText(atyItem.getAtyName());
-        //atyContent.setText(atyItem.getAtyContent());
+        atyTime.setText(atyItem.getAtyStartTime());
+        userName.setText(atyItem.getUserName());
+        atyName.setText(atyItem.getAtyName());
+        atyContent.setText(atyItem.getAtyContent());
         mPeople.setText("已有" + atyItem.getAtyMembers() + "人参加");
         mNumber.setText(atyItem.getAtyComments());
         Log.d("atyComments", atyItem.getAtyComments());
@@ -277,12 +265,12 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         startActivity(intent);
     }
 
-    @OnClick(R.id.show_people)
-    public void showPeople(){
-        Intent showIntent = new Intent(this, UserListActivity.class);
-        showIntent.putExtra("atyId", atyItem.getAtyId());
-        startActivity(showIntent);
-    }
+//    @OnClick(R.id.show_people)
+//    public void showPeople(){
+//        Intent showIntent = new Intent(this, UserListActivity.class);
+//        showIntent.putExtra("atyId", atyItem.getAtyId());
+//        startActivity(showIntent);
+//    }
 
     @OnClick(R.id.fab)
     public void sendNotify(){

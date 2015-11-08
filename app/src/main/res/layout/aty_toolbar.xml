@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<!--<layout>-->
 
-    <data>
-        <variable
-            name="atyitem"
-            type="wxm.com.androiddesign.module.AtyItem"/>
-    </data>
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="atyitem"-->
+            <!--type="wxm.com.androiddesign.module.AtyItem"/>-->
+    <!--</data>-->
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
@@ -60,7 +60,6 @@
                 android:maxLines="2"
                 android:paddingRight="16dp"
                 android:textColor="#deffffff"
-                android:text="@{atyitem.atyName}"
                 android:textSize="21sp" />
 
             <TextView
@@ -72,4 +71,4 @@
                 android:textColor="#8affffff" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
-</layout>
+<!--</layout>-->

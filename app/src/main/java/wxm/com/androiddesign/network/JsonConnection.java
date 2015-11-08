@@ -31,18 +31,20 @@ public class JsonConnection {
             if(value == null) {
                 shouldDownLoad = true;
             }else{
+                Log.d("value","value!=null");
                 shouldDownLoad = false;
                 return value;
             }
 //            Toast.makeText(MyApplication.applicationContext, "请检查网络状态", Toast.LENGTH_SHORT).show();
             //Log.d("jsonarray",value);
-        }else if (!NetState.isNetworkConnected()) {
+        }/*else if (!NetState.isNetworkConnected()) {
             Toast.makeText(MyApplication.applicationContext, "当前网络不可用", Toast.LENGTH_SHORT).show();
-            shouldDownLoad = false;
-        }
+            shouldDownLoad = true;
+        }*/
         if(shouldDownLoad){
             if (true) {
                 try {
+                    Log.d("downLoad","downLoad");
                     //URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
                     URL murl = new URL("http://106.0.4.149:8081/bootStrap/ClientPostServlet");
                     HttpURLConnection connection = (HttpURLConnection) murl.openConnection();

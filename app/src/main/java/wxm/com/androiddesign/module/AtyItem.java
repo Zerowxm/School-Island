@@ -1,6 +1,5 @@
 package wxm.com.androiddesign.module;
 
-import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
