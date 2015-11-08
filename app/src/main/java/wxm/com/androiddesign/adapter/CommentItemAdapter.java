@@ -49,6 +49,9 @@ public class CommentItemAdapter extends RecyclerView.Adapter<CommentItemAdapter.
         Picasso.with(MyApplication.applicationContext)
                 .load(item.getUserIcon())
                 .into(holder.userPhoto);
+        Picasso.with(MyApplication.applicationContext)
+                .load(item.getAtyPhoto())
+                .into(holder.atyPhoto);
     }
 
     @Override

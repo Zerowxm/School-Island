@@ -47,7 +47,9 @@ public class MyApplication extends Application implements EMEventListener {
         EMChat.getInstance().setDebugMode(true);
         Log.d(TAG, "ApplicationonCreate");
         initSDK(this);
+        Notifications.initNotification();
         addConnectionListener();
+        EMChatManager.getInstance().registerEventListener(this);
         //throw new NullPointerException();
 //        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 //            public void uncaughtException(Thread thread, Throwable ex) {
@@ -75,33 +77,6 @@ public class MyApplication extends Application implements EMEventListener {
 //        IntentFilter filter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
 //        filter.setPriority(3);
 //        registerReceiver(receiver, filter);
-        EMChat.getInstance().setAppInited();
-        EMChatManager.getInstance().registerEventListener(this);
-        // 获取到EMChatOptions对象
-        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        options.setShowNotificationInBackgroud(true|false); //默认为true
-        options.setNoticeBySound(true| false); //默认为true 开启声音提醒
-        options.setNoticedByVibrate(true | false); //默认为true 开启震动提醒
-        options.setUseSpeaker(true|false); //默认为true 开启扬声器播放
-
-//设置notification点击listener
-        options.setOnNotificationClickListener(new OnNotificationClickListener() {
-
-            @Override
-            public Intent onNotificationClick(EMMessage message) {
-                Intent intent = new Intent(applicationContext, ChatActivity.class);
-                EMMessage.ChatType chatType = message.getChatType();
-                if (chatType == EMMessage.ChatType.Chat) { //单聊信息
-                    intent.putExtra("easemobId", message.getFrom());
-                    intent.putExtra("chatType", ChatActivity.CHAT);
-                } else { //群聊信息
-                    //message.getTo()为群聊id
-                    intent.putExtra("easemobId", message.getTo());
-                    intent.putExtra("chatType", ChatActivity.GROUP_CHAT);
-                }
-                return intent;
-            }
-        });
     }
 
     private void addConnectionListener() {

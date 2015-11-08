@@ -9,12 +9,20 @@ import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
+import com.easemob.chat.OnNotificationClickListener;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.exceptions.EaseMobException;
+
+import wxm.com.androiddesign.ui.ChatActivity;
 import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.MyApplication;
 import wxm.com.androiddesign.ui.NotificationActivity;
+import wxm.com.androiddesign.utils.ACache;
 
 /**
  * Created by hd_chen on 2015/10/11.
@@ -166,6 +174,67 @@ public class Notifications {
         } catch (EaseMobException e) {
             e.printStackTrace();
         }
+    }
+    public static EMChatOptions options;
+    public static boolean isInBackgroud = true;
+    public static boolean isNoticeBySound = true;
+    public static boolean isNodiceByVibrate = true;
+    public static boolean isUseSpeaker = true;
+    public static void initNotification(){
+        ACache aCache = ACache.get(MyApplication.applicationContext);
+        isInBackgroud = Boolean.parseBoolean(aCache.getAsString("isInBackgroud"));
+        isNoticeBySound = Boolean.parseBoolean(aCache.getAsString("isNoticeBySound"));
+        isNodiceByVibrate = Boolean.parseBoolean(aCache.getAsString("isNodiceByVibrate"));
+        isUseSpeaker = Boolean.parseBoolean(aCache.getAsString("isUseSpeaker"));
+        EMChat.getInstance().setAppInited();
+        // 获取到EMChatOptions对象
+        options = EMChatManager.getInstance().getChatOptions();
+        options.setShowNotificationInBackgroud(isInBackgroud);
+        options.setNoticeBySound(isNoticeBySound); //是否开启声音提醒
+        options.setNoticedByVibrate(isNodiceByVibrate); //是否开启震动提醒
+        options.setUseSpeaker(isUseSpeaker); //是否开启扬声器播放
+        //设置notification点击listener
+        options.setOnNotificationClickListener(new OnNotificationClickListener() {
+            @Override
+            public Intent onNotificationClick(EMMessage message) {
+                Intent intent = new Intent(MyApplication.applicationContext, ChatActivity.class);
+                EMMessage.ChatType chatType = message.getChatType();
+                if (chatType == EMMessage.ChatType.Chat) { //单聊信息
+                    intent.putExtra("easemobId", message.getFrom());
+                    intent.putExtra("chatType", ChatActivity.CHAT);
+                } else { //群聊信息
+                    //message.getTo()为群聊id
+                    intent.putExtra("easemobId", message.getTo());
+                    intent.putExtra("chatType", ChatActivity.GROUP_CHAT);
+                }
+                return intent;
+            }
+        });
+    }
+
+    public static void setShowNotificationInBackgroud(boolean n){
+        isInBackgroud = true;
+        options.setShowNotificationInBackgroud(n);
+        ACache aCache = ACache.get(MyApplication.applicationContext);
+        aCache.put("isInBackgroud",n);
+    }
+    public static void setNoticeBySound(boolean n){
+        isNoticeBySound = true;
+        options.setNoticeBySound(n);
+        ACache aCache = ACache.get(MyApplication.applicationContext);
+        aCache.put("isNoticeBySound",n);
+    }
+    public static void setNoticedByVibrate(boolean n){
+        isNodiceByVibrate = true;
+        options.setNoticedByVibrate(n);
+        ACache aCache = ACache.get(MyApplication.applicationContext);
+        aCache.put("isNodiceByVibrate",n);
+    }
+    public static void setUseSpeaker(boolean n){
+        isUseSpeaker = true;
+        options.setUseSpeaker(n);
+        ACache aCache = ACache.get(MyApplication.applicationContext);
+        aCache.put("isUseSpeaker", n);
     }
 
 }

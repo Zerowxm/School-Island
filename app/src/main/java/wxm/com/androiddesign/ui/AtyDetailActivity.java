@@ -126,12 +126,8 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         if (MyUser.userId.equals(atyItem.getUserId()))
             isUser=true;
         CommentData commentData=null;
-
+        new GetIsJoin().execute();
         new getCommentTask().execute(commentData);
-        init();
-        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
-
-        }
     }
     private void setupRecyclerView(List<Avator> list) {
         final WrappingLinearLayoutManager layoutManager = new WrappingLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -153,6 +149,43 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         ActivityStartHelper.startProfileActivity(this, atyItem.getUserId());
     }
 
+    private class GetIsJoin extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            init();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object.put("action", "showAtyDetails");
+                object.put("atyId", atyItem.getAtyId());
+                object.put("userId", MyUser.userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.d("isJoined",json);
+            try {
+                JSONObject object1 = new JSONObject(json);
+                String isJoin = object1.getString("isJoined");
+                String isLiked = object1.getString("isLiked");
+                atyItem.setAtyIsJoined(isJoin);
+                atyItem.setAtyIsLiked(isLiked);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+    }
 
     private class GetPeople extends AsyncTask<Void, Void, Boolean> {
         List<Avator> mUserList;
@@ -167,7 +200,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             super.onPostExecute(result);
             if (true){
                 setupRecyclerView(mUserList);
-
             }
         }
 
@@ -211,8 +243,12 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     public void MakeLove(View view){
         ImageView imageView=(ImageView)view;
         Drawable drawable=imageView.getDrawable();
-        //imageView.setBackgroundColor(ContextCompat.getColor(this,R.color.yellow));
-        imageView.setColorFilter(ContextCompat.getColor(this,R.color.yellow));
+        if(atyItem.getAtyIsLiked().equals("true")){
+            imageView.setColorFilter(ContextCompat.getColor(this, R.color.white));
+        }else {
+            //imageView.setBackgroundColor(ContextCompat.getColor(this,R.color.yellow));
+            imageView.setColorFilter(ContextCompat.getColor(this, R.color.yellow));
+        }
     }
 
     private void init(){
@@ -316,6 +352,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
                             atyItem.setAtyJoined("false");
                             atyItem.setAtyMembers(String.valueOf(Integer.parseInt(atyItem.getAtyMembers()) - 1));
                             fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.fab_add));
+
                             new UpDateTask().execute("notJoin");
                         }
                         @Override

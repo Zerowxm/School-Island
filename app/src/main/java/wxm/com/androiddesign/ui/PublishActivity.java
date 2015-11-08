@@ -328,6 +328,8 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             atyItem.setAtyId(id);
+            Log.d("publishId", "id?");
+            Log.d("publishId",id);
             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_SHORT).show();
             //finish();
         }

@@ -103,7 +103,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 item = atyItem;
                 if (atyItem.getAtyPlused().equals("true")) {
                     atyItem.setAtyPlused("false");
-                    fab.setImageResource(R.drawable.ic_thumb_up_grey);
+                    fab.setImageResource(R.drawable.ic_favorite_outline);
                     atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
                     notifyDataSetChanged();
                     new UpDateTask().execute("notLike");
@@ -200,7 +200,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
 //                            FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
 //                            ft.add(dialog, "showPic");
 //                            ft.commitAllowingStateLoss();
-                            ImageViewerActivity.start(activity,album,(int)v.getTag());
+                            ImageViewerActivity.start(activity, album, (int) v.getTag());
                         } else {
                             Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());
                         }
@@ -210,10 +210,11 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 holder.imageViewContainer.addView(imageView);
             }
         }
+        holder.plus.setImageResource(R.drawable.ic_favorite_outline);
         if (item.getAtyPlused().equals("false")) {
-            holder.plus.setImageResource(R.drawable.ic_thumb_up_grey);
+            holder.plus.setColorFilter(ContextCompat.getColor(activity, R.color.gray));
         } else if (item.getAtyPlused().equals("true")) {
-            holder.plus.setImageResource(R.drawable.ic_thumb_up_primary);
+            holder.plus.setColorFilter(ContextCompat.getColor(activity, R.color.red));
         }
 
         if (item.getAtyCtyId().equals("")) {

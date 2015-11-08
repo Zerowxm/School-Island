@@ -77,12 +77,17 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     private class CreateGroupTask extends AsyncTask<Void,Integer,Boolean>{
         Bitmap bitmap;
+        Group group;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             bitmap=((BitmapDrawable)groupImage.getDrawable()).getBitmap();
             fab.setClickable(false);
+            String icon = MyBitmapFactory.BitmapToString(bitmap);
             groupImage.setClickable(false);
+            Log.d("createCommity", MyUser.userId);
+            group=new Group("createCommunity",MyUser.userId,icon,groupTag.getText().toString(),
+                    groupName.getText().toString(),groupIntro.getText().toString());
         }
 
         @Override
@@ -93,14 +98,10 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String icon = MyBitmapFactory.BitmapToString(bitmap);
-            Log.d("iconicon",icon);
-            Log.d("userIdddd",MyUser.userId);
             /*SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
             String id = prefs.getString("UserId", "001");
             Log.d("userIii",id);*/
-            Group group=new Group("createCommunity",MyUser.userId,icon,groupTag.getText().toString(),
-                    groupName.getText().toString(),groupIntro.getText().toString());
+
             String result = JsonConnection.getJSON(new Gson().toJson(group));
             return null;
         }

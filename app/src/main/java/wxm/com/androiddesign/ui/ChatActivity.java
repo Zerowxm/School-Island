@@ -433,7 +433,6 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
                 newMsgCount = newMsgJson.getString("newMsgCount");
                 content = params[0];
                 return true;
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -447,6 +446,11 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
             Log.d(TAG, "sendMessage");
             TextMessageBody textMessageBody = new TextMessageBody(content);
             message.addBody(textMessageBody);
+            if(chatType == CHAT) {
+                message.setChatType(EMMessage.ChatType.Chat);
+            }else if (chatType == GROUP_CHAT){
+                message.setChatType(EMMessage.ChatType.GroupChat);
+            }
             message.setReceipt(toChatUserId);
             message.setAttribute("identify", "chat");
             message.setAttribute("userName", MyUser.userName);

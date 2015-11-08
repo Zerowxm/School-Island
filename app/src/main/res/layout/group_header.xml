@@ -28,6 +28,7 @@
             android:layout_marginRight="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:text="小组"
             android:textSize="27sp"
             android:textColor="@color/white"

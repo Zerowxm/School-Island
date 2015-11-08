@@ -52,7 +52,6 @@ public class GroupAcitivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         groupId = bundle.getString("groupId");
         groupName = bundle.getString("groupName");
-
         new GetUserInfo(this).execute();
         new GetGroupAty(this).execute();
     }
@@ -153,8 +152,8 @@ public class GroupAcitivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_login, menu);
         this.menuItem = menu.findItem(R.id.publish);
         if(!MyUser.userId.equals(group.getUserId())){
-        }
             this.menuItem.setVisible(false);
+        }
         return true;
     }
 
@@ -169,6 +168,14 @@ public class GroupAcitivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_settings:
+                return true;
+            case R.id.group_chat:
+                Intent intentGroup = new Intent(this, ChatActivity.class);
+                intentGroup.putExtra("chatType",ChatActivity.GROUP_CHAT);
+                intentGroup.putExtra("userName",group.getCtyName());
+                intentGroup.putExtra("userIcon",group.getCtyIcon());
+                intentGroup.putExtra("easemobId",group.getCtyGroupId());
+                startActivity(intentGroup);
                 return true;
             case R.id.publish:
                 Intent intent = new Intent(this,PublishActivity.class);
