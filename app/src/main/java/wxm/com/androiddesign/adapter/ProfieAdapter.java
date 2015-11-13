@@ -17,6 +17,11 @@ import wxm.com.androiddesign.module.User;
 public class ProfieAdapter extends RecyclerView.Adapter<ProfieAdapter.MyViewHolder> {
 
     User user;
+
+    public ProfieAdapter(User user) {
+        this.user = user;
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(

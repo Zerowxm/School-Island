@@ -26,7 +26,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     private String userId;
-    User user = new User();
+    User user;
 
 
     public static ProfileFragment newInstance(String muserId) {
@@ -41,13 +41,13 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.profile_layout, viewGroup, false);
         userId = getArguments().getString("UserId");
         recyclerView = (RecyclerView) v;
-        new GetProfile(getActivity()).execute(userId);
+        new GetProfile(getActivity()).execute();
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new ProfieAdapter());
+        recyclerView.setAdapter(new ProfieAdapter(user));
     }
 
     private class GetProfile extends AsyncTask<String, Void, Boolean> {
@@ -73,14 +73,13 @@ public class ProfileFragment extends Fragment {
             JSONObject object = new JSONObject();
             try {
                 object.put("action", "showProfile");
-                object.put("userId", params[0]);
-                user.setUserId(params[0]);
+                object.put("userId", userId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             String json = JsonConnection.getJSON(object.toString());
             user = new Gson().fromJson(json, User.class);
-            user.setUserId(params[0]);
+            user.setUserId(userId);
             return null;
         }
     }
