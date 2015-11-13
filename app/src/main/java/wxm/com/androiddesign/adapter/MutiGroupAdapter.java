@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,6 +38,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.Dre_UserAcitivity;
+import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
 /**
@@ -46,11 +50,13 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Group group;
     AtyItem item;
     List<AtyItem> activityItems;
+    List<MenuItem> menuItems;
     Context activity;
 
-    public MutiGroupAdapter(Group group,List<AtyItem> atyItems,Context activity){
+    public MutiGroupAdapter(Group group,List<AtyItem> atyItems,List<MenuItem> menuItems,Context activity){
         this.group = group;
         this.activityItems = atyItems;
+        this.menuItems = menuItems;
         this.activity = activity;
     }
 
@@ -66,9 +72,10 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new AtyViewHolder(itemView, new AtyViewHolder.MyViewHolderClicks() {
                 @Override
                 public void onUserPhoto(CircleImageView userPhoto, int position) {
-                    Intent intent = new Intent(activity, Dre_UserAcitivity.class);
-                    intent.putExtra("userId", activityItems.get(position-1).getUserId());
-                    activity.startActivity(intent);
+//                    Intent intent = new Intent(activity, Dre_UserAcitivity.class);
+//                    intent.putExtra("userId", activityItems.get(position-1).getUserId());
+//                    activity.startActivity(intent);
+                    ActivityStartHelper.startProfileActivity(activity,activityItems.get(position-1).getUserId());
                 }
 
                 @Override
@@ -88,9 +95,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onCard(CardView cardView, int position) {
                     if (!"001".equals(MyUser.userId)) {
                         Log.d("recyclerview", "onCard");
-                        Intent intent = new Intent(activity, AtyDetailActivity.class);
-                        intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position-1));
-                        activity.startActivity(intent);
+                        AtyDetailActivity.start(cardView.getContext(),item);
                     } else {
                         Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
                     }
@@ -98,28 +103,21 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void onPlus(ImageView fab, int adapterPosition, TextView plus) {
-//                if (!"001".equals(MyUser.userId)) {
-//                    AtyItem atyItem = activityItems.get(adapterPosition);
-//                    item = atyItem;
-//                    if (atyItem.getAtyPlused().equals("true")) {
-//                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.fab_gray)));
-//                        fab.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_plus_one));
-//                        atyItem.setAtyPlused("false");
-//                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
-//                        notifyDataSetChanged();
-//                        new UpDateTask().execute("notLike");
-//                    } else {
-//                        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.primary)));
-//                        fab.setImageDrawable(ContextCompat.getDrawable(activity,R.drawable.ic_action_plus_one_white));
-//                        atyItem.setAtyPlused("true");
-//                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
-//                        notifyDataSetChanged();
-//                        new UpDateTask().execute("like");
-//                    }
-//
-//                } else {
-//                    Toast.makeText(activity, "请登录后点赞", Toast.LENGTH_SHORT).show();
-//                }
+                    AtyItem atyItem = activityItems.get(adapterPosition-1);
+                    item = atyItem;
+                    if (atyItem.getAtyPlused().equals("true")) {
+                        atyItem.setAtyPlused("false");
+                        fab.setImageResource(R.drawable.ic_favorite_outline);
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) - 1));
+                        notifyDataSetChanged();
+                        new UpDateTask().execute("notLike");
+                    } else {
+                        atyItem.setAtyPlused("true");
+                        fab.setImageResource(R.drawable.ic_thumb_up_primary);
+                        atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
+                        notifyDataSetChanged();
+                        new UpDateTask().execute("like");
+                    }
                 }
             });
         }
@@ -179,12 +177,13 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((AtyViewHolder)holder).aty_name.setText(item.getAtyName());
             ((AtyViewHolder)holder).totle_plus.setText(item.getAtyPlus());
             ((AtyViewHolder)holder).startTime.setText(item.getAtyStartTime());
-            ((AtyViewHolder)holder).group.setText(item.getAtyCtyName());
+            ((AtyViewHolder)holder).group.setText(group.getCtyName());
             ((AtyViewHolder)holder).atyPlace.setText(item.getAtyPlace());
             ((AtyViewHolder)holder).total_member.setText(item.getAtyMembers());
             ((AtyViewHolder)holder).totle_plus.setText(item.getAtyPlus());
             ((AtyViewHolder)holder).user_name.setText(item.getUserName());
             ((AtyViewHolder)holder).publishTime.setText(item.getAtyPublishTime());
+            ((AtyViewHolder)holder).aty_tags.setText(item.getAtyTpye());
             Picasso.with(activity).load(item.getUserIcon()).into(((AtyViewHolder)holder).user_photo);
             Point size= MyUtils.getScreenSize(activity);
             int screenWidth = size.x - 7;
@@ -220,6 +219,18 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((AtyViewHolder)holder).imageViewContainer.addView(imageView);
                 }
 
+            }
+            ((AtyViewHolder)holder).plus.setImageResource(R.drawable.ic_favorite_outline);
+            if (item.getAtyPlused().equals("false")) {
+                ((AtyViewHolder)holder).plus.setColorFilter(ContextCompat.getColor(activity, R.color.gray));
+            } else if (item.getAtyPlused().equals("true")) {
+                ((AtyViewHolder)holder).plus.setColorFilter(ContextCompat.getColor(activity, R.color.red));
+            }
+
+            if (item.getAtyCtyId().equals("")) {
+                ((AtyViewHolder)holder).groupLayout.setVisibility(View.GONE);
+            } else {
+                ((AtyViewHolder)holder).groupLayout.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -272,12 +283,9 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         group.setCtyMembers(Integer.parseInt(group.getCtyMembers()) + 1 + "");
                         peoples.setText(group.getCtyMembers() + "个成员");
                         join.setVisibility(View.GONE);
+                        menuItems.get(1).setVisible(true);
+                        menuItems.get(2).setVisible(true);
                         new joinCmtTask().execute("joinCty");
-                    }else{
-                        join.setText("加入");
-                        group.setCtyMembers(Integer.parseInt(group.getCtyMembers()) - 1 + "");
-                        peoples.setText(group.getCtyMembers() + "个成员");
-                        new joinCmtTask().execute("notJoinCty");
                     }
                 }
             });
@@ -352,6 +360,8 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         CircleImageView user_photo;
         @Bind(R.id.aty_name)
         TextView aty_name;
+        @Bind(R.id.tag)
+        TextView aty_tags;
 
         public AtyViewHolder(View itemView, MyViewHolderClicks listener) {
             super(itemView);

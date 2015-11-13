@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mSwipeRefreshLayout.setRefreshing(true);
+            //mSwipeRefreshLayout.setRefreshing(true);
             materialDialog = new MaterialDialog.Builder(getActivity())
                     .title("Loading")
                     .progress(true, 0)
@@ -171,6 +171,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            mSwipeRefreshLayout.setRefreshing(false);
             materialDialog.dismiss();
             if (aBoolean == true) {
                 AppCompatActivity appCompatActivity=MainActivity.activityWeakReference.get();
@@ -268,10 +269,10 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
             @Override
             public void run() {
                 Log.d("home", "postDelayed");
-
-                mSwipeRefreshLayout.setRefreshing(false);
+                setupRecyclerView(recyclerView);
+                //mSwipeRefreshLayout.setRefreshing(false);
             }
-        }, 5000);
+        }, 0);
         //load complete
 
         onContentLoadComplete();

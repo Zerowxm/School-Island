@@ -157,8 +157,8 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
         adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release, userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
-        adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.OWNED,true),"个人小组");
-        adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.JOINED,true),"参与小组");
+        adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.OWNED,true),"个人部落");
+        adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.JOINED,true),"参与部落");
         adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
         viewPager.setAdapter(adapter);
         tabs=(TabLayout)findViewById(R.id.tabs);

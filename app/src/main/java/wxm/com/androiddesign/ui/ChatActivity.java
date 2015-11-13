@@ -72,10 +72,10 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
     Toolbar toolbar;
     @Bind(R.id.ll_face_container)
     LinearLayout emojiIconContainer;
-    @Bind(R.id.iv_emoticons_checked)
-    ImageView iv_emoticons_check;
-    @Bind(R.id.iv_emoticons_normal)
-    ImageView iv_emoticons_normal;
+//    @Bind(R.id.iv_emoticons_checked)
+//    ImageView iv_emoticons_check;
+//    @Bind(R.id.iv_emoticons_normal)
+//    ImageView iv_emoticons_normal;
     @Bind(R.id.vPager)
     ViewPager expressionViewpager;
     private ChatAdapter mChatAdapter;
@@ -125,20 +125,20 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
         mContent.setText("");
     }
 
-    @OnClick(R.id.iv_emoticons_normal)
-    public void chooseEmoticons(){
-        emojiIconContainer.setVisibility(View.VISIBLE);
-        hideKeyboard();
-        iv_emoticons_normal.setVisibility(View.INVISIBLE);
-        iv_emoticons_check.setVisibility(View.VISIBLE);
-    }
-
-    @OnClick(R.id.iv_emoticons_checked)
-    public void notChooseEmoticons(){
-        emojiIconContainer.setVisibility(View.GONE);
-        iv_emoticons_check.setVisibility(View.INVISIBLE);
-        iv_emoticons_normal.setVisibility(View.VISIBLE);
-    }
+//    @OnClick(R.id.iv_emoticons_normal)
+//    public void chooseEmoticons(){
+//        emojiIconContainer.setVisibility(View.VISIBLE);
+//        hideKeyboard();
+//        iv_emoticons_normal.setVisibility(View.INVISIBLE);
+//        iv_emoticons_check.setVisibility(View.VISIBLE);
+//    }
+//
+//    @OnClick(R.id.iv_emoticons_checked)
+//    public void notChooseEmoticons(){
+//        emojiIconContainer.setVisibility(View.GONE);
+//        iv_emoticons_check.setVisibility(View.INVISIBLE);
+//        iv_emoticons_normal.setVisibility(View.VISIBLE);
+//    }
 
     @Override
     protected void onPostResume() {

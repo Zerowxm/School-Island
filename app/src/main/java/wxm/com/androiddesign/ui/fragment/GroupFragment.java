@@ -102,8 +102,8 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     private void setupViewPager() {
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.JOINED,false), "加入的小组");
-        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.OWNED,false), "我的小组");
+        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.JOINED,false), "加入的部落");
+        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.OWNED,false), "我的部落");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

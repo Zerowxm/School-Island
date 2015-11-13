@@ -82,7 +82,7 @@ public class ActivityFragment extends BaseFragment {
         v = inflater.inflate(R.layout.refresh_list, viewGroup, false);
         ButterKnife.bind(this, v);
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
-                setupSwipeRefreshLayout();
+        setupSwipeRefreshLayout();
         setupRecyclerView(recyclerView);
         return v;
     }
@@ -108,9 +108,8 @@ public class ActivityFragment extends BaseFragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     myRecycerAdapter.notifyDataSetChanged();
-
+                    setupRecyclerView(recyclerView);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
             }, 5000);

@@ -258,7 +258,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void setupDrawer(){
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout,toolbar , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawerLayout,toolbar , R.string.font_simple, R.string.font_big);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
     }
@@ -307,7 +307,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void Logout() {
         new MaterialDialog.Builder(this)
                 .title("乃确定不是手滑了么")
-                .positiveText("LOGOUT")
+                .positiveText("退出")
                 .negativeText("是我手滑了")
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override

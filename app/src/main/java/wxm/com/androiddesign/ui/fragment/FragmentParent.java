@@ -103,7 +103,7 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
         adapter = new TabPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.HOT), "热门活动");
         adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.LATEST), "最近活动");
-        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.HOT,false), "热门小组");
+        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.HOT,false), "热门部落");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

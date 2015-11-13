@@ -40,9 +40,9 @@
                     android:id="@+id/fab1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_mode_edit"
+                    android:src="@drawable/ic_group"
                     fab:fab_size="mini"
-                    fab:fab_label="成立小组" />
+                    fab:fab_label="成立部落" />
 
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/fab2"

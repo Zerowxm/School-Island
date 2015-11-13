@@ -337,7 +337,9 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
                     .input(null, null, new MaterialDialog.InputCallback() {
                         @Override
                         public void onInput(MaterialDialog dialog, CharSequence input) {
-                            new NotifyMSG().execute(input.toString());
+                            if(input!=null) {
+                                new NotifyMSG().execute(input.toString());
+                            }
                         }
                     }).callback(new MaterialDialog.ButtonCallback() {
                 @Override
@@ -766,19 +768,20 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         //分享内容的标题
         oks.setTitle("我参加了校园岛的\"" + atyItem.getAtyName() + "\",一起来吧！");
         //标题对应的网址，如果没有可以不设置
-        //oks.setTitleUrl("http://www.17heli.com");
+        oks.setTitleUrl("http://www.baidu.com");
         //设置分享的文本内容
-        oks.setText("我参加了校园岛的\"" + atyItem.getAtyName() + "\",一起来吧！\n" + atyItem.getAtyContent());
+        oks.setText("我参加了校园岛的\"" + atyItem.getAtyName() + "\",一起来吧！\n" + atyItem.getAtyContent()+"（分享自@校园岛）");
         //设置分享照片的本地路径，如果没有可以不设置
         //oks.setImagePath(AtyDetailActivity.TEST_IMAGE);
         //设置分享照片的url地址，如果没有可以不设置
         oks.setImageUrl(MyDialog.getBigImage(atyItem.getAtyAlbum().get(0)));
         //微信和易信的分享的网络连接，如果没有可以不设置
-        oks.setUrl("http://192.168.199.217:8080/bootStrap/ShareServlet?atyId="+atyItem.getAtyId());
+        oks.setUrl("http://192.168.199.217:8080/bootStrap/ShareServlet?atyId=" + atyItem.getAtyId());
+        //oks.setUrl("http://www.baidu.com");
         //人人平台特有的评论字段，如果没有可以不设置
         oks.setComment("添加评论");
         //程序的名称或者是站点名称
-        oks.setSite("site");
+        oks.setSite("baidu");
         //程序的名称或者是站点名称的链接地址
         oks.setSiteUrl("http://www.baidu.com");
 //        //设置纬度

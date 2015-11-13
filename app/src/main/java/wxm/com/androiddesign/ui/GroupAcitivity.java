@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,6 +40,7 @@ public class GroupAcitivity extends AppCompatActivity {
     Group group;
     ArrayList<AtyItem> atyItems;
     MenuItem menuItem;
+    List<MenuItem> menuItems = new ArrayList<>();
     Boolean flag = false;
     @Bind(R.id.cty_picture)
     ImageView ctyPicture;
@@ -130,7 +132,7 @@ public class GroupAcitivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new MutiGroupAdapter(group,atyItems,this));
+        recyclerView.setAdapter(new MutiGroupAdapter(group,atyItems,menuItems,this));
         //recyclerView.setItemAnimator(new MyItemAnimator());
     }
 
@@ -150,13 +152,19 @@ public class GroupAcitivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_group, menu);
-
+        menuItems.add(menu.findItem(R.id.publish));
+        menuItems.add(menu.findItem(R.id.group_chat));
+        menuItems.add(menu.findItem(R.id.group_exit));
         if(!MyUser.userId.equals(group.getUserId())){
-            menuItem = menu.findItem(R.id.publish);
-            menuItem.setVisible(false);
+            menuItem = menu.findItem(R.id.publish).setVisible(false);
+            menuItem = menu.findItem(R.id.group_exit).setVisible(true);
+        }else{
+            menuItem = menu.findItem(R.id.publish).setVisible(true);
+            menuItem = menu.findItem(R.id.group_exit).setVisible(false);
         }
         if ("false".equals(group.getCtyIsAttention())){
             menuItem = menu.findItem(R.id.group_exit).setVisible(false);
+            menuItem = menu.findItem(R.id.group_chat).setVisible(false);
         }
         return true;
     }
@@ -187,7 +195,46 @@ public class GroupAcitivity extends AppCompatActivity {
                 intent.putExtra("groupName",groupName);
                 this.startActivity(intent);
                 break;
+            case R.id.group_exit:
+                group.setCtyMembers(Integer.parseInt(group.getCtyMembers()) - 1 + "");
+                group.setCtyIsAttention("false");
+                item.setVisible(false);
+                menuItems.get(1).setVisible(false);
+                new joinCmtTask().execute("notJoinCty");
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private class joinCmtTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setupRecyclerView(recyclerView);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            try {
+                object = new JSONObject();
+                object.put("action", params[0]);
+                object.put("userId", MyUser.userId);
+                object.put("easemobId", MyUser.easemobId);
+                object.put("ctyId", group.getCtyId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+//
+            Log.i("mjson", json);
+            return null;
+        }
+
     }
 }

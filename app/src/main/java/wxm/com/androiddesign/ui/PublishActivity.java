@@ -66,7 +66,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     private String groupName ="";
     private String groupId="";
     private ArrayList<String> uriList = new ArrayList<>();
-    private ArrayList<String> tempUriList = new ArrayList<>();
+    //private ArrayList<String> tempUriList = new ArrayList<>();
     private String tagList = "";
     private Uri selectedImgUri;
     private long exitTime = 0;
@@ -236,14 +236,13 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(PublishActivity.this.getContentResolver(), selectedImgUri);
                                 imageContains.addView(imageItem);
                                 uriList.add(MyBitmapFactory.BitmapToString(bitmap));
-                                tempUriList.add(selectedImgUri+"");
+                                //tempUriList.add(selectedImgUri+"");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
                         @Override
                         protected Void doInBackground(Void... params) {
-
                             return null;
                         }
                     }.execute();
@@ -267,12 +266,11 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImgUri);
                         imageContains.addView(imageItem);
                         uriList.add(MyBitmapFactory.BitmapToString(bitmap));
-                        tempUriList.add(selectedImgUri+"");
+                        //tempUriList.add(selectedImgUri+"");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-
             }
         }
     }
@@ -282,21 +280,21 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             if (startTime.getText().toString().equals("没有开始时间")) {
-                Toast.makeText(getApplicationContext(), "set your start time", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "设置你的开始时间", Toast.LENGTH_SHORT).show();
             } else if (endTime.getText().toString().equals("没有结束时间")) {
-                Toast.makeText(getApplicationContext(), "set your end time", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "设置你的结束时间", Toast.LENGTH_SHORT).show();
             } else {
                 Date d1 = df.parse(startTime.getText().toString());
                 Date d2 = df.parse(endTime.getText().toString());
                 long diff = d1.getTime() - d2.getTime();
                 if (diff >= 0) {
-                    Toast.makeText(getApplicationContext(), "end time must be later than start time", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "结束时间必须迟于开始时间", Toast.LENGTH_SHORT).show();
                 } else if (editAty.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "设置你的活动标题", Toast.LENGTH_SHORT).show();
                 } else if (atyContent.getText().toString().equals("没有活动内容")) {
-                    Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "设置你的活动内容", Toast.LENGTH_SHORT).show();
                 } else if (location.getText().toString().equals("没有活动地点")) {
-                    Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "设置你的活动地点", Toast.LENGTH_SHORT).show();
                 } else {
                     atyItem = new AtyItem("releaseByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
                             endTime.getText().toString(), location.getText().toString(), "1",
@@ -307,7 +305,7 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "error!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "错误!", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -320,8 +318,8 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             super.onPreExecute();
             atyItem.setUserName(MyUser.userName);
             atyItem.setUserIcon(MyUser.userIcon);
-            atyItem.setAtyAlbum(tempUriList);
-            HomeFragment.addActivity(atyItem);
+            //atyItem.setAtyAlbum(tempUriList);
+            //HomeFragment.addActivity(atyItem);
             Toast.makeText(getApplicationContext(),"发布正在后台进行",Toast.LENGTH_SHORT).show();
 //            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
 //            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -444,7 +442,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     public void onBackPressed() {
         new MaterialDialog.Builder(this)
                 .title("主人你确定要舍弃该活动吗？")
-                .content(atyItem.getAtyName())
                 .positiveText("是的")
                 .negativeText(R.string.cancel)
                 .callback(new MaterialDialog.ButtonCallback() {

@@ -47,8 +47,21 @@ public class ImageFragment extends Fragment {
             v =new ImageView(getActivity());
 
         }
-        Picasso.with(viewGroup.getContext()).load(url).into(v);
+        Picasso.with(viewGroup.getContext()).load(getBigImage(url)).into(v);
         return v;
+    }
+
+    public static String getBigImage(String smallImage){
+        String []splits = smallImage.split("/");
+        splits[splits.length-1] = "i"+ splits[splits.length-1];
+        String bitImage = "";
+        for(int i = 0 ; i < splits.length ; i++){
+            if(i == 0)
+                bitImage = splits[i];
+            else
+                bitImage += "/"+splits[i];
+        }
+        return bitImage;
     }
 
 }
