@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 
 import android.app.NotificationManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -53,10 +55,12 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.adapter.AvatorAdapter;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
+import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.Avator;
 import wxm.com.androiddesign.module.CommentData;
@@ -113,6 +117,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     @Bind(R.id.avator_list)
     RecyclerView recyclerView;
 
+    boolean isLoved;
     ArrayList<String> urls;
 
     @Override
@@ -132,14 +137,19 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         new GetIsJoin().execute();
         new getCommentTask().execute(commentData);
     }
-    private void setupRecyclerView(List<Avator> list) {
+    private void setupRecyclerView(final List<Avator> list) {
         final WrappingLinearLayoutManager layoutManager = new WrappingLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
         recyclerView.setNestedScrollingEnabled(false);
-        //recyclerView.setAdapter(new AvatorAdapter(list, getApplicationContext()));
+        recyclerView.setAdapter(new AvatorAdapter(list, getApplicationContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(this));
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override public void onItemClick(View view, int position) {
+                ActivityStartHelper.startProfileActivity(AtyDetailActivity.this,list.get(position).getUserId());
+            }
+        }));
     }
 
     @OnClick(R.id.check_more)
@@ -210,7 +220,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showMembers");
+                object.put("action", "showAtyMembers");
                 object.put("atyId", atyItem.getAtyId());
 //                object.put("")
             } catch (JSONException e) {
@@ -242,6 +252,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         circlePageIndicator.setSnap(true);
     }
 
+
     @OnClick(R.id.action_love)
     public void MakeLove(View view){
         ImageView imageView=(ImageView)view;
@@ -250,7 +261,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             atyItem.setAtyIsLiked("false");
             new UpDateTask().execute("notLike");
         }else {
-            //imageView.setBackgroundColor(ContextCompat.getColor(this,R.color.yellow));
             imageView.setColorFilter(ContextCompat.getColor(this, R.color.yellow));
             atyItem.setAtyIsLiked("true");
             new UpDateTask().execute("like");
@@ -266,7 +276,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         mPeople.setText("已有" + atyItem.getAtyMembers() + "人参加");
         mNumber.setText(atyItem.getAtyComments());
         Log.d("atyComments", atyItem.getAtyComments());
-        Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userPhoto);
+        Picasso.with(getApplicationContext()).load(atyItem.getUserIcon()).into(userPhoto);
         Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userImg);
         //setupToolBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -280,6 +290,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         setupSlidingPanel();
         setupViewPager();
         new GetPeople().execute();
+        new GetLatestAty().execute();
     }
 
     private void setupLike(){
@@ -514,26 +525,26 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     @Bind(R.id.aty_other)
     LinearLayout otherList;
     private void setupOther(final List<AtyItem> aties){
-        for (int i=0;i<=aties.size();i++){
+        for (int i=0;i<aties.size();i++){
             final TextView textView =new TextView(this);
             textView.setText(aties.get(i).getAtyName());
             textView.setTag(i);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AtyDetailActivity.start(getApplicationContext(),aties.get((int)textView.getTag()));
+                    AtyDetailActivity.start(AtyDetailActivity.this,aties.get((int)textView.getTag()));
                 }
             });
             otherList.addView(textView);
-//            if (i>3){
-//                TextView moreText =new TextView(this);
-//                moreText.setText("查看更多");
-//                otherList.addView(textView);
-//                break;
-//            }
+            if (i>3){
+                TextView moreText =new TextView(this);
+                moreText.setText("查看更多");
+                otherList.addView(textView);
+                break;
+            }
         }
     }
-    private class GetLatestAty extends AsyncTask<String, Void, Boolean> {
+    private class GetLatestAty extends AsyncTask<Void, Void, Boolean> {
         List<AtyItem> latestAties;
         @Override
         protected void onPreExecute() {
@@ -549,11 +560,11 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
                 object = new JSONObject();
-                object.put("action", "getLatestAty");
+                object.put("action", "showOtherAty");
                 object.put("userId", atyItem.getUserId());
                 object.put("atyId", atyItem.getAtyId());
             } catch (JSONException e) {
@@ -701,21 +712,21 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //mLayout.setAnchorPoint(0.7f);
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_detail, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        //mLayout.setAnchorPoint(0.7f);
+//        switch (item.getItemId()){
+//            case android.R.id.home:
+//                finish();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @OnClick(R.id.action_comment)
     public void comment(){

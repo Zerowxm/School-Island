@@ -44,6 +44,7 @@ import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.fragment.GroupListFragment;
 import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
 import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
@@ -156,6 +157,8 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
         adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release, userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
+        adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.OWNED,true),"个人小组");
+        adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.JOINED,true),"参与小组");
         adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
         viewPager.setAdapter(adapter);
         tabs=(TabLayout)findViewById(R.id.tabs);
@@ -167,7 +170,7 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_acitivity, menu);
-        if (userId.equals(MyUser.userId)) {
+        if (MyUser.userId.equals(userId)) {
             MenuItem menuItem = menu.findItem(R.id.action_send);
             menuItem.setVisible(false);
         }

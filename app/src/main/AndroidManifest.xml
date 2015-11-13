@@ -108,7 +108,7 @@
 
         </activity>
         <activity android:name=".ui.CmtAcitivity" />
-        <activity android:name=".ui.UserAcitivity" />
+        <activity android:name=".ui.Dre_UserAcitivity" />
         <activity android:name=".ui.DetailActivity" />
         <activity android:name=".ui.ReleaseActivity" />
         <activity android:name=".ui.CmtDatailActivity" />

@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:text="content"
             android:paddingTop="8dp"
-            android:background="@drawable/send"
              />
     <TextView
         android:id="@+id/msg_time"

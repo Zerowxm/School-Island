@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.User;
-import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.Dre_UserAcitivity;
 
 /**
  * Created by zero on 2015/6/30.
@@ -68,7 +68,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             user_photo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, UserAcitivity.class);
+                    Intent intent = new Intent(context, Dre_UserAcitivity.class);
                     intent.putExtra("userId", userList.get(getAdapterPosition()).getUserId());
                     Log.d("user", "user:" + userList.get(getAdapterPosition()).getUserId());
                     context.startActivity(intent);

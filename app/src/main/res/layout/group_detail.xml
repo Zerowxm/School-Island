@@ -22,6 +22,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
+            android:background="@color/black"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView

@@ -78,7 +78,7 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
                     case MotionEvent.ACTION_DOWN:
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        CmtListFragment activityFragment = (CmtListFragment) adapter.getItem(viewPager.getCurrentItem());
+                        GroupListFragment activityFragment = (GroupListFragment) adapter.getItem(viewPager.getCurrentItem());
                         if (index == 0) {
                             activityFragment.getmSwipeRefreshLayout().setEnabled(true);
                         } else {
@@ -102,8 +102,8 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     private void setupViewPager() {
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(CmtListFragment.newInstance(MyUser.userId,CmtListFragment.JOINED), "加入的小组");
-        adapter.addFragment(CmtListFragment.newInstance(MyUser.userId,CmtListFragment.OWNED), "我的小组");
+        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.JOINED,false), "加入的小组");
+        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.OWNED,false), "我的小组");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

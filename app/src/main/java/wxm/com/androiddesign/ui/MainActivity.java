@@ -64,8 +64,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Bind(R.id.fab)
     FloatingActionMenu fab;
-    @Bind(R.id.fab3)
-    com.github.clans.fab.FloatingActionButton fab3;
+//    @Bind(R.id.fab3)
+//    com.github.clans.fab.FloatingActionButton fab3;
     User mUser = new User();
     //@Bind(R.id.logout)
     TextView logout;
@@ -142,16 +142,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         startActivity(new Intent(this, PublishActivity.class).putExtra("groupId", ""));
     }
 
-    @OnClick(R.id.fab3)
-    public void release2() {
-        fab.close(true);
-        startActivity(new Intent(getApplicationContext(), ReleaseActivity.class));
+//    @OnClick(R.id.fab3)
+//    public void release2() {
+//        fab.close(true);
+//        startActivity(new Intent(getApplicationContext(), ReleaseActivity.class));
+//    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        JPushInterface.onResume(this);
     }
 
 
@@ -287,7 +294,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 flag = 4;
                                 return true;
                             case R.id.nav_user_setting:
-//
+                                SettingsActivity.start(instance);
                                 return true;
                             default:
                                 return true;

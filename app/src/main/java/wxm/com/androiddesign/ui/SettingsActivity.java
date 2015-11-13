@@ -1,5 +1,7 @@
 package wxm.com.androiddesign.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
@@ -21,5 +23,15 @@ public class SettingsActivity extends BaseActivity {
                 .commitAllowingStateLoss();
         ButterKnife.bind(this);
         setupToolBar(toolbar,"设置");
+    }
+
+    public static void start(Context context){
+        context.startActivity(new Intent(context,SettingsActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
     }
 }

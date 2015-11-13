@@ -3,9 +3,7 @@ package wxm.com.androiddesign.ui.fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -36,7 +34,7 @@ import wxm.com.androiddesign.ui.GroupAcitivity;
 /**
  * Created by zero on 2015/7/8.
  */
-public class CmtListFragment extends BaseFragment {
+public class GroupListFragment extends BaseFragment {
 
     public static final int JOINED = 0x1;
     public static final int OWNED = 0x2;
@@ -47,11 +45,13 @@ public class CmtListFragment extends BaseFragment {
     List<Group> groups = new ArrayList<>();
     String userId;
     int type;
-    public static CmtListFragment newInstance(String muserId,int type) {
-        CmtListFragment fragment = new CmtListFragment();
+    boolean isProfile=false;
+    public static GroupListFragment newInstance(String muserId,int type,boolean isUserProfile) {
+        GroupListFragment fragment = new GroupListFragment();
         Bundle args = new Bundle();
         args.putString("UserId", muserId);
         args.putInt("type",type);
+        args.putBoolean("isProfile",isUserProfile);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +61,7 @@ public class CmtListFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         userId = getArguments().getString("UserId");
         type = getArguments().getInt("type");
+        isProfile=getArguments().getBoolean("isProfile");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -68,15 +69,17 @@ public class CmtListFragment extends BaseFragment {
         ButterKnife.bind(this, v);
         setupRecyclerView(recyclerView);
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
-                setupSwipeRefreshLayout();
+        if (!isProfile){
+            setupSwipeRefreshLayout();
+        }else {
+            mSwipeRefreshLayout.setEnabled(false);
+            mSwipeRefreshLayout.setVisibility(View.GONE);
+        }
+
         return v;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
-        if (type==HOT){
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-        else
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL));
 
         recyclerView.setHasFixedSize(true);
@@ -85,10 +88,11 @@ public class CmtListFragment extends BaseFragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                int pos=position-2;
                 Intent intent = new Intent(getActivity(), GroupAcitivity.class);
-                Log.d("Task2",groups.get(position).getCtyId());
-                intent.putExtra("groupId", groups.get(position).getCtyId());
-                intent.putExtra("groupName", groups.get(position).getCtyName());
+                Log.d("Task2",groups.get(pos).getCtyId());
+                intent.putExtra("groupId", groups.get(pos).getCtyId());
+                intent.putExtra("groupName", groups.get(pos).getCtyName());
                 startActivity(intent);
             }
         }));

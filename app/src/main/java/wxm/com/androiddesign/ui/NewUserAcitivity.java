@@ -66,8 +66,6 @@ public class NewUserAcitivity extends UserBaseAcitivity {
         appBarLayout.addOnOffsetChangedListener(this);
         new GetUserInfo(this).execute();
 
-
-
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         ActionBar actionBar=getSupportActionBar();

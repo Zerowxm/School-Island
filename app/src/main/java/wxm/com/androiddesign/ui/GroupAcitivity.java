@@ -149,10 +149,14 @@ public class GroupAcitivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        this.menuItem = menu.findItem(R.id.publish);
+        getMenuInflater().inflate(R.menu.menu_group, menu);
+
         if(!MyUser.userId.equals(group.getUserId())){
-            this.menuItem.setVisible(false);
+            menuItem = menu.findItem(R.id.publish);
+            menuItem.setVisible(false);
+        }
+        if ("false".equals(group.getCtyIsAttention())){
+            menuItem = menu.findItem(R.id.group_exit).setVisible(false);
         }
         return true;
     }
@@ -166,9 +170,9 @@ public class GroupAcitivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return true;
+                break;
             case R.id.action_settings:
-                return true;
+                break;
             case R.id.group_chat:
                 Intent intentGroup = new Intent(this, ChatActivity.class);
                 intentGroup.putExtra("chatType",ChatActivity.GROUP_CHAT);
@@ -176,20 +180,14 @@ public class GroupAcitivity extends AppCompatActivity {
                 intentGroup.putExtra("userIcon",group.getCtyIcon());
                 intentGroup.putExtra("easemobId",group.getCtyGroupId());
                 startActivity(intentGroup);
-                return true;
+                break;
             case R.id.publish:
                 Intent intent = new Intent(this,PublishActivity.class);
                 intent.putExtra("groupId",groupId);
                 intent.putExtra("groupName",groupName);
                 this.startActivity(intent);
+                break;
         }
-        if(id==R.id.publish){
-            Intent intent=new Intent(this,PublishActivity.class);
-            intent.putExtra("groupId",groupId);
-            intent.putExtra("groupName",groupName);
-            startActivity(intent);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

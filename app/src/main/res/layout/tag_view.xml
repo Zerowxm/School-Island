@@ -5,6 +5,7 @@
     android:background="@drawable/tag"
     android:layout_margin="7dp"
     android:layout_gravity="center"
+    android:onClick="removeTag"
     >
     <TextView
         android:id="@+id/tag"
@@ -16,11 +17,11 @@
         android:text="音乐"
         />
     <ImageView
-        android:id="@+id/delete_tag"
+
         android:layout_gravity="center"
         android:layout_width="14dp"
         android:layout_height="14dp"
         android:src="@drawable/ic_action_clear"
-        android:onClick="removeTag"
+
         />
 </LinearLayout>

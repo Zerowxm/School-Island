@@ -3,15 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
     <item
-        android:id="@+id/group_chat"
-        android:title="groupChat"
-        android:icon="@drawable/ic_action_send_white"
-        android:orderInCategory="100"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/publish"
         android:title="publish"
         android:icon="@drawable/fab_add"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/group_chat"
+        android:title="groupChat"
+        android:icon="@drawable/ic_action_forum_white"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/group_exit"
+        android:title="groupExit"
+        android:icon="@drawable/ic_exit"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 </menu>
