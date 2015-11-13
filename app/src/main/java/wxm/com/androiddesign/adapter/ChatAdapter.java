@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +33,6 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.ui.ChatActivity;
 import wxm.com.androiddesign.utils.DateUtils;
-import wxm.com.androiddesign.utils.SmileUtils;
 
 /**
  * Created by Zero on 8/31/2015.
@@ -86,21 +84,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         EMMessage message=messages[position];
         TextMessageBody textMessageBody=(TextMessageBody)message.getBody();
-        Spannable span = SmileUtils.getSmiledText(context, textMessageBody.getMessage());
         try {
             Log.d("Chat",holder.toString());
             if(holder instanceof MsgReceiveViewHolder){
                 Log.d("Chat","MsgReceiveViewHolder");
                 Picasso.with(activity).load(message.getStringAttribute("userIcon")).into(((MsgReceiveViewHolder) holder).mPhoto);
-                ((MsgReceiveViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
-//            ((MsgReceiveViewHolder) holder).mContent.setText(textMessageBody.getMessage());
+            ((MsgReceiveViewHolder) holder).mContent.setText(textMessageBody.getMessage());
                 ((MsgReceiveViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
                         new Date(message.getMsgTime())));
             }if (holder instanceof MsgSendViewHolder){
                 Log.d("Chat","MsgSendViewHolder");
                 Picasso.with(activity).load(MyUser.userIcon).into(((MsgSendViewHolder) holder).mPhoto);
-                ((MsgSendViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
-                //((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
+                ((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
                 ((MsgSendViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
                         new Date(message.getMsgTime())
                 ));
@@ -128,47 +123,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             return -1;
         }
         if (message.getType() == EMMessage.Type.TXT) {
-//            if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false))
-//                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE_CALL : MESSAGE_TYPE_SENT_VOICE_CALL;
-//            else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
-//                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VIDEO_CALL : MESSAGE_TYPE_SENT_VIDEO_CALL;
-//            else if(((DemoHXSDKHelper)HXSDKHelper.getInstance()).isRobotMenuMessage(message))
-//                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_ROBOT_MENU : MESSAGE_TYPE_SENT_ROBOT_MENU;
-//            else
             return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
         }
-//        if (message.getType() == EMMessage.Type.IMAGE) {
-//            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_IMAGE : MESSAGE_TYPE_SENT_IMAGE;
-//
-//        }
-//        if (message.getType() == EMMessage.Type.LOCATION) {
-//            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_LOCATION : MESSAGE_TYPE_SENT_LOCATION;
-//        }
-//        if (message.getType() == EMMessage.Type.VOICE) {
-//            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE : MESSAGE_TYPE_SENT_VOICE;
-//        }
-//        if (message.getType() == EMMessage.Type.VIDEO) {
-//            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VIDEO : MESSAGE_TYPE_SENT_VIDEO;
-//        }
-//        if (message.getType() == EMMessage.Type.FILE) {
-//            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_FILE : MESSAGE_TYPE_SENT_FILE;
-//        }
         return -1;// invalid
     }
 
     Handler handler=new Handler(){
         private void refreshList(){
             List<EMMessage> list = emConversation.getAllMessages();
-            /*for(int i = 0 ; i < list.size() ; i++){
-                try {
-                    if(list.get(i).getStringAttribute("identify").equals("notification")||
-                            list.get(i).getStringAttribute("identify").equals("comment")){
-                        list.remove(i);
-                    }
-                } catch (EaseMobException e) {
-                    e.printStackTrace();
-                }
-            }*/
             Iterator<EMMessage> iterator = list.iterator();
             while (iterator.hasNext()){
                 try {
@@ -176,7 +138,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     Log.d("identify",emMessage.getStringAttribute("identify"));
                     if(emMessage.getStringAttribute("identify").equals("notification")||
                             emMessage.getStringAttribute("identify").equals("comment")){
-                        //iterator.remove();
                         Log.d("identify",emMessage.getStringAttribute("identify"));
                         iterator.remove();
                     }

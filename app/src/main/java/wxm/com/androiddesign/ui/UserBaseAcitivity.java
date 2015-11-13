@@ -105,6 +105,7 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
 
                 mUserId.setText(user.getUserName());
                 mUserSignature.setText(user.getUserSignature());
+                Picasso.with(context).load(user.getUserIcon()).into(mBackDrop);
                 Picasso.with(context).load(user.getUserIcon()).into(mProfileImage, new Callback() {
                     @Override
                     public void onSuccess() {

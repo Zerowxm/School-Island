@@ -14,19 +14,9 @@
 package wxm.com.androiddesign.widget;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.text.ClipboardManager;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.EditText;
-import android.widget.TextView.BufferType;
-
-import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.ui.ChatActivity;
-import wxm.com.androiddesign.utils.SmileUtils;
 
 /**
  * 自定义的textview，用来处理复制粘贴的消息
@@ -80,12 +70,6 @@ public class PasteEditText extends EditText{
     
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
-//        if(!TextUtils.isEmpty(text) && text.toString().startsWith(ChatActivity.COPY_IMAGE)){
-//            setText("");
-//        }
-//        else if(!TextUtils.isEmpty(text)){
-//        	setText(SmileUtils.getSmiledText(getContext(), text),BufferType.SPANNABLE);
-//        }
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
     }
     

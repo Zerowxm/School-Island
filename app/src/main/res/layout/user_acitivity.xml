@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/google_bg" />
+                     />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_photo"
@@ -42,7 +42,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="66dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/miao"
                     android:visibility="invisible"
                     android:alpha="0"
                     android:transitionName="@string/transition_user_photo" />

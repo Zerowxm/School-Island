@@ -22,10 +22,3 @@
 -keep class org.apache.** {*;}
 -dontwarn  com.easemob.**
 
-#2.0.9后的不需要加下面这个keep
-#-keep class org.xbill.DNS.** {*;}
-#另外，demo中发送表情的时候使用到反射，需要keep SmileUtils,注意前面的包名，
-#不要SmileUtils复制到自己的项目下keep的时候还是写的demo里的包名
-#-keep class com.easemob.chatuidemo.utils.SmileUtils {*;}
-
-

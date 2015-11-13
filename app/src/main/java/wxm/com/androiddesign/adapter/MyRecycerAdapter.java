@@ -109,7 +109,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     new UpDateTask().execute("notLike");
                 } else {
                     atyItem.setAtyPlused("true");
-                    fab.setImageResource(R.drawable.ic_thumb_up_primary);
                     atyItem.setAtyPlus(String.valueOf(Integer.parseInt(atyItem.getAtyPlus()) + 1));
                     notifyDataSetChanged();
                     new UpDateTask().execute("like");

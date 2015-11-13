@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/miao"
         android:transitionName="@string/transition_photo"
         app:layout_collapseMode="parallax" />
 </LinearLayout>

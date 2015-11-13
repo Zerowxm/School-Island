@@ -22,7 +22,6 @@
         android:clickable="true"
         android:foreground="@drawable/header_selected_background"
         android:padding="10dp"
-        android:src="@drawable/miao"
         android:transitionName="@string/transition_user_photo" />
 
     <TextView
