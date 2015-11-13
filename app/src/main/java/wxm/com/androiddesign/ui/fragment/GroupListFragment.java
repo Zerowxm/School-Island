@@ -73,7 +73,7 @@ public class GroupListFragment extends BaseFragment {
             setupSwipeRefreshLayout();
         }else {
             mSwipeRefreshLayout.setEnabled(false);
-            mSwipeRefreshLayout.setVisibility(View.GONE);
+            //mSwipeRefreshLayout.setVisibility(View.GONE);
         }
 
         return v;

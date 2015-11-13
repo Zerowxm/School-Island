@@ -35,6 +35,46 @@ public class User {
     public String userCredit;
     @Expose
     public String easemobId;
+    @Expose
+    public String userDepartment;
+    @Expose
+    public String userGrade;
+    @Expose
+    public String userRealName;
+    @Expose
+    public String userSignature;
+
+    public String getUserSignature() {
+        return userSignature;
+    }
+
+    public void setUserSignature(String userSignature) {
+        this.userSignature = userSignature;
+    }
+
+    public String getUserRealName() {
+        return userRealName;
+    }
+
+    public void setUserRealName(String userRealName) {
+        this.userRealName = userRealName;
+    }
+
+    public String getUserDepartment() {
+        return userDepartment;
+    }
+
+    public void setUserDepartment(String userDepartment) {
+        this.userDepartment = userDepartment;
+    }
+
+    public String getUserGrade() {
+        return userGrade;
+    }
+
+    public void setUserGrade(String userGrade) {
+        this.userGrade = userGrade;
+    }
 
     @Expose
     List<String> userAlbum = new ArrayList<String>();

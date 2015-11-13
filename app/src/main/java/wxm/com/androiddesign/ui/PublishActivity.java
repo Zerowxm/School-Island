@@ -99,6 +99,9 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     LinearLayout tagContainer;
     @Bind(R.id.group_pannel)
     LinearLayout groupPannel;
+    @Bind(R.id.tag_hint)
+    TextView tag_hint;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,65 +133,52 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             groupName.setText(this.groupName);
         }
     }
-    @OnClick(R.id.add_tag)
-    public void addTag(){
+
+
+    public void addTag(View view){
         new MaterialDialog.Builder(this)
                 .title("标签")
-                .inputMaxLength(5, R.color.mdtp_red)
-                .input(null, null, new MaterialDialog.InputCallback() {
+                .items(R.array.tag_list)
+                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                        if (!"".equals(input.toString())){
-                            int dpAsPixels=(int)(25*scale+0.5f);
-                            LinearLayout tagView=(LinearLayout)LayoutInflater.from(PublishActivity.this)
-                                    .inflate(R.layout.tag_view,null);
-                            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        int dpAsPixels = (int) (25 * scale + 0.5f);
+                        if (text.length==0){
+                            return false;
+                        }else
+                        for (CharSequence tagText : text) {
+                            LinearLayout tagView = (LinearLayout) LayoutInflater.from(PublishActivity.this)
+                                    .inflate(R.layout.tag_view, null);
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                     dpAsPixels);
-                            params.setMargins(0,0,20,0);
+                            params.setMargins(0, 0, 20, 0);
                             tagView.setLayoutParams(params);
-                            TextView tag=(TextView)tagView.getChildAt(0);
-                            tag.setText(input);
-                            Log.d("Tag", "1" + tagContainer.getChildCount());
-                            tagView.setTag(tagContainer.getChildCount() - 1);
-                            tagContainer.addView(tagView, tagContainer.getChildCount() - 1);
-                            Log.d("Tag", "2" + tagContainer.getChildCount());
-                            if(tagList.equals(""))
-                                tagList += input;
+                            TextView tag = (TextView) tagView.getChildAt(0);
+                            tag.setText(tagText);
+                            tagView.setTag(tagContainer.getChildCount());
+                            tagContainer.addView(tagView, tagContainer.getChildCount());
+                            if (tagList.equals(""))
+                                tagList += tagText;
                             else
-                                tagList+=","+input;
+                                tagList += "," + tagText;
                         }
+                        tag_hint.setVisibility(View.GONE);
+                        Log.d("Tag",tagList);
+                        return true;
                     }
-                }).callback(new MaterialDialog.ButtonCallback() {
-            @Override
-            public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
-            }
-        }).show();
+                })
+                .positiveText("确定")
+                .show();
     }
 
     public void removeTag(View view) {
         ((ViewGroup)view.getParent()).removeView(view);
-//        Log.d("Tag", "1" + tagContainer.getChildCount());
-//        Log.d("Tag", view.toString() + view.getTag());
-//        int position = (int) view.getTag();
-//        tagContainer.removeViewAt(position);
-//        Log.d("Tag", "2" + tagContainer.getChildCount());
-//        for (int i = 0; i < imageContains.getChildCount()-1; i++) {
-//            tagContainer.getChildAt(i).setTag(i);
-//            //tagContainer.remove
-//            Log.d("Tag", tagContainer.getChildAt(i).toString() + view.getTag());
     }
 
     public void removePicture(View view) {
         ((ViewGroup)view.getParent()).removeView(view);
-//        Log.d("image", "" + view.getTag());
-//        int position = (int) view.getTag();
-//        imageContains.removeViewAt(position);
-//        uriList.remove(position);
-//        for (int i = 0; i < imageContains.getChildCount(); i++) {
-//            imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
-//        }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -209,10 +199,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == GET_LOCATION) {
-
-            }
-
             if (requestCode == CHOOSE_PHOTO) {
                 Uri chosenImageUri = data.getData();
                 selectedImgUri = chosenImageUri;
@@ -291,23 +277,36 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                 long diff = d1.getTime() - d2.getTime();
                 if (diff >= 0) {
                     Toast.makeText(getApplicationContext(), "end time must be later than start time", Toast.LENGTH_SHORT).show();
+                    Log.d("zerowxm", "ok1");
                 } else if (editAty.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "set your activity name", Toast.LENGTH_SHORT).show();
+                    Log.d("zerowxm", "ok2");
                 } else if (atyContent.getText().toString().equals("没有活动内容")) {
                     Toast.makeText(getApplicationContext(), "set your activity content", Toast.LENGTH_SHORT).show();
+                    Log.d("zerowxm", "ok3");
                 } else if (location.getText().toString().equals("没有活动地点")) {
                     Toast.makeText(getApplicationContext(), "set your location", Toast.LENGTH_SHORT).show();
+                    Log.d("zerowxm", "ok4");
                 } else {
-                    atyItem = new AtyItem("releaseByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
-                            endTime.getText().toString(), location.getText().toString(), "1",
-                            atyContent.getText().toString(), "0", "0",
-                            "true", "false", "0", uriList,tagList);
+                    Log.d("zerowxm", "ok5");
+//                    atyItem = new AtyItem("releaseByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
+//                            endTime.getText().toString(), location.getText().toString(), "1",
+//                            atyContent.getText().toString(), "0", "0",
+//                            "true", "false", "0", uriList,tagList);
+                    atyItem=new AtyItem("releaseByPerson",MyUser.userId, editAty.getText().toString(),
+                            tagList,
+                            startTime.getText().toString(),
+                            endTime.getText().toString(), location.getText().toString(),
+                            atyContent.getText().toString(),
+                            uriList);
+                    Log.d("zerowxm", "ok6");
                     new UpDateTask().execute(atyItem);
+                    Log.d("zerowxm", "ok7");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "error!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "error!"+e.toString(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -318,10 +317,10 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            atyItem.setUserName(MyUser.userName);
-            atyItem.setUserIcon(MyUser.userIcon);
+            //atyItem.setUserName(MyUser.userName);
+            //atyItem.setUserIcon(MyUser.userIcon);
             atyItem.setAtyAlbum(tempUriList);
-            HomeFragment.addActivity(atyItem);
+            //HomeFragment.addActivity(atyItem);
             Toast.makeText(getApplicationContext(),"发布正在后台进行",Toast.LENGTH_SHORT).show();
 //            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
 //            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

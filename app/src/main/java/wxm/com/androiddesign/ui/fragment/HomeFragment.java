@@ -45,7 +45,7 @@ import wxm.com.androiddesign.utils.ScrollManager;
 /**
  * Created by zero on 2015/6/26.
  */
-public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener{
 
     @Bind(R.id.recyclerview_activity)
     RecyclerView recyclerView;
@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userId = getArguments().getString("UserId");
+        userId = MyUser.userId;
         setHasOptionsMenu(true);
     }
 
@@ -89,11 +89,8 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         }
     }
 
-    public static HomeFragment newInstance(String muserId) {
+    public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString("UserId", muserId);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -140,7 +137,6 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
         setupToolBar();
         setupSwipeRefreshLayout(mSwipeRefreshLayout);
         setupRecyclerView(recyclerView);
-        setRetainInstance(true);
         return v;
     }
 

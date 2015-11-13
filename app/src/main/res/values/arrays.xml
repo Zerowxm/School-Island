@@ -6,4 +6,14 @@
         <item>北京</item>
         <item>东京</item>
     </string-array>
+
+    <string-array name="tag_list">
+        <item>比赛</item>
+        <item>宣讲会</item>
+        <item>社团</item>
+        <item>运动</item>
+        <item>出游</item>
+        <item>学习</item>
+        <item>游戏</item>
+    </string-array>
 </resources>

@@ -117,25 +117,24 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     @Bind(R.id.avator_list)
     RecyclerView recyclerView;
 
-    boolean isLoved;
-    ArrayList<String> urls;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_detail);
-        Bundle bundle = getIntent().getExtras();
-        atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
-        atyItem.setAtyStartTime(atyItem.getAtyStartTime().replace("\n", " "));
         ButterKnife.bind(this);
-        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-        addComment();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle.getBoolean("isNotify")){
+            new getDetailAll().execute(bundle.getString("atyId"));
+        }else {
+            atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
+            atyItem.setAtyStartTime(atyItem.getAtyStartTime().replace("\n", " "));
+            atyItem.setAtyEndTime(atyItem.getAtyEndTime().replace("\n", " "));
+            new GetIsJoin().execute();
+            addComment();
+        }
 
-        if (MyUser.userId.equals(atyItem.getUserId()))
-            isUser=true;
-        CommentData commentData=null;
-        new GetIsJoin().execute();
-        new getCommentTask().execute(commentData);
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+
     }
     private void setupRecyclerView(final List<Avator> list) {
         final WrappingLinearLayoutManager layoutManager = new WrappingLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -196,6 +195,41 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            return true;
+        }
+    }
+
+    private class getDetailAll extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            atyItem.setAtyStartTime(atyItem.getAtyStartTime().replace("\n", " "));
+            atyItem.setAtyEndTime(atyItem.getAtyEndTime().replace("\n", " "));
+            init();
+            addComment();
+
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            JSONObject object = new JSONObject();
+            String atyId=params[0];
+            try {
+                object.put("action", "showAtyDetailsAll");
+                object.put("atyId", atyId);
+                object.put("userId", MyUser.userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String json = JsonConnection.getJSON(object.toString());
+            Log.d("isJoined",json);
+                atyItem=new Gson().fromJson(json,AtyItem.class);
             return true;
         }
     }
@@ -268,7 +302,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     }
 
     private void init(){
-        ShareSDK.initSDK(this);
         atyTime.setText(atyItem.getAtyStartTime()+" 在"+atyItem.getAtyPlace()+"举行\n"+atyItem.getAtyEndTime()+" 活动结束");
         userName.setText(atyItem.getUserName());
         atyName.setText(atyItem.getAtyName());
@@ -456,36 +489,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         UIHandler.sendMessage(msg, this);
     }
 
-//    // 根据传入的参数显示一个Notification
-//    @SuppressWarnings("deprecation")
-//    private void showNotification(long cancelTime, String text) {
-//        try {
-//            Context app = getApplicationContext();
-//            NotificationManager nm = (NotificationManager) app
-//                    .getSystemService(Context.NOTIFICATION_SERVICE);
-//            final int id = Integer.MAX_VALUE / 13 + 1;
-//            nm.cancel(id);
-//            long when = System.currentTimeMillis();
-//            Notification notification = new Notification(
-//                    R.drawable.test, text, when);
-//            PendingIntent pi = PendingIntent.getActivity(app, 0, new Intent(),
-//                    0);
-//            //notification.setLatestEventInfo(app, "sharesdk test", text, pi);
-//            notification.flags = Notification.FLAG_AUTO_CANCEL;
-//            //nm.notify(id, notification);
-//
-//            if (cancelTime > 0) {
-//                Message msg = new Message();
-//                msg.what = MSG_CANCEL_NOTIFY;
-//                msg.obj = nm;
-//                msg.arg1 = id;
-//                UIHandler.sendMessageDelayed(msg, cancelTime, this);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     private class UpDateTask extends AsyncTask<String, Void, Void> {
         @Override
@@ -518,9 +521,14 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         }
     }
 
-    public static void start(Context c,AtyItem atyItem) {
+    public static void start(Context c,AtyItem atyItem,Boolean isNotify) {
         c.startActivity(new Intent(c, AtyDetailActivity.class)
-                .putExtra("com.wxm.com.androiddesign.module.ActivityItemData", atyItem));
+                .putExtra("com.wxm.com.androiddesign.module.ActivityItemData", atyItem)
+        .putExtra("isNotify",isNotify));
+    }
+    public static void start(Context c,String atyId,Boolean isNotify) {
+        c.startActivity(new Intent(c, AtyDetailActivity.class)
+                .putExtra("atyId", atyId).putExtra("isNotify",isNotify));
     }
     @Bind(R.id.aty_other)
     LinearLayout otherList;
@@ -532,7 +540,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AtyDetailActivity.start(AtyDetailActivity.this,aties.get((int)textView.getTag()));
+                    AtyDetailActivity.start(AtyDetailActivity.this,aties.get((int)textView.getTag()),false);
                 }
             });
             otherList.addView(textView);
@@ -621,12 +629,8 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             @Override
             public void onClick(View v) {
                 if (cmt_text.getText() != null && !cmt_text.getText().toString().equals("")) {
-                    // SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 HH:mm");
-                    // Date nowDate = new Date(System.currentTimeMillis());
-                    // String time = formatter.format(nowDate);
                     CommentData mcommentData = new CommentData("comment", MyUser.userId, atyItem.getAtyId(),"moments ago", cmt_text.getText().toString());
                     new getCommentTask().execute(mcommentData);
-                    //commentDatas.add(mcommentData);
                     cmt_text.setText(null);
                     mNumber.setText(Integer.parseInt(mNumber.getText().toString())+1+"");
                 } else {
@@ -634,6 +638,11 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
                 }
             }
         });
+
+        if (MyUser.userId.equals(atyItem.getUserId()))
+            isUser=true;
+        CommentData commentData=null;
+        new getCommentTask().execute(commentData);
     }
 
 
@@ -711,22 +720,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             }
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_detail, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        //mLayout.setAnchorPoint(0.7f);
-//        switch (item.getItemId()){
-//            case android.R.id.home:
-//                finish();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @OnClick(R.id.action_comment)
     public void comment(){

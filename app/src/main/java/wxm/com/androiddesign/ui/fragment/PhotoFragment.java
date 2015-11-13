@@ -55,7 +55,6 @@ public class PhotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.photos_layout, container, false);
         recyclerView = (RecyclerView) v;
-        //new getPhoto(getActivity()).execute(userId);
         setupRecyclerView(recyclerView);
         return v;
     }

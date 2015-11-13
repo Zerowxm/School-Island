@@ -28,7 +28,7 @@ import wxm.com.androiddesign.utils.Config;
 /**
  * Created by Wu on 2015/4/16.
  */
-public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetChangedListener{
+public class HomeTagFragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
 
     String userId;
     @Bind(R.id.appbar)
@@ -45,7 +45,7 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
     CoordinatorLayout coordinatorLayout;
 
     public static Fragment newInstance() {
-        Fragment fragment = new FragmentParent();
+        Fragment fragment = new HomeTagFragment();
         return fragment;
     }
 
@@ -98,12 +98,17 @@ public class FragmentParent extends Fragment implements AppBarLayout.OnOffsetCha
     private void setupViewPager() {
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.HOT), "热门活动");
-        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.LATEST), "最近活动");
-        adapter.addFragment(GroupListFragment.newInstance(MyUser.userId, GroupListFragment.HOT,false), "热门小组");
-
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.ALL), "全部");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.COMPETITION), "比赛");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.SEMINAR), "宣讲会");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.LEAGUE), "社团");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.SPORT), "运动");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.TOUR), "出游");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.STUDY), "学习");
+        adapter.addFragment(ActivityFragment.newInstance(ActivityFragment.GAME), "游戏");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
 

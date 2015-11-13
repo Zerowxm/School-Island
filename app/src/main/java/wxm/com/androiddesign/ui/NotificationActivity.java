@@ -68,13 +68,6 @@ public class NotificationActivity extends AppCompatActivity implements AppBarLay
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-//                ActivityFragment activityFragment = (ActivityFragment) adapter.getItem(viewPager.getCurrentItem());
-//                if (index == 0) {
-//                    activityFragment.getmSwipeRefreshLayout().setEnabled(true);
-//                } else {
-//                    activityFragment.getmSwipeRefreshLayout().setEnabled(false);
-//                }
-//                break;
         }
         return super.dispatchTouchEvent(ev);
     }

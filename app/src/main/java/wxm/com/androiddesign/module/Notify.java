@@ -4,12 +4,43 @@ package wxm.com.androiddesign.module;
  * Created by zero on 2015/7/22.
  */
 public class Notify {
-    String atyName;
+    String notiTitle;
     String msgContent;
-    String userName;
-    String userIcon;
     String releaseTime;
     String atyId;
+    String notiType;
+
+    public Notify(String title, String msgContent, String releaseTime, String atyId, String type) {
+        notiTitle = title;
+        this.msgContent = msgContent;
+        this.releaseTime = releaseTime;
+        this.atyId = atyId;
+        this.notiType = type;
+    }
+
+    public String getTitle() {
+        return notiTitle;
+    }
+
+    public void setTitle(String title) {
+        notiTitle = title;
+    }
+
+    public String getMsgContent() {
+        return msgContent;
+    }
+
+    public void setMsgContent(String msgContent) {
+        this.msgContent = msgContent;
+    }
+
+    public String getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(String releaseTime) {
+        this.releaseTime = releaseTime;
+    }
 
     public String getAtyId() {
         return atyId;
@@ -19,52 +50,11 @@ public class Notify {
         this.atyId = atyId;
     }
 
-    public String getmTitle() {
-        return atyName;
+    public String getType() {
+        return notiType;
     }
 
-    public void setmTitle(String mTitle) {
-        this.atyName = mTitle;
-    }
-
-    public String getmContent() {
-        return msgContent;
-    }
-
-    public void setmContent(String mContent) {
-        this.msgContent = mContent;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPhoto() {
-        return userIcon;
-    }
-
-    public void setUserPhoto(String userPhoto) {
-        this.userIcon = userPhoto;
-    }
-
-    public String getmTime() {
-        return releaseTime;
-    }
-
-    public void setmTime(String mTime) {
-        this.releaseTime = mTime;
-    }
-
-    public Notify(String mTitle, String mContent, String userName, String userPhoto, String mTime) {
-        this.atyName = mTitle;
-        this.msgContent = mContent;
-        this.userName = userName;
-        this.userIcon = userPhoto;
-
-        this.releaseTime = mTime;
+    public void setType(String type) {
+        this.notiType = type;
     }
 }

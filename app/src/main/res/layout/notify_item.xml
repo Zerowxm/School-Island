@@ -29,17 +29,34 @@
                  android:textColor="@color/white"
                  app:typeface="Roboto-Bold.ttf"
                  android:textSize="20sp"
-                 android:id="@+id/time"
-                 android:text="9/20"/>
-            <wxm.com.androiddesign.widget.MyTextView
-                android:id="@+id/title"
-                android:padding="16dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                 android:id="@+id/type"
+                 android:text="系统"/>
+            <RelativeLayout
                 android:layout_height="wrap_content"
-                android:text="监听好友请求,同意好友请求等事件"
-                android:textSize="20sp"
-                app:typeface="Roboto-Bold.ttf"/>
+                android:layout_width="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/time"
+                    android:textSize="8sp"
+                    android:text="2013-10-01 20:12"
+                    android:paddingRight="8dp"
+                    android:paddingTop="3dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+                <wxm.com.androiddesign.widget.MyTextView
+                    android:id="@+id/title"
+                    android:padding="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="“某某”活动发来一条通知"
+                    android:textSize="16sp"
+                    android:maxLines="2"
+                    android:ellipsize="middle"
+                    app:typeface="Roboto-Bold.ttf"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -49,41 +66,14 @@
             android:background="@color/gray"
             android:layout_marginRight="16dp"
             />
-        <LinearLayout
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!--<de.hdodenhof.circleimageview.CircleImageView-->
-                <!--android:id="@id/user_photo"-->
-                <!--android:layout_width="35dp"-->
-                <!--android:layout_height="35dp"-->
-                <!--android:src="@drawable/wu" />-->
-            <!--<wxm.com.androiddesign.widget.MyTextView-->
-                <!--android:id="@+id/user_name"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="name"-->
-                <!--android:paddingLeft="25dp"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--/>-->
-        </LinearLayout>
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0.5dp"-->
-            <!--android:background="@color/gray"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--/>-->
+
         <wxm.com.androiddesign.widget.MyTextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="3dp"
+            android:layout_marginLeft="55dp"
+
             android:text="已过时，使用后面的”监听好友状态事件”里的方式：EMContactManager.getInstance().setContactListener(new EMContactListener())监听好友改变事件。"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
