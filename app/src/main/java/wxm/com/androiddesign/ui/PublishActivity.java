@@ -318,10 +318,10 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
             atyItem.setAtyAlbum(tempUriList);
             HomeFragment.addActivity(atyItem);
             Toast.makeText(getApplicationContext(),"发布正在后台进行",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            //finish();
+//            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+            finish();
         }
 
         @Override

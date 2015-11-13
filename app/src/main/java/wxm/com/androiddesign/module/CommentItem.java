@@ -11,7 +11,7 @@ public class CommentItem {
     public String cmtTime;
     public String cmtContent;
     public String atyId;
-    public String atyPhoto;
+    public String photoId;
 
     public String getAction() {
         return action;
@@ -69,11 +69,11 @@ public class CommentItem {
         this.atyId = atyId;
     }
 
-    public String getAtyPhoto() {
-        return atyPhoto;
+    public String getPhotoId() {
+        return photoId;
     }
 
-    public void setAtyPhoto(String atyPhoto) {
-        this.atyPhoto = atyPhoto;
+    public void setPhotoId(String atyPhoto) {
+        this.photoId = atyPhoto;
     }
 }

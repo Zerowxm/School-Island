@@ -69,6 +69,12 @@ public class ListFragment extends Fragment implements EMEventListener {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupRecyclerView(recyclerView);
+    }
+
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);

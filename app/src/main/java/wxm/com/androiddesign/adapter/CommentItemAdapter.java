@@ -50,7 +50,7 @@ public class CommentItemAdapter extends RecyclerView.Adapter<CommentItemAdapter.
                 .load(item.getUserIcon())
                 .into(holder.userPhoto);
         Picasso.with(MyApplication.applicationContext)
-                .load(item.getAtyPhoto())
+                .load(item.getPhotoId())
                 .into(holder.atyPhoto);
     }
 

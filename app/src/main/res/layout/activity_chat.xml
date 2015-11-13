@@ -92,13 +92,14 @@
             android:layout_marginBottom="5dp"
             android:paddingRight="16dp"
             android:src="@drawable/ic_action_send" />
-    </RelativeLayout>
+</RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_face_container"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="vertical"
+        android:layout_below="@+id/recyclerview_chat"
         android:visibility="gone" >
         <android.support.v4.view.ViewPager
             android:id="@+id/vPager"

@@ -39,7 +39,6 @@
 
                 <ImageView
                     android:clickable="true"
-                    android:onClick="MakeLove"
                     android:id="@+id/action_love"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

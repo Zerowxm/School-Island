@@ -30,7 +30,7 @@
 
         <TextView
             android:textColor="@color/white"
-            android:background="@drawable/chatlog"
+            android:background="@drawable/receive"
             android:layout_toRightOf="@id/user_photo"
             android:layout_below="@+id/msg_time"
             android:paddingRight="16dp"

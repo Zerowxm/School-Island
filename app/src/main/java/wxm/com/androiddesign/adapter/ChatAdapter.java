@@ -87,19 +87,23 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         EMMessage message=messages[position];
         TextMessageBody textMessageBody=(TextMessageBody)message.getBody();
         Spannable span = SmileUtils.getSmiledText(context, textMessageBody.getMessage());
-        if(holder instanceof MsgReceiveViewHolder){
-            Picasso.with(activity).load(userIcon).into(((MsgReceiveViewHolder) holder).mPhoto);
-            ((MsgReceiveViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
+        try {
+            if(holder instanceof MsgReceiveViewHolder){
+                Picasso.with(activity).load(message.getStringAttribute("userIcon")).into(((MsgReceiveViewHolder) holder).mPhoto);
+                ((MsgReceiveViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
 //            ((MsgReceiveViewHolder) holder).mContent.setText(textMessageBody.getMessage());
-            ((MsgReceiveViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
-                    new Date(message.getMsgTime())));
-        }if (holder instanceof MsgSendViewHolder){
-            Picasso.with(activity).load(MyUser.userIcon).into(((MsgSendViewHolder) holder).mPhoto);
-            ((MsgSendViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
-            //((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
-            ((MsgSendViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
-                    new Date(message.getMsgTime())
-            ));
+                ((MsgReceiveViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
+                        new Date(message.getMsgTime())));
+            }if (holder instanceof MsgSendViewHolder){
+                Picasso.with(activity).load(MyUser.userIcon).into(((MsgSendViewHolder) holder).mPhoto);
+                ((MsgSendViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
+                //((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
+                ((MsgSendViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
+                        new Date(message.getMsgTime())
+                ));
+            }
+        } catch (EaseMobException e) {
+            e.printStackTrace();
         }
     }
 

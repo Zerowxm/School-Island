@@ -179,8 +179,12 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 						// forward long click listener
 						@Override
 						public void onLongPress(MotionEvent e) {
-							if (null != mLongClickListener) {
-								mLongClickListener.onLongClick(mImageView.get());
+							try {
+								if (null != mLongClickListener) {
+									mLongClickListener.onLongClick(mImageView.get());
+								}
+							}catch (IllegalArgumentException e1) {
+								e1.printStackTrace();
 							}
 						}
 					});
@@ -306,7 +310,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 			} else {
 				zoomTo(mMinScale, x, y);
 			}
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException  | IllegalArgumentException e) {
 			// Can sometimes happen when getX() and getY() is called
 		}
 
@@ -403,29 +407,32 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	}
 
 	public final boolean onSingleTapConfirmed(MotionEvent e) {
-		ImageView imageView = getImageView();
+		try {
+			ImageView imageView = getImageView();
+			if (null != imageView) {
+				if (null != mPhotoTapListener) {
+					final RectF displayRect = getDisplayRect();
 
-		if (null != imageView) {
-			if (null != mPhotoTapListener) {
-				final RectF displayRect = getDisplayRect();
+					if (null != displayRect) {
+						final float x = e.getX(), y = e.getY();
 
-				if (null != displayRect) {
-					final float x = e.getX(), y = e.getY();
+						// Check to see if the user tapped on the photo
+						if (displayRect.contains(x, y)) {
 
-					// Check to see if the user tapped on the photo
-					if (displayRect.contains(x, y)) {
+							float xResult = (x - displayRect.left) / displayRect.width();
+							float yResult = (y - displayRect.top) / displayRect.height();
 
-						float xResult = (x - displayRect.left) / displayRect.width();
-						float yResult = (y - displayRect.top) / displayRect.height();
-
-						mPhotoTapListener.onPhotoTap(imageView, xResult, yResult);
-						return true;
+							mPhotoTapListener.onPhotoTap(imageView, xResult, yResult);
+							return true;
+						}
 					}
 				}
+				if (null != mViewTapListener) {
+					mViewTapListener.onViewTap(imageView, e.getX(), e.getY());
+				}
 			}
-			if (null != mViewTapListener) {
-				mViewTapListener.onViewTap(imageView, e.getX(), e.getY());
-			}
+		}catch (IllegalArgumentException e1){
+			e1.printStackTrace();
 		}
 
 		return false;
@@ -434,42 +441,45 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	@Override
 	public final boolean onTouch(View v, MotionEvent ev) {
 		boolean handled = false;
+		try {
+			if (mZoomEnabled) {
+				switch (ev.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						// First, disable the Parent from intercepting the touch
+						// event
+						v.getParent().requestDisallowInterceptTouchEvent(true);
 
-		if (mZoomEnabled) {
-			switch (ev.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				// First, disable the Parent from intercepting the touch
-				// event
-				v.getParent().requestDisallowInterceptTouchEvent(true);
+						// If we're flinging, and the user presses down, cancel
+						// fling
+						cancelFling();
+						break;
 
-				// If we're flinging, and the user presses down, cancel
-				// fling
-				cancelFling();
-				break;
-
-			case MotionEvent.ACTION_CANCEL:
-			case MotionEvent.ACTION_UP:
-				// If the user has zoomed less than min scale, zoom back
-				// to min scale
-				if (getScale() < mMinScale) {
-					RectF rect = getDisplayRect();
-					if (null != rect) {
-						v.post(new AnimatedZoomRunnable(getScale(), mMinScale, rect.centerX(), rect.centerY()));
-						handled = true;
-					}
+					case MotionEvent.ACTION_CANCEL:
+					case MotionEvent.ACTION_UP:
+						// If the user has zoomed less than min scale, zoom back
+						// to min scale
+						if (getScale() < mMinScale) {
+							RectF rect = getDisplayRect();
+							if (null != rect) {
+								v.post(new AnimatedZoomRunnable(getScale(), mMinScale, rect.centerX(), rect.centerY()));
+								handled = true;
+							}
+						}
+						break;
 				}
-				break;
-			}
 
-			// Check to see if the user double tapped
-			if (null != mGestureDetector && mGestureDetector.onTouchEvent(ev)) {
-				handled = true;
-			}
+				// Check to see if the user double tapped
+				if (null != mGestureDetector && mGestureDetector.onTouchEvent(ev)) {
+					handled = true;
+				}
 
-			// Finally, try the Scale/Drag detector
-			if (null != mScaleDragDetector && mScaleDragDetector.onTouchEvent(ev)) {
-				handled = true;
+				// Finally, try the Scale/Drag detector
+				if (null != mScaleDragDetector && mScaleDragDetector.onTouchEvent(ev)) {
+					handled = true;
+				}
 			}
+		}catch (IllegalArgumentException e) {
+			e.printStackTrace();
 		}
 
 		return handled;

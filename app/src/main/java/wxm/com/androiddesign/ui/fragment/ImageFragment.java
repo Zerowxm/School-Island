@@ -50,4 +50,5 @@ public class ImageFragment extends Fragment {
         Picasso.with(viewGroup.getContext()).load(url).into(v);
         return v;
     }
+
 }

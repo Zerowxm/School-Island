@@ -1,5 +1,6 @@
 package wxm.com.androiddesign.ui.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -111,6 +112,18 @@ public class HomeFragment extends Fragment implements AppBarLayout.OnOffsetChang
     public void onResume() {
         super.onResume();
         appBarLayout.addOnOffsetChangedListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.invalidate();
+//        recyclerView.setAdapter(myRecycerAdapter);
+//        myRecycerAdapter.notifyDataSetChanged();
+        //recyclerView.getAdapter().notifyDataSetChanged();
+        //setupRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        myRecycerAdapter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

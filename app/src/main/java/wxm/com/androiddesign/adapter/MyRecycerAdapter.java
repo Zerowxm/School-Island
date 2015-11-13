@@ -1,6 +1,7 @@
 package wxm.com.androiddesign.adapter;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -64,6 +65,10 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         this.fragment = fragment;
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        notifyDataSetChanged();
+        Log.d("onActivityResult","onActivityResult");
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_activity_item, parent, false);
@@ -71,7 +76,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
-                Intent intent = new Intent(activity, UserAcitivity.class);
                 ActivityStartHelper.startProfileActivity(activity, activityItems.get(position).getUserId());
             }
 
@@ -94,7 +98,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             public void onCard(CardView cardView, int position) {
                 Intent intent = new Intent(activity, AtyDetailActivity.class);
                 intent.putExtra("com.wxm.com.androiddesign.module.ActivityItemData", activityItems.get(position));
-                activity.startActivity(intent);
+                ((Activity)activity).startActivityForResult(intent, ((Activity) activity).RESULT_OK);
             }
 
             @Override

@@ -55,6 +55,7 @@ import wxm.com.androiddesign.MyDialog;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
+import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.Avator;
@@ -107,6 +108,8 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     Toolbar toolbar;
     @Bind(R.id.comment_user_photo)
     ImageView userImg;
+    @Bind(R.id.action_love)
+    ImageView isLike;
     @Bind(R.id.avator_list)
     RecyclerView recyclerView;
 
@@ -239,15 +242,18 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         circlePageIndicator.setSnap(true);
     }
 
-
+    @OnClick(R.id.action_love)
     public void MakeLove(View view){
         ImageView imageView=(ImageView)view;
-        Drawable drawable=imageView.getDrawable();
         if(atyItem.getAtyIsLiked().equals("true")){
             imageView.setColorFilter(ContextCompat.getColor(this, R.color.white));
+            atyItem.setAtyIsLiked("false");
+            new UpDateTask().execute("notLike");
         }else {
             //imageView.setBackgroundColor(ContextCompat.getColor(this,R.color.yellow));
             imageView.setColorFilter(ContextCompat.getColor(this, R.color.yellow));
+            atyItem.setAtyIsLiked("true");
+            new UpDateTask().execute("like");
         }
     }
 
@@ -270,9 +276,18 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             }
         });
         setupFab();
+        setupLike();
         setupSlidingPanel();
         setupViewPager();
         new GetPeople().execute();
+    }
+
+    private void setupLike(){
+        if(atyItem.getAtyIsLiked().equals("true")){
+            isLike.setColorFilter(ContextCompat.getColor(this, R.color.yellow));
+        }else if(atyItem.getAtyIsLiked().equals("false")){
+            isLike.setColorFilter(ContextCompat.getColor(this, R.color.white));
+        }
     }
 
     private void setupFab(){
@@ -748,7 +763,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         //设置分享照片的url地址，如果没有可以不设置
         oks.setImageUrl(MyDialog.getBigImage(atyItem.getAtyAlbum().get(0)));
         //微信和易信的分享的网络连接，如果没有可以不设置
-        oks.setUrl("http://106.0.4.149:8081/bootStrap/ShareServlet?atyId="+atyItem.getAtyId());
+        oks.setUrl("http://192.168.199.217:8080/bootStrap/ShareServlet?atyId="+atyItem.getAtyId());
         //人人平台特有的评论字段，如果没有可以不设置
         oks.setComment("添加评论");
         //程序的名称或者是站点名称

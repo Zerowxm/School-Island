@@ -275,9 +275,13 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
                     if(join.getText().equals("加入")){
                         join.setText("退出");
+                        group.setCtyMembers(Integer.parseInt(group.getCtyMembers()) + 1 + "");
+                        peoples.setText(group.getCtyMembers() + "个成员");
                         new joinCmtTask().execute("joinCty");
                     }else{
                         join.setText("加入");
+                        group.setCtyMembers(Integer.parseInt(group.getCtyMembers()) - 1 + "");
+                        peoples.setText(group.getCtyMembers() + "个成员");
                         new joinCmtTask().execute("notJoinCty");
                     }
                 }

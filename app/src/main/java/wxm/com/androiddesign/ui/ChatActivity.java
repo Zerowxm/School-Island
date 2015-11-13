@@ -311,6 +311,7 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chat, menu);
+        setTitle(userName);
         return true;
     }
 
@@ -367,6 +368,7 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
                         NotificationManager mNotificationManager =
                                 (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.notify(Integer.parseInt(userId.substring(1)), notification);
+                        refreshUIWithNewMessage();
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }
@@ -454,6 +456,7 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
             message.setReceipt(toChatUserId);
             message.setAttribute("identify", "chat");
             message.setAttribute("userName", MyUser.userName);
+            message.setAttribute("userIcon", MyUser.userIcon);
             message.setAttribute("newMsgCount", newMsgCount);
             conversation.addMessage(message);
             sendMsgInBackGround(message);
