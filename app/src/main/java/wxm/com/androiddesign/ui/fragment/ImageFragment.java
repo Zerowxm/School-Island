@@ -44,7 +44,7 @@ public class ImageFragment extends Fragment {
             v=new PhotoView(getContext());
         }
         else {
-            v = (ImageView)inflater.inflate(R.layout.image, viewGroup, false);
+            v =new ImageView(getActivity());
 
         }
         Picasso.with(viewGroup.getContext()).load(url).into(v);

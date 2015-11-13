@@ -23,7 +23,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         View childView = rv.findChildViewUnder(e.getX(), e.getY());
         //Snackbar.make(rv,childView.toString(),Snackbar.LENGTH_SHORT).show();
         if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            mListener.onItemClick(childView, rv.getChildPosition(childView));
+            mListener.onItemClick(childView, rv.getChildAdapterPosition(childView));
             return true;
         }
         return false;

@@ -2,45 +2,18 @@ package wxm.com.androiddesign.ui.test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
-import wxm.com.androiddesign.adapter.TabPagerAdapter;
-import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
-import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.UserBaseAcitivity;
-import wxm.com.androiddesign.ui.fragment.CmtListFragment;
-import wxm.com.androiddesign.ui.fragment.PhotoFragment;
-import wxm.com.androiddesign.ui.fragment.ProfileFragment;
-import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
 
 public class UserAcitvity extends UserBaseAcitivity {
 

@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -38,7 +37,7 @@ import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.fragment.CmtListFragment;
+import wxm.com.androiddesign.ui.fragment.GroupListFragment;
 import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
 import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
@@ -46,7 +45,7 @@ import wxm.com.androiddesign.utils.Config;
 import wxm.com.androiddesign.utils.MyUtils;
 
 
-public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
+public class Dre_UserAcitivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
     ViewPager viewPager;
     String userId = null;
@@ -223,7 +222,7 @@ public class UserAcitivity extends AppCompatActivity implements AppBarLayout.OnO
         adapter.addFragment(ProfileFragment.newInstance(userId), "个人信息");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Release, userId), "已发布活动");
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
-        adapter.addFragment(CmtListFragment.newInstance(userId,CmtListFragment.JOINED), "社区");
+        adapter.addFragment(GroupListFragment.newInstance(userId, GroupListFragment.JOINED,false), "社区");
         adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
         viewPager.setAdapter(adapter);
     }

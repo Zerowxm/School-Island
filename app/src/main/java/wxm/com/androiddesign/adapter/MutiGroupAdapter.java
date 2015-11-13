@@ -19,8 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.chat.EMGroupManager;
-import com.easemob.exceptions.EaseMobException;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,10 +33,8 @@ import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
-import wxm.com.androiddesign.ui.ChatActivity;
 import wxm.com.androiddesign.ui.CmtAcitivity;
-import wxm.com.androiddesign.ui.UserAcitivity;
-import wxm.com.androiddesign.ui.UserListActivity;
+import wxm.com.androiddesign.ui.Dre_UserAcitivity;
 import wxm.com.androiddesign.utils.MyUtils;
 
 /**
@@ -70,7 +66,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new AtyViewHolder(itemView, new AtyViewHolder.MyViewHolderClicks() {
                 @Override
                 public void onUserPhoto(CircleImageView userPhoto, int position) {
-                    Intent intent = new Intent(activity, UserAcitivity.class);
+                    Intent intent = new Intent(activity, Dre_UserAcitivity.class);
                     intent.putExtra("userId", activityItems.get(position-1).getUserId());
                     activity.startActivity(intent);
                 }
@@ -167,13 +163,11 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((HeaderViewHolder) holder).peoples.setText(group.getCtyMembers() + "个成员");
             ((HeaderViewHolder) holder).groupName.setText(group.getCtyName() + "");
             ((HeaderViewHolder) holder).groupIntro.setText(group.getCtyIntro() + "");
-            if(group.getUserId().equals(MyUser.userId)){
-                Log.d("joinjoin",group.getUserId());
-                Log.d("joinjoin",MyUser.userId);
+            if(MyUser.userId.equals(group.getUserId())){
                 ((HeaderViewHolder) holder).join.setVisibility(View.GONE);
             }else if (group.getCtyIsAttention().equals("true")) {
-                ((HeaderViewHolder) holder).join.setVisibility(View.VISIBLE);
-                ((HeaderViewHolder) holder).join.setText("退出");
+                ((HeaderViewHolder) holder).join.setVisibility(View.GONE);
+                //((HeaderViewHolder) holder).join.setText("退出");
             }else{
                 ((HeaderViewHolder) holder).join.setVisibility(View.VISIBLE);
                 ((HeaderViewHolder) holder).join.setText("加入");
@@ -273,8 +267,9 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             join.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(join.getText().equals("加入")){
-                        join.setText("退出");
+                    if("加入".equals(join.getText())){
+//                        join.setText("退出");
+                        join.setVisibility(View.GONE);
                         new joinCmtTask().execute("joinCty");
                     }else{
                         join.setText("加入");
@@ -286,9 +281,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             peoples.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, UserListActivity.class);
-                    intent.putExtra("ctyId",group.getCtyId());
-                    activity.startActivity(intent);
+                    //UserListActivity.start(activity,group.);
 
                 }
             });
@@ -319,17 +312,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     e.printStackTrace();
                 }
                 String json = JsonConnection.getJSON(object.toString());
-//                String []members = {MyUser.easemobId};
-//                try {
-//                    if(params[0].equals("joinCty")){
-//                        EMGroupManager.getInstance().addUsersToGroup(group.getCtyGroupId(), members);
-//                        //EMGroupManager.getInstance().applyJoinToGroup(group.getCtyGroupId(), "求加入");
-//                    }else if(params[0].equals("notJoinCty")){
-//                        EMGroupManager.getInstance().removeUserFromGroup(group.getCtyGroupId(), MyUser.easemobId);
-//                        //EMGroupManager.getInstance().exitFromGroup(group.getCtyGroupId());
-//                    } } catch (EaseMobException e) {
-//                    e.printStackTrace();
-//                }
+//
                 Log.i("mjson", json);
                 return null;
             }

@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -143,13 +144,14 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                                     .inflate(R.layout.tag_view,null);
                             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                     dpAsPixels);
-                            params.setMargins(0,0,15,0);
+                            params.setMargins(0,0,20,0);
                             tagView.setLayoutParams(params);
                             TextView tag=(TextView)tagView.getChildAt(0);
                             tag.setText(input);
-                            ImageView deleteTag=(ImageView)tagView.getChildAt(1);
-                            deleteTag.setTag(tagContainer.getChildCount() - 1);
-                            tagContainer.addView(tagView,tagContainer.getChildCount()-1);
+                            Log.d("Tag", "1" + tagContainer.getChildCount());
+                            tagView.setTag(tagContainer.getChildCount() - 1);
+                            tagContainer.addView(tagView, tagContainer.getChildCount() - 1);
+                            Log.d("Tag", "2" + tagContainer.getChildCount());
                             if(tagList.equals(""))
                                 tagList += input;
                             else
@@ -165,25 +167,28 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     }
 
     public void removeTag(View view) {
-        Log.d("image", "" + view.getTag());
-        int position = (int) view.getTag();
-        tagContainer.removeViewAt(position);
-        for (int i = 0; i < imageContains.getChildCount()-1; i++) {
-            tagContainer.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
-        }
+        ((ViewGroup)view.getParent()).removeView(view);
+//        Log.d("Tag", "1" + tagContainer.getChildCount());
+//        Log.d("Tag", view.toString() + view.getTag());
+//        int position = (int) view.getTag();
+//        tagContainer.removeViewAt(position);
+//        Log.d("Tag", "2" + tagContainer.getChildCount());
+//        for (int i = 0; i < imageContains.getChildCount()-1; i++) {
+//            tagContainer.getChildAt(i).setTag(i);
+//            //tagContainer.remove
+//            Log.d("Tag", tagContainer.getChildAt(i).toString() + view.getTag());
     }
-
 
     public void removePicture(View view) {
-        Log.d("image", "" + view.getTag());
-        int position = (int) view.getTag();
-        imageContains.removeViewAt(position);
-        uriList.remove(position);
-        for (int i = 0; i < imageContains.getChildCount(); i++) {
-            imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
-        }
+        ((ViewGroup)view.getParent()).removeView(view);
+//        Log.d("image", "" + view.getTag());
+//        int position = (int) view.getTag();
+//        imageContains.removeViewAt(position);
+//        uriList.remove(position);
+//        for (int i = 0; i < imageContains.getChildCount(); i++) {
+//            imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
+//        }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -437,12 +442,22 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
 
     @Override
     public void onBackPressed() {
-            if (System.currentTimeMillis() - exitTime > 2000) {
-                Toast.makeText(this, "再按一次退出发布", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-                return;
-            }
-            finish();
+        new MaterialDialog.Builder(this)
+                .title("主人你确定要舍弃该活动吗？")
+                .content(atyItem.getAtyName())
+                .positiveText("是的")
+                .negativeText(R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                    }
+                })
+                .show();
     }
     /*@OnClick(R.id.add_image)
     public void addImg() {

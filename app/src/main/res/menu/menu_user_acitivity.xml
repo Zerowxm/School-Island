@@ -7,9 +7,9 @@
         android:title="发送消息"
         android:orderInCategory="80"
         app:showAsAction="always"/>
-    <item
-        android:id="@id/action_settings"
-        android:title="举报"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@id/action_settings"-->
+        <!--android:title="举报"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="never"/>-->
 </menu>

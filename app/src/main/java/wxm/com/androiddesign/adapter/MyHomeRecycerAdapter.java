@@ -47,7 +47,7 @@ import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.DetailActivity;
-import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.Dre_UserAcitivity;
 
 
 /**
@@ -88,7 +88,7 @@ public class MyHomeRecycerAdapter extends RecyclerView.Adapter<RecyclerView.View
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
             public void onUserPhoto(CircleImageView userPhoto,int position) {
-                Intent intent = new Intent(activity, UserAcitivity.class);
+                Intent intent = new Intent(activity, Dre_UserAcitivity.class);
                 intent.putExtra("userId",activityItems.get(position).getUserId());
                 Log.d("user","user:"+activityItems.get(position).getUserId());
                 activity.startActivity(intent);
@@ -247,7 +247,7 @@ public class MyHomeRecycerAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (item.getAtyAlbum() != null) {
                 Log.d("recyclerview", "item.getAtyAlbum().size()" + item.getAtyAlbum().size());
                 for (int i = 0; i < item.getAtyAlbum().size(); i++) {
-                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+                    ImageView imageView = new ImageView(activity);
                     WindowManager windowManager = activity.getWindowManager();
                     DisplayMetrics dm = new DisplayMetrics();
                     Display display = windowManager.getDefaultDisplay();

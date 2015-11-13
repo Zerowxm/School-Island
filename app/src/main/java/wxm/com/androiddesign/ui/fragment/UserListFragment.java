@@ -27,7 +27,7 @@ import wxm.com.androiddesign.adapter.UserAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.Dre_UserAcitivity;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
@@ -64,7 +64,7 @@ public class UserListFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), UserAcitivity.class);
+                Intent intent = new Intent(getActivity(), Dre_UserAcitivity.class);
                 intent.putExtra("userId", UserList.get(position).getUserId());
                 Log.d("user", "user:" + UserList.get(position).getUserId());
                 getActivity().startActivity(intent);

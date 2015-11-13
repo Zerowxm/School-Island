@@ -44,7 +44,7 @@ import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.module.CommentData;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.ui.UserAcitivity;
+import wxm.com.androiddesign.ui.Dre_UserAcitivity;
 import wxm.com.androiddesign.ui.UserListActivity;
 import wxm.com.androiddesign.utils.MyUtils;
 
@@ -123,7 +123,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AtyViewHolder) holder).imageViewContainer.removeAllViews();
             if (atyItem.getAtyAlbum() != null) {
                 if ("false".equals(atyItem.getAtyJoined()) && "toMembers".equals(atyItem.getAtyIsPublic())) {
-                    ImageView imageView = (ImageView) LayoutInflater.from(activity).inflate(R.layout.image, null);
+                    ImageView imageView =new ImageView(activity);
                     Point size= MyUtils.getScreenSize(activity);
                     int screenWidth = size.x - 7;
                     int screenHeight = size.y;
@@ -237,7 +237,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             user_photo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, UserAcitivity.class);
+                    Intent intent = new Intent(activity, Dre_UserAcitivity.class);
                     intent.putExtra("userId", atyItem.getUserId());
                     activity.startActivity(intent);
                 }
@@ -366,7 +366,7 @@ public class MultipleItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             user_photo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, UserAcitivity.class);
+                    Intent intent = new Intent(activity, Dre_UserAcitivity.class);
                     intent.putExtra("userId", atyItem.getUserId());
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             activity, new Pair<View, String>(v, activity.getResources().getString(R.string.transition_user_photo))

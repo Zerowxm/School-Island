@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 
 import android.app.NotificationManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -110,6 +112,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     @Bind(R.id.avator_list)
     RecyclerView recyclerView;
 
+    boolean isLoved;
     ArrayList<String> urls;
 
     @Override
@@ -239,7 +242,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         circlePageIndicator.setSnap(true);
     }
 
-
     public void MakeLove(View view){
         ImageView imageView=(ImageView)view;
         Drawable drawable=imageView.getDrawable();
@@ -249,6 +251,15 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             //imageView.setBackgroundColor(ContextCompat.getColor(this,R.color.yellow));
             imageView.setColorFilter(ContextCompat.getColor(this, R.color.yellow));
         }
+//        if (isLoved){
+//            imageView.setColorFilter(ContextCompat.getColor(this,R.color.white));
+//            drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+//            isLoved=false;
+//        }else {
+//            isLoved=true;
+//            imageView.setColorFilter(ContextCompat.getColor(this,R.color.yellow));
+//            drawable.setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
+//        }
     }
 
     private void init(){
@@ -260,7 +271,7 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         mPeople.setText("已有" + atyItem.getAtyMembers() + "人参加");
         mNumber.setText(atyItem.getAtyComments());
         Log.d("atyComments", atyItem.getAtyComments());
-        Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userPhoto);
+        Picasso.with(getApplicationContext()).load(atyItem.getUserIcon()).into(userPhoto);
         Picasso.with(getApplicationContext()).load(MyUser.userIcon).into(userImg);
         //setupToolBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
