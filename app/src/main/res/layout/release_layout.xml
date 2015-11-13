@@ -256,6 +256,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:onClick="addTag"
                         android:id="@+id/set_tag"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -283,7 +284,17 @@
                             android:layout_toRightOf="@+id/tag_image"
                             android:text="活动标签"
                             android:textColor="@color/primary_text" />
-
+                        <wxm.com.androiddesign.widget.MyTextView
+                            android:id="@+id/tag_hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/tag_text"
+                            android:layout_alignStart="@+id/tag_text"
+                            android:layout_below="@+id/tag_text"
+                            android:paddingRight="16dp"
+                            android:paddingTop="3dp"
+                            android:text="点击添加标签"
+                            app:typeface="Roboto-Bold.ttf" />
                         <LinearLayout
                             android:id="@+id/tag_container"
                             android:layout_width="match_parent"
@@ -294,15 +305,16 @@
                             android:orientation="horizontal"
                             android:paddingTop="3dp">
 
-                            <ImageView
-                                android:id="@+id/add_tag"
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_gravity="center"
-                                android:background="@color/accent"
-                                android:backgroundTint="@color/accent"
-                                android:src="@drawable/fab_add" />
+
+                            <!--<ImageView-->
+                                <!--android:id="@+id/add_tag"-->
+                                <!--android:layout_width="18dp"-->
+                                <!--android:layout_height="18dp"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:layout_gravity="center"-->
+                                <!--android:background="@color/accent"-->
+                                <!--android:backgroundTint="@color/accent"-->
+                                <!--android:src="@drawable/fab_add" />-->
                         </LinearLayout>
                     </RelativeLayout>
 

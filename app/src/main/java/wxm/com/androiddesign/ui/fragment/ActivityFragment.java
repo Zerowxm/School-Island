@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,9 +40,18 @@ import wxm.com.androiddesign.utils.ScrollManager;
 public class ActivityFragment extends BaseFragment {
     private static final String TAG="ActivityFragment";
 
-    public static final int HOT = 0x1;
-    public static final int LATEST = 0x2;
-    public static final int HIGHT = 0x3;
+    public static final int HOT = 1;
+    public static final int LATEST = 2;
+    public static final int HIGHT = 3;
+    public static final int COMPETITION=4;
+    public static final int SEMINAR=5;
+    public static final int LEAGUE=6;
+    public static final int SPORT=7;
+    public static final int STUDY =8;
+    public static final int TOUR =9;
+    public static final int GAME=10;
+    public static final int ALL=11;
+
     private int type;
     private String userId;
 
@@ -168,6 +176,30 @@ public class ActivityFragment extends BaseFragment {
                         break;
                     case HIGHT:
                         object.put("action", "showHightAty");
+                        break;
+                    case COMPETITION:
+                        object.put("action", "showCompetition");
+                        break;
+                    case SEMINAR:
+                        object.put("action", "showSeminar");
+                        break;
+                    case LEAGUE:
+                        object.put("action", "showLeague");
+                        break;
+                    case SPORT:
+                        object.put("action", "showSport");
+                        break;
+                    case TOUR:
+                        object.put("action", "showTour");
+                        break;
+                    case STUDY:
+                        object.put("action", "showStudy");
+                        break;
+                    case GAME:
+                        object.put("action", "showGame");
+                        break;
+                    case ALL:
+                        object.put("action", "showActivities");
                         break;
                 }
                 object.put("userId", userId);

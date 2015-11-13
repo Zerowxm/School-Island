@@ -88,7 +88,6 @@ public class ListFragment extends Fragment implements EMEventListener {
     }
 
     private class getMsg extends AsyncTask<Void, Void, Boolean> {
-        MaterialDialog materialDialog;
         Context context;
 
         public getMsg(Context context) {
@@ -98,17 +97,11 @@ public class ListFragment extends Fragment implements EMEventListener {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            materialDialog = new MaterialDialog.Builder(context)
-                    .title("Loading")
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(false)
-                    .show();
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            materialDialog.dismiss();
             switch (type){
                 case ListFragment.CHAT:
                     chatHistoryAdapter = new ChatHistoryAdapter(mChatItemList,getActivity());

@@ -46,11 +46,8 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
-    public static Fragment newInstance(String muserId) {
+    public static Fragment newInstance() {
         Fragment fragment = new GroupFragment();
-        Bundle args = new Bundle();
-        args.putString("userId", muserId);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -117,7 +114,7 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-        userId = getArguments().getString("userId");
+        userId = MyUser.userId;
         setHasOptionsMenu(true);
 
     }

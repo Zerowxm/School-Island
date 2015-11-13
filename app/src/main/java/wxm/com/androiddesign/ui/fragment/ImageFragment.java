@@ -45,6 +45,9 @@ public class ImageFragment extends Fragment {
         }
         else {
             v =new ImageView(getActivity());
+            v.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+            , ViewGroup.LayoutParams.MATCH_PARENT));
+            v.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         }
         Picasso.with(viewGroup.getContext()).load(getBigImage(url)).into(v);

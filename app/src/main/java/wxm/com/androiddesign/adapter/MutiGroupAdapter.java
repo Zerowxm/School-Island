@@ -95,7 +95,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onCard(CardView cardView, int position) {
                     if (!"001".equals(MyUser.userId)) {
                         Log.d("recyclerview", "onCard");
-                        AtyDetailActivity.start(cardView.getContext(),item);
+                        AtyDetailActivity.start(cardView.getContext(),item,false);
                     } else {
                         Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
                     }

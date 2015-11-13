@@ -104,7 +104,7 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
                 setupViewPager();
 
                 mUserId.setText(user.getUserName());
-                mUserSignature.setText("我是卡密");
+                mUserSignature.setText(user.getUserSignature());
                 Picasso.with(context).load(user.getUserIcon()).into(mProfileImage, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -144,11 +144,6 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        CollapsingToolbarLayout collapsingToolbar =
-//                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-//        collapsingToolbar.setTitle(user.getUserName());
-//        collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
-
     }
 
     private void setupViewPager() {

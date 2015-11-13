@@ -7,7 +7,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,10 +39,10 @@ public class CreateGroupActivity extends AppCompatActivity {
     EditText groupName;
     @Bind(R.id.group_brief_intro)
     EditText groupIntro;
-    @Bind(R.id.group_tag)
-    EditText groupTag;
     @Bind(R.id.fab)
     FloatingActionButton fab;
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +53,12 @@ public class CreateGroupActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              /*  Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                new CreateGroupTask().execute();
+                if ("".equals(groupName.getText().toString())||"".equals(groupIntro.getText().toString()))
+                {
+                    Snackbar.make(coordinatorLayout,"信息不完整",Snackbar.LENGTH_LONG).show();
+                }else new CreateGroupTask().execute();
+
+
             }
         });
     }
@@ -61,9 +66,6 @@ public class CreateGroupActivity extends AppCompatActivity {
     @OnClick(R.id.group_img)
     public void chooseImage(){
         MyUtils.chooseImage(this,CHOOSE_IMAGE);
-    }
-    private void InitGroup(){
-        String ctyIcon;
     }
 
     @Override
@@ -86,7 +88,7 @@ public class CreateGroupActivity extends AppCompatActivity {
             String icon = MyBitmapFactory.BitmapToString(bitmap);
             groupImage.setClickable(false);
             Log.d("createCommity", MyUser.userId);
-            group=new Group("createCommunity",MyUser.userId,icon,groupTag.getText().toString(),
+            group=new Group("createCommunity",MyUser.userId,icon,"",
                     groupName.getText().toString(),groupIntro.getText().toString());
         }
 
@@ -98,10 +100,6 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            /*SharedPreferences prefs = getSharedPreferences("wxm.com.androiddesign", Context.MODE_PRIVATE);
-            String id = prefs.getString("UserId", "001");
-            Log.d("userIii",id);*/
-
             String result = JsonConnection.getJSON(new Gson().toJson(group));
             return null;
         }

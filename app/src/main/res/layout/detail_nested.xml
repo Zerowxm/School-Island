@@ -182,7 +182,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignStart="@id/user_name"
                         android:layout_below="@id/user_name"
-                        android:text="少年吧啦啦啦啦"
                         android:textSize="10sp" />
 
                     <View

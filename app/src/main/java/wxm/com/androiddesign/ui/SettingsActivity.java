@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +25,13 @@ public class SettingsActivity extends BaseActivity {
                 .replace(R.id.content,new SettingsFragment())
                 .commitAllowingStateLoss();
         ButterKnife.bind(this);
-        setupToolBar(toolbar,"设置");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        setupToolBar(toolbar, "设置");
     }
 
     public static void start(Context context){

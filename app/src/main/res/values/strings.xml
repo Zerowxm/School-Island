@@ -3,12 +3,12 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="navigation_item_1">item1</string>
-    <string name="navigation_item_2">item2</string>
-    <string name="navigation_subheader">sub_item</string>
-    <string name="navigation_sub_item_1">sub_item1</string>
-    <string name="navigation_sub_item_2">sub_item2</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_item_1"></string>
+    <string name="navigation_item_2"></string>
+    <string name="navigation_subheader"></string>
+    <string name="navigation_sub_item_1"></string>
+    <string name="navigation_sub_item_2"></string>
+    <string name="title_activity_main2"></string>
 
     <string name="OK">确定</string>
     <string name="add_title">确认加入活动吗？</string>
@@ -16,20 +16,20 @@
 
     <string name="checkin">Checkin</string>
     <string name="title_activity_login">登录</string>
-    <string name="title_activity_user_acitivity">UserAcitivity</string>
+    <string name="title_activity_user_acitivity"></string>
 
     <string name="skip_button">Skip</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_detail"></string>
 
-    <string name="title_activity_link_web">LinkWebActivity</string>
+    <string name="title_activity_link_web"></string>
 
     <string name="title_activity_release">发布活动</string>
-    <string name="title_activity_cmt_datail">CmtDatailActivity</string>
+    <string name="title_activity_cmt_datail"></string>
 
     <!--prograss-->
-    <string name="signup_title">Sign Up</string>
-    <string name="login_title">Logn in</string>
-    <string name="please_wait">Please wait...</string>
+    <string name="signup_title">注册</string>
+    <string name="login_title">登录</string>
+    <string name="please_wait">请稍等...</string>
 
     <!--transition_list-->
     <string name="transition_title">1</string>
@@ -69,7 +69,7 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_aty_detail">AtyDetailActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_create_group1">CreateGroupActivity1</string>
+    <string name="title_activity_create_group1">成立小组</string>
 
     <string name="font_small">小</string>
     <string name="font_simple">标准</string>

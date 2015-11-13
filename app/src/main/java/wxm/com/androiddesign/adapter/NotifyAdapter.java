@@ -1,5 +1,7 @@
 package wxm.com.androiddesign.adapter;
 
+import android.content.DialogInterface;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,13 +16,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.Notify;
+import wxm.com.androiddesign.ui.AtyDetailActivity;
+import wxm.com.androiddesign.ui.DetailActivity;
 
 /**
  * Created by zero on 2015/6/30.
  */
 public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHolder> {
 
-    List<Notify> mNotify = new ArrayList<>();
+    static List<Notify> mNotify = new ArrayList<>();
 
     public NotifyAdapter(List<Notify> mNotify) {
         this.mNotify = mNotify;
@@ -31,69 +35,66 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
         return new MyViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.notify_item, parent, false
-                ));
+                ), new MyViewHolder.MyViewHolderCallBack() {
+
+            @Override
+            public void onCard(CardView cardView, int position) {
+                if ("系统".equals(mNotify.get(position).getType())){
+
+                }else {
+                    AtyDetailActivity.start(cardView.getContext(),mNotify.get(position).getAtyId(),true);
+                }
+            }
+        });
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Notify item = mNotify.get(position);
-        Log.d("item", item.getmTitle() + item.getmContent() + item.getUserName());
-        /*SimpleDateFormat oldFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date oldDate = null;
-        try {
-            oldDate = oldFormatter.parse(item.getmTime());
-            Date nowDate = new Date(System.currentTimeMillis());
-            long time = nowDate.getTime() - oldDate.getTime();
-            String str = getSubTime(time);*/
-            holder.releaseTime.setText(item.getmTime());
-            holder.mTitle.setText(item.getmTitle());
-            holder.mContent.setText(item.getmContent());
-//            holder.userName.setText(item.getUserName());
-//            Picasso.with(MyApplication.applicationContext)
-//                    .load(item.getUserPhoto())
-//                    .into(holder.userPhoto);
-      /*  } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-    }
-    private String getSubTime(long subTime) {
-        long days = subTime / (1000 * 60 * 60 * 24);
-        if (days < 1) {
-            long hours = subTime / (1000 * 60 * 60);
-            if (hours < 1) {
-                long minutes = subTime / (1000 * 60);
-                if (minutes < 1)
-                    return "Moments ago";
-                return (int) (minutes) == 1 ? String.format("%s minute", minutes) : String.format("%s minutes", minutes);
-            }
-            return (int) (hours) == 1 ? String.format("%s hour", hours) : String.format("%s hours", hours);
+        holder.type.setText(item.getType());
+        holder.releaseTime.setText(item.getReleaseTime());
+        holder.mTitle.setText(item.getTitle());
+        if ("".equals(item.getMsgContent())){
+            holder.mContent.setVisibility(View.GONE);
+        }else {
+            holder.mContent.setText(item.getMsgContent());
         }
-        if (days >= 7) {
-            return (int) (days / 7) == 1 ? String.format("%s week", (int) (days / 7)) : String.format("%s weeks", (int) (days / 7));
-        } else
-            return (int) (days) == 1 ? String.format("%s day", days) : String.format("%s days", days);
+
     }
+
 
     @Override
     public int getItemCount() {
         return mNotify.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.content)
         TextView mContent;
-//        @Bind(R.id.user_name)
-//        TextView userName;
         @Bind(R.id.title)
         TextView mTitle;
-//        @Bind(R.id.user_photo)
-//        CircleImageView userPhoto;
         @Bind(R.id.time)
         TextView releaseTime;
+        @Bind(R.id.type)
+        TextView type;
+        @Bind(R.id.card_view)
+        CardView cardView;
+        MyViewHolderCallBack mListener;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView,MyViewHolderCallBack listener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mListener=listener;
+            cardView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+                mListener.onCard((CardView)v,getAdapterPosition());
+        }
+
+        public interface MyViewHolderCallBack{
+            public void onCard(CardView cardView,int position);
         }
     }
 }

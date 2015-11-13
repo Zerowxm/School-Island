@@ -42,6 +42,7 @@ import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.GroupFragment;
 import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
+import wxm.com.androiddesign.ui.fragment.HomeTagFragment;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
 import wxm.com.androiddesign.ui.test.UserAcitvity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
@@ -86,7 +87,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ButterKnife.bind(this);
         setupFab();
         new LoginTask(this).execute(false);
-
         activityWeakReference = new WeakReference<AppCompatActivity>(this);
         setupDrawer();
         activityWeakReference=new WeakReference<AppCompatActivity>(this);
@@ -142,11 +142,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         startActivity(new Intent(this, PublishActivity.class).putExtra("groupId", ""));
     }
 
-//    @OnClick(R.id.fab3)
-//    public void release2() {
-//        fab.close(true);
-//        startActivity(new Intent(getApplicationContext(), ReleaseActivity.class));
-//    }
 
     @Override
     protected void onPause() {
@@ -191,7 +186,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             MyUser.userName = mUser.getUserName();
             MyUser.userIcon = mUser.getUserIcon();
             Picasso.with(context).load(MyUser.userIcon).into(user_photo);
-            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(MyUser.userId)).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeTagFragment.newInstance()).commitAllowingStateLoss();
             flag = 1;
             MyUtils.Login(getApplicationContext());
         }
@@ -276,15 +271,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         drawerLayout.closeDrawers();
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, HomeTagFragment.newInstance()).commitAllowingStateLoss();
                                 flag = 1;
                                 return true;
                             case R.id.nav_explore:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, FragmentParent.newInstance()).commitAllowingStateLoss();
                                 flag = 2;
                                 return true;
                             case R.id.nav_attention:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.content, GroupFragment.newInstance(mUser.getUserId())).commitAllowingStateLoss();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content, GroupFragment.newInstance()).commitAllowingStateLoss();
                                 flag = 2;
                                 return true;
                             case R.id.nav_messages:
