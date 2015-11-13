@@ -121,11 +121,11 @@ public class MyApplication extends Application implements EMEventListener {
                 EMMessage message = (EMMessage) event.getData();
               /*  EMGroup group = EMGroupManager.getInstance().getGroup("");
                 EMGroupManager.getInstance().createOrUpdateLocalGroup();*/
-//                try {
-//                    new Notifications(message.getStringAttribute("identify"),message);
-//                } catch (EaseMobException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    new Notifications(message.getStringAttribute("identify"),message);
+                } catch (EaseMobException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

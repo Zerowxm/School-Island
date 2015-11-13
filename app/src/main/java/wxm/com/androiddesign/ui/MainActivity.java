@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 logout.setClickable(false);
             } else {
                 user_email.setText(mUser.getUserEmail());
-                logout.setText("Logout");
+                logout.setText("登出");
                 logout.setClickable(true);
             }
             MyUser.userId = mUser.getUserId();

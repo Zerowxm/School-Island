@@ -88,8 +88,6 @@ public class GroupListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Picasso.with(context).load(group.getCtyIcon())
                     .fit().centerCrop()
                     .transform(PaletteTransformation.getInstance())
-                    .placeholder(R.drawable.user_avatar)
-                    .error(R.drawable.wu)
                     .into(((MyViewHolder)holder).community_img,new Callback.EmptyCallback(){
                         @Override
                         public void onSuccess() {

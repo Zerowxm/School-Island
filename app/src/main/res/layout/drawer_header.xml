@@ -54,6 +54,6 @@
         android:layout_alignBottom="@id/user_name"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="Logout"
+        android:text="登出"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </RelativeLayout>

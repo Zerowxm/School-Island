@@ -14,12 +14,11 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/wu" />
+        android:src="@drawable/user_avatar" />
 
 
         <TextView
             android:padding="16dp"
-            android:textColor="@color/white"
             android:layout_below="@+id/msg_time"
             android:layout_toLeftOf="@id/user_photo"
             android:id="@+id/msg_content"
@@ -27,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="content"
             android:paddingTop="8dp"
+            android:background="@drawable/bg_msgbox_send_normal"
              />
     <TextView
         android:id="@+id/msg_time"

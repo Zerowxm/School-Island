@@ -47,10 +47,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyPhotoViewH
     public void onBindViewHolder(MyPhotoViewHolder holder, int position) {
         String uri = ablum.get(position);
         Picasso.with(context).load(uri).into(holder.photo);
-//        Point size=MyUtils.getScreenSize(context);
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size.x / 3 - 2
-//                , size.y * 1 / 3);
-//        holder.photo.setLayoutParams(layoutParams);
+        Point size=MyUtils.getScreenSize(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size.x / 2 - 5
+                , size.y * 1 / 3);
+        holder.photo.setLayoutParams(layoutParams);
     }
 
     @Override

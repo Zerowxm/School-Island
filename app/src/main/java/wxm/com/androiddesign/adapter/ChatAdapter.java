@@ -88,13 +88,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         TextMessageBody textMessageBody=(TextMessageBody)message.getBody();
         Spannable span = SmileUtils.getSmiledText(context, textMessageBody.getMessage());
         try {
+            Log.d("Chat",holder.toString());
             if(holder instanceof MsgReceiveViewHolder){
+                Log.d("Chat","MsgReceiveViewHolder");
                 Picasso.with(activity).load(message.getStringAttribute("userIcon")).into(((MsgReceiveViewHolder) holder).mPhoto);
                 ((MsgReceiveViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
 //            ((MsgReceiveViewHolder) holder).mContent.setText(textMessageBody.getMessage());
                 ((MsgReceiveViewHolder) holder).mTime.setText(DateUtils.getTimestampString(
                         new Date(message.getMsgTime())));
             }if (holder instanceof MsgSendViewHolder){
+                Log.d("Chat","MsgSendViewHolder");
                 Picasso.with(activity).load(MyUser.userIcon).into(((MsgSendViewHolder) holder).mPhoto);
                 ((MsgSendViewHolder) holder).mContent.setText(span, TextView.BufferType.SPANNABLE);
                 //((MsgSendViewHolder) holder).mContent.setText(textMessageBody.getMessage());
