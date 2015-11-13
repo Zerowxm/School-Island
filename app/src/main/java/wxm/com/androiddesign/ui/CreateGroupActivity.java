@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -55,7 +56,7 @@ public class CreateGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if ("".equals(groupName.getText().toString())||"".equals(groupIntro.getText().toString()))
                 {
-                    Snackbar.make(coordinatorLayout,"信息不完整",Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"信息不完整",Toast.LENGTH_SHORT).show();
                 }else new CreateGroupTask().execute();
 
 
@@ -90,12 +91,14 @@ public class CreateGroupActivity extends AppCompatActivity {
             Log.d("createCommity", MyUser.userId);
             group=new Group("createCommunity",MyUser.userId,icon,"",
                     groupName.getText().toString(),groupIntro.getText().toString());
+            Toast.makeText(getApplicationContext(),"部落创建中...",Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            finish();
+            Toast.makeText(getApplicationContext(),"部落创建成功",Toast.LENGTH_SHORT).show();
         }
 
         @Override
