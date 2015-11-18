@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <wxm.com.androiddesign.widget.ExpandGridView
+    <wxm.com.maca.widget.ExpandGridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

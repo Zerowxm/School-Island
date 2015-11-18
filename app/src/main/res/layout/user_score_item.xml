@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <wxm.com.androiddesign.widget.MyTextView
+    <wxm.com.maca.widget.MyTextView
         android:id="@+id/count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_toRightOf="@id/user_photo"
         android:orientation="vertical">
 
-        <wxm.com.androiddesign.widget.MyTextView
+        <wxm.com.maca.widget.MyTextView
             android:id="@id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

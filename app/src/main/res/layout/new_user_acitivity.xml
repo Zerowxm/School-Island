@@ -160,7 +160,7 @@
             android:src="@drawable/wu"
             app:border_color="@android:color/white"
             app:border_width="2dp"
-            app:layout_behavior="wxm.com.androiddesign.widget.AvatarImageBehavior"
+            app:layout_behavior="wxm.com.maca.widget.AvatarImageBehavior"
             />
 
     </android.support.design.widget.CoordinatorLayout>

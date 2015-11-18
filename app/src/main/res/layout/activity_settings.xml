@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    tools:context="wxm.com.androiddesign.ui.SettingsActivity">
+    tools:context="wxm.com.maca.ui.SettingsActivity">
 
     <include layout="@layout/toolbar" />
 

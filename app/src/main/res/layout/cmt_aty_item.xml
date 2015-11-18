@@ -30,7 +30,7 @@
                 android:src="@drawable/wu" />
 
 
-            <wxm.com.androiddesign.widget.MyTextView
+            <wxm.com.maca.widget.MyTextView
                 android:id="@id/aty_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:text="活动名"
                 android:textColor="@android:color/primary_text_light" />
 
-            <wxm.com.androiddesign.widget.MyTextView
+            <wxm.com.maca.widget.MyTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@id/member_num"

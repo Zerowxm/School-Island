@@ -110,10 +110,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="45分钟前"
-                    android:layout_alignBottom="@+id/group_layout"
+                    android:layout_alignBottom="@+id/imageView2"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
         </RelativeLayout>
+
+        <wxm.com.maca.widget.MyTextView
+            android:padding="16dp"
+            android:id="@+id/aty_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_photo"
+            android:text="深入浅出面向对象分析与设计深入浅出面向对象分析与设计深入浅出面向对象分析与设计深入浅出面向对象分析与设计"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            />
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -134,28 +146,28 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <FrameLayout
-                android:padding="16dp"
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha="0.6"
-                android:background="#000000">
-                <wxm.com.androiddesign.widget.MyTextView
-                    android:alpha="1"
-                    android:id="@+id/aty_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/user_photo"
-                    android:text="dasdasda"
-                    android:textSize="17sp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    fonts:typeface="Roboto-Bold.ttf"
-                    />
-            </FrameLayout>
+            <!--<FrameLayout-->
+                <!--android:padding="16dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:alpha="0.6"-->
+                <!--android:background="#000000">-->
+                <!--<wxm.com.maca.widget.MyTextView-->
+                    <!--android:alpha="1"-->
+                    <!--android:id="@+id/aty_name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@id/user_photo"-->
+                    <!--android:text="dasdasda"-->
+                    <!--android:textSize="17sp"-->
+                    <!--android:maxLines="2"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--fonts:typeface="Roboto-Bold.ttf"-->
+                    <!--/>-->
+            <!--</FrameLayout>-->
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"

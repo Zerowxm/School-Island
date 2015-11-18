@@ -25,7 +25,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/user_photo"
                 android:layout_alignTop="@id/user_photo">
-                <wxm.com.androiddesign.widget.MyTextView
+                <wxm.com.maca.widget.MyTextView
                     android:id="@id/user_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -34,7 +34,7 @@
                     android:textSize="20sp"
                     android:paddingTop="5dp"
                     fonts:typeface="Roboto-Bold.ttf" />
-                <wxm.com.androiddesign.widget.MyTextView
+                <wxm.com.maca.widget.MyTextView
                     android:id="@+id/msg_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                     fonts:typeface="Roboto-Bold.ttf" />
             </LinearLayout>
 
-        <wxm.com.androiddesign.widget.MyTextView
+        <wxm.com.maca.widget.MyTextView
             android:id="@+id/chat_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

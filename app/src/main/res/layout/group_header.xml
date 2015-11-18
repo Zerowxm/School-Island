@@ -20,7 +20,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <wxm.com.androiddesign.widget.MyTextView
+        <wxm.com.maca.widget.MyTextView
 
             android:gravity="center"
             android:id="@+id/group_name"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/login_button"
         />
-    <wxm.com.androiddesign.widget.MyTextView
+    <wxm.com.maca.widget.MyTextView
         android:visibility="gone"
         android:id="@+id/group_brief_intro"
         android:gravity="center"
