@@ -37,7 +37,7 @@
                     android:src="@drawable/wu"
                     android:transitionName="@string/transition_user_photo" />
 
-                <wxm.com.maca.widget.MyTextView
+                <wxm.com.androiddesign.widget.MyTextView
                     android:id="@+id/cmt_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

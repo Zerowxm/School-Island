@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="wxm.com.maca.ui.SignUpActivity">
+    tools:context="wxm.com.androiddesign.ui.SignUpActivity">
     <item android:id="@+id/forget_password" android:title="忘记密码?"
 
         android:orderInCategory="100" app:showAsAction="always|withText" />

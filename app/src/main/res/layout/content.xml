@@ -8,7 +8,7 @@
     android:paddingRight="16dp"
     >
 
-    <wxm.com.maca.widget.MyTextView
+    <wxm.com.androiddesign.widget.MyTextView
         android:paddingLeft="72dp"
         android:id="@+id/aty_content"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_action_group"/>
-        <wxm.com.maca.widget.MyTextView
+        <wxm.com.androiddesign.widget.MyTextView
             android:layout_marginLeft="6dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -48,7 +48,7 @@
             />
     </LinearLayout>
 
-    <wxm.com.maca.widget.MyTextView
+    <wxm.com.androiddesign.widget.MyTextView
         android:paddingTop="16dp"
         android:layout_marginLeft="72dp"
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             android:layout_height="36dp"
             android:src="@drawable/user_avatar"
             android:id="@id/user_photo" />
-        <wxm.com.maca.widget.MyTextView
+        <wxm.com.androiddesign.widget.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="最爱打雷姐"
@@ -74,7 +74,7 @@
             android:layout_marginLeft="18dp"
             android:layout_marginStart="18dp"
             android:id="@id/user_name" />
-        <wxm.com.maca.widget.MyTextView
+        <wxm.com.androiddesign.widget.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="少年吧啦啦啦啦"
@@ -95,7 +95,7 @@
             android:layout_alignStart="@id/signal" />
     </RelativeLayout>
 
-    <wxm.com.maca.widget.MyTextView
+    <wxm.com.androiddesign.widget.MyTextView
 
         android:layout_marginLeft="72dp"
         android:layout_width="match_parent"

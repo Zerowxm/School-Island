@@ -46,7 +46,7 @@
                     android:alpha="0"
                     android:transitionName="@string/transition_user_photo" />
 
-                <wxm.com.maca.widget.MyTextView
+                <wxm.com.androiddesign.widget.MyTextView
                     android:id="@+id/user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:textSize="22sp"
                     fonts:typeface="Roboto-Bold.ttf" />
 
-                <wxm.com.maca.widget.MyTextView
+                <wxm.com.androiddesign.widget.MyTextView
                     android:id="@id/score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

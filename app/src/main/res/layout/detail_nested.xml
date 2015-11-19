@@ -32,7 +32,7 @@
                 android:paddingRight="16dp"
                 android:paddingTop="24dp">
 
-                <wxm.com.maca.widget.MyTextView
+                <wxm.com.androiddesign.widget.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="72dp"
@@ -40,7 +40,7 @@
                     fonts:typeface="Roboto-Bold.ttf"
                     android:textSize="15sp" />
 
-                <wxm.com.maca.widget.MyTextView
+                <wxm.com.androiddesign.widget.MyTextView
                     android:id="@+id/aty_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_action_group" />
 
-                    <wxm.com.maca.widget.MyTextView
+                    <wxm.com.androiddesign.widget.MyTextView
                         android:id="@+id/people"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -77,6 +77,21 @@
                     <!--android:layout_height="wrap_content"-->
                     <!--android:paddingLeft="72dp"-->
                     <!--android:paddingTop="16dp">-->
+
+                <LinearLayout
+                    android:paddingLeft="72dp"
+                    android:id="@+id/tag_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="16dp">
+                    <TextView
+                        android:padding="6dp"
+                        android:background="@drawable/tag_border"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ada"/>
+                </LinearLayout>
 
                     <View
                         android:layout_marginLeft="72dp"
@@ -151,7 +166,7 @@
 
                     <!--android:background="@color/gray" />-->
 
-                <wxm.com.maca.widget.MyTextView
+                <wxm.com.androiddesign.widget.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="72dp"
@@ -171,7 +186,7 @@
                         android:layout_height="36dp"
                         android:src="@drawable/user_avatar" />
 
-                    <wxm.com.maca.widget.MyTextView
+                    <wxm.com.androiddesign.widget.MyTextView
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -182,6 +197,21 @@
                         android:layout_toRightOf="@id/user_photo"
                         android:text="dasd"
                         />
+
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_email_grey"/>
+                    <TextView
+                        android:padding="5dp"
+                        android:id="@id/message"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="私信"/>
 
                     <!--<wxm.com.maca.widget.MyTextView-->
                         <!--android:id="@+id/signal"-->
@@ -211,7 +241,7 @@
                     android:background="@color/gray"
                     tools:ignore="RtlHardcoded" />
 
-                <wxm.com.maca.widget.MyTextView
+                <wxm.com.androiddesign.widget.MyTextView
                     fonts:typeface="Roboto-Bold.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -235,14 +265,14 @@
                     android:orientation="horizontal"
                     android:paddingTop="16dp">
 
-                    <wxm.com.maca.widget.MyTextView
+                    <wxm.com.androiddesign.widget.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="参与人"
                         fonts:typeface="Roboto-Bold.ttf"
                         android:textSize="15sp" />
 
-                    <wxm.com.maca.widget.MyTextView
+                    <wxm.com.androiddesign.widget.MyTextView
                         android:id="@+id/check_more"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -259,7 +289,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="72dp"
                     android:paddingTop="16dp" />
-
             </LinearLayout>
+            <View
+                android:layout_marginLeft="72dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/gray"
+                tools:ignore="RtlHardcoded" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

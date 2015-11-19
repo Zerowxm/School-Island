@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wxm.com.maca.ui.ChatActivity">
+    tools:context="wxm.com.androiddesign.ui.ChatActivity">
 
     <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
 
@@ -42,7 +42,7 @@
             <!--android:paddingTop="3dp"-->
             <!--android:textSize="18sp" />-->
 
-        <wxm.com.maca.widget.PasteEditText
+        <wxm.com.androiddesign.widget.PasteEditText
             android:id="@+id/add_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

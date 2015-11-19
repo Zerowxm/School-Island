@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/background_light"
                 android:fitsSystemWindows="true"
-                tools:context="wxm.com.maca.ui.AtyDetailActivity">
+                tools:context="wxm.com.androiddesign.ui.AtyDetailActivity">
 
                 <android.support.design.widget.AppBarLayout
                     android:id="@id/appbar"

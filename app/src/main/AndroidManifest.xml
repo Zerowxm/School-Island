@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="wxm.com.maca">
+    package="wxm.com.androiddesign">
 
     <!-- Required -->
-    <permission android:name="wxm.com.maca.permission.JPUSH_MESSAGE" android:protectionLevel="signature" />
+    <permission android:name="wxm.com.androiddesign.permission.JPUSH_MESSAGE" android:protectionLevel="signature" />
 
     <!-- Required -->
     <uses-permission android:name="wxm.com.androiddesign.permission.JPUSH_MESSAGE" />
@@ -63,7 +63,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="wxm.com.maca.ui.MyApplication"
+        android:name="wxm.com.androiddesign.ui.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -91,12 +91,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="wxm.com.maca.wxapi.WXEntryActivity"
+            android:name="wxm.com.androiddesign.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="wxm.com.maca.ui.MainActivity"
+            android:name="wxm.com.androiddesign.ui.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -104,14 +104,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="wxm.com.maca.ui.CmtAcitivity" />
-        <activity android:name="wxm.com.maca.ui.Dre_UserAcitivity" />
-        <activity android:name="wxm.com.maca.ui.DetailActivity" />
-        <activity android:name="wxm.com.maca.ui.ReleaseActivity" />
-        <activity android:name="wxm.com.maca.ui.CmtDatailActivity" />
+        <activity android:name="wxm.com.androiddesign.ui.CmtAcitivity" />
+        <activity android:name="wxm.com.androiddesign.ui.Dre_UserAcitivity" />
+        <activity android:name="wxm.com.androiddesign.ui.DetailActivity" />
+        <activity android:name="wxm.com.androiddesign.ui.ReleaseActivity" />
+        <activity android:name="wxm.com.androiddesign.ui.CmtDatailActivity" />
 
         <activity
-            android:name="wxm.com.maca.ui.SearchResultsActivity"
+            android:name="wxm.com.androiddesign.ui.SearchResultsActivity"
             android:label="@string/title_activity_search_results"
             android:launchMode="singleTop">
             <intent-filter>
@@ -124,29 +124,29 @@
 
         </activity>
         <activity
-            android:name="wxm.com.maca.ui.SignUpActivity"
+            android:name="wxm.com.androiddesign.ui.SignUpActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name="wxm.com.maca.ui.UserListActivity" />
-        <activity android:name="wxm.com.maca.ui.MyIntro" />
-        <activity android:name="wxm.com.maca.ui.ChatActivity" />
+        <activity android:name="wxm.com.androiddesign.ui.UserListActivity" />
+        <activity android:name="wxm.com.androiddesign.ui.MyIntro" />
+        <activity android:name="wxm.com.androiddesign.ui.ChatActivity" />
         <activity
-            android:name="wxm.com.maca.ui.AtyDetailActivity"
+            android:name="wxm.com.androiddesign.ui.AtyDetailActivity"
             android:theme="@style/AppTheme" >
         </activity>
 
-        <activity android:name="wxm.com.maca.ui.NotificationActivity" />
-        <activity android:name="wxm.com.maca.ui.BaseActivity" />
+        <activity android:name="wxm.com.androiddesign.ui.NotificationActivity" />
+        <activity android:name="wxm.com.androiddesign.ui.BaseActivity" />
         <activity
-            android:name="wxm.com.maca.ui.CreateGroupActivity"
+            android:name="wxm.com.androiddesign.ui.CreateGroupActivity"
             android:label="@string/title_activity_create_group1"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="wxm.com.maca.ui.PublishActivity"
+            android:name="wxm.com.androiddesign.ui.PublishActivity"
             android:theme="@style/editTextStyle">
 
         </activity>
-        <activity android:name="wxm.com.maca.ui.SettingsActivity"/>
-        <activity android:name="wxm.com.maca.ui.GroupAcitivity">
+        <activity android:name="wxm.com.androiddesign.ui.SettingsActivity"/>
+        <activity android:name="wxm.com.androiddesign.ui.GroupAcitivity">
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -155,10 +155,10 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="wxm.com.maca.ui.NewUserAcitivity" />
+        <activity android:name="wxm.com.androiddesign.ui.NewUserAcitivity" />
 
-        <activity android:name="wxm.com.maca.ui.ImageViewerActivity"/>
-        <activity android:name="wxm.com.maca.ui.test.UserAcitvity">
+        <activity android:name="wxm.com.androiddesign.ui.ImageViewerActivity"/>
+        <activity android:name="wxm.com.androiddesign.ui.test.UserAcitvity">
 
              <!--<intent-filter>-->
              <!--<action android:name="android.intent.action.MAIN" />-->
@@ -235,7 +235,7 @@
 
         <!-- User defined. 用户自定义的广播接收器-->
         <receiver
-            android:name="wxm.com.maca.jpush.MyReceiver"
+            android:name="wxm.com.androiddesign.jpush.MyReceiver"
             android:enabled="true">
             <intent-filter>
                 <!--Required 用户注册SDK的intent-->

@@ -32,7 +32,7 @@
             android:layout_height="75dp"
             android:orientation="vertical"
             >
-            <wxm.com.maca.widget.MyTextView
+            <wxm.com.androiddesign.widget.MyTextView
                 android:id="@+id/group_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:paddingLeft="16dp"
                 />
 
-            <wxm.com.maca.widget.MyTextView
+            <wxm.com.androiddesign.widget.MyTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@id/member_num"

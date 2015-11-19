@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="已有"/>
-        <wxm.com.maca.widget.MyTextView
+        <wxm.com.androiddesign.widget.MyTextView
             android:id="@+id/comment_numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

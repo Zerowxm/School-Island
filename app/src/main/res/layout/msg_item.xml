@@ -20,12 +20,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-             <wxm.com.maca.widget.MyTextView
+             <wxm.com.androiddesign.widget.MyTextView
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
                  android:id="@+id/time"
                  android:text="Time"/>
-            <wxm.com.maca.widget.MyTextView
+            <wxm.com.androiddesign.widget.MyTextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/wu" />
-            <wxm.com.maca.widget.MyTextView
+            <wxm.com.androiddesign.widget.MyTextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:layout_height="0.5dp"
             android:background="@color/gray"
             />
-        <wxm.com.maca.widget.MyTextView
+        <wxm.com.androiddesign.widget.MyTextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -115,7 +115,7 @@
                     android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
-        <wxm.com.maca.widget.MyTextView
+        <wxm.com.androiddesign.widget.MyTextView
             android:padding="16dp"
             android:id="@+id/aty_name"
             android:layout_width="match_parent"

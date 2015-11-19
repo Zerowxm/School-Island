@@ -147,7 +147,7 @@
             android:layout_marginBottom="5dp"
             android:background="#cccccc" />
 
-        <wxm.com.maca.widget.MyTextView
+        <wxm.com.androiddesign.widget.MyTextView
             android:id="@+id/aty_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
