@@ -44,11 +44,11 @@ public class UserListActivity extends AppCompatActivity {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setItemAnimator(new MyItemAnimator());
-       // if(atyId!=null && !atyId.equals("")) {
+        if(atyId!=null && !atyId.equals("")) {
             new GetAtyMembers(this).execute();
-       // }else if(ctyId!=null && !ctyId.equals("")){
-            //new GetCtyMembers(this).execute();
-       // }
+        }else if(ctyId!=null && !ctyId.equals("")){
+            new GetCtyMembers(this).execute();
+        }
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -62,6 +62,7 @@ public class UserListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         atyId = bundle.getString("atyId");
+        ctyId = bundle.getString("ctyId");
         setContentView(R.layout.activity_user_list);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

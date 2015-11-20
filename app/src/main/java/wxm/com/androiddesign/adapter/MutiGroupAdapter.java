@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +40,8 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
 import wxm.com.androiddesign.ui.CmtAcitivity;
 import wxm.com.androiddesign.ui.Dre_UserAcitivity;
+import wxm.com.androiddesign.ui.GroupAcitivity;
+import wxm.com.androiddesign.ui.ImageViewerActivity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
@@ -75,15 +79,17 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                    Intent intent = new Intent(activity, Dre_UserAcitivity.class);
 //                    intent.putExtra("userId", activityItems.get(position-1).getUserId());
 //                    activity.startActivity(intent);
-                    ActivityStartHelper.startProfileActivity(activity,activityItems.get(position-1).getUserId());
+                    ActivityStartHelper.startProfileActivity(activity, activityItems.get(position - 1).getUserId());
                 }
 
                 @Override
                 public void onCommunity(TextView community, int position) {
-                    Intent intent = new Intent(activity, CmtAcitivity.class);
-
-                    intent.putExtra("ctyId", community.getText().toString());
-
+                    Intent intent = new Intent(activity, GroupAcitivity.class);
+                    if (!activityItems.get(position).getAtyCtyId().equals("")) {
+                        intent.putExtra("groupId", activityItems.get(position).getAtyCtyId());
+                        intent.putExtra("groupName", activityItems.get(position).getAtyCtyId().
+                                substring(0, activityItems.get(position).getAtyCtyId().length() - 14));
+                    }
                     activity.startActivity(intent);
                 }
 
@@ -95,7 +101,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onCard(CardView cardView, int position) {
                     if (!"001".equals(MyUser.userId)) {
                         Log.d("recyclerview", "onCard");
-                        AtyDetailActivity.start(cardView.getContext(),item,false);
+                        AtyDetailActivity.start(cardView.getContext(), item, false);
                     } else {
                         Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
                     }
@@ -201,15 +207,12 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
                     imageView.setLayoutParams(layoutParams);
                     imageView.setTag(i);
-                    final List<String> album = item.getAtyAlbum();
+                    final ArrayList<String> album = item.getAtyAlbum();
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
                             if (activity != null && !((AppCompatActivity) activity).isFinishing()) {
-                                MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
-                                FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
-                                ft.add(dialog, "showPic");
-                                ft.commitAllowingStateLoss();
+                                ImageViewerActivity.start(activity, album, (int) v.getTag());
                             } else {
                                 Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());
                             }

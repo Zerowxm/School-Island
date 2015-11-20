@@ -3,7 +3,10 @@ package wxm.com.androiddesign.ui.fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -37,12 +40,14 @@ import wxm.com.androiddesign.network.JsonConnection;
 /**
  * Created by zero on 2015/7/8.
  */
-public class ListFragment extends Fragment implements EMEventListener {
+public class ListFragment extends Fragment implements EMEventListener,AppBarLayout.OnOffsetChangedListener{
     public static final int COMMENT=1;
     public static final int CHAT=2;
     public static final int NOTIFY=3;
     @Bind(R.id.recyclerview_list)
     RecyclerView recyclerView;
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     ChatHistoryAdapter chatHistoryAdapter;
     List<Notify> mNotifyList;
@@ -60,11 +65,17 @@ public class ListFragment extends Fragment implements EMEventListener {
         return fragment;
     }
 
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        mSwipeRefreshLayout.setEnabled(i == 0);
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.list_layout, viewGroup, false);
         type = getArguments().getInt("Type");
         ButterKnife.bind(this, v);
         new getMsg(getActivity()).execute();
+        setupSwipeRefreshLayout(mSwipeRefreshLayout);
         setupRecyclerView(recyclerView);
         return v;
     }
@@ -78,6 +89,7 @@ public class ListFragment extends Fragment implements EMEventListener {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+        new getMsg(getActivity()).execute();
         //recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
     }
 
@@ -127,8 +139,8 @@ public class ListFragment extends Fragment implements EMEventListener {
 //                e.printStackTrace();
 //            }
 //
+            String json="";
             try {
-                String json;
                 switch (type){
                     case ListFragment.CHAT:
                         object.put("action","showChatlist");
@@ -155,10 +167,47 @@ public class ListFragment extends Fragment implements EMEventListener {
                     default:
                         break;
                 }
+                Log.d("jsonarray",json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;
         }
+    }
+    private void setupSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        //swipeRefreshLayout.setProgressViewOffset(false, 0, 200);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                refreshContent();
+            }
+        });
+    }
+
+    private void refreshContent() {
+        //load content
+        mSwipeRefreshLayout.setRefreshing(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("home", "postDelayed");
+                setupRecyclerView(recyclerView);
+                Log.d("refresh", "freshListFragment");
+                setupRecyclerView(recyclerView);
+                //mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 0);
+        //load complete
+
+        onContentLoadComplete();
+    }
+
+    private void onContentLoadComplete() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

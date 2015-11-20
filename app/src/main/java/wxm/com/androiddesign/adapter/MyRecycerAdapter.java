@@ -195,10 +195,6 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                     @Override
                     public void onClick(final View v) {
                         if (activity != null && !((AppCompatActivity) activity).isFinishing()) {
-//                            MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
-//                            FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
-//                            ft.add(dialog, "showPic");
-//                            ft.commitAllowingStateLoss();
                             ImageViewerActivity.start(activity, album, (int) v.getTag());
                         } else {
                             Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());

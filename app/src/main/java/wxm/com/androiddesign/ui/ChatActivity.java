@@ -74,6 +74,7 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
         toChatUserId = bundle.getString("easemobId");
         userIcon = bundle.getString("userIcon");
         chatType = bundle.getInt("chatType");
+        Log.d("chatType",chatType+"");
         onConversationInit();
         new getHX().execute();
 
@@ -203,9 +204,12 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
                 userId = message.getFrom();
                 Log.d(TAG,"EventNewMessage");
                 if (userId.equals(toChatUserId)) {
+                    Log.d(TAG,"toChatMessage");
                     refreshUIWithNewMessage();
                 }else {
+                    Log.d(TAG,"notToChatMessage");
                     try {
+                        refreshUIWithNewMessage();
                         NotificationCompat.Builder mBuilder = null;
                         mBuilder = new NotificationCompat.Builder(MyApplication.applicationContext)
                                 .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
@@ -234,7 +238,6 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
                         NotificationManager mNotificationManager =
                                 (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.notify(Integer.parseInt(userId.substring(1)), notification);
-                        refreshUIWithNewMessage();
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }

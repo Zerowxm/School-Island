@@ -266,6 +266,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             public void run() {
                 Log.d("home", "postDelayed");
                 setupRecyclerView(recyclerView);
+                Log.d("refresh", "freshHomeFragment");
                 //mSwipeRefreshLayout.setRefreshing(false);
             }
         }, 0);
