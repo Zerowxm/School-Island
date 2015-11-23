@@ -193,8 +193,6 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public void onEvent(EMNotifierEvent event) {
         switch (event.getEvent()) {
@@ -210,16 +208,16 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
                     Log.d(TAG,"notToChatMessage");
                     try {
                         refreshUIWithNewMessage();
-                        NotificationCompat.Builder mBuilder = null;
-                        mBuilder = new NotificationCompat.Builder(MyApplication.applicationContext)
-                                .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
-                                .setWhen(System.currentTimeMillis())
-                                .setContentTitle(message.getStringAttribute("userName") + "（" + message.getStringAttribute("newMsgCount") + "条新信息）")
-                                .setContentText(((TextMessageBody) message.getBody()).getMessage())
-                                .setAutoCancel(true)
-                                .setVibrate(new long[]{0, 200, 200, 200})
-                                .setLights(Color.GREEN, 1000, 1000)
-                                .setTicker(((TextMessageBody) message.getBody()).getMessage());
+                        NotificationCompat.Builder mBuilder =
+                                new NotificationCompat.Builder(MyApplication.applicationContext)
+                                        .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
+                                        .setWhen(System.currentTimeMillis())
+                                        .setContentTitle(message.getStringAttribute("userName")+"（"+message.getStringAttribute("newMsgCount")+"条新信息）")
+                                        .setContentText(((TextMessageBody) message.getBody()).getMessage())
+                                        .setAutoCancel(true)
+                                        .setVibrate(new long[]{0, 200, 200, 200})
+                                        .setLights(Color.GREEN, 1000, 1000)
+                                        .setTicker(((TextMessageBody) message.getBody()).getMessage());
                         Intent resultIntent = new Intent(MyApplication.applicationContext, NotificationActivity.class);
                         resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         resultIntent.putExtra("type",NotificationActivity.CHAT);
@@ -295,6 +293,12 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
             JSONObject object=new JSONObject();
             try {
                 object.put("action","sendMessage");
+                switch (chatType){
+                    case CHAT:object.put("chatType","chat");
+                        break;
+                    case GROUP_CHAT:object.put("chatType","groupChat");
+                        break;
+                }
                 object.put("easemobId",MyUser.getEasemobId());
                 object.put("toEasemobId",toChatUserId);
                 object.put("userId",MyUser.userId);
@@ -341,6 +345,12 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
             JSONObject object=new JSONObject();
             try {
                 object.put("action","userChat");
+                switch (chatType){
+                    case CHAT:object.put("chatType","chat");
+                        break;
+                    case GROUP_CHAT:object.put("chatType","groupChat");
+                        break;
+                }
                 object.put("toEasemobId",toChatUserId);
                 object.put("fromEasemobId",MyUser.easemobId);
                 JSONObject object1=new JSONObject(JsonConnection.getJSON(object.toString()));

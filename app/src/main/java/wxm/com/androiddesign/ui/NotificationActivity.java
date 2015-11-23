@@ -30,6 +30,7 @@ public class NotificationActivity extends AppCompatActivity implements AppBarLay
     public static final int CHAT=1;
     public static final int COMMENT=2;
     public static final int NOTIFY=3;
+    public static final int GROUP_CHAT=4;
     int type;
     String userId;
     @Bind(R.id.appbar)
@@ -84,14 +85,16 @@ public class NotificationActivity extends AppCompatActivity implements AppBarLay
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(ListFragment.newInstance(ListFragment.CHAT), "私信");
+        adapter.addFragment(ListFragment.newInstance(ListFragment.GROUP_CHAT), "群聊");
         adapter.addFragment(ListFragment.newInstance(ListFragment.COMMENT), "评论");
         adapter.addFragment(ListFragment.newInstance(ListFragment.NOTIFY), "通知");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         switch (type) {
             case CHAT:tabLayout.getTabAt(0).select();break;
-            case COMMENT:tabLayout.getTabAt(1).select();break;
-            case NOTIFY:tabLayout.getTabAt(2).select();break;
+            case GROUP_CHAT:tabLayout.getTabAt(1).select();break;
+            case COMMENT:tabLayout.getTabAt(2).select();break;
+            case NOTIFY:tabLayout.getTabAt(3).select();break;
         }
     }
 

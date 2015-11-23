@@ -60,7 +60,7 @@ public class ActivityFragment extends BaseFragment {
     RecyclerView recyclerView;
 
 
-    static MyRecycerAdapter myRecycerAdapter;
+    MyRecycerAdapter myRecycerAdapter;
 
     ScrollManager manager = new ScrollManager();
 
@@ -95,11 +95,12 @@ public class ActivityFragment extends BaseFragment {
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
             boolean isSlidingToLast = false;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 // 当不滚动时
-                Log.d("scroll","scroll1");
+                Log.d("scroll", "scroll1");
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     //获取最后一个完全显示的ItemPosition
                     int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
@@ -115,12 +116,9 @@ public class ActivityFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                //dx用来判断横向滑动方向，dy用来判断纵向滑动方向
                 if (dy > 0) {
-                    //大于0表示，正在向右滚动
                     isSlidingToLast = true;
                 } else {
-                    //小于等于0 表示停止或向左滚动
                     isSlidingToLast = false;
                 }
 
@@ -152,6 +150,41 @@ public class ActivityFragment extends BaseFragment {
                 public void run() {
                     myRecycerAdapter.notifyDataSetChanged();
                     setupRecyclerView(recyclerView);
+                    recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                        //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
+                        boolean isSlidingToLast = false;
+
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                            // 当不滚动时
+                            Log.d("scroll", "scroll1");
+                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                //获取最后一个完全显示的ItemPosition
+                                int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                                int totalItemCount = manager.getItemCount();
+                                // 判断是否滚动到底部，并且是向下滚动
+                                if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast && activityItems.size() != 0) {
+                                    new GetMoreAty().execute(type);
+                                    Log.d("position", "howes right=" + manager.findLastCompletelyVisibleItemPosition());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            //dx用来判断横向滑动方向，dy用来判断纵向滑动方向
+                            if (dy > 0) {
+                                //大于0表示，正在向右滚动
+                                isSlidingToLast = true;
+                            } else {
+                                //小于等于0 表示停止或向左滚动
+                                isSlidingToLast = false;
+                            }
+
+                        }
+                    });
                     Log.d("refresh", "freshActivityFragment");
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -195,6 +228,7 @@ public class ActivityFragment extends BaseFragment {
                 }
                 myRecycerAdapter = new MyRecycerAdapter(activityItems, getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
+                Log.d("address1", myRecycerAdapter + "");
             }
         }
 
@@ -253,7 +287,7 @@ public class ActivityFragment extends BaseFragment {
     }
 
     private class GetMoreAty extends AsyncTask<Integer, Void, Boolean> {
-
+        ArrayList<AtyItem> moreItems;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -266,6 +300,9 @@ public class ActivityFragment extends BaseFragment {
                 if (activityItems == null) {
                     return;
                 }
+                Log.d("activityItemssize",activityItems.size()+"");
+                activityItems.addAll(moreItems);
+                Log.d("address2",myRecycerAdapter+"");
                 myRecycerAdapter.notifyDataSetChanged();
             }else if(result == false){
                 Toast.makeText(getContext(),"到底啦",Toast.LENGTH_SHORT).show();
@@ -315,10 +352,10 @@ public class ActivityFragment extends BaseFragment {
                 object.put("lastAtyId", activityItems.get(activityItems.size() - 1).getAtyId());
                 String jsonarrys = JsonConnection.getJSON(object.toString());
                 Log.i("jsonarray", jsonarrys.toString());
-                ArrayList<AtyItem> moreItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+                moreItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
                 if(moreItems.size() != 0) {
-                    activityItems.addAll(moreItems);
+
                 }else{
                     return false;
                 }

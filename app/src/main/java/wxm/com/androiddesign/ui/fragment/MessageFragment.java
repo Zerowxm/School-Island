@@ -101,6 +101,7 @@ public class MessageFragment extends Fragment implements AppBarLayout.OnOffsetCh
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ListFragment.newInstance(ListFragment.CHAT), "私信");
+        adapter.addFragment(ListFragment.newInstance(ListFragment.CHAT), "群聊");
         adapter.addFragment(ListFragment.newInstance(ListFragment.COMMENT), "评论");
         adapter.addFragment(ListFragment.newInstance(ListFragment.NOTIFY), "通知");
         viewPager.setAdapter(adapter);
