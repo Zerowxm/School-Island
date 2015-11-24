@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -59,7 +60,7 @@ public class ActivityFragment extends BaseFragment {
     RecyclerView recyclerView;
 
 
-    static MyRecycerAdapter myRecycerAdapter;
+    MyRecycerAdapter myRecycerAdapter;
 
     ScrollManager manager = new ScrollManager();
 
@@ -73,7 +74,7 @@ public class ActivityFragment extends BaseFragment {
         return fragment;
     }
 
-    static ArrayList<AtyItem> activityItems = new ArrayList<AtyItem>();
+    ArrayList<AtyItem> activityItems = new ArrayList<AtyItem>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +84,6 @@ public class ActivityFragment extends BaseFragment {
 //        setRetainInstance(true);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v;
@@ -92,6 +92,38 @@ public class ActivityFragment extends BaseFragment {
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
         setupSwipeRefreshLayout();
         setupRecyclerView(recyclerView);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
+            boolean isSlidingToLast = false;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                // 当不滚动时
+                Log.d("scroll", "scroll1");
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    //获取最后一个完全显示的ItemPosition
+                    int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = manager.getItemCount();
+                    // 判断是否滚动到底部，并且是向下滚动
+                    if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast && activityItems.size() != 0) {
+                        new GetMoreAty().execute(type);
+                        Log.d("position", "howes right=" + manager.findLastCompletelyVisibleItemPosition());
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    isSlidingToLast = true;
+                } else {
+                    isSlidingToLast = false;
+                }
+
+            }
+        });
         return v;
     }
 
@@ -118,9 +150,45 @@ public class ActivityFragment extends BaseFragment {
                 public void run() {
                     myRecycerAdapter.notifyDataSetChanged();
                     setupRecyclerView(recyclerView);
+                    recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                        //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
+                        boolean isSlidingToLast = false;
+
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                            // 当不滚动时
+                            Log.d("scroll", "scroll1");
+                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                //获取最后一个完全显示的ItemPosition
+                                int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                                int totalItemCount = manager.getItemCount();
+                                // 判断是否滚动到底部，并且是向下滚动
+                                if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast && activityItems.size() != 0) {
+                                    new GetMoreAty().execute(type);
+                                    Log.d("position", "howes right=" + manager.findLastCompletelyVisibleItemPosition());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            //dx用来判断横向滑动方向，dy用来判断纵向滑动方向
+                            if (dy > 0) {
+                                //大于0表示，正在向右滚动
+                                isSlidingToLast = true;
+                            } else {
+                                //小于等于0 表示停止或向左滚动
+                                isSlidingToLast = false;
+                            }
+
+                        }
+                    });
+                    Log.d("refresh", "freshActivityFragment");
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-            }, 5000);
+            }, 0);
 
         }
         //load complete
@@ -160,6 +228,7 @@ public class ActivityFragment extends BaseFragment {
                 }
                 myRecycerAdapter = new MyRecycerAdapter(activityItems, getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
+                Log.d("address1", myRecycerAdapter + "");
             }
         }
 
@@ -217,10 +286,93 @@ public class ActivityFragment extends BaseFragment {
 
     }
 
+    private class GetMoreAty extends AsyncTask<Integer, Void, Boolean> {
+        ArrayList<AtyItem> moreItems;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result == true) {
+                if (activityItems == null) {
+                    return;
+                }
+                Log.d("activityItemssize",activityItems.size()+"");
+                activityItems.addAll(moreItems);
+                Log.d("address2",myRecycerAdapter+"");
+                myRecycerAdapter.notifyDataSetChanged();
+            }else if(result == false){
+                Toast.makeText(getContext(),"到底啦",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... params) {
+            JSONObject object = new JSONObject();
+            try {
+                switch (params[0]) {
+                    case HOT:
+                        object.put("action", "showMoreHotAty");
+                        break;
+                    case LATEST:
+                        object.put("action", "showMoreLatestAty");
+                        break;
+                    case HIGHT:
+                        object.put("action", "showMoreHightAty");
+                        break;
+                    case COMPETITION:
+                        object.put("action", "showMoreCompetition");
+                        break;
+                    case SEMINAR:
+                        object.put("action", "showMoreSeminar");
+                        break;
+                    case LEAGUE:
+                        object.put("action", "showMoreLeague");
+                        break;
+                    case SPORT:
+                        object.put("action", "showMoreSport");
+                        break;
+                    case TOUR:
+                        object.put("action", "showMoreTour");
+                        break;
+                    case STUDY:
+                        object.put("action", "showMoreStudy");
+                        break;
+                    case GAME:
+                        object.put("action", "showMoreGame");
+                        break;
+                    case ALL:
+                        object.put("action", "showMoreActivities");
+                        break;
+                }
+                object.put("userId", userId);
+                object.put("lastAtyId", activityItems.get(activityItems.size() - 1).getAtyId());
+                String jsonarrys = JsonConnection.getJSON(object.toString());
+                Log.i("jsonarray", jsonarrys.toString());
+                moreItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+                }.getType());
+                if(moreItems.size() != 0) {
+
+                }else{
+                    return false;
+                }
+                return true;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
+
     public static void refresh(AtyItem atyItem, int position) {
-        activityItems.remove(position);
-        activityItems.add(position, atyItem);
-        myRecycerAdapter.notifyDataSetChanged();
+//        activityItems.remove(position);
+//        activityItems.add(position, atyItem);
+//        myRecycerAdapter.notifyDataSetChanged();
     }
 
 

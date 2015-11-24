@@ -72,6 +72,7 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
         userName = bundle.getString("userName");
         toChatUserId = bundle.getString("easemobId");
         chatType = bundle.getInt("chatType");
+        Log.d("chatType",chatType+"");
         onConversationInit();
         new getHX().execute();
         setupToolBar(toolbar);
@@ -197,8 +198,6 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public void onEvent(EMNotifierEvent event) {
         switch (event.getEvent()) {
@@ -208,19 +207,22 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
                 userId = message.getFrom();
                 Log.d(TAG,"EventNewMessage");
                 if (userId.equals(toChatUserId)) {
+                    Log.d(TAG,"toChatMessage");
                     refreshUIWithNewMessage();
                 }else {
+                    Log.d(TAG,"notToChatMessage");
                     try {
-                        NotificationCompat.Builder mBuilder = null;
-                        mBuilder = new NotificationCompat.Builder(MyApplication.applicationContext)
-                                .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
-                                .setWhen(System.currentTimeMillis())
-                                .setContentTitle(message.getStringAttribute("userName") + "（" + message.getStringAttribute("newMsgCount") + "条新信息）")
-                                .setContentText(((TextMessageBody) message.getBody()).getMessage())
-                                .setAutoCancel(true)
-                                .setVibrate(new long[]{0, 200, 200, 200})
-                                .setLights(Color.GREEN, 1000, 1000)
-                                .setTicker(((TextMessageBody) message.getBody()).getMessage());
+                        refreshUIWithNewMessage();
+                        NotificationCompat.Builder mBuilder =
+                                new NotificationCompat.Builder(MyApplication.applicationContext)
+                                        .setSmallIcon(MyApplication.applicationContext.getApplicationInfo().icon)
+                                        .setWhen(System.currentTimeMillis())
+                                        .setContentTitle(message.getStringAttribute("userName")+"（"+message.getStringAttribute("newMsgCount")+"条新信息）")
+                                        .setContentText(((TextMessageBody) message.getBody()).getMessage())
+                                        .setAutoCancel(true)
+                                        .setVibrate(new long[]{0, 200, 200, 200})
+                                        .setLights(Color.GREEN, 1000, 1000)
+                                        .setTicker(((TextMessageBody) message.getBody()).getMessage());
                         Intent resultIntent = new Intent(MyApplication.applicationContext, NotificationActivity.class);
                         resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         resultIntent.putExtra("type",NotificationActivity.CHAT);
@@ -239,7 +241,6 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
                         NotificationManager mNotificationManager =
                                 (NotificationManager) MyApplication.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.notify(Integer.parseInt(userId.substring(1)), notification);
-                        refreshUIWithNewMessage();
                     } catch (EaseMobException e) {
                         e.printStackTrace();
                     }
@@ -297,6 +298,12 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
             JSONObject object=new JSONObject();
             try {
                 object.put("action","sendMessage");
+                switch (chatType){
+                    case CHAT:object.put("chatType","chat");
+                        break;
+                    case GROUP_CHAT:object.put("chatType","groupChat");
+                        break;
+                }
                 object.put("easemobId",MyUser.getEasemobId());
                 object.put("toEasemobId",toChatUserId);
                 object.put("userId",MyUser.userId);
@@ -343,6 +350,12 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
             JSONObject object=new JSONObject();
             try {
                 object.put("action","userChat");
+                switch (chatType){
+                    case CHAT:object.put("chatType","chat");
+                        break;
+                    case GROUP_CHAT:object.put("chatType","groupChat");
+                        break;
+                }
                 object.put("toEasemobId",toChatUserId);
                 object.put("fromEasemobId",MyUser.easemobId);
                 JSONObject object1=new JSONObject(JsonConnection.getJSON(object.toString()));

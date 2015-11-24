@@ -43,7 +43,7 @@
                     android:id="@+id/aty_mark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_acy_grey" />
+                    android:src="@drawable/ic_aty_grey" />
 
                 <wxm.com.androiddesign.widget.MyTextView
                     android:id="@+id/aty_name"

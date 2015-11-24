@@ -26,6 +26,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +40,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
 import wxm.com.androiddesign.ui.GroupAcitivity;
+import wxm.com.androiddesign.ui.ImageViewerActivity;
 import wxm.com.androiddesign.ui.UserListActivity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
@@ -73,16 +76,6 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onUserPhoto(CircleImageView userPhoto, int position) {
                     ActivityStartHelper.startProfileActivity(activity,activityItems.get(position-1).getUserId(),0);
-                }
-
-                @Override
-                public void onCommunity(TextView community, int position) {
-                    Intent intent = new Intent(activity, GroupAcitivity.class);
-
-                    intent.putExtra("groupId", group.getCtyGroupId());
-                    intent.putExtra("groupName", group.getCtyName());
-
-                    activity.startActivity(intent);
                 }
 
                 @Override
@@ -194,15 +187,12 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Picasso.with(activity).load(item.getAtyAlbum().get(i)).into(imageView);
                     imageView.setLayoutParams(layoutParams);
                     imageView.setTag(i);
-                    final List<String> album = item.getAtyAlbum();
+                    final ArrayList<String> album = item.getAtyAlbum();
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
                             if (activity != null && !((AppCompatActivity) activity).isFinishing()) {
-                                MyDialog dialog = MyDialog.newInstance(album.get((Integer) v.getTag()));
-                                FragmentTransaction ft = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
-                                ft.add(dialog, "showPic");
-                                ft.commitAllowingStateLoss();
+                                ImageViewerActivity.start(activity, album, (int) v.getTag());
                             } else {
                                 Log.e("Error", activity.toString() + ((AppCompatActivity) activity).isFinishing() + ((AppCompatActivity) activity).isFinishing());
                             }
@@ -394,14 +384,10 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 mListener.onCard((CardView) v, getLayoutPosition());
             } /*else if (v instanceof Button) {
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
-            }*/ else if (v instanceof TextView && (v.getId() == R.id.group)) {
-                mListener.onCommunity((TextView) v, getAdapterPosition());
-            }
+            }*/
         }
         public interface MyViewHolderClicks {
             public void onUserPhoto(CircleImageView user_photo, int position);
-
-            public void onCommunity(TextView community, int position);
 
             public void onPicture(ImageView picture, int position);
 

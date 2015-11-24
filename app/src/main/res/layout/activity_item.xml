@@ -45,7 +45,7 @@
                 android:layout_margin="2dp"
                 android:clickable="true"
                 android:padding="2dp"
-                android:src="@drawable/wu" />
+                 />
 
             <TextView
                 android:id="@+id/user_name"

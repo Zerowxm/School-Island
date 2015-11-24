@@ -60,7 +60,6 @@
             android:layout_height="26dp"
             app:border_width="1dp"
             app:border_color="#ffffff"
-            android:src="@drawable/wu"
             android:layout_marginTop="74dp"
             android:layout_marginLeft="16dp"
             />

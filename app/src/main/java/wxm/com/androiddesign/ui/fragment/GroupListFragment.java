@@ -177,6 +177,8 @@ public class GroupListFragment extends BaseFragment {
 //
 //        }
 //        load complete
+        setupRecyclerView(recyclerView);
+        Log.d("refresh","freshGroupList");
         onContentLoadComplete();
     }
 

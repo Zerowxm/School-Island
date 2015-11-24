@@ -340,6 +340,15 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mLayout.getPanelState()== SlidingUpPanelLayout.PanelState.HIDDEN){
+            super.onBackPressed();
+        }else
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+
+    }
+
     private void init(){
         atyTime.setText(atyItem.getAtyStartTime()+" 在"+atyItem.getAtyPlace()+"举行\n"+atyItem.getAtyEndTime()+" 活动结束");
         userName.setText(atyItem.getUserName());
@@ -354,7 +363,8 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+               onBackPressed();
+
             }
         });
         setupFab();

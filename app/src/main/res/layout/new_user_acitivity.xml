@@ -143,7 +143,6 @@
             android:id="@+id/materialup.profile_image"
             android:layout_width="@dimen/image_width"
             android:layout_height="@dimen/image_width"
-            android:src="@drawable/wu"
             app:border_color="@android:color/white"
             app:border_width="2dp"
             app:layout_behavior="wxm.com.androiddesign.widget.AvatarImageBehavior"

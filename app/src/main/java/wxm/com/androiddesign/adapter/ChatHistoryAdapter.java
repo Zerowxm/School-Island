@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContact;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.TextMessageBody;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -51,12 +55,12 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        ChatItem item = mChatItemList.get(position);
-        holder.mTime.setText(item.getSendTime());
-        holder.mContent.setText(item.getMsgContent());
-        holder.userName.setText(item.getFromUserName());
+        ChatItem chatItem = mChatItemList.get(position);
+        holder.mTime.setText(chatItem.getSendTime());
+        holder.mContent.setText(chatItem.getMsgContent());
+        holder.userName.setText(chatItem.getFromUserName());
         Picasso.with(MyApplication.applicationContext)
-                .load(item.getFromUserIcon())
+                .load(chatItem.getFromUserIcon())
                 .into(holder.userPhoto);
     }
 

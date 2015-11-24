@@ -14,7 +14,7 @@
         android:id="@id/user_photo"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:src="@drawable/wu" />
+         />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +60,6 @@
     <ImageView
         android:layout_width="66dp"
         android:layout_height="66dp"
-        android:src="@drawable/wu"
         android:layout_alignParentRight="true"
         android:id="@+id/aty_photo" />
 

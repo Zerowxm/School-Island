@@ -45,7 +45,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="16dp"
                 android:clickable="true"
-                android:src="@drawable/wu"
                 android:paddingRight="32dp"/>
 
             <TextView
@@ -109,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="45分钟前"
-                    android:layout_alignBottom="@+id/imageView2"
+                    android:layout_alignBottom="@+id/tag"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
         </RelativeLayout>

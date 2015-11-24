@@ -13,7 +13,7 @@
         android:id="@id/user_photo"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:src="@drawable/wu" />
+        />
     <!--<wxm.com.androiddesign.widget.MyTextView-->
         <!--android:id="@+id/user_id"-->
         <!--android:layout_below="@id/user_photo"-->

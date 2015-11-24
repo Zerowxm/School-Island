@@ -45,11 +45,11 @@ public class UserListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setItemAnimator(new MyItemAnimator());
         recyclerView.addItemDecoration(new SpacesItemDecoration(this));
-        new GetAtyMembers(this).execute();
+        new GetMembers(this).execute();
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ActivityStartHelper.startProfileActivity(view.getContext(), mUserList.get(position).getUserId(),0);
+                ActivityStartHelper.startProfileActivity(view.getContext(), mUserList.get(position).getUserId(), 0);
             }
         }));
     }
@@ -89,11 +89,11 @@ public class UserListActivity extends AppCompatActivity {
         c.startActivity(intent);
     }
 
-    private class GetAtyMembers extends AsyncTask<Void, Void, Boolean> {
+    private class GetMembers extends AsyncTask<Void, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
-        public GetAtyMembers(Context context) {
+        public GetMembers(Context context) {
             this.context = context;
         }
 
