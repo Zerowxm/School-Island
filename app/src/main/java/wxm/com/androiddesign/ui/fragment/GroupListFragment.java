@@ -87,11 +87,10 @@ public class GroupListFragment extends BaseFragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                int pos=position-2;
                 Intent intent = new Intent(getActivity(), GroupAcitivity.class);
-                Log.d("Task2",groups.get(pos).getCtyId());
-                intent.putExtra("groupId", groups.get(pos).getCtyId());
-                intent.putExtra("groupName", groups.get(pos).getCtyName());
+                Log.d("Task2",groups.get(position).getCtyId());
+                intent.putExtra("groupId", groups.get(position).getCtyId());
+                intent.putExtra("groupName", groups.get(position).getCtyName());
                 startActivity(intent);
             }
         }));

@@ -31,6 +31,7 @@ import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.GroupListFragment;
 import wxm.com.androiddesign.ui.fragment.PhotoFragment;
 import wxm.com.androiddesign.ui.fragment.ProfileFragment;
+import wxm.com.androiddesign.ui.fragment.ProfilePhotoFragmentParent;
 import wxm.com.androiddesign.ui.fragment.UserActivityFragment;
 
 
@@ -41,14 +42,16 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
     protected TabLayout tabs;
     protected TextView mUserId;
     protected ImageView mProfileImage;
-    protected TextView mUserSignature;
     protected ImageView mBackDrop;
+    private int index;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("userId");
+        index=bundle.getInt("index");
     }
 
     @Override
@@ -85,13 +88,11 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
                 setupViewPager();
 
                 mUserId.setText(user.getUserName());
-                mUserSignature.setText(user.getUserSignature());
                 Picasso.with(context).load(user.getUserIcon()).into(mBackDrop);
                 Picasso.with(context).load(user.getUserIcon()).into(mProfileImage, new Callback() {
                     @Override
                     public void onSuccess() {
                         mProfileImage.animate().alpha(1f).setDuration(450).start();
-                        mUserSignature.animate().alpha(1f).setDuration(475).start();
                         mUserId.animate().alpha(1f).setDuration(500).start();
                     }
 
@@ -136,10 +137,11 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
         adapter.addFragment(UserActivityFragment.newInstance(UserActivityFragment.Joined, userId), "参与活动");
         adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.OWNED,true),"个人部落");
         adapter.addFragment(GroupListFragment.newInstance(userId,GroupListFragment.JOINED,true),"参与部落");
-        adapter.addFragment(PhotoFragment.newInstance(userId), "相册");
+        adapter.addFragment(ProfilePhotoFragmentParent.newInstance(userId), "相册");
         viewPager.setAdapter(adapter);
         tabs=(TabLayout)findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        tabs.getTabAt(index).select();
     }
 
 
@@ -166,12 +168,7 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
                 break;
             case R.id.action_send:
                 //打开聊天
-                Intent chatIntent = new Intent(this, ChatActivity.class);
-                chatIntent.putExtra("easemobId", user.getEasemobId());
-                chatIntent.putExtra("userIcon", user.getUserIcon());
-                chatIntent.putExtra("userName",user.getUserName());
-                chatIntent.putExtra("chatType",ChatActivity.CHAT);
-                startActivity(chatIntent);
+                ChatActivity.start(this,ChatActivity.CHAT,user.getEasemobId(),user.getUserId());
                 break;
             case R.id.action_settings:
                 //Snackbar.make(user_photo, "举报", Snackbar.LENGTH_SHORT).show();

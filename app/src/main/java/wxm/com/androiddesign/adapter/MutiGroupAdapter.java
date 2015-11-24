@@ -1,6 +1,8 @@
 package wxm.com.androiddesign.adapter;
 
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -69,7 +72,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new AtyViewHolder(itemView, new AtyViewHolder.MyViewHolderClicks() {
                 @Override
                 public void onUserPhoto(CircleImageView userPhoto, int position) {
-                    ActivityStartHelper.startProfileActivity(activity,activityItems.get(position-1).getUserId());
+                    ActivityStartHelper.startProfileActivity(activity,activityItems.get(position-1).getUserId(),0);
                 }
 
                 @Override
@@ -210,18 +213,29 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
 
             }
-            ((AtyViewHolder)holder).plus.setImageResource(R.drawable.ic_favorite_outline);
+
             if (item.getAtyPlused().equals("false")) {
+                ((AtyViewHolder)holder).plus.setImageResource(R.drawable.ic_favorite_outline);
                 ((AtyViewHolder)holder).plus.setColorFilter(ContextCompat.getColor(activity, R.color.gray));
             } else if (item.getAtyPlused().equals("true")) {
+                ((AtyViewHolder)holder).plus.setImageResource(R.drawable.ic_favorite_white);
                 ((AtyViewHolder)holder).plus.setColorFilter(ContextCompat.getColor(activity, R.color.red));
-            }
 
-           // if (item.getAtyCtyId().equals("")) {
+//                final ImageView plus= ((AtyViewHolder)holder).plus;
+//                Integer colorFrom = ContextCompat.getColor(activity,R.color.white);
+//                Integer colorTo = ContextCompat.getColor(activity, R.color.red);
+//                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+//                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//
+//                    @Override
+//                    public void onAnimationUpdate(ValueAnimator animator) {
+//                       plus.setColorFilter((Integer) animator.getAnimatedValue());
+//                    }
+//
+//                });
+//                colorAnimation.start();
+            }
                 ((AtyViewHolder)holder).groupLayout.setVisibility(View.GONE);
-           // } else {
-           //     ((AtyViewHolder)holder).groupLayout.setVisibility(View.VISIBLE);
-           // }
         }
     }
 
@@ -283,7 +297,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             peoples.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UserListActivity.start(activity,group.getCtyId());
+                    UserListActivity.start(activity,group.getCtyId(),false);
 
                 }
             });

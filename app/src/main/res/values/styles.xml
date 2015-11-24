@@ -12,7 +12,7 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowActionBarOverlay">false</item>
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>
-        <item name="android:windowBackground">@color/fab_gray</item>
+
         <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
 
     </style>

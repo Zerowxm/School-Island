@@ -181,12 +181,7 @@ public class GroupAcitivity extends AppCompatActivity {
             case R.id.action_settings:
                 break;
             case R.id.group_chat:
-                Intent intentGroup = new Intent(this, ChatActivity.class);
-                intentGroup.putExtra("chatType",ChatActivity.GROUP_CHAT);
-                intentGroup.putExtra("userName",group.getCtyName());
-                intentGroup.putExtra("userIcon",group.getCtyIcon());
-                intentGroup.putExtra("easemobId",group.getCtyGroupId());
-                startActivity(intentGroup);
+                ChatActivity.start(this,ChatActivity.GROUP_CHAT,group.getCtyGroupId(),group.getCtyName());
                 break;
             case R.id.publish:
                 Intent intent = new Intent(this,PublishActivity.class);

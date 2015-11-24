@@ -13,9 +13,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="60dp"
+    android:layout_marginTop="30dp"
     android:paddingLeft="20dp"
-
+    android:paddingBottom="60dp"
+    android:id="@+id/nested"
+    android:clipToPadding="false"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -85,12 +87,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingTop="16dp">
-                    <TextView
-                        android:padding="6dp"
-                        android:background="@drawable/tag_border"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ada"/>
+                    <!--<TextView-->
+                        <!--android:padding="6dp"-->
+                        <!--android:background="@drawable/tag_border"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="ada"/>-->
                 </LinearLayout>
 
                     <View
@@ -291,6 +293,7 @@
                     android:paddingTop="16dp" />
             </LinearLayout>
             <View
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="72dp"
                 android:layout_marginBottom="16dp"
                 android:layout_width="match_parent"

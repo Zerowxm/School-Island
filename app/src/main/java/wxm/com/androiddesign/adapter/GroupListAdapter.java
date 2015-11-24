@@ -39,21 +39,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (position==0||position==1){
-            return 0;
-        }
-        else return 1;
-    }
-
-    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType==0){
-            return new MyHeaderHolder(
-                    LayoutInflater.from(parent.getContext()).inflate(
-                            R.layout.foo_item, parent, false
-                    ));
-        }else
             return new MyViewHolder(
                     LayoutInflater.from(parent.getContext()).inflate(
                             R.layout.community_item, parent, false
@@ -62,12 +48,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int pos) {
-
-        if (pos==0||pos==1){
-
-        }else {
-            int position=pos-2;
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             if (type== GroupListFragment.HOT){
                 if (position%3==0){
                     ((MyViewHolder)holder).community_img.getLayoutParams().height= MyUtils.getPixels(context,260);
@@ -110,12 +91,12 @@ public class GroupListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Picasso.with(context).load(group.getUserIcon()).into( ((MyViewHolder)holder).userPhoto);
             ((MyViewHolder)holder).community_name.setText(group.getCtyName());
             ((MyViewHolder)holder).member_num.setText(group.getCtyMembers() + "个成员");
-        }
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return groups.size()+2;
+        return groups.size();
     }
 
     class MyHeaderHolder extends RecyclerView.ViewHolder{

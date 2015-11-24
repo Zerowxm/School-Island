@@ -96,19 +96,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-				android:text="Saúl Molinero"
-				android:textColor="@android:color/white"
-				/>
-			​
-			<TextView
-				android:alpha="0"
-				android:id="@+id/materialup.user_signature"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
-				android:layout_marginBottom="4dp"
-				android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-				android:text="Here I am with a subtitle"
 				android:textColor="@android:color/white"
 				/>
 			​

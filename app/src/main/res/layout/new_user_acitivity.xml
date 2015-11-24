@@ -42,7 +42,7 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/materialup.collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="270dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
 
                 >
@@ -59,7 +59,7 @@
                 <FrameLayout
                     android:id="@+id/main.framelayout.title"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="54dp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:background="@color/primary"
                     android:orientation="vertical"
@@ -75,28 +75,14 @@
                         >
 
                         <TextView
-                            android:alpha="0"
                             android:id="@+id/materialup.user_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:gravity="bottom|center"
-                            android:text="小白老婆那个"
                             android:textColor="@android:color/white"
                             android:textSize="24sp"
-                            />
-
-                        <TextView
-                            android:alpha="0"
-                            android:id="@+id/materialup.user_signature"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:text="wxmwxm.com.androiddesign.widget.AvatarImageBehavior"
-                            android:textColor="@android:color/white"
+                            android:text="ssssssss杀杀杀"
                             />
 
                     </LinearLayout>

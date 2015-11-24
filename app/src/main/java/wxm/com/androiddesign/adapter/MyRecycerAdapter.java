@@ -71,7 +71,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
-                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position).getUserId());
+                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position).getUserId(),0);
             }
 
             @Override
@@ -208,10 +208,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 holder.imageViewContainer.addView(imageView);
             }
         }
-        holder.plus.setImageResource(R.drawable.ic_favorite_outline);
+
         if (item.getAtyPlused().equals("false")) {
+            holder.plus.setImageResource(R.drawable.ic_favorite_outline);
             holder.plus.setColorFilter(ContextCompat.getColor(activity, R.color.gray));
         } else if (item.getAtyPlused().equals("true")) {
+            holder.plus.setImageResource(R.drawable.ic_favorite_white);
             holder.plus.setColorFilter(ContextCompat.getColor(activity, R.color.red));
         }
 
@@ -221,10 +223,15 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         } else {
             holder.groupLayout.setVisibility(View.VISIBLE);
         }
-        //setAnimation(holder.cardView, position);
+        if (isFirst){
+            setAnimation(holder.cardView, position);
+        }
+        if (position==activityItems.size()-1){
+            isFirst=false;
+        }
     }
 
-
+    private static boolean isFirst=true;
     public void setAnimation(View viewtoAnimate, int position) {
         if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(activity, R.anim.item_anim);

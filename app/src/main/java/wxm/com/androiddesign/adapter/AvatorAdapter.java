@@ -44,7 +44,7 @@ public class AvatorAdapter extends RecyclerView.Adapter<AvatorAdapter.MyViewHold
 
     public void AvatorDetail(View view){
         ActivityStartHelper.startProfileActivity(context
-                ,avatorList.get((int)view.getTag()).getUserId());
+                ,avatorList.get((int)view.getTag()).getUserId(),0);
     }
 
     @Override

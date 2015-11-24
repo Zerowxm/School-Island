@@ -62,6 +62,7 @@ public class HomeTagFragment extends Fragment implements AppBarLayout.OnOffsetCh
 
         setupToolBar();
         registerListener();
+        Log.d("isFirst","no");
         return rootView;
     }
     private void registerListener(){

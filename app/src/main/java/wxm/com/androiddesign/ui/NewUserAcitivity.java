@@ -42,7 +42,6 @@ public class NewUserAcitivity extends UserBaseAcitivity {
         appBarLayout=(AppBarLayout)findViewById(R.id.materialup_appbar);
         mProfileImage=(ImageView)findViewById(R.id.materialup_profile_image);
         mUserId=(TextView)findViewById(R.id.materialup_user_id);
-        mUserSignature=(TextView)findViewById(R.id.materialup_user_signature);
         mBackDrop=(ImageView)findViewById(R.id.materialup_profile_backdrop);
         mTitle=(TextView)findViewById(R.id.main_textview_title);
         mToolbar        = (Toolbar) findViewById(R.id.toolbar);
@@ -68,8 +67,10 @@ public class NewUserAcitivity extends UserBaseAcitivity {
         initParallaxValues();
     }
 
-    public static void start(Context c,String userId) {
-        c.startActivity(new Intent(c, NewUserAcitivity.class).putExtra("userId", userId));
+    public static void start(Context c,String userId,int index) {
+        c.startActivity(new Intent(c, NewUserAcitivity.class)
+                .putExtra("index",index)
+                .putExtra("userId", userId));
     }
 
     public void setupUser(){
@@ -79,7 +80,7 @@ public class NewUserAcitivity extends UserBaseAcitivity {
         display.getSize(size);
         int width=size.x;
         int height=size.y;
-        marginLayoutParams.setMargins(width * 2 / 5, MyUtils.getPixels(this, 160), 0, 0);
+        marginLayoutParams.setMargins(width * 2 / 5, MyUtils.getPixels(this,130), 0, 0);
         CoordinatorLayout.LayoutParams layoutParams=new CoordinatorLayout.LayoutParams(marginLayoutParams);
         layoutParams.setBehavior(new AvatarImageBehavior(this));
         mProfileImage.setLayoutParams(layoutParams);

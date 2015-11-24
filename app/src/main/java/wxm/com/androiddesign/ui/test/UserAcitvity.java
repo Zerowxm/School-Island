@@ -49,14 +49,14 @@ public class UserAcitvity extends UserBaseAcitivity {
 
         mProfileImage=(ImageView)findViewById(R.id.materialup_profile_image);
         mUserId=(TextView)findViewById(R.id.materialup_user_id);
-        mUserSignature=(TextView)findViewById(R.id.materialup_user_signature);
         mBackDrop=(ImageView)findViewById(R.id.materialup_profile_backdrop);
 
         new GetUserInfo(this).execute();
     }
 
-    public static void start(Context c,String userId) {
-        c.startActivity(new Intent(c, UserAcitvity.class).putExtra("userId",userId));
+    public static void start(Context c,String userId,int index) {
+        c.startActivity(new Intent(c, UserAcitvity.class).putExtra("userId",userId)
+        .putExtra("index",index));
     }
 
     @Override

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/aty_item"
     android:clickable="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:fonts="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,13 +10,13 @@
     android:orientation="vertical"
     >
     <TextView
-        android:background="@color/fab_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="16dp"
         android:text=""/>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -121,9 +120,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_photo"
-            android:text="深入浅出面向对象分析与设计深入浅出面向对象分析与设计深入浅出面向对象分析与设计深入浅出面向对象分析与设计"
             android:ellipsize="end"
             android:gravity="center_vertical"
+            fonts:typeface="Roboto-Bold.ttf"
             />
 
 
@@ -169,6 +168,7 @@
                     <!--/>-->
             <!--</FrameLayout>-->
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -182,6 +182,14 @@
                 android:textColor="@color/white"
 
                 android:id="@+id/start_time" />
+            <View
+                android:layout_alignTop="@id/start_time"
+                android:layout_toRightOf="@+id/start_time"
+                android:layout_toEndOf="@+id/start_time"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/fab_gray"
+                />
             <TextView
                 android:layout_centerInParent="true"
                 android:layout_centerHorizontal="true"

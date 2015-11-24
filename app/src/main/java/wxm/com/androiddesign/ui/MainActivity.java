@@ -89,6 +89,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setupDrawer();
         activityWeakReference=new WeakReference<AppCompatActivity>(this);
 
+
     }
 
     private void setupStrictMode(){
@@ -343,7 +344,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     showLoginDialog();
                 } else {
                     ActivityStartHelper.startProfileActivity(MainActivity.this
-                            , mUser.getUserId());
+                            , mUser.getUserId(),0);
 
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }

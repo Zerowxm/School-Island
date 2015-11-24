@@ -57,7 +57,6 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
     Toolbar toolbar;
     private ChatAdapter mChatAdapter;
     private String toChatUserId;
-    private String userIcon;
     private String userName;
     private int chatType;
     private EMConversation conversation;
@@ -72,14 +71,20 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         userName = bundle.getString("userName");
         toChatUserId = bundle.getString("easemobId");
-        userIcon = bundle.getString("userIcon");
         chatType = bundle.getInt("chatType");
         onConversationInit();
         new getHX().execute();
-
         setupToolBar(toolbar);
 
-        Log.d(TAG, "onPostResume");
+    }
+
+    public static void start(Context context,int chatType,String easemobId,String userName){
+        context.startActivity(new Intent(context,ChatActivity.class)
+                        .putExtra("chatType",chatType)
+                        .putExtra("userName",userName)
+                        .putExtra("easemobId",easemobId)
+
+        );
     }
 
     @OnClick(R.id.send_msg)
@@ -164,7 +169,7 @@ public class ChatActivity extends BaseActivity implements EMEventListener {
     private void setupRecyclerview(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setHasFixedSize(true);
-        mChatAdapter = new ChatAdapter(ChatActivity.this, toChatUserId, userIcon);
+        mChatAdapter = new ChatAdapter(ChatActivity.this, toChatUserId);
         recyclerView.setAdapter(mChatAdapter);
         mChatAdapter.refreshSelectLast();
     }

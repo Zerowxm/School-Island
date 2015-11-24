@@ -19,6 +19,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.ProfieAdapter;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
  * Created by zero on 2015/6/30.
@@ -47,6 +48,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(getActivity()));
         recyclerView.setAdapter(new ProfieAdapter(user));
     }
 

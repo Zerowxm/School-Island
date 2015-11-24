@@ -9,12 +9,12 @@ import wxm.com.androiddesign.ui.test.UserAcitvity;
  * Created by Zero on 11/4/2015.
  */
 public class ActivityStartHelper {
-    public static void startProfileActivity(Context context,String userId){
+    public static void startProfileActivity(Context context,String userId,int index){
         if (Config.laterLollipop()){
-            UserAcitvity.start(context,userId);
+            UserAcitvity.start(context,userId,index);
         }
         else {
-            NewUserAcitivity.start(context,userId);
+            NewUserAcitivity.start(context,userId,index);
         }
     }
 }

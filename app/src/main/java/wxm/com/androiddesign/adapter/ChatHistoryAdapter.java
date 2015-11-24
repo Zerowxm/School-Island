@@ -83,12 +83,9 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
             listItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, ChatActivity.class);
-                    intent.putExtra("easemobId", mChatItemList.get(getAdapterPosition()).getFromEasemobId());
-                    intent.putExtra("userName", mChatItemList.get(getAdapterPosition()).getFromUserName());
-                    intent.putExtra("userIcon",mChatItemList.get(getAdapterPosition()).getFromUserIcon());
-                    intent.putExtra("chatType",ChatActivity.CHAT);
-                    activity.startActivity(intent);
+                    ChatActivity.start(activity,ChatActivity.CHAT
+                            ,mChatItemList.get(getAdapterPosition()).getFromEasemobId()
+                            ,mChatItemList.get(getAdapterPosition()).getFromUserName());
                 }
             });
             listItem.setOnLongClickListener(new View.OnLongClickListener() {
