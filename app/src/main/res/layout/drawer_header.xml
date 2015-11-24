@@ -20,7 +20,6 @@
         android:layout_height="100dp"
         android:layout_margin="10dp"
         android:clickable="true"
-        android:foreground="@drawable/header_selected_background"
         android:padding="10dp"
         android:transitionName="@string/transition_user_photo" />
 

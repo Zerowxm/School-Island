@@ -7,12 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.json.JSONObject;
-
-import java.util.logging.Logger;
-
 import cn.jpush.android.api.JPushInterface;
-import wxm.com.androiddesign.ui.MainActivity;
 import wxm.com.androiddesign.ui.NotificationActivity;
 
 /**

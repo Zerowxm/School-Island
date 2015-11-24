@@ -2,16 +2,13 @@ package wxm.com.androiddesign.ui;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.OnNotificationClickListener;
 import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;

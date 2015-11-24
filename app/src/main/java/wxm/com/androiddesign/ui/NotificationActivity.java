@@ -58,7 +58,7 @@ public class NotificationActivity extends AppCompatActivity implements AppBarLay
         if (viewPager != null) {
             setupViewPager();
         }
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         setupToolBar();
     }
 

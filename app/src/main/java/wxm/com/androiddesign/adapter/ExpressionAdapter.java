@@ -16,7 +16,6 @@ package wxm.com.androiddesign.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;

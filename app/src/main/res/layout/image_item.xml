@@ -12,7 +12,7 @@
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:scaleType="centerCrop"
-        android:src="@drawable/wu" />
+        />
 
     <ImageView
         android:id="@+id/remove_image"

@@ -10,12 +10,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
@@ -33,10 +31,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
@@ -49,10 +45,8 @@ import wxm.com.androiddesign.module.CommentItem;
 import wxm.com.androiddesign.module.GroupChatItem;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.module.Notify;
-import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
-import wxm.com.androiddesign.utils.HXSDKHelper;
-import wxm.com.androiddesign.utils.HXSDKModel;
+import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 /**
  * Created by zero on 2015/7/8.
@@ -116,10 +110,10 @@ public class ListFragment extends Fragment implements EMEventListener,AppBarLayo
         if(shouldRefresh) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setHasFixedSize(true);
+            recyclerView.addItemDecoration(new SpacesItemDecoration(getActivity()));
             new getMsg(getActivity()).execute();
             shouldRefresh = false;
         }
-        //recyclerView.addItemDecoration(new SpacesItemDecoration(getResources()));
     }
 
     @Override

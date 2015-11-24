@@ -22,6 +22,7 @@ import java.util.List;
 
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.MyRecycerAdapter;
+import wxm.com.androiddesign.adapter.UserAtyRecycerAdapter;
 import wxm.com.androiddesign.module.AtyItem;
 import wxm.com.androiddesign.network.JsonConnection;
 
@@ -37,7 +38,7 @@ public class UserActivityFragment extends Fragment {
     private int type;
     private String userId;
     RecyclerView recyclerView;
-    static MyRecycerAdapter myRecycerAdapter;
+    static UserAtyRecycerAdapter myRecycerAdapter;
 
     public static UserActivityFragment newInstance(int type, String muserId) {
         UserActivityFragment fragment = new UserActivityFragment();
@@ -90,10 +91,8 @@ public class UserActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            //if (aBoolean == true) {
-                myRecycerAdapter = new MyRecycerAdapter(activityItems,getActivity(), "ActivityFragment");
+                myRecycerAdapter = new UserAtyRecycerAdapter(activityItems,getActivity(), "ActivityFragment");
                 recyclerView.setAdapter(myRecycerAdapter);
-            //}
         }
 
         @Override

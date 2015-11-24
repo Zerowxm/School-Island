@@ -2,7 +2,6 @@ package wxm.com.androiddesign.network;
 
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,10 +44,8 @@ public class JsonConnection {
             if (true) {
                 try {
                     Log.d("downLoad","downLoad");
-                    URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
-                    //URL murl = new URL("http://106.0.4.149:8081/bootStrap/ClientPostServlet");
-                    //URL murl = new URL("http://192.168.66.43:8080/bootStrap/ClientPostServlet");
-                    //URL murl = new URL("http://106.0.4.149:8082/bootStrap/ClientPostServlet");
+                    //URL murl = new URL("http://192.168.199.217:8080/bootStrap/ClientPostServlet");
+                    URL murl = new URL("http://106.0.4.149:8082/bootStrap/ClientPostServlet");
                     HttpURLConnection connection = (HttpURLConnection) murl.openConnection();
                     connection.setRequestProperty("Content-type", "application/json");
                     if (Build.VERSION.SDK_INT > 13) {
@@ -58,6 +55,7 @@ public class JsonConnection {
                     connection.setDoOutput(true);
                     connection.setRequestMethod("POST");
                     connection.setUseCaches(false);
+                    //connection.setRequestProperty("RANGE","bytes="+);
                     connection.setReadTimeout(100000);
                     connection.connect();
                     OutputStream outStrm = connection.getOutputStream();

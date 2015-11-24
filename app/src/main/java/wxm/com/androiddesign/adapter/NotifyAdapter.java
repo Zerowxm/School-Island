@@ -1,9 +1,7 @@
 package wxm.com.androiddesign.adapter;
 
-import android.content.DialogInterface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import butterknife.ButterKnife;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.Notify;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
-import wxm.com.androiddesign.ui.DetailActivity;
 
 /**
  * Created by zero on 2015/6/30.

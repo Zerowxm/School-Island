@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.ui.MainActivity;
+import wxm.com.androiddesign.ui.ManageGroupActivity;
 import wxm.com.androiddesign.utils.Config;
 
 
@@ -90,6 +92,7 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     private void setupToolBar(){
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         MainActivity.toolbar=toolbar;
+        toolbar.setTitle("我的部落");
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -116,7 +119,6 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
         super.onCreate(saveInstanceState);
         userId = MyUser.userId;
         setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -160,6 +162,15 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.group_manager, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if (id==R.id.group_manager){
+            ManageGroupActivity.start(getActivity());
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

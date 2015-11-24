@@ -25,11 +25,13 @@
             android:layout_height="wrap_content"
             android:divider="@color/divider"
             android:elevation="7dp"
+            app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/primary"
             app:elevation="5dp"
             app:cardElevation="7dp"
             app:tabGravity="fill"
-
-            app:tabIndicatorColor="@color/white"
+            android:background="@color/white"
+            app:tabIndicatorColor="@color/primary"
             app:tabIndicatorHeight="2dp" />
     </android.support.design.widget.AppBarLayout>
 

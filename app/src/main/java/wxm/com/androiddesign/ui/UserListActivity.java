@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,28 +30,26 @@ import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
+import wxm.com.androiddesign.utils.SpacesItemDecoration;
 
 public class UserListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     List<User> mUserList = new ArrayList<User>();
 
-    String atyId = "";
-    String ctyId = "";
+    String id = "";
+    Boolean isAty ;
 
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setItemAnimator(new MyItemAnimator());
-        if(atyId!=null && !atyId.equals("")) {
-            new GetAtyMembers(this).execute();
-        }else if(ctyId!=null && !ctyId.equals("")){
-            new GetCtyMembers(this).execute();
-        }
+        recyclerView.addItemDecoration(new SpacesItemDecoration(this));
+        new GetMembers(this).execute();
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(recyclerView.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ActivityStartHelper.startProfileActivity(view.getContext(),mUserList.get(position).getUserId());
+                ActivityStartHelper.startProfileActivity(view.getContext(), mUserList.get(position).getUserId(), 0);
             }
         }));
     }
@@ -61,31 +58,42 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
-        atyId = bundle.getString("atyId");
-        ctyId = bundle.getString("ctyId");
-        setContentView(R.layout.activity_user_list);
+        isAty=bundle.getBoolean("isAty");
+        if (isAty){
+            id = bundle.getString("atyId");
+        }else
+            id = bundle.getString("ctyId");
+        setContentView(R.layout.list_with_toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("参加人员");
+        if (isAty)
+            actionBar.setTitle("参加人员");
+        else
+            actionBar.setTitle("部落成员");
         setupRecyclerView(recyclerView);
 
 
     }
 
-    public static void start(Context c,String atyId) {
-        c.startActivity(new Intent(c, UserListActivity.class)
-                .putExtra("atyId", atyId));
+    public static void start(Context c,String id,boolean isAty) {
+        Intent intent=new Intent(c, UserListActivity.class)
+                .putExtra("isAty", isAty);
+        if (isAty){
+            intent.putExtra("atyId", id);
+        }else
+        intent.putExtra("ctyId", id);
+        c.startActivity(intent);
     }
 
-    private class GetAtyMembers extends AsyncTask<Void, Void, Boolean> {
+    private class GetMembers extends AsyncTask<Void, Void, Boolean> {
         MaterialDialog materialDialog;
         Context context;
 
-        public GetAtyMembers(Context context) {
+        public GetMembers(Context context) {
             this.context = context;
         }
 
@@ -110,49 +118,13 @@ public class UserListActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             JSONObject object = new JSONObject();
             try {
-                object.put("action", "showAtyMembers");
-                object.put("atyId", atyId);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            String json = JsonConnection.getJSON(object.toString());
-            mUserList = new Gson().fromJson(json, new TypeToken<List<User>>() {
-            }.getType());
-            return null;
-        }
-    }
-
-    private class GetCtyMembers extends AsyncTask<Void, Void, Boolean> {
-        MaterialDialog materialDialog;
-        Context context;
-
-        public GetCtyMembers(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            materialDialog = new MaterialDialog.Builder(context)
-                    .title("Loading")
-                    .progress(true, 0)
-                    .progressIndeterminateStyle(false)
-                    .show();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            materialDialog.dismiss();
-            recyclerView.setAdapter(new UserAdapter(mUserList, context));
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            JSONObject object = new JSONObject();
-            try {
-                object.put("action", "showCtyMembers");
-                object.put("ctyId", ctyId);
+                if (isAty){
+                    object.put("action", "showAtyMembers");
+                    object.put("atyId", id);
+                }else {
+                    object.put("action", "showCtyMembers");
+                    object.put("ctyId", id);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

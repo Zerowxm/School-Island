@@ -27,7 +27,7 @@
                 android:layout_width="97dp"
                 android:layout_height="97dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/wu" />
+                 />
 
 
             <wxm.com.androiddesign.widget.MyTextView

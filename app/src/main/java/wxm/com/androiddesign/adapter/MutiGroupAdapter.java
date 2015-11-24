@@ -1,6 +1,8 @@
 package wxm.com.androiddesign.adapter;
 
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -12,15 +14,14 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
@@ -38,10 +39,9 @@ import wxm.com.androiddesign.module.Group;
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
-import wxm.com.androiddesign.ui.CmtAcitivity;
-import wxm.com.androiddesign.ui.Dre_UserAcitivity;
 import wxm.com.androiddesign.ui.GroupAcitivity;
 import wxm.com.androiddesign.ui.ImageViewerActivity;
+import wxm.com.androiddesign.ui.UserListActivity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
@@ -72,25 +72,10 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         else if (viewType==ITEM){
             final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_activity_item, parent, false);
-            Log.d("recyclerview", "onCreateViewHolder");
             return new AtyViewHolder(itemView, new AtyViewHolder.MyViewHolderClicks() {
                 @Override
                 public void onUserPhoto(CircleImageView userPhoto, int position) {
-//                    Intent intent = new Intent(activity, Dre_UserAcitivity.class);
-//                    intent.putExtra("userId", activityItems.get(position-1).getUserId());
-//                    activity.startActivity(intent);
-                    ActivityStartHelper.startProfileActivity(activity, activityItems.get(position - 1).getUserId());
-                }
-
-                @Override
-                public void onCommunity(TextView community, int position) {
-                    Intent intent = new Intent(activity, GroupAcitivity.class);
-                    if (!activityItems.get(position).getAtyCtyId().equals("")) {
-                        intent.putExtra("groupId", activityItems.get(position).getAtyCtyId());
-                        intent.putExtra("groupName", activityItems.get(position).getAtyCtyId().
-                                substring(0, activityItems.get(position).getAtyCtyId().length() - 14));
-                    }
-                    activity.startActivity(intent);
+                    ActivityStartHelper.startProfileActivity(activity,activityItems.get(position-1).getUserId(),0);
                 }
 
                 @Override
@@ -99,12 +84,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void onCard(CardView cardView, int position) {
-                    if (!"001".equals(MyUser.userId)) {
-                        Log.d("recyclerview", "onCard");
-                        AtyDetailActivity.start(cardView.getContext(), item, false);
-                    } else {
-                        Toast.makeText(activity, "请登录后查看", Toast.LENGTH_SHORT).show();
-                    }
+                        AtyDetailActivity.start(cardView.getContext(),item,false);
                 }
 
                 @Override
@@ -223,18 +203,29 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
 
             }
-            ((AtyViewHolder)holder).plus.setImageResource(R.drawable.ic_favorite_outline);
+
             if (item.getAtyPlused().equals("false")) {
+                ((AtyViewHolder)holder).plus.setImageResource(R.drawable.ic_favorite_outline);
                 ((AtyViewHolder)holder).plus.setColorFilter(ContextCompat.getColor(activity, R.color.gray));
             } else if (item.getAtyPlused().equals("true")) {
+                ((AtyViewHolder)holder).plus.setImageResource(R.drawable.ic_favorite_white);
                 ((AtyViewHolder)holder).plus.setColorFilter(ContextCompat.getColor(activity, R.color.red));
-            }
 
-            if (item.getAtyCtyId().equals("")) {
-                ((AtyViewHolder)holder).groupLayout.setVisibility(View.GONE);
-            } else {
-                ((AtyViewHolder)holder).groupLayout.setVisibility(View.VISIBLE);
+//                final ImageView plus= ((AtyViewHolder)holder).plus;
+//                Integer colorFrom = ContextCompat.getColor(activity,R.color.white);
+//                Integer colorTo = ContextCompat.getColor(activity, R.color.red);
+//                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+//                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//
+//                    @Override
+//                    public void onAnimationUpdate(ValueAnimator animator) {
+//                       plus.setColorFilter((Integer) animator.getAnimatedValue());
+//                    }
+//
+//                });
+//                colorAnimation.start();
             }
+                ((AtyViewHolder)holder).groupLayout.setVisibility(View.GONE);
         }
     }
 
@@ -296,7 +287,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             peoples.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //UserListActivity.start(activity,group.);
+                    UserListActivity.start(activity,group.getCtyId(),false);
 
                 }
             });
@@ -393,14 +384,10 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 mListener.onCard((CardView) v, getLayoutPosition());
             } /*else if (v instanceof Button) {
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
-            }*/ else if (v instanceof TextView && (v.getId() == R.id.group)) {
-                mListener.onCommunity((TextView) v, getAdapterPosition());
-            }
+            }*/
         }
         public interface MyViewHolderClicks {
             public void onUserPhoto(CircleImageView user_photo, int position);
-
-            public void onCommunity(TextView community, int position);
 
             public void onPicture(ImageView picture, int position);
 

@@ -50,7 +50,7 @@
                 android:id="@id/user_photo"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/wu" />
+                 />
             <wxm.com.androiddesign.widget.MyTextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"

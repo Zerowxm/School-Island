@@ -40,11 +40,9 @@ import wxm.com.androiddesign.module.User;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.FragmentParent;
 import wxm.com.androiddesign.ui.fragment.GroupFragment;
-import wxm.com.androiddesign.ui.fragment.HomeFragment;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.ui.fragment.HomeTagFragment;
 import wxm.com.androiddesign.ui.fragment.LoginFragment;
-import wxm.com.androiddesign.ui.test.UserAcitvity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
@@ -90,6 +88,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         activityWeakReference = new WeakReference<AppCompatActivity>(this);
         setupDrawer();
         activityWeakReference=new WeakReference<AppCompatActivity>(this);
+
 
     }
 
@@ -345,7 +344,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     showLoginDialog();
                 } else {
                     ActivityStartHelper.startProfileActivity(MainActivity.this
-                            , mUser.getUserId());
+                            , mUser.getUserId(),0);
 
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }

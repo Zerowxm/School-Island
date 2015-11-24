@@ -1,29 +1,33 @@
 package wxm.com.androiddesign.ui;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 
 import android.app.NotificationManager;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,7 +62,6 @@ import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.adapter.AvatorAdapter;
 import wxm.com.androiddesign.adapter.CommentAdapter;
 import wxm.com.androiddesign.adapter.ListViewAdapter;
-import wxm.com.androiddesign.adapter.MyRecycerAdapter;
 import wxm.com.androiddesign.adapter.TabPagerAdapter;
 import wxm.com.androiddesign.listener.RecyclerItemClickListener;
 import wxm.com.androiddesign.module.AtyItem;
@@ -68,6 +71,7 @@ import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
 import wxm.com.androiddesign.ui.fragment.ImageFragment;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
+import wxm.com.androiddesign.utils.MyUtils;
 import wxm.com.androiddesign.utils.SpacesItemDecoration;
 import wxm.com.androiddesign.widget.CirclePageIndicator;
 import wxm.com.androiddesign.widget.MyTextView;
@@ -84,7 +88,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     private static final String TAG="AtyDetail";
     AtyItem atyItem;
     ArrayList<CommentData> commentDatas = new ArrayList<>();
-    CommentAdapter commentAdapter;
     private boolean isUser=false;
     @Bind(R.id.sliding_layout)
     SlidingUpPanelLayout mLayout;
@@ -116,12 +119,18 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     ImageView isLike;
     @Bind(R.id.avator_list)
     RecyclerView recyclerView;
+    @Bind(R.id.appbar)
+    AppBarLayout appBarLayout;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+
+    @Bind(R.id.nested)
+    NestedScrollView nestedScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_detail);
-        ButterKnife.bind(this);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle.getBoolean("isNotify")){
             new getDetailAll().execute(bundle.getString("atyId"));
@@ -129,6 +138,14 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             atyItem = (bundle.getParcelable("com.wxm.com.androiddesign.module.ActivityItemData"));
             atyItem.setAtyStartTime(atyItem.getAtyStartTime().replace("\n", " "));
             atyItem.setAtyEndTime(atyItem.getAtyEndTime().replace("\n", " "));
+            if (atyItem.getAtyAlbum()!=null&&atyItem.getAtyAlbum().size()!=0){
+                setContentView(R.layout.aty_detail);
+                ButterKnife.bind(this);
+            }else {
+                setContentView(R.layout.aty_detail_no_image);
+                ButterKnife.bind(this);
+                nestedScrollView.setPadding(0,MyUtils.getPixels(this,100),0,0);
+            }
             new GetIsJoin().execute();
             addComment();
         }
@@ -145,20 +162,26 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         recyclerView.setAdapter(new AvatorAdapter(list, getApplicationContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(this));
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override public void onItemClick(View view, int position) {
-                ActivityStartHelper.startProfileActivity(AtyDetailActivity.this,list.get(position).getUserId());
+            @Override
+            public void onItemClick(View view, int position) {
+                ActivityStartHelper.startProfileActivity(AtyDetailActivity.this, list.get(position).getUserId(), 0);
             }
         }));
     }
 
     @OnClick(R.id.check_more)
     public void CheckMore(){
-        UserListActivity.start(this, atyItem.getAtyId());
+        UserListActivity.start(this, atyItem.getAtyId(), true);
     }
 
     @OnClick(R.id.user_photo)
     public void UserDetail(){
-        ActivityStartHelper.startProfileActivity(this, atyItem.getUserId());
+        ActivityStartHelper.startProfileActivity(this, atyItem.getUserId(), 0);
+    }
+
+    @OnClick(R.id.message)
+    public void chatToUser(){
+       // ChatActivity.start(this,ChatActivity.CHAT,atyItem.get);
     }
 
     private class GetIsJoin extends AsyncTask<Void, Void, Boolean> {
@@ -211,6 +234,13 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             super.onPostExecute(result);
             atyItem.setAtyStartTime(atyItem.getAtyStartTime().replace("\n", " "));
             atyItem.setAtyEndTime(atyItem.getAtyEndTime().replace("\n", " "));
+            if (atyItem.getAtyAlbum()!=null&&atyItem.getAtyAlbum().size()!=0){
+                setContentView(R.layout.aty_detail);
+                ButterKnife.bind(AtyDetailActivity.this);
+            }else {
+                setContentView(R.layout.aty_detail_no_image);
+                ButterKnife.bind(AtyDetailActivity.this);
+            }
             init();
             addComment();
 
@@ -274,16 +304,23 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
 
 
     private void setupViewPager() {
-        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
         if (atyItem.getAtyAlbum()!=null&&atyItem.getAtyAlbum().size()!=0){
+            TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
+            appBarLayout.setExpanded(true);
             for (String url:atyItem.getAtyAlbum()){
                 adapter.addFragment(ImageFragment.newInstance(url,1),"AtyImg");
             }
+            pager.setAdapter(adapter);
+            CirclePageIndicator circlePageIndicator=(CirclePageIndicator)findViewById(R.id.indicator);
+            circlePageIndicator.setViewPager(pager);
+            circlePageIndicator.setSnap(true);
+        }else {
+            appBarLayout.setEnabled(false);
+            //appBarLayout.setVisibility(View.GONE);
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)appBarLayout.getLayoutParams();
+            lp.height = 0;
         }
-        pager.setAdapter(adapter);
-        CirclePageIndicator circlePageIndicator=(CirclePageIndicator)findViewById(R.id.indicator);
-        circlePageIndicator.setViewPager(pager);
-        circlePageIndicator.setSnap(true);
+
     }
 
 
@@ -291,10 +328,12 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     public void MakeLove(View view){
         ImageView imageView=(ImageView)view;
         if(atyItem.getAtyIsLiked().equals("true")){
+            isLike.setImageResource(R.drawable.ic_favorite_outline);
             imageView.setColorFilter(ContextCompat.getColor(this, R.color.white));
             atyItem.setAtyIsLiked("false");
             new UpDateTask().execute("notLike");
         }else {
+            isLike.setImageResource(R.drawable.ic_favorite_white);
             imageView.setColorFilter(ContextCompat.getColor(this, R.color.yellow));
             atyItem.setAtyIsLiked("true");
             new UpDateTask().execute("like");
@@ -331,15 +370,39 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         setupFab();
         setupLike();
         setupSlidingPanel();
-        setupViewPager();
+        if (atyItem.getAtyAlbum()!=null&&atyItem.getAtyAlbum().size()!=0){
+            setupViewPager();
+        }
+        setupTag();
         new GetPeople().execute();
         new GetLatestAty().execute();
+    }
+    @Bind(R.id.tag_container)
+    LinearLayout tagContainer;
+    private void setupTag(){
+        float scale=getResources().getDisplayMetrics().density;
+        int dpAsPixels = (int) (25 * scale + 0.5f);
+        for (String s:atyItem.getAtyType().split(",")){
+            TextView tag=new TextView(this);
+            tag.setText(s);
+            tag.setGravity(Gravity.CENTER|Gravity.CENTER_VERTICAL);
+            //int px=MyUtils.getPixels(this, 6);
+            //tag.setPadding(px, px, px, px);
+            tag.setBackground(ContextCompat.getDrawable(this, R.drawable.tag_border));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    dpAsPixels);
+            params.setMargins(0, 0, 20, 0);
+            tag.setLayoutParams(params);
+            tagContainer.addView(tag);
+        }
     }
 
     private void setupLike(){
         if(atyItem.getAtyIsLiked().equals("true")){
+            isLike.setImageResource(R.drawable.ic_favorite_white);
             isLike.setColorFilter(ContextCompat.getColor(this, R.color.yellow));
         }else if(atyItem.getAtyIsLiked().equals("false")){
+            isLike.setImageResource(R.drawable.ic_favorite_outline);
             isLike.setColorFilter(ContextCompat.getColor(this, R.color.white));
         }
     }
@@ -544,22 +607,39 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
     }
     @Bind(R.id.aty_other)
     LinearLayout otherList;
+    @TargetApi(Build.VERSION_CODES.M)
     private void setupOther(final List<AtyItem> aties){
         for (int i=0;i<aties.size();i++){
+            CardView cardView =new CardView(this);
+            cardView.setCardElevation(5);
+            cardView.setPreventCornerOverlap(true);
+            cardView.setUseCompatPadding(true);
+            cardView.setClickable(true);
+            cardView.setPadding(8,8,8,8);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                cardView.setForeground(ContextCompat.getDrawable(this, R.drawable.selectable_item_background));
+            }
             final TextView textView =new TextView(this);
             textView.setText(aties.get(i).getAtyName());
             textView.setTag(i);
+            cardView.addView(textView);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AtyDetailActivity.start(AtyDetailActivity.this,aties.get((int)textView.getTag()),false);
                 }
             });
-            otherList.addView(textView);
-            if (i>3){
-                TextView moreText =new TextView(this);
+            otherList.addView(cardView);
+            if (i==2){
+                final TextView moreText =new TextView(this);
                 moreText.setText("查看更多");
-                otherList.addView(textView);
+                moreText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityStartHelper.startProfileActivity(v.getContext(), atyItem.getUserId(), 1);
+                    }
+                });
+                otherList.addView(moreText);
                 break;
             }
         }
@@ -602,7 +682,14 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+
                 if (slideOffset == 0) {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    View view=AtyDetailActivity.this.getCurrentFocus();
+                    if (view!=null){
+                        InputMethodManager im=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        im.hideSoftInputFromWindow(view.getWindowToken(),0);
+                    }
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -694,7 +781,6 @@ public class AtyDetailActivity extends BaseActivity implements PlatformActionLis
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            commentAdapter=new CommentAdapter(commentDatas,AtyDetailActivity.this);
             ListViewAdapter adapter=new ListViewAdapter(getApplicationContext(),commentDatas);
             lv.setAdapter(adapter);
             adapter.notifyDataSetChanged();

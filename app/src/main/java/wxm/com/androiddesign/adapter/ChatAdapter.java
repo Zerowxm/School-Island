@@ -47,8 +47,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int HANDLER_MESSAGE_REFRESH_LIST=0x1;
     private static final int HANDLER_MESSAGE_SELECT_LIST=0x2;
 
-    private String userId;
-    private String userIcon;
     private Activity activity;
 
     private EMConversation emConversation;
@@ -58,10 +56,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Map<String,Timer> timers=new Hashtable<String,Timer>();
 
-    public ChatAdapter(Context context, String userId ,String userIcon) {
-        this.userId = userId;
+    public ChatAdapter(Context context, String userId ) {
         this.context = context;
-        this.userIcon=userIcon;
         activity=(Activity)context;
         emConversation= EMChatManager.getInstance().getConversation(userId);
         Log.d("conversation","2"+emConversation.toString());

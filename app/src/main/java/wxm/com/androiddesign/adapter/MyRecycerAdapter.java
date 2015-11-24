@@ -40,7 +40,6 @@ import wxm.com.androiddesign.ui.AtyDetailActivity;
 
 import wxm.com.androiddesign.ui.GroupAcitivity;
 import wxm.com.androiddesign.ui.ImageViewerActivity;
-import wxm.com.androiddesign.ui.Dre_UserAcitivity;
 import wxm.com.androiddesign.utils.ActivityStartHelper;
 import wxm.com.androiddesign.utils.MyUtils;
 
@@ -72,7 +71,7 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         return new MyViewHolder(itemView, new MyViewHolder.MyViewHolderClicks() {
             @Override
             public void onUserPhoto(CircleImageView userPhoto, int position) {
-                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position).getUserId());
+                ActivityStartHelper.startProfileActivity(activity, activityItems.get(position).getUserId(),0);
             }
 
             @Override
@@ -174,12 +173,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
             holder.imageViewContainer.removeAllViews();
         }
         if (item.getAtyAlbum() == null || item.getAtyAlbum().size() == 0) {
-            ImageView imageView = new ImageView(activity);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
-            imageView.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.material_flat));
-            imageView.setLayoutParams(layoutParams);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            holder.imageViewContainer.addView(imageView);
+//            ImageView imageView = new ImageView(activity);
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(screenWidth, screenHeight * 2 / 5);
+//            imageView.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.material_flat));
+//            imageView.setLayoutParams(layoutParams);
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            holder.imageViewContainer.addView(imageView);
         } else if (item.getAtyAlbum() != null && item.getAtyAlbum().size() != 0) {
             for (int i = 0; i < item.getAtyAlbum().size(); i++) {
                 Log.d("imageuri", "" + item.getAtyAlbum().size());
@@ -205,10 +204,12 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
                 holder.imageViewContainer.addView(imageView);
             }
         }
-        holder.plus.setImageResource(R.drawable.ic_favorite_outline);
+
         if (item.getAtyPlused().equals("false")) {
+            holder.plus.setImageResource(R.drawable.ic_favorite_outline);
             holder.plus.setColorFilter(ContextCompat.getColor(activity, R.color.gray));
         } else if (item.getAtyPlused().equals("true")) {
+            holder.plus.setImageResource(R.drawable.ic_favorite_white);
             holder.plus.setColorFilter(ContextCompat.getColor(activity, R.color.red));
         }
 
@@ -218,10 +219,15 @@ public class MyRecycerAdapter extends RecyclerView.Adapter<MyRecycerAdapter.MyVi
         } else {
             holder.groupLayout.setVisibility(View.VISIBLE);
         }
-        //setAnimation(holder.cardView, position);
+        if (isFirst){
+            setAnimation(holder.cardView, position);
+        }
+        if (position==activityItems.size()-1){
+            isFirst=false;
+        }
     }
 
-
+    private static boolean isFirst=true;
     public void setAnimation(View viewtoAnimate, int position) {
         if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(activity, R.anim.item_anim);

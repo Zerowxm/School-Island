@@ -304,17 +304,6 @@
                             android:layout_below="@+id/tag_text"
                             android:orientation="horizontal"
                             android:paddingTop="3dp">
-
-
-                            <!--<ImageView-->
-                                <!--android:id="@+id/add_tag"-->
-                                <!--android:layout_width="18dp"-->
-                                <!--android:layout_height="18dp"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:layout_gravity="center"-->
-                                <!--android:background="@color/accent"-->
-                                <!--android:backgroundTint="@color/accent"-->
-                                <!--android:src="@drawable/fab_add" />-->
                         </LinearLayout>
                     </RelativeLayout>
 

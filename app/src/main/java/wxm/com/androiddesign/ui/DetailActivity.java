@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -74,8 +73,6 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setHomeButtonEnabled(true);
         addComment();
     }
 
@@ -85,9 +82,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private class getCommentTask extends AsyncTask<CommentData, Void, Boolean> {
-        MaterialDialog materialDialog;
         Context context;
-
         public getCommentTask(Context context) {
             this.context = context;
         }
@@ -170,7 +165,6 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(new MultipleItemAdapter(atyItem, commentDatas, this, position));

@@ -1,86 +1,90 @@
-<!--<layout--><!--xmlns:bind="http://schemas.android.com/apk/res-auto">--><!--<data>-->
-
-<!--<import type="android.view.View"/>--><!--<variable--><!--name="atyitem"--><!--type="wxm.com.androiddesign.module.AtyItem"/>--><!--</data>-->
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".DemoActivity">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_layout"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:fitsSystemWindows="true"
+        tools:context="wxm.com.androiddesign.ui.AtyDetailActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_backdrop_height"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <include layout="@layout/image_viewpager" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <include layout="@layout/detail_nested" />
+
+        <include layout="@layout/aty_toolbar" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_done"
+            app:fabSize="mini"
+            app:layout_anchor="@id/titleBar"
+            app:layout_anchorGravity="bottom|start|left" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="68dp"
-        sothree:umanoParalaxOffset="100dp"
-        android:gravity="bottom"
-        sothree:umanoDragView="@+id/dragView"
+        tools:context=".ui.AtyDetailActivity">
 
-        sothree:umanoScrollableView="@+id/list"
-        >
-
-        <!-- MAIN CONTENT -->
-        <FrameLayout
-            android:fitsSystemWindows="true"
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:gravity="bottom"
+            sothree:umanoDragView="@+id/dragView"
+            sothree:umanoOverlay="true"
+            sothree:umanoPanelHeight="68dp"
+            sothree:umanoParalaxOffset="100dp"
+            sothree:umanoScrollableView="@+id/list">
 
-            <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
+            <!-- MAIN CONTENT -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/background_light"
-                android:fitsSystemWindows="true"
-                tools:context="wxm.com.androiddesign.ui.AtyDetailActivity">
+                android:layout_height="match_parent"></FrameLayout>
 
-                <android.support.design.widget.AppBarLayout
-                    android:id="@id/appbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/detail_backdrop_height"
-                    android:fitsSystemWindows="true"
-                    android:theme="@style/AppTheme.AppBarOverlay">
+            <!-- SLIDING LAYOUT -->
+            <include
+                layout="@layout/detail_comment"
+                android:fitsSystemWindows="true" />
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-                    <android.support.design.widget.CollapsingToolbarLayout
-                        android:id="@+id/collapsing_toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fitsSystemWindows="true"
-                        app:contentScrim="?attr/colorPrimary"
-                        app:expandedTitleMarginEnd="64dp"
-                        app:expandedTitleMarginStart="48dp"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+    </RelativeLayout>
+    <!--</layout>-->
+</FrameLayout>
 
-                        <include layout="@layout/image_viewpager" />
-
-                    </android.support.design.widget.CollapsingToolbarLayout>
-                </android.support.design.widget.AppBarLayout>
-
-                <include layout="@layout/detail_nested" />
-
-                <include layout="@layout/aty_toolbar" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:src="@drawable/ic_done"
-                    app:fabSize="mini"
-                    app:layout_anchor="@id/titleBar"
-                    app:layout_anchorGravity="bottom|start|left" />
-
-            </android.support.design.widget.CoordinatorLayout>
-
-        </FrameLayout>
-
-        <!-- SLIDING LAYOUT -->
-        <include layout="@layout/detail_comment"
-            android:fitsSystemWindows="true"/>
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
-</RelativeLayout><!--</layout>-->
