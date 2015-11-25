@@ -32,6 +32,8 @@ import wxm.com.androiddesign.R;
 
 import wxm.com.androiddesign.module.MyUser;
 import wxm.com.androiddesign.network.JsonConnection;
+import wxm.com.androiddesign.ui.MyApplication;
+import wxm.com.androiddesign.utils.ACache;
 import wxm.com.androiddesign.utils.ScrollManager;
 
 
@@ -93,7 +95,7 @@ public class ActivityFragment extends BaseFragment {
         setupSwipeRefreshLayout();
         setupRecyclerView(recyclerView);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
+            //用来标记是否正在向最后一个滑动，是否向右滑动或向下滑动
             boolean isSlidingToLast = false;
 
             @Override
@@ -208,7 +210,6 @@ public class ActivityFragment extends BaseFragment {
         manager.attach(recyclerView);
         manager.addView(getActivity().findViewById(R.id.fab), ScrollManager.Direction.DOWN);
         new GetAtyTask().execute(type);
-
     }
 
 
@@ -272,8 +273,23 @@ public class ActivityFragment extends BaseFragment {
                         break;
                 }
                 object.put("userId", userId);
-                String jsonarrys = JsonConnection.getJSON(object.toString());
+                String jsonarrys;
+                ACache aCache = ACache.get(MyApplication.applicationContext);
+                String aCachetime = aCache.getAsObject(params[0] + "time").toString();
+                jsonarrys = aCache.getAsString(object.toString());
+                if (aCachetime != null && jsonarrys != null) {
+                    long time = Long.parseLong(aCachetime);
+                    if (System.currentTimeMillis() - time < 10000) {
+                        activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+                        }.getType());
+                        return true;
+                    }
+                }
+
+                jsonarrys = JsonConnection.getJSON(object.toString());
                 Log.i("jsonarray", jsonarrys.toString());
+                aCache.put(params[0]+"time",System.currentTimeMillis(),2 * ACache.TIME_HOUR);
+                Log.d("systemtime", System.currentTimeMillis()+"");
                 activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
                 return true;
@@ -300,7 +316,7 @@ public class ActivityFragment extends BaseFragment {
                 if (activityItems == null) {
                     return;
                 }
-                Log.d("activityItemssize",activityItems.size()+"");
+                Log.d("activityItemssize", activityItems.size() + "");
                 activityItems.addAll(moreItems);
                 Log.d("address2",myRecycerAdapter+"");
                 myRecycerAdapter.notifyDataSetChanged();
@@ -354,7 +370,7 @@ public class ActivityFragment extends BaseFragment {
                 Log.i("jsonarray", jsonarrys.toString());
                 moreItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
                 }.getType());
-                if(moreItems.size() != 0) {
+                if(moreItems != null) {
 
                 }else{
                     return false;

@@ -22,6 +22,22 @@
 
 #-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
 
+
+-libraryjars libs/easemobchat_2.2.2.jar
+-libraryjars libs/jpush-sdk-release1.8.0.jar
+-libraryjars libs/locSDK_5.3.jar
+-libraryjars libs/MobLogCollector.jar
+-libraryjars libs/MobTools.jar
+-libraryjars libs/ShareSDK-Core-2.6.2.jar
+-libraryjars libs/ShareSDK-Email-2.6.2.jar
+-libraryjars libs/ShareSDK-QQ-2.6.2.jar
+-libraryjars libs/ShareSDK-QZone-2.6.2.jar
+-libraryjars libs/ShareSDK-ShortMessage-2.6.2.jar
+-libraryjars libs/ShareSDK-SinaWeibo-2.6.2.jar
+-libraryjars libs/ShareSDK-Tencentweibo-2.6.2.jar
+-libraryjars libs/ShareSDK-Wechat-2.6.2.jar
+-libraryjars libs/ShareSDK-Wechat-Core-2.6.2.jar
+-libraryjars libs/ShareSDK-Wechat-Moments-2.6.2.jar
 -keep class android.support.v7.** {*;}
 -keep interface android.support.v7.** {*;}
 -keep class com.easemob.** {*;}

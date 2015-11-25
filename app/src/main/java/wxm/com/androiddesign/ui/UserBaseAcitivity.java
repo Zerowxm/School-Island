@@ -168,7 +168,7 @@ public class UserBaseAcitivity extends AppCompatActivity implements AppBarLayout
                 break;
             case R.id.action_send:
                 //打开聊天
-                ChatActivity.start(this,ChatActivity.CHAT,user.getEasemobId(),user.getUserId());
+                ChatActivity.start(this,ChatActivity.CHAT,user.getEasemobId(),user.getUserName());
                 break;
             case R.id.action_settings:
                 //Snackbar.make(user_photo, "举报", Snackbar.LENGTH_SHORT).show();
