@@ -64,7 +64,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     private String groupId="";
     private ArrayList<String> uriList = new ArrayList<>();
     //private ArrayList<String> tempUriList = new ArrayList<>();
-    private String tagList = "";
     private Uri selectedImgUri;
     private long exitTime = 0;
     AtyItem atyItem;
@@ -131,7 +130,6 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
         }
     }
 
-
     public void addTag(View view){
         new MaterialDialog.Builder(this)
                 .title("标签")
@@ -154,13 +152,8 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                             tag.setText(tagText);
                             tagView.setTag(tagContainer.getChildCount());
                             tagContainer.addView(tagView, tagContainer.getChildCount());
-                            if (tagList.equals(""))
-                                tagList += tagText;
-                            else
-                                tagList += "," + tagText;
                         }
                         tag_hint.setVisibility(View.GONE);
-                        Log.d("Tag",tagList);
                         return true;
                     }
                 })
@@ -173,7 +166,12 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
     }
 
     public void removePicture(View view) {
-        ((ViewGroup)view.getParent()).removeView(view);
+        int position = (int) view.getTag();
+        imageContains.removeViewAt(position);
+        uriList.remove(position);
+        for (int i = 0; i < imageContains.getChildCount(); i++) {
+            imageContains.getChildAt(i).findViewById(R.id.remove_image).setTag(i);
+        }
     }
 
     @Override
@@ -270,7 +268,9 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                 Date d1 = df.parse(startTime.getText().toString());
                 Date d2 = df.parse(endTime.getText().toString());
                 long diff = d1.getTime() - d2.getTime();
-                if (diff >= 0) {
+                if(d1.getTime() < System.currentTimeMillis()){
+                    Toast.makeText(getApplicationContext(), "开始时间必须迟于当前时间", Toast.LENGTH_SHORT).show();
+                } else if (diff >= 0) {
                     Toast.makeText(getApplicationContext(), "结束时间必须迟于开始时间", Toast.LENGTH_SHORT).show();
                 } else if (editAty.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "设置你的活动标题", Toast.LENGTH_SHORT).show();
@@ -279,25 +279,23 @@ public class PublishActivity extends BaseActivity implements TimePickerDialog.On
                 } else if (location.getText().toString().equals("没有活动地点")) {
                     Toast.makeText(getApplicationContext(), "设置你的活动地点", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.d("zerowxm", "ok5");
-//                    atyItem = new AtyItem("releaseByPerson", MyUser.userId, editAty.getText().toString(), "暂时没有社区", startTime.getText().toString(),
-//                            endTime.getText().toString(), location.getText().toString(), "1",
-//                            atyContent.getText().toString(), "0", "0",
-//                            "true", "false", "0", uriList,tagList);
+                    String tags;
+                    tags = ((TextView)((LinearLayout)(tagContainer.getChildAt(0))).getChildAt(0)).getText().toString();
+                    for(int i = 1 ; i < tagContainer.getChildCount() ; i++){
+                        tags += ","+((TextView)((LinearLayout)(tagContainer.getChildAt(i))).getChildAt(0)).getText().toString();;
+                    }
                     atyItem=new AtyItem("releaseByPerson",MyUser.userId, editAty.getText().toString(),
-                            tagList,
+                            tags,
                             startTime.getText().toString(),
                             endTime.getText().toString(), location.getText().toString(),
                             atyContent.getText().toString(),
                             uriList);
-                    Log.d("zerowxm", "ok6");
                     new UpDateTask().execute(atyItem);
-                    Log.d("zerowxm", "ok7");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "错误!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "出现错误啦!", Toast.LENGTH_SHORT).show();
         }
 
     }
