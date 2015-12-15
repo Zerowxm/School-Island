@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_camera"
-        android:icon="@drawable/ic_action_email_white"
+        android:icon="@drawable/ic_camera"
         android:title="拍照上传"
         android:orderInCategory="90"
         app:showAsAction="always"/>

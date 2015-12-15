@@ -49,16 +49,16 @@ public class GroupListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-            if (type== GroupListFragment.HOT){
-                if (position%3==0){
-                    ((MyViewHolder)holder).community_img.getLayoutParams().height= MyUtils.getPixels(context,260);
-                    Log.d("imageSize", "" + ((MyViewHolder)holder).community_img.getLayoutParams().height);
-                    ((MyViewHolder)holder).community_img.requestLayout();
-                }
-            }else {
+//            if (type== GroupListFragment.HOT){
+//                if (position%3==0){
+//                    ((MyViewHolder)holder).community_img.getLayoutParams().height= MyUtils.getPixels(context,260);
+//                    Log.d("imageSize", "" + ((MyViewHolder)holder).community_img.getLayoutParams().height);
+//                    ((MyViewHolder)holder).community_img.requestLayout();
+//                }
+//            }else {
                 Log.d("imageSize", "" + ((MyViewHolder)holder).community_img.getHeight());
 
-            }
+//            }
             Group group = groups.get(position);
             Picasso.with(context).load(group.getCtyIcon())
                     .fit().centerCrop()

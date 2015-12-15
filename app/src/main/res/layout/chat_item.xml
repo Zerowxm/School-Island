@@ -12,8 +12,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@id/user_photo"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             />
 
 
@@ -31,7 +31,6 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="用户名"
-                    android:textSize="20sp"
                     android:paddingTop="5dp"
                     fonts:typeface="Roboto-Bold.ttf" />
                 <wxm.com.androiddesign.widget.MyTextView
@@ -52,9 +51,8 @@
             android:layout_height="wrap_content"
             android:text="聊天内容"
             android:singleLine="true"
-            android:textSize="14sp"
             android:paddingTop="30dp"
-            android:layout_marginLeft="71dp"
+            android:layout_marginLeft="60dp"
             fonts:typeface="Roboto-Bold.ttf"
             android:layout_centerVertical="true"
             android:maxLines="1"

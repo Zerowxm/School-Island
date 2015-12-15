@@ -68,11 +68,13 @@ public class ProfilePhotoFragmentParent extends android.support.v4.app.Fragment{
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            if (photoList==null||photoList.size()==0){
-                getChildFragmentManager().beginTransaction().replace(R.id.content,new UpdatePhoto()).commitAllowingStateLoss();
-            }else {
+            if (result){
+                Log.d("testProfile","truePhotoFragment");
                 getChildFragmentManager().beginTransaction().replace(R.id.content,PhotoFragment.newInstance(userId)).commitAllowingStateLoss();
 
+            }else {
+                Log.d("testProfile","trueUpdatePhoto");
+                getChildFragmentManager().beginTransaction().replace(R.id.content,new UpdatePhoto()).commitAllowingStateLoss();
             }
         }
 
@@ -91,8 +93,13 @@ public class ProfilePhotoFragmentParent extends android.support.v4.app.Fragment{
             for (String i : photoList) {
                 Log.d("list", i);
             }
+            if (photoList==null||photoList.size()==0) {
+                Log.d("testProfile","false");
+                return false;
 
-            return null;
+            }
+            Log.d("testProfile","true");
+            return true;
         }
     }
 }

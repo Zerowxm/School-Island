@@ -85,7 +85,7 @@ public class NotificationActivity extends AppCompatActivity implements AppBarLay
         Log.d("user", "setupViewPager" + userId);
         adapter = new TabPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(ListFragment.newInstance(ListFragment.CHAT), "私信");
-        adapter.addFragment(ListFragment.newInstance(ListFragment.GROUP_CHAT), "群聊");
+        //adapter.addFragment(ListFragment.newInstance(ListFragment.GROUP_CHAT), "群聊");
         adapter.addFragment(ListFragment.newInstance(ListFragment.COMMENT), "评论");
         adapter.addFragment(ListFragment.newInstance(ListFragment.NOTIFY), "通知");
         viewPager.setAdapter(adapter);

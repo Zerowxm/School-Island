@@ -168,9 +168,9 @@ public class GroupFragment extends Fragment implements AppBarLayout.OnOffsetChan
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
-        if (id==R.id.group_manager){
-            ManageGroupActivity.start(getActivity());
-        }
+//        if (id==R.id.group_manager){
+//            ManageGroupActivity.start(getActivity());
+//        }=
         return super.onOptionsItemSelected(item);
     }
 }

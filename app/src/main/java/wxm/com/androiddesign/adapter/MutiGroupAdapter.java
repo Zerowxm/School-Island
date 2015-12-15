@@ -84,7 +84,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void onCard(CardView cardView, int position) {
-                        AtyDetailActivity.start(cardView.getContext(),item,false);
+                        AtyDetailActivity.start(cardView.getContext(),activityItems.get(position),false);
                 }
 
                 @Override
@@ -381,7 +381,7 @@ public class MutiGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else if (v instanceof ImageView) {
                 mListener.onPicture((ImageView) v, getAdapterPosition());
             } else if (v instanceof CardView) {
-                mListener.onCard((CardView) v, getLayoutPosition());
+                mListener.onCard((CardView) v, getAdapterPosition()-1);
             } /*else if (v instanceof Button) {
                 mListener.onJoinBtn((Button) v, getAdapterPosition());
             }*/

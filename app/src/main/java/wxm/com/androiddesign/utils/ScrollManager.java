@@ -34,7 +34,7 @@ public class ScrollManager extends RecyclerView.OnScrollListener {
     }
 
     public void attach(RecyclerView recyclerView) {
-        recyclerView.setOnScrollListener(this);
+        recyclerView.addOnScrollListener(this);
     }
 
     public void addView(View view, Direction direction) {

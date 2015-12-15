@@ -12,6 +12,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import wxm.com.androiddesign.R;
 import wxm.com.androiddesign.module.Notify;
 import wxm.com.androiddesign.ui.AtyDetailActivity;
@@ -48,7 +49,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Notify item = mNotify.get(position);
-        holder.type.setText(item.getType());
+        //holder.type.setText(item.getType());
         holder.releaseTime.setText(item.getReleaseTime());
         holder.mTitle.setText(item.getTitle());
         if ("".equals(item.getMsgContent())){
@@ -72,8 +73,8 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.MyViewHold
         TextView mTitle;
         @Bind(R.id.time)
         TextView releaseTime;
-        @Bind(R.id.type)
-        TextView type;
+//        @Bind(R.id.type)
+//        CircleImageView type;
         @Bind(R.id.card_view)
         CardView cardView;
         MyViewHolderCallBack mListener;

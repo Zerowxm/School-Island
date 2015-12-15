@@ -110,7 +110,6 @@ public class ListFragment extends Fragment implements EMEventListener,AppBarLayo
         if(shouldRefresh) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setHasFixedSize(true);
-            recyclerView.addItemDecoration(new SpacesItemDecoration(getActivity()));
             new getMsg(getActivity()).execute();
             shouldRefresh = false;
         }
@@ -147,13 +146,18 @@ public class ListFragment extends Fragment implements EMEventListener,AppBarLayo
 //                    chatHistoryAdapter = new ChatHistoryAdapter(mChatItemList,loadUsersWithRecentChat(),getActivity());
                     chatHistoryAdapter = new ChatHistoryAdapter(mChatItemList,getActivity());
                     recyclerView.setAdapter(chatHistoryAdapter);
+                    recyclerView.addItemDecoration(new SpacesItemDecoration(getActivity()));
+
                     break;
                 case ListFragment.GROUP_CHAT:
                     groupChatHistoryAdapter = new GroupChatHistoryAdapter(mGroupChatItemList,getActivity());
                     recyclerView.setAdapter(groupChatHistoryAdapter);
+                    recyclerView.addItemDecoration(new SpacesItemDecoration(getActivity()));
+
                     break;
                 case COMMENT:
                     recyclerView.setAdapter(new CommentItemAdapter(mCommentList));
+                    recyclerView.addItemDecoration(new SpacesItemDecoration(getActivity()));
                     break;
                 case NOTIFY:
                     recyclerView.setAdapter(new NotifyAdapter(mNotifyList));

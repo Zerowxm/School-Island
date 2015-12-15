@@ -94,7 +94,7 @@ public class ActivityFragment extends BaseFragment {
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
         setupSwipeRefreshLayout();
         setupRecyclerView(recyclerView);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             //用来标记是否正在向最后一个滑动，是否向右滑动或向下滑动
             boolean isSlidingToLast = false;
 
@@ -152,41 +152,41 @@ public class ActivityFragment extends BaseFragment {
                 public void run() {
                     myRecycerAdapter.notifyDataSetChanged();
                     setupRecyclerView(recyclerView);
-                    recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                        //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
-                        boolean isSlidingToLast = false;
-
-                        @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                            // 当不滚动时
-                            Log.d("scroll", "scroll1");
-                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                //获取最后一个完全显示的ItemPosition
-                                int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
-                                int totalItemCount = manager.getItemCount();
-                                // 判断是否滚动到底部，并且是向下滚动
-                                if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast && activityItems.size() != 0) {
-                                    new GetMoreAty().execute(type);
-                                    Log.d("position", "howes right=" + manager.findLastCompletelyVisibleItemPosition());
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                            super.onScrolled(recyclerView, dx, dy);
-                            //dx用来判断横向滑动方向，dy用来判断纵向滑动方向
-                            if (dy > 0) {
-                                //大于0表示，正在向右滚动
-                                isSlidingToLast = true;
-                            } else {
-                                //小于等于0 表示停止或向左滚动
-                                isSlidingToLast = false;
-                            }
-
-                        }
-                    });
+//                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                        //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
+//                        boolean isSlidingToLast = false;
+//
+//                        @Override
+//                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                            // 当不滚动时
+//                            Log.d("scroll", "scroll1");
+//                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                                //获取最后一个完全显示的ItemPosition
+//                                int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+//                                int totalItemCount = manager.getItemCount();
+//                                // 判断是否滚动到底部，并且是向下滚动
+//                                if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast && activityItems.size() != 0) {
+//                                    new GetMoreAty().execute(type);
+//                                    Log.d("position", "howes right=" + manager.findLastCompletelyVisibleItemPosition());
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                            super.onScrolled(recyclerView, dx, dy);
+//                            //dx用来判断横向滑动方向，dy用来判断纵向滑动方向
+//                            if (dy > 0) {
+//                                //大于0表示，正在向右滚动
+//                                isSlidingToLast = true;
+//                            } else {
+//                                //小于等于0 表示停止或向左滚动
+//                                isSlidingToLast = false;
+//                            }
+//
+//                        }
+//                    });
                     Log.d("refresh", "freshActivityFragment");
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -275,16 +275,16 @@ public class ActivityFragment extends BaseFragment {
                 object.put("userId", userId);
                 String jsonarrys;
                 ACache aCache = ACache.get(MyApplication.applicationContext);
-                String aCachetime = aCache.getAsObject(params[0] + "time").toString();
-                jsonarrys = aCache.getAsString(object.toString());
-                if (aCachetime != null && jsonarrys != null) {
-                    long time = Long.parseLong(aCachetime);
-                    if (System.currentTimeMillis() - time < 10000) {
-                        activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
-                        }.getType());
-                        return true;
-                    }
-                }
+//                String aCachetime = aCache.getAsObject(params[0] + "time").toString();
+//                jsonarrys = aCache.getAsString(object.toString());
+//                if (aCachetime != null && jsonarrys != null) {
+//                    long time = Long.parseLong(aCachetime);
+//                    if (System.currentTimeMillis() - time < 10000) {
+//                        activityItems = new Gson().fromJson(jsonarrys, new TypeToken<List<AtyItem>>() {
+//                        }.getType());
+//                        return true;
+//                    }
+//                }
 
                 jsonarrys = JsonConnection.getJSON(object.toString());
                 Log.i("jsonarray", jsonarrys.toString());

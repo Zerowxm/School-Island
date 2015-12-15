@@ -55,14 +55,14 @@ public class PhotoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v;
-        if (photoList==null||photoList.size()==0){
-            v = inflater.inflate(R.layout.update_image, container, false);
-        }
-        else {
+//        if (photoList==null||photoList.size()==0){
+//            v = inflater.inflate(R.layout.update_image, container, false);
+//        }
+//        else {
             v = inflater.inflate(R.layout.photos_layout, container, false);
             recyclerView = (RecyclerView) v;
             setupRecyclerView(recyclerView);
-        }
+      //  }
         return v;
     }
 

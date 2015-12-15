@@ -82,7 +82,6 @@
                             android:gravity="bottom|center"
                             android:textColor="@android:color/white"
                             android:textSize="24sp"
-                            android:text="ssssssss杀杀杀"
                             />
 
                     </LinearLayout>
